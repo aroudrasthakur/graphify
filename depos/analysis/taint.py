@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import ast
 import re
+from collections import deque
 from pathlib import Path
 from typing import Any, Optional
 
@@ -17,6 +18,83 @@ _TAINT_SINKS = re.compile(
     r"(execute\(\s*|\.execute\(\s*|raw\(|os\.system|subprocess|eval\(|eval\s*\(|exec\()",
     re.I,
 )
+_MAX_INTERPROCEDURAL_HOPS = 4
+_MAX_INTERPROCEDURAL_BRANCHES = 64
+
+
+def _is_call_edge(data: dict[str, Any]) -> bool:
+    return str(data.get("relation") or data.get("type") or "").casefold() == "calls"
+
+
+def _incoming_callers(graph: nx.DiGraph, node_id: str) -> tuple[str, ...]:
+    if node_id not in graph:
+        return ()
+    callers: set[str] = set()
+    for u, _, data in graph.in_edges(node_id, data=True):
+        if _is_call_edge(data):
+            callers.add(str(u))
+    return tuple(sorted(callers))
+
+
+def _is_entry_like_scope(graph: nx.DiGraph, node_id: str) -> bool:
+    attrs = graph.nodes.get(node_id) or {}
+    if attrs.get("is_fastapi_route"):
+        return True
+    kind = str(
+        attrs.get("node_kind")
+        or attrs.get("entity_kind")
+        or attrs.get("kind")
+        or attrs.get("ast_kind")
+        or ""
+    ).casefold()
+    if kind in {"next_route", "next_middleware", "openapi_operation"}:
+        return True
+    rel = str(attrs.get("source_file") or "").replace("\\", "/").casefold()
+    return rel.endswith(("/route.py", "/route.ts", "/route.tsx", "/route.js", "/route.jsx"))
+
+
+def _call_origin_score(graph: nx.DiGraph, node_id: str) -> int:
+    if _is_entry_like_scope(graph, node_id):
+        return 0
+    if not _incoming_callers(graph, node_id):
+        return 1
+    return 2
+
+
+def _interprocedural_taint_path(
+    graph: nx.DiGraph, scope_id: str, source_node: str, sink_node: str
+) -> list[str]:
+    queue = deque([(scope_id, [scope_id])])
+    best: list[str] | None = None
+    best_score: tuple[int, int, str] | None = None
+    seen_depth: dict[str, int] = {scope_id: 0}
+    branches = 0
+
+    while queue and branches < _MAX_INTERPROCEDURAL_BRANCHES:
+        current, path = queue.popleft()
+        depth = len(path) - 1
+        if depth:
+            score = (_call_origin_score(graph, path[0]), depth, "\0".join(path))
+            if best_score is None or score < best_score:
+                best = path
+                best_score = score
+                if score[0] == 0:
+                    break
+        if depth >= _MAX_INTERPROCEDURAL_HOPS:
+            continue
+        for caller in _incoming_callers(graph, current):
+            next_depth = depth + 1
+            if caller in path or seen_depth.get(caller, next_depth + 1) <= next_depth:
+                continue
+            seen_depth[caller] = next_depth
+            queue.append((caller, [caller, *path]))
+            branches += 1
+            if branches >= _MAX_INTERPROCEDURAL_BRANCHES:
+                break
+
+    if not best:
+        return [source_node, sink_node]
+    return [source_node, *best, sink_node]
 
 
 def _annotate_scope_seam_edge_ids(graph: nx.DiGraph, scope_id: str, attrs: dict[str, Any]) -> None:
@@ -170,7 +248,7 @@ def taint_for_python_scope(
         te = TaintEdge(
             source_node=u,
             sink_node=v,
-            intermediate_path=[u, v],  # TODO: inter-procedural tracing
+            intermediate_path=_interprocedural_taint_path(graph, scope_id, u, v),
             crosses_seam=has_http or bool(seam_list),
             seam_edges_crossed=seam_list,
             source_chain=f"{rel}:{line}",
@@ -265,7 +343,7 @@ def taint_for_jsts_scope(
     te = TaintEdge(
         source_node=u,
         sink_node=v,
-        intermediate_path=[u, v],  # TODO: inter-procedural tracing
+        intermediate_path=_interprocedural_taint_path(graph, scope_id, u, v),
         crosses_seam=has_http or bool(seam_list),
         seam_edges_crossed=seam_list,
         source_chain=f"{rel}:{line}",
