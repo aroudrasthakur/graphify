@@ -39,3 +39,5 @@ def test_taint_edge_producer_emits_valid_model(tmp_path) -> None:
     assert isinstance(te0, TaintEdge)
     TaintEdge.model_validate(te0.model_dump())
     assert te0.intermediate_path == [te0.source_node, te0.sink_node]
+    assert "taint_rows" not in g.graph
+    assert g.graph.get("taint_rows") is None

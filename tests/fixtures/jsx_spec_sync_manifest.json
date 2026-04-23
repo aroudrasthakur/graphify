@@ -82,7 +82,7 @@
     "depos/analysis/seams.py": "753498a2094668c10c69fa6f4c48962a6390ac0a7e919391a18c116d73c076d2",
     "depos/analysis/semantic_jsts.py": "4c98e654e9a03fc49b42cc2dc7014b581e5ec2a64fd23f5c2b6a0000ac76ee49",
     "depos/analysis/semantic_python.py": "03b6359ea3bdf841b048b4a02994bc7b3a59a94878e77d3f318b68847f755ac3",
-    "depos/analysis/taint.py": "cb03865cd5feab6c35eb79a55323484bc1d45700188b2e652de08923aa9be026",
+    "depos/analysis/taint.py": "f2895be6bfd185468e24d8b6075500f8453a28cd10f4892fe238aab4e2b20d0d",
     "depos/analysis/verifier.py": "0ab04a0c52e1c893a18ad303285e31d226f58d71856d1a0b12c0419e4028fca9",
     "depos/analysis/verifier_rules.py": "342b2a1f1edbc53eff29783e662a7ca83a744f4ab76f220584e8456a87f86124",
     "docs/depos-pipeline.md": "c1465fafe0d08da5b1ddc28f6ae14f5b7ac8e9dd9a44c97c11c7e226c2795598"
