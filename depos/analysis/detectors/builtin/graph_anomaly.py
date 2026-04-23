@@ -12,7 +12,7 @@ SPEC = simple_spec(
     verifier_checks=["graph_path_exists", "negation_witness"],
     requires_reasoner=True,
     severity="medium",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):

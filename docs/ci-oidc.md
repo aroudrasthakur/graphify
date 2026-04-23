@@ -1,23 +1,46 @@
-# GitHub Actions and depOS API trust (OIDC)
+# CI: OIDC, `violations.json`, and the depOS gate
 
-Today, tenant APIs require a **Supabase user JWT** (`Authorization: Bearer`). GitHub Actions does not receive that token automatically. For **multi-tenant SaaS** you should avoid long-lived user passwords in repository secrets.
+This document describes how to wire depOS outputs into continuous integration and (optionally) authenticated callbacks.
 
-## Recommended pattern: GitHub OIDC
+## `depos-intel gate`
 
-1. **Enable OIDC** on the workflow (`permissions: id-token: write`).
-2. **Issue a short-lived depOS token** from your API (or an auth gateway) that:
-   - Verifies the GitHub OIDC JWT (issuer `https://token.actions.githubusercontent.com`, audience you configure).
-   - Checks claims: `repository`, `ref`, `sha`, and optionally `environment`.
-   - Returns a **narrow-scoped** bearer token (minutes TTL) limited to `POST /v1/orgs/{org}/graph-snapshots/*` and `POST /v1/ci/analyze` for that repository.
+After a pipeline run produces `violations.json`, fail the job when the policy is violated:
 
-3. **Workflow** exchanges OIDC for that token, then runs prepare → upload → complete → analyze as documented in the root `README.md`.
+```text
+depos-intel gate --violations path/to/violations.json
+```
 
-## What you must configure outside this repo
+Exit codes:
 
-- **GitHub**: allowed OIDC subjects (repo/environment) matching your policy.
-- **API / gateway**: JWKS or PEM for GitHub’s signing keys, plus mapping from `repository` to `org_slug` / `repo_slug` in depOS.
-- **No** static Supabase user password in `GITHUB_TOKEN`-visible logs; prefer the short-lived exchange token only.
+- `0` — no **CONFIRMED** finding with **high** or **critical** severity (or all such findings were allowlisted).
+- `1` — at least one blocking finding remains.
+- `2` — the violations file was missing or invalid JSON.
 
-## Alternative: GitHub App
+Allowlist known baselines while you fix them:
 
-Install a **GitHub App** on selected repositories; the API verifies `installation` JWTs or uses installation tokens server-side to clone and snapshot. Heavier than OIDC but gives strong repo identity.
+```text
+depos-intel gate --violations violations.json --allow-finding-id id1 --allow-finding-id id2
+```
+
+The command prints a short JSON summary to stdout (`gate`, `blocking_count`, `blocking_finding_ids`).
+
+## GitHub Actions (no OIDC required)
+
+Minimal job:
+
+```yaml
+- name: depOS gate
+  run: python -m depos.cli gate --violations graphify-out/run/violations.json
+```
+
+Ensure the prior step wrote `violations.json` from `depos-intel analyze repo` / `diff` / `dataset-pipeline`.
+
+## OIDC and external services
+
+depOS itself does not require OpenID Connect for the local CLI. If you integrate with a hosted depOS **API** that issues short-lived tokens (for example to post SARIF or PR comments), configure the standard GitHub **OIDC** trust between your repository and that cloud provider following your provider’s documentation, then pass the issued token to your upload step. The structured outputs used in those flows are:
+
+- **JSON** — `depos.output.json.render_violations_document` (canonical `status` per finding).
+- **SARIF** — `depos.output.sarif.render_sarif` for the Security tab.
+- **PR comments** — `depos.output.pr_comment.render_violations_pr_comment` for Markdown bodies.
+
+Keep `violations.json` as the source of truth; render other formats from the same document so CI and the UI stay aligned.

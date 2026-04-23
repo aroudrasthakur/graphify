@@ -34,6 +34,7 @@ from typing import Any, Iterable, Optional, Tuple
 
 from pydantic import ValidationError
 
+from depos.analysis.bundle_prompter import render_bundle_prompt
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.schemas import (
     Candidate,
@@ -336,26 +337,26 @@ class OllamaProvider(_HTTPProvider):
 
 
 def get_provider(config: IntelligenceConfig, mode: ReasonerMode) -> ReasoningProvider:
-    name = (config.reasoner.provider or "stub").lower()
+    name = (config.llm.provider or "stub").lower()
     if name == "openai":
         return OpenAIProvider(
-            config.reasoner.openai_api_key,
-            model=config.reasoner.openai_model,
-            response_path=config.reasoner.openai_response_path,
+            config.llm.openai_api_key,
+            model=config.llm.openai_model,
+            response_path=config.llm.openai_response_path,
         )
     if name == "gemma":
-        if config.reasoner.gemma_api_url:
+        if config.llm.gemma_api_url:
             return GemmaProvider(
-                config.reasoner.gemma_api_url,
-                model=config.reasoner.gemma_model,
-                response_path=config.reasoner.gemma_response_path,
+                config.llm.gemma_api_url,
+                model=config.llm.gemma_model,
+                response_path=config.llm.gemma_response_path,
             )
         return StubProvider(mode)
     if name == "ollama":
         return OllamaProvider(
-            config.reasoner.ollama_host,
-            model=config.reasoner.ollama_model,
-            response_path=config.reasoner.ollama_response_path,
+            config.llm.ollama_host,
+            model=config.llm.ollama_model,
+            response_path=config.llm.ollama_response_path,
         )
     return StubProvider(mode)
 
@@ -364,45 +365,14 @@ def get_provider(config: IntelligenceConfig, mode: ReasonerMode) -> ReasoningPro
 # Prompts
 # ---------------------------------------------------------------------------
 
-_PROMPT_HEAD = """You are a software reasoning engine. Output ONLY JSON that matches the schema for the requested mode.
-
-Mode A: pattern-based bugs (null ref, off-by-one, missing error handling).
-Mode B: semantic mismatches (client contract vs server behavior).
-Mode C: control/data flow bugs (missing guards, payload drift).
-
-NEVER include natural language outside the JSON document.
-"""
-
 
 def _render_prompt(
     mode: ReasonerMode,
     bundle: ContextBundle,
     *,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
+    rank_metadata: Optional[dict[str, Any]] = None,
 ) -> str:
-    header = _PROMPT_HEAD
-    body = {
-        "candidate_id": bundle.candidate_id,
-        "scope_id": bundle.scope_id,
-        "mode": mode.value,
-        "data_reads": bundle.data_reads,
-        "data_writes": bundle.data_writes,
-        "rls_coverage": {k: v.value for k, v in bundle.rls_coverage.items()},
-        "migration_state": {k: v.value for k, v in bundle.migration_state.items()},
-        "cross_language_seams": [e.model_dump(mode="json") for e in bundle.cross_language_seams],
-        "code_snippets": [
-            {
-                "node_id": s.node_id,
-                "file": s.source_file,
-                "text": s.text[:4000],
-                "evidence_quality": s.evidence_quality,
-            }
-            for s in bundle.code_snippets
-        ],
-    }
-    if graphcodebert_hint:
-        body["graphcodebert_hint"] = graphcodebert_hint
-    return f"{header}\n```json\n{json.dumps(body, indent=2)}\n```"
+    return render_bundle_prompt(mode, bundle, rank_metadata=rank_metadata)
 
 
 # ---------------------------------------------------------------------------
@@ -528,8 +498,7 @@ def _enqueue(
     prompt_hash: str,
     prompt_token_estimate: int,
     response_path_used: Optional[str],
-    graphcodebert_score: float = 0.0,
-    graphcodebert_pattern: str = "",
+    score_composite: float = 0.0,
     extra: Optional[dict[str, Any]] = None,
 ) -> None:
     row = ReasonerQueueRow(
@@ -538,8 +507,7 @@ def _enqueue(
         mode=mode,
         evidence_pack={"data_reads": bundle.data_reads, "data_writes": bundle.data_writes},
         pack_manifest=bundle.pack_manifest,
-        graphcodebert_score=graphcodebert_score,
-        graphcodebert_pattern=graphcodebert_pattern,
+        score_composite=score_composite,
         ranking_phase=ranking_phase,
         queued_at=datetime.now(tz=timezone.utc),
         failure_reason=failure_reason,  # type: ignore[arg-type]
@@ -570,14 +538,14 @@ def run_reasoner(
     config: IntelligenceConfig,
     run_id: str,
     ranking_phase: int = 0,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
+    rank_metadata: Optional[dict[str, Any]] = None,
     stats: Optional[ReasonerCallStats] = None,
 ) -> Optional[ModeAOutput | ModeBOutput | ModeCOutput]:
     provider = get_provider(config, mode)
-    prompt = _render_prompt(mode, bundle, graphcodebert_hint=graphcodebert_hint)
+    prompt = _render_prompt(mode, bundle, rank_metadata=rank_metadata)
     prompt_hash = _cache_prompt(config, run_id, prompt, mode)
     prompt_token_estimate = max(1, len(prompt) // 4)
-    attempts = max(1, config.reasoner.max_retries + 1)
+    attempts = max(1, config.llm.max_retries + 1)
 
     last_failure_reason = "other"
     last_http_status: Optional[int] = None
@@ -592,7 +560,7 @@ def run_reasoner(
     for attempt_idx in range(1, attempts + 1):
         last_attempt = attempt_idx
         try:
-            raw, meta = provider.complete(prompt, max_tokens=config.reasoner.default_max_tokens)
+            raw, meta = provider.complete(prompt, max_tokens=config.llm.default_max_tokens)
             provider_model = str(meta.get("model", ""))
             last_response_path = meta.get("response_path_used") or last_response_path
             parsed, repairs = _parse(mode, raw)
@@ -690,8 +658,7 @@ def run_reasoner(
         prompt_hash=prompt_hash,
         prompt_token_estimate=prompt_token_estimate,
         response_path_used=last_response_path,
-        graphcodebert_score=float((graphcodebert_hint or {}).get("score", 0.0)),
-        graphcodebert_pattern=str((graphcodebert_hint or {}).get("pattern", "")),
+        score_composite=float(bundle.score_composite),
         extra=extra_meta,
     )
     return None
@@ -713,7 +680,7 @@ def run_all_modes(
     config: IntelligenceConfig,
     run_id: str,
     ranking_phase: int = 0,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
+    rank_metadata: Optional[dict[str, Any]] = None,
     stats: Optional[ReasonerCallStats] = None,
 ) -> dict[ReasonerMode, Any]:
     out: dict[ReasonerMode, Any] = {}
@@ -724,7 +691,7 @@ def run_all_modes(
             config=config,
             run_id=run_id,
             ranking_phase=ranking_phase,
-            graphcodebert_hint=graphcodebert_hint,
+            rank_metadata=rank_metadata,
             stats=stats,
         )
         if result is not None:
@@ -779,7 +746,7 @@ def replay_one(
     provider = get_provider(config, mode)
     prior_attempts = int(row.get("attempt_count") or 0)
     try:
-        raw, meta = provider.complete(prompt, max_tokens=config.reasoner.default_max_tokens)
+        raw, meta = provider.complete(prompt, max_tokens=config.llm.default_max_tokens)
         parsed, _ = _parse(mode, raw)
         return [parsed]
     except (ProviderError, json.JSONDecodeError, ValidationError) as exc:

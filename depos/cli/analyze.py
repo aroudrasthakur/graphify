@@ -24,7 +24,9 @@ from depos.analysis.detectors import get_detector, list_detectors, load_builtin
 from depos.analysis.schemas import (
     AnalysisMode,
     Candidate,
+    CandidateScore,
     ContextBundle,
+    DetectorPayload,
     Finding,
     ReasonerCallStats,
     RunResult,
@@ -193,7 +195,7 @@ def _run_output_dir(config: IntelligenceConfig, run_id: str) -> Path:
 def _apply_provider_override(config: IntelligenceConfig, args) -> None:
     provider = getattr(args, "provider", None)
     if provider:
-        config.reasoner.provider = provider
+        config.llm.provider = provider
 
 
 def _make_progress_reporter(prefix: str = "depos-intel") -> Callable[[str], None]:
@@ -250,7 +252,7 @@ def _new_run_metadata(
     return RunMetadata(
         run_id=uuid.uuid4().hex,
         analysis_mode=mode,
-        provider=config.reasoner.provider,
+        provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
         graph_source_metadata=source.get_source_metadata(),
     )
@@ -314,7 +316,7 @@ def run_repo(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_provider_override(config, args)
-    progress(f"Config loaded. provider={config.reasoner.provider} graphcodebert={str(config.ranker.use_graphcodebert).lower()}.")
+    progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
     progress(f"Graph source resolved from {source.get_source_metadata().get('repo_path') or source.get_source_metadata().get('graph_json_path') or 'unknown source'}.")
     run_meta = _new_run_metadata(config, source, mode=AnalysisMode.full_repo_scan)
@@ -343,7 +345,7 @@ def run_diff(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_provider_override(config, args)
-    progress(f"Config loaded. provider={config.reasoner.provider} graphcodebert={str(config.ranker.use_graphcodebert).lower()}.")
+    progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
     progress(f"Graph source resolved from {source.get_source_metadata().get('repo_path') or source.get_source_metadata().get('graph_json_path') or 'unknown source'}.")
     run_meta = _new_run_metadata(config, source, mode=AnalysisMode.diff_aware)
@@ -383,7 +385,7 @@ def run_replay(args) -> int:
     run_meta = RunMetadata(
         run_id=uuid.uuid4().hex,
         analysis_mode=AnalysisMode.diff_aware,
-        provider=config.reasoner.provider,
+        provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
     )
     out_dir = _run_output_dir(config, run_meta.run_id)
@@ -432,25 +434,31 @@ def run_replay(args) -> int:
 
 
 def run_score_bundles(args) -> int:
-    from depos.analysis.graphcodebert import load_bundles, persist_scores, score_bundles
+    """Emit stub per-bundle score rows; ranking uses ``CandidateScore.composite`` in the main pipeline."""
 
     progress = _make_progress_reporter()
     bundles_path = Path(args.bundles_json)
     if not bundles_path.exists():
         raise SystemExit(f"bundles json not found: {bundles_path}")
     progress(f"Loading bundles from {bundles_path}.")
-    bundles = load_bundles(bundles_path)
-    progress(f"Scoring {len(bundles)} bundles with GraphCodeBERT.")
-    rows = score_bundles(
-        bundles,
-        model_name=args.model_name,
-        cache_dir=args.cache_dir,
-        device=args.device,
-        local_files_only=bool(args.local_files_only),
-    )
+    data = json.loads(bundles_path.read_text(encoding="utf-8"))
+    bundles: list[dict] = data if isinstance(data, list) else data.get("bundles", [])  # type: ignore[assignment]
+    if not isinstance(bundles, list):
+        bundles = []
+    progress(f"Writing stub scores for {len(bundles)} bundles (ranking is CandidateScore.composite in-pipeline).")
+    rows: list[dict] = [
+        {
+            "bundle_id": b.get("bundle_id", ""),
+            "candidate_id": b.get("candidate_id", ""),
+            "candidate_score_composite": 1.0,
+            "note": "Stub scores; use run metadata / candidates.json for composite scores.",
+        }
+        for b in bundles
+        if isinstance(b, dict)
+    ]
     out_path = Path(args.output) if getattr(args, "output", None) else bundles_path.parent / "bundle-scores.json"
-    persist_scores(rows, out_path)
-    progress(f"Wrote {len(rows)} GraphCodeBERT scores to {out_path}.")
+    out_path.write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    progress(f"Wrote {len(rows)} bundle score rows to {out_path}.")
     print(json.dumps({"bundles": len(bundles), "scores": len(rows), "output": str(out_path)}, indent=2))
     return 0
 
@@ -592,16 +600,24 @@ def _build_dataset_candidates_and_bundles(
     source_roots: list[Path] | None = None,
     path_aliases: dict[str, str] | None = None,
 ) -> tuple[list[Candidate], list[dict[str, Any]], dict[str, Any]]:
-    from depos.analysis.candidate_identifier import identify_candidates
+    from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
     from depos.analysis.context_bundle import build_bundle
+    from depos.analysis.run_context import build_run_context
 
     if progress is not None:
         progress(f"Dataset pipeline: loading normalized graph from {graph_json}.")
     graph = InMemoryGraphSource.from_node_link_json(graph_json).get_graph()
     if progress is not None:
         progress("Dataset pipeline: identifying candidates from normalized graph.")
-    candidates, manifest = identify_candidates(
+    manifest = resolve_change_manifest(
         graph,
+        manual_manifest={"entries": []},
+        repo_root=None,
+    )
+    run_context = build_run_context(graph, manifest, repo_root=None, config=config)
+    candidates, manifest, _detector_stats = identify_candidates(
+        graph,
+        run_context=run_context,
         config=config,
         mode=AnalysisMode.full_repo_scan,
         manual_manifest={"entries": []},
@@ -644,21 +660,47 @@ def _build_dataset_candidates_and_bundles(
     return candidates, bundles, {"resolved_via": manifest.resolved_via}
 
 
+def _score_row_composite(row: dict[str, Any]) -> float:
+    return float(
+        row.get(
+            "candidate_score_composite",
+            row.get("graphcodebert_score", row.get("rank_score", 0.0)),
+        )
+    )
+
+
+def _score_row_pattern(row: dict[str, Any]) -> str:
+    return str(
+        row.get("rank_pattern", "")
+        or row.get("graphcodebert_pattern", "")
+        or row.get("note", "")
+    ).strip()
+
+
 def _candidate_from_bundle(bundle: ContextBundle, row: dict[str, Any], *, mode: AnalysisMode) -> Candidate:
+    from depos.analysis.scoring import apply_composite
+
     diff_anchors = [str(anchor.get("node_id", "")) for anchor in bundle.diff_anchors if anchor.get("node_id")]
+    comp = _score_row_composite(row)
+    score = CandidateScore(detector_confidence=comp, composite=comp)
+    apply_composite(score, mode=mode, config=None)
+    score.composite = comp
     return Candidate(
         candidate_id=bundle.candidate_id,
         scope_id=bundle.scope_id,
         seed_type=SeedType.ai_driven,
-        priority_score=float(row.get("graphcodebert_score", 0.0)),
         diff_anchors=diff_anchors,
         analysis_mode=mode,
-        extra={
-            "graphcodebert_score": float(row.get("graphcodebert_score", 0.0)),
-            "graphcodebert_pattern": str(row.get("graphcodebert_pattern", "")),
-            "top_patterns": list(row.get("top_patterns", [])),
-            "bundle_pipeline_synthetic_candidate": True,
-        },
+        score=score,
+        detector_payload=DetectorPayload(
+            category="bundle_pipeline",
+            raw={
+                "candidate_score_composite": comp,
+                "rank_pattern": _score_row_pattern(row),
+                "top_patterns": list(row.get("top_patterns", [])),
+                "bundle_pipeline_synthetic_candidate": True,
+            },
+        ),
     )
 
 
@@ -668,10 +710,10 @@ def _attach_score_hints(findings: list[Finding], score_map: dict[str, dict[str, 
         row = score_map.get(candidate_id)
         if row is None:
             continue
-        pattern = str(row.get("graphcodebert_pattern", "")).strip()
-        score = float(row.get("graphcodebert_score", 0.0))
+        pattern = _score_row_pattern(row)
+        score = _score_row_composite(row)
         if pattern:
-            hint = f"GraphCodeBERT triage: {pattern} ({score:.3f})."
+            hint = f"Rank triage: {pattern} (composite {score:.3f})."
             if finding.recommended_fix:
                 finding.recommended_fix = f"{hint} {finding.recommended_fix}"
             else:
@@ -684,24 +726,24 @@ def _execute_bundle_pipeline(
     emit_summary: bool = True,
     progress: Callable[[str], None] | None = None,
 ) -> dict[str, Any]:
-    from depos.analysis.graphcodebert import load_bundles, persist_scores, score_bundles
     from depos.analysis.gray_zone_evaluator import evaluate as evaluate_gray_zone
     from depos.analysis.reasoning_engine import run_all_modes
     from depos.analysis.verifier import verify_all
 
     config = load_config_from_env()
     if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
+        config.llm.provider = args.provider
     _apply_evidence_overrides(config, args)
     if progress is not None:
-        progress(f"Bundle pipeline: config loaded. provider={config.reasoner.provider}.")
+        progress(f"Bundle pipeline: config loaded. provider={config.llm.provider}.")
 
     bundles_path = Path(args.bundles_json)
     if not bundles_path.exists():
         raise SystemExit(f"bundles json not found: {bundles_path}")
     if progress is not None:
         progress(f"Bundle pipeline: loading bundles from {bundles_path}.")
-    bundles_raw = load_bundles(bundles_path)
+    _raw = json.loads(bundles_path.read_text(encoding="utf-8"))
+    bundles_raw: list[dict] = _raw if isinstance(_raw, list) else [x for x in _raw.get("bundles", []) if isinstance(x, dict)]
     graph_json = Path(args.graph_json) if getattr(args, "graph_json", None) else Path("graphify-out/dataset-node-link.json")
     if not graph_json.exists():
         raise SystemExit(f"graph json not found: {graph_json}")
@@ -714,21 +756,23 @@ def _execute_bundle_pipeline(
             raise SystemExit(f"scores json not found: {scores_path}")
         score_rows = json.loads(scores_path.read_text(encoding="utf-8"))
         if progress is not None:
-            progress(f"Bundle pipeline: loaded {len(score_rows)} existing GraphCodeBERT scores from {scores_path}.")
+            progress(f"Bundle pipeline: loaded {len(score_rows)} existing bundle score rows from {scores_path}.")
     else:
         if progress is not None:
-            progress(f"Bundle pipeline: scoring {len(bundles_raw)} bundles with GraphCodeBERT.")
-        score_rows = score_bundles(
-            bundles_raw,
-            model_name=args.model_name,
-            cache_dir=args.cache_dir,
-            device=args.device,
-            local_files_only=bool(args.local_files_only),
-        )
+            progress(f"Bundle pipeline: writing stub rank scores for {len(bundles_raw)} bundles.")
+        score_rows = [
+            {
+                "bundle_id": b.get("bundle_id", ""),
+                "candidate_id": b.get("candidate_id", ""),
+                "candidate_score_composite": 1.0,
+                "rank_pattern": "stub",
+            }
+            for b in bundles_raw
+        ]
         scores_path = bundles_path.parent / "bundle-scores.json"
-        persist_scores(score_rows, scores_path)
+        scores_path.write_text(json.dumps(score_rows, indent=2), encoding="utf-8")
         if progress is not None:
-            progress(f"Bundle pipeline: wrote {len(score_rows)} GraphCodeBERT scores to {scores_path}.")
+            progress(f"Bundle pipeline: wrote {len(score_rows)} score rows to {scores_path}.")
 
     score_map = {str(row.get("bundle_id", "")): row for row in score_rows if isinstance(row, dict)}
     selected_pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
@@ -736,11 +780,16 @@ def _execute_bundle_pipeline(
         row = score_map.get(str(bundle_row.get("bundle_id", "")))
         if row is None:
             continue
-        score = float(row.get("graphcodebert_score", 0.0))
+        score = _score_row_composite(row)
         if args.min_score is not None and score < args.min_score:
             continue
         selected_pairs.append((bundle_row, row))
-    selected_pairs.sort(key=lambda pair: (-float(pair[1].get("graphcodebert_score", 0.0)), str(pair[0].get("bundle_id", ""))))
+    selected_pairs.sort(
+        key=lambda pair: (
+            -_score_row_composite(pair[1]),
+            str(pair[0].get("bundle_id", "")),
+        )
+    )
     selected_pairs = selected_pairs[: max(0, int(args.top_n))]
     if progress is not None:
         progress(f"Bundle pipeline: selected {len(selected_pairs)} bundles for reasoning and verification.")
@@ -748,7 +797,7 @@ def _execute_bundle_pipeline(
     run_meta = RunMetadata(
         run_id=uuid.uuid4().hex,
         analysis_mode=AnalysisMode.full_repo_scan,
-        provider=config.reasoner.provider,
+        provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
         ranking_phase=1,
         graph_source_metadata={
@@ -781,10 +830,12 @@ def _execute_bundle_pipeline(
     total_pairs = len(selected_pairs)
     for index, (bundle_row, score_row) in enumerate(selected_pairs, start=1):
         bundle = ContextBundle.model_validate(bundle_row)
+        rcomp = _score_row_composite(score_row)
+        bundle.score_composite = rcomp
         candidate = _candidate_from_bundle(bundle, score_row, mode=run_meta.analysis_mode)
-        graph_hint = {
-            "score": float(score_row.get("graphcodebert_score", 0.0)),
-            "pattern": str(score_row.get("graphcodebert_pattern", "")),
+        rank_metadata = {
+            "score": rcomp,
+            "pattern": _score_row_pattern(score_row),
             "top_patterns": list(score_row.get("top_patterns", [])),
         }
 
@@ -806,8 +857,8 @@ def _execute_bundle_pipeline(
                 {
                     "bundle_id": bundle.bundle_id,
                     "candidate_id": bundle.candidate_id,
-                    "graphcodebert_score": graph_hint["score"],
-                    "graphcodebert_pattern": graph_hint["pattern"],
+                    "candidate_score_composite": rcomp,
+                    "rank_pattern": rank_metadata["pattern"],
                     "reasoner_modes_returned": [],
                     "findings": 0,
                     "skipped_reason": "low_evidence",
@@ -821,7 +872,7 @@ def _execute_bundle_pipeline(
         if progress is not None:
             progress(
                 f"Bundle pipeline: bundle {index}/{total_pairs} "
-                f"candidate_id={bundle.candidate_id} score={graph_hint['score']:.3f} "
+                f"candidate_id={bundle.candidate_id} score={rank_metadata['score']:.3f} "
                 f"evidence={dominant_quality}/{evidence.evidence_score:.2f}."
             )
         bundle_stats = ReasonerCallStats()
@@ -830,7 +881,7 @@ def _execute_bundle_pipeline(
             config=config,
             run_id=run_meta.run_id,
             ranking_phase=run_meta.ranking_phase,
-            graphcodebert_hint=graph_hint,
+            rank_metadata=rank_metadata,
             stats=bundle_stats,
         )
         reasoner_stats.merge(bundle_stats)
@@ -856,8 +907,8 @@ def _execute_bundle_pipeline(
             {
                 "bundle_id": bundle.bundle_id,
                 "candidate_id": bundle.candidate_id,
-                "graphcodebert_score": graph_hint["score"],
-                "graphcodebert_pattern": graph_hint["pattern"],
+                "candidate_score_composite": rcomp,
+                "rank_pattern": rank_metadata["pattern"],
                 "reasoner_modes_returned": sorted(mode.value for mode in reasoner_outputs.keys()),
                 "findings": len(findings),
                 "evidence_quality": dominant_quality,
@@ -907,7 +958,7 @@ def _execute_bundle_pipeline(
     run_summary = {
         "run_id": run_meta.run_id,
         "output_dir": str(out_dir),
-        "provider": config.reasoner.provider,
+        "provider": config.llm.provider,
         "selected_bundles": len(selected_pairs),
         "bundles_built": bundles_built,
         "bundles_sent_to_reasoner": bundles_sent,
@@ -946,14 +997,12 @@ def run_bundle_pipeline(args) -> int:
 
 
 def run_dataset_pipeline(args) -> int:
-    from depos.analysis.graphcodebert import persist_scores, score_bundles
-
     config = load_config_from_env()
     if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
+        config.llm.provider = args.provider
     _apply_evidence_overrides(config, args)
     progress = _make_progress_reporter()
-    progress(f"Dataset pipeline: config loaded. provider={config.reasoner.provider}.")
+    progress(f"Dataset pipeline: config loaded. provider={config.llm.provider}.")
 
     dataset_dir = Path(args.dataset_dir)
     if not dataset_dir.exists():
@@ -1029,15 +1078,18 @@ def run_dataset_pipeline(args) -> int:
         path_aliases=path_aliases,
     )
 
-    progress(f"Dataset pipeline: scoring {len(bundles)} bundles with GraphCodeBERT.")
-    score_rows = score_bundles(
-        bundles,
-        model_name=args.model_name,
-        cache_dir=args.cache_dir,
-        device=args.device,
-        local_files_only=bool(args.local_files_only),
-    )
-    persist_scores(score_rows, scores_output)
+    progress(f"Dataset pipeline: writing stub bundle rank scores for {len(bundles)} bundles (CandidateScore.composite in-pipeline).")
+    score_rows = [
+        {
+            "bundle_id": b.get("bundle_id", ""),
+            "candidate_id": b.get("candidate_id", ""),
+            "candidate_score_composite": 1.0,
+            "rank_pattern": "stub",
+        }
+        for b in bundles
+        if isinstance(b, dict)
+    ]
+    scores_output.write_text(json.dumps(score_rows, indent=2), encoding="utf-8")
     progress(f"Dataset pipeline: wrote {len(score_rows)} bundle scores to {scores_output}.")
 
     class _BundlePipelineArgs:
@@ -1215,7 +1267,7 @@ def run_detectors_replay(args) -> int:
 
     config = load_config_from_env()
     if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
+        config.llm.provider = args.provider
 
     run_id = str(args.run_id).strip()
     if not run_id:
@@ -1248,7 +1300,7 @@ def run_detectors_replay(args) -> int:
     progress = _make_progress_reporter()
     progress(
         f"Replay: re-issuing {len(rows)} queued reasoner attempt(s) from {queue_path} "
-        f"(provider={config.reasoner.provider})."
+        f"(provider={config.llm.provider})."
     )
 
     attempted = 0

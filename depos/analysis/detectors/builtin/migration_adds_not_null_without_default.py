@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["migration_branch_state", "graph_path_exists"],
     requires_reasoner=False,
     severity="high",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -23,7 +23,7 @@ def run(graph, manifest, mode, config, ctx):
             make_candidate(
                 scope_id=f"schema:not-null-no-default:{node_id}",
                 seed_type=SeedType.graph_anomaly,
-                priority_score=0.88,
+                detector_confidence=0.88,
                 analysis_mode=mode,
                 diff_anchors=[node_id],
                 extra={"migration_id": attrs.get("migration_id"), "table_name": attrs.get("table_name")},

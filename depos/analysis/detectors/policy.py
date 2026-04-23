@@ -1,11 +1,16 @@
 """Detector policy loading and enablement rules."""
 from __future__ import annotations
 
-from typing import Any
+from collections.abc import Iterator
+from typing import TYPE_CHECKING, Any
 
+import networkx as nx
 from pydantic import BaseModel, Field
 
 from depos.analysis.schemas import Detector
+
+if TYPE_CHECKING:
+    from depos.analysis.run_context import RunContext
 
 
 class DetectorPolicy(BaseModel):
@@ -23,6 +28,35 @@ class DetectorPolicy(BaseModel):
     def severity_for(self, spec: Detector) -> str:
         return self.severity_overrides.get(spec.name, spec.severity_default)
 
+    @staticmethod
+    def semantic_layer_satisfied(
+        spec: Detector,
+        ctx: "RunContext",
+        scope_node_id: str,
+    ) -> bool:
+        req = spec.semantic_requirement
+        if req is None:
+            return True
+        if req == "cfg":
+            return bool(ctx.cfg_available.get(scope_node_id, False))
+        if req == "dfg":
+            return bool(ctx.dfg_available.get(scope_node_id, False))
+        if req == "taint":
+            return bool(ctx.taint_edges_available.get(scope_node_id, False))
+        raise ValueError(f"Unknown semantic_requirement: {req!r}")
+
+
+def iter_eligible_scopes(
+    graph: nx.DiGraph,
+    ctx: "RunContext",
+    spec: Detector,
+) -> Iterator[str]:
+    """Yields scope node IDs for which this detector's semantic requirements are satisfied."""
+    for node_id in graph.nodes:
+        sid = str(node_id)
+        if DetectorPolicy.semantic_layer_satisfied(spec, ctx, sid):
+            yield sid
+
 
 def load_policy(raw: Any | None) -> DetectorPolicy:
     if raw is None:
@@ -38,4 +72,8 @@ def load_policy(raw: Any | None) -> DetectorPolicy:
     return DetectorPolicy()
 
 
-__all__ = ["DetectorPolicy", "load_policy"]
+__all__ = [
+    "DetectorPolicy",
+    "load_policy",
+    "iter_eligible_scopes",
+]

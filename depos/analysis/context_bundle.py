@@ -19,9 +19,12 @@ from __future__ import annotations
 
 import hashlib
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import networkx as nx
+
+if TYPE_CHECKING:
+    from depos.analysis.run_context import RunContext
 
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.schemas import (
@@ -34,6 +37,7 @@ from depos.analysis.schemas import (
     RLSCoverage,
     SeamEdge,
     SemanticEdgeMetadata,
+    TaintEdge,
 )
 
 
@@ -109,9 +113,10 @@ def _collect_seams(graph: nx.DiGraph, nodes: set[str]) -> list[SeamEdge]:
         if not (data.get("source_system") and data.get("target_system")):
             continue
         metadata = SemanticEdgeMetadata.model_validate({k2: v2 for k2, v2 in data.items() if k2 != "relation"})
+        eid = str(data.get("edge_id") or f"{u}->{v}")
         out.append(
             SeamEdge(
-                edge_id=f"{u}|{v}|{data.get('relation', '')}",
+                edge_id=eid,
                 source=u,
                 target=v,
                 relation=data.get("relation", ""),
@@ -119,6 +124,33 @@ def _collect_seams(graph: nx.DiGraph, nodes: set[str]) -> list[SeamEdge]:
             )
         )
     return out
+
+
+def _collect_taint_edges(graph: nx.DiGraph, nodes: set[str]) -> list[TaintEdge]:
+    """Include pre-computed :class:`TaintEdge` rows that touch the bundle neighborhood."""
+    out: list[TaintEdge] = []
+    for item in list(graph.graph.get("taint_edges", []) or []):
+        te = item if isinstance(item, TaintEdge) else TaintEdge.model_validate(item)
+        if te.scope in nodes:
+            out.append(te)
+            continue
+        if te.source_node in nodes or te.sink_node in nodes:
+            out.append(te)
+            continue
+        if any(n in nodes for n in te.intermediate_path):
+            out.append(te)
+    return out
+
+
+def _endpoints_from_canonical_edge_id(edge_id: str) -> tuple[str, str] | None:
+    """Parse ``u->v`` from graph ``edge_id`` (``build_seam_edge_index``)."""
+    s = str(edge_id)
+    if "->" not in s:
+        return None
+    u, v = s.split("->", 1)
+    if u and v:
+        return u, v
+    return None
 
 
 def _collect_data_reads_writes(graph: nx.DiGraph, nodes: set[str]) -> tuple[list[str], list[str]]:
@@ -453,6 +485,7 @@ def build_bundle(
     config: IntelligenceConfig,
     source_roots: Optional[list[Path]] = None,
     path_aliases: Optional[dict[str, str]] = None,
+    run_context: Optional["RunContext"] = None,
 ) -> ContextBundle:
     estimator, est_name = _get_estimator(config)
     hops = config.candidates.max_hop_count
@@ -465,10 +498,15 @@ def build_bundle(
     anchor_ids = set(candidate.diff_anchors)
     # If this is an interface_surface seed with seam edges, recover endpoints.
     for seam in candidate.seam_edges:
-        parts = seam.split("|")
-        if len(parts) >= 2:
-            anchor_ids.add(parts[0])
-            anchor_ids.add(parts[1])
+        key = seam.edge_id if hasattr(seam, "edge_id") else str(seam)
+        if getattr(seam, "source", None) and getattr(seam, "target", None):
+            anchor_ids.add(str(seam.source))
+            anchor_ids.add(str(seam.target))
+            continue
+        end = _endpoints_from_canonical_edge_id(str(key))
+        if end:
+            anchor_ids.add(end[0])
+            anchor_ids.add(end[1])
     if not anchor_ids and candidate.scope_id.startswith("node:"):
         anchor_ids.add(candidate.scope_id[5:])
 
@@ -483,8 +521,20 @@ def build_bundle(
     for entry in call_chain_in + call_chain_out:
         neighborhood.add(entry["node_id"])
 
+    scope_node_id = ""
+    if candidate.scope_id.startswith("node:"):
+        scope_node_id = candidate.scope_id[5:]
+    elif candidate.diff_anchors:
+        scope_node_id = str(candidate.diff_anchors[0])
+    cfg_ok = dfg_ok = taint_ok = False
+    if run_context is not None and scope_node_id:
+        cfg_ok = bool(run_context.cfg_available.get(scope_node_id, False))
+        dfg_ok = bool(run_context.dfg_available.get(scope_node_id, False))
+        taint_ok = bool(run_context.taint_edges_available.get(scope_node_id, False))
+
     reads, writes = _collect_data_reads_writes(graph, neighborhood)
     seams = _collect_seams(graph, neighborhood)
+    taint_edges = _collect_taint_edges(graph, neighborhood)
     rls = _collect_rls(graph, neighborhood)
     migration_state = _collect_migration_state(graph)
 
@@ -507,15 +557,23 @@ def build_bundle(
         token_estimator=est_name,
         included=[s.node_id for s in snippets],
     )
+    score = candidate.score
     bundle = ContextBundle(
         bundle_id=manifest_id,
         candidate_id=candidate.candidate_id,
         scope_id=candidate.scope_id,
+        scope_node_id=scope_node_id,
+        score_composite=float(score.composite),
+        candidate_score=score.model_dump(mode="json"),
+        cfg_available=cfg_ok,
+        dfg_available=dfg_ok,
+        taint_edges_available=taint_ok,
         call_chain_in=call_chain_in,
         call_chain_out=call_chain_out,
         data_reads=reads,
         data_writes=writes,
         cross_language_seams=seams,
+        taint_edges=taint_edges,
         diff_anchors=[{"node_id": a} for a in candidate.diff_anchors],
         rls_coverage=rls,
         migration_state=migration_state,

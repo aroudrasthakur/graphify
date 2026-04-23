@@ -28,7 +28,9 @@ from typing import Any, Iterable
 
 import networkx as nx
 
+from depos.analysis.citations import evidence_cites_bundle
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis import verifier_rules
 from depos.analysis.oracles import ORACLES
 from depos.graph_relations import ROUTE_GUARDED_BY_RLS
 from depos.analysis.schemas import (
@@ -52,8 +54,7 @@ CheckName = str
 
 
 def _detector_meta(candidate: Candidate) -> dict[str, Any]:
-    raw = candidate.extra.get("detector")
-    return dict(raw) if isinstance(raw, dict) else {}
+    return candidate.detector_payload.model_dump(mode="json")
 
 
 def _detector_name(candidate: Candidate) -> str:
@@ -227,7 +228,7 @@ def _check_phantom_anchor(candidate: Candidate, witness_path: list[str], *, enab
 
 def _check_external_oracle_lookup(candidate: Candidate) -> VerifierCheckResult:
     meta = _detector_meta(candidate)
-    hints = dict(meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
+    hints = dict(meta.get("oracle_hints") or candidate.detector_payload.oracle_hints or {})
     if not hints:
         return VerifierCheckResult(name="external_oracle_lookup", result="unavailable")
     oracle_name = str(hints.get("oracle") or "")
@@ -252,7 +253,7 @@ def _check_external_oracle_lookup(candidate: Candidate) -> VerifierCheckResult:
 def _check_cross_universe_edge_exists(graph: nx.DiGraph, witness_path: list[str], candidate: Candidate) -> VerifierCheckResult:
     required_pairs = {
         tuple(pair)
-        for pair in candidate.extra.get("required_universe_pairs", [])
+        for pair in candidate.detector_payload.raw.get("required_universe_pairs", [])
         if isinstance(pair, (list, tuple)) and len(pair) == 2
     }
     pairs: set[tuple[str, str]] = set()
@@ -309,7 +310,7 @@ def _check_negation_witness(graph: nx.DiGraph, candidate: Candidate) -> Verifier
 
 def _check_version_satisfaction(candidate: Candidate) -> VerifierCheckResult:
     meta = _detector_meta(candidate)
-    hints = dict(meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
+    hints = dict(meta.get("oracle_hints") or candidate.detector_payload.oracle_hints or {})
     if not hints.get("declared_range") or not hints.get("resolved_version"):
         return VerifierCheckResult(name="version_satisfaction", result="unavailable")
     oracle_name = "pep440" if str(hints.get("ecosystem") or "").lower() in {"pip", "python"} else "semver"
@@ -381,10 +382,14 @@ def verify(
         confidence = float(finding.confidence)
         missing_guard = finding.missing_guard
     else:
-        bug_type = str(candidate.extra.get("anomaly") or candidate.extra.get("surface_type") or _detector_name(candidate))
-        description = str(candidate.extra.get("description") or bug_type.replace("_", " ").replace("-", " "))
+        raw = candidate.detector_payload.raw
+        bug_type = str(raw.get("anomaly") or raw.get("surface_type") or _detector_name(candidate))
+        description = str(raw.get("description") or bug_type.replace("_", " ").replace("-", " "))
         confidence = 1.0 if spec is not None and not spec.requires_reasoner else 0.0
-        missing_guard = str(candidate.extra.get("missing_guard") or "") or None
+        missing_guard = str(raw.get("missing_guard") or "") or None
+
+    evidence_text = f"{description} {bug_type} {' '.join(witness_path)} {missing_guard or ''}".strip()
+    uncited = bool(mode is not None) and (not evidence_cites_bundle(evidence_text, bundle))
 
     cited_tables = sorted(bundle.rls_coverage.keys())
 
@@ -431,6 +436,26 @@ def verify(
             checks.append(_safe_run(check_name, lambda: _check_version_satisfaction(candidate)))
         else:
             checks.append(VerifierCheckResult(name=check_name, result="unavailable", detail="unknown_check"))
+
+    if mode is not None:
+        for pred in getattr(verifier_rules, "GLOBAL_AUTO_GRAYZONE", []):
+            try:
+                if pred(graph, candidate, bundle, evidence_text):
+                    checks.append(
+                        VerifierCheckResult(
+                            name=f"auto_grayzone:{getattr(pred, '__name__', 'anon')}",
+                            result="fail",
+                            detail="global_auto_grayzone",
+                        )
+                    )
+            except Exception as exc:  # noqa: BLE001
+                checks.append(
+                    VerifierCheckResult(
+                        name=f"auto_grayzone:{getattr(pred, '__name__', 'auto_grayzone')}",
+                        result="unavailable",
+                        detail=f"exception:{exc}",
+                    )
+                )
 
     mechanical = spec is not None and not spec.requires_reasoner and finding is None
     outcome = _derive_outcome(checks, mechanical=mechanical)
@@ -479,6 +504,8 @@ def verify(
         detector_version=str(_detector_meta(candidate).get("detector_version") or "0"),
         pipeline_version=str(_detector_meta(candidate).get("pipeline_version") or "0"),
         severity=str(_detector_meta(candidate).get("severity") or "medium"),
+        uncited=uncited,
+        evidence_text=evidence_text,
     )
     if outcome == VerifierOutcome.partially_confirmed:
         out_finding.partially_confirmed_caveat = (

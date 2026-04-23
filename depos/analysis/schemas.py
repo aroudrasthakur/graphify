@@ -9,7 +9,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 NodeId = str
 EdgeId = str
@@ -149,7 +149,6 @@ class DetectorAction(BaseModel):
     emit: Literal["candidate", "skip", "stop"]
     seed_type: SeedType = SeedType.graph_anomaly
     extra: dict[str, Any] = Field(default_factory=dict)
-    priority_score: float = 0.6
     witness_template: list[str] = Field(default_factory=list)
 
 
@@ -170,6 +169,8 @@ class Detector(BaseModel):
     severity_default: SeverityLevel = "medium"
     enabled_by_default: bool = True
     scope: Literal["graph", "per_node", "per_edge"] = "per_node"
+    # None = Group A (no layer). "cfg" = B. "dfg" / "taint" = C.
+    semantic_requirement: Optional[Literal["cfg", "dfg", "taint"]] = None
 
 
 class DetectorCandidateExtra(BaseModel):
@@ -180,16 +181,94 @@ class DetectorCandidateExtra(BaseModel):
     oracle_hints: dict[str, Any] = Field(default_factory=dict)
 
 
+class CandidateScore(BaseModel):
+    """Vector score; ``composite`` is the deterministic global sort key."""
+
+    structural_centrality: float = 0.0
+    seam_exposure: float = 0.0
+    change_proximity: float = 0.0
+    detector_confidence: float = 0.0
+    evidence_quality: float = 0.0
+    # Set by taint pre-computation, not by detectors. Required by verifier
+    # gate for security findings — lives on the score vector (not in
+    # DetectorPayload) so ranking can use it.
+    taint_chain_present: bool = False
+    # Fan-in cone normalised via min(1.0, fan_in / 50). Computed from
+    # GraphMetrics, not by detectors. Makes blast radius a first-class
+    # ranking dimension.
+    blast_radius_norm: float = 0.0
+    composite: float = 0.0
+
+
+class DetectorPayload(BaseModel):
+    """Typed detector output; use ``raw`` for seed-specific or transitional keys."""
+
+    model_config = ConfigDict(extra="allow")
+
+    category: str = "unknown"
+    detector_name: str = ""
+    detector_version: str = ""
+    pipeline_version: str = ""
+    severity: SeverityLevel = "medium"
+    oracle_hints: dict[str, Any] = Field(default_factory=dict)
+    requires_cfg: bool = False
+    requires_dfg: bool = False
+    raw: dict[str, Any] = Field(default_factory=dict)
+
+
+# Referenced on candidates and in context bundles; defined before :class:`Candidate`.
+class SeamEdge(BaseModel):
+    """Cross-language or cross-unit seam on the graph (candidate + bundle)."""
+
+    edge_id: EdgeId
+    source: NodeId
+    target: NodeId
+    relation: str
+    metadata: SemanticEdgeMetadata = Field(default_factory=SemanticEdgeMetadata)
+
+
+class TaintEdge(BaseModel):
+    """Typed taint source -> sink on the graph; single source of truth for every consumer.
+
+    ``intermediate_path`` is the full ordered chain from source to sink. Until
+    inter-procedural taint is implemented it degrades to ``[source_node,
+    sink_node]``; the validator guarantees the endpoints are always present.
+    """
+
+    source_node: NodeId
+    sink_node: NodeId
+    intermediate_path: list[NodeId]
+    crosses_seam: bool = False
+    seam_edges_crossed: list[SeamEdge] = Field(default_factory=list)
+    source_chain: str = ""
+    sink_pattern: str = ""
+    source_hints: list[str] = Field(default_factory=list)
+    scope: str = ""
+    line: int = 0
+
+    @model_validator(mode="after")
+    def _path_must_include_endpoints(self) -> "TaintEdge":
+        if not self.intermediate_path:
+            raise ValueError(
+                "intermediate_path must contain at least [source_node, sink_node]"
+            )
+        if self.intermediate_path[0] != self.source_node:
+            raise ValueError("intermediate_path must start with source_node")
+        if self.intermediate_path[-1] != self.sink_node:
+            raise ValueError("intermediate_path must end with sink_node")
+        return self
+
+
 class Candidate(BaseModel):
     candidate_id: str
     scope_id: str
     seed_type: SeedType
-    priority_score: float = 0.0
     language_pair: Optional[str] = None
-    seam_edges: list[EdgeId] = Field(default_factory=list)
+    seam_edges: list[SeamEdge] = Field(default_factory=list)
     diff_anchors: list[NodeId] = Field(default_factory=list)
     analysis_mode: AnalysisMode = AnalysisMode.diff_aware
-    extra: dict[str, Any] = Field(default_factory=dict)
+    score: CandidateScore = Field(default_factory=CandidateScore)
+    detector_payload: DetectorPayload = Field(default_factory=DetectorPayload)
 
 
 class DetectorRunStats(BaseModel):
@@ -215,14 +294,6 @@ class CodeSnippet(BaseModel):
     text: str = ""
     evidence_quality: Literal["full", "embedded", "label_only", "missing"] = "full"
     resolved_via: Optional[str] = None
-
-
-class SeamEdge(BaseModel):
-    edge_id: EdgeId
-    source: NodeId
-    target: NodeId
-    relation: str
-    metadata: SemanticEdgeMetadata = Field(default_factory=SemanticEdgeMetadata)
 
 
 class PackManifest(BaseModel):
@@ -260,12 +331,21 @@ class ContextBundle(BaseModel):
     bundle_id: str
     candidate_id: str
     scope_id: str
+    # Resolved function/method node for this candidate (for semantic-layer flags).
+    scope_node_id: str = ""
+    # Deterministic sort key + full score vector (prompt + queue metadata).
+    score_composite: float = 0.0
+    candidate_score: dict[str, Any] = Field(default_factory=dict)
+    cfg_available: bool = False
+    dfg_available: bool = False
+    taint_edges_available: bool = False
 
     call_chain_in: list[dict[str, Any]] = Field(default_factory=list)
     call_chain_out: list[dict[str, Any]] = Field(default_factory=list)
     data_reads: list[str] = Field(default_factory=list)
     data_writes: list[str] = Field(default_factory=list)
     cross_language_seams: list[SeamEdge] = Field(default_factory=list)
+    taint_edges: list[TaintEdge] = Field(default_factory=list)
     diff_anchors: list[dict[str, Any]] = Field(default_factory=list)
     rls_coverage: dict[str, RLSCoverage] = Field(default_factory=dict)
     migration_state: dict[str, MigrationState] = Field(default_factory=dict)
@@ -275,6 +355,9 @@ class ContextBundle(BaseModel):
     token_budget: int = 0
     truncation_events: list[str] = Field(default_factory=list)
     evidence: BundleEvidence = Field(default_factory=BundleEvidence)
+
+
+GraphContextBundle = ContextBundle
 
 
 # ---------------------------------------------------------------------------
@@ -341,7 +424,7 @@ class RankerDiffFeatures(BaseModel):
     cross_lang_seams_on_path: int = 0
     unresolved_symbols: int = 0
     missing_guard_signals: int = 0
-    graphcodebert_score: float = 0.0
+    candidate_score_composite: float = 0.0
 
 
 class RankerInput(BaseModel):
@@ -429,6 +512,11 @@ class GrayZoneAuditRow(BaseModel):
     surfaced: bool = False
     final_label: str = ""
     training_export: bool = True
+    # Structured gray-zone (Phase 5)
+    failed_rule: str = ""
+    missing_evidence: list[str] = Field(default_factory=list)
+    confidence_range: tuple[float, float] = (0.0, 1.0)
+    recommended_action: Literal["REVIEW_REQUIRED", "MONITOR", "DISMISS"] = "REVIEW_REQUIRED"
 
 
 # ---------------------------------------------------------------------------
@@ -462,6 +550,10 @@ class Finding(BaseModel):
     evaluator_surfaced_caveat: Optional[str] = None
     low_stitcher_coverage_caveat: Optional[str] = None
     stale_diff_replay_caveat: Optional[str] = None
+
+    # LLM output lacks any bundle node/edge id in the narrative (Block 11).
+    uncited: bool = False
+    evidence_text: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -514,8 +606,7 @@ class ReasonerQueueRow(BaseModel):
     mode: ReasonerMode
     evidence_pack: dict[str, Any] = Field(default_factory=dict)
     pack_manifest: PackManifest
-    graphcodebert_score: float = 0.0
-    graphcodebert_pattern: str = ""
+    score_composite: float = 0.0
     ranking_phase: int = 0
     queued_at: datetime
     failure_reason: ReasonerFailureReason = "other"

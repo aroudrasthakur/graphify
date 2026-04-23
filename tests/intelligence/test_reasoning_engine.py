@@ -25,7 +25,7 @@ def test_run_reasoner_queues_http_provider_errors(monkeypatch, tmp_path) -> None
             raise httpx.HTTPStatusError("boom", request=request, response=response)
 
     config = IntelligenceConfig(data_dir=tmp_path)
-    config.reasoner.max_retries = 0
+    config.llm.max_retries = 0
     monkeypatch.setattr("depos.analysis.reasoning_engine.get_provider", lambda config, mode: BrokenProvider())
 
     result = run_reasoner(

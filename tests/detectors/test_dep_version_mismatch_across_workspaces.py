@@ -5,6 +5,7 @@ import networkx as nx
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.context_bundle import build_bundle
 from depos.analysis.detectors import run_all
+from depos.analysis.run_context import build_run_context
 from depos.analysis.schemas import AnalysisMode, ChangeManifest
 from depos.analysis.verifier import verify_all
 
@@ -32,21 +33,32 @@ def _graph(range_a: str, range_b: str) -> nx.DiGraph:
     return graph
 
 
+def _rc(graph: nx.DiGraph, config: IntelligenceConfig) -> object:
+    m = ChangeManifest()
+    return build_run_context(graph, m, config=config)
+
+
 def test_dep_version_mismatch_positive() -> None:
-    candidates, _ = run_all(_graph("^18.2.0", "^17.0.0"), ChangeManifest(), AnalysisMode.full_repo_scan, IntelligenceConfig())
-    assert any(candidate.extra.get("detector", {}).get("detector_name") == "dep-version-mismatch-across-workspaces" for candidate in candidates)
+    g = _graph("^18.2.0", "^17.0.0")
+    cfg = IntelligenceConfig()
+    candidates, _ = run_all(g, ChangeManifest(), AnalysisMode.full_repo_scan, cfg, run_context=_rc(g, cfg))
+    assert any(candidate.detector_payload.detector_name == "dep-version-mismatch-across-workspaces" for candidate in candidates)
 
 
 def test_dep_version_mismatch_negative() -> None:
-    candidates, _ = run_all(_graph("^18.2.0", "^18.2.0"), ChangeManifest(), AnalysisMode.full_repo_scan, IntelligenceConfig())
-    assert all(candidate.extra.get("detector", {}).get("detector_name") != "dep-version-mismatch-across-workspaces" for candidate in candidates)
+    g = _graph("^18.2.0", "^18.2.0")
+    cfg = IntelligenceConfig()
+    candidates, _ = run_all(g, ChangeManifest(), AnalysisMode.full_repo_scan, cfg, run_context=_rc(g, cfg))
+    assert all(candidate.detector_payload.detector_name != "dep-version-mismatch-across-workspaces" for candidate in candidates)
 
 
 def test_dep_version_mismatch_verifier_confirms() -> None:
     config = IntelligenceConfig()
     graph = _graph("^18.2.0", "^17.0.0")
-    candidates, _ = run_all(graph, ChangeManifest(), AnalysisMode.full_repo_scan, config)
-    candidate = next(candidate for candidate in candidates if candidate.extra.get("detector", {}).get("detector_name") == "dep-version-mismatch-across-workspaces")
+    candidates, _ = run_all(
+        graph, ChangeManifest(), AnalysisMode.full_repo_scan, config, run_context=_rc(graph, config)
+    )
+    candidate = next(candidate for candidate in candidates if candidate.detector_payload.detector_name == "dep-version-mismatch-across-workspaces")
     bundle = build_bundle(graph, candidate, config=config)
     audits, findings = verify_all(
         graph=graph,

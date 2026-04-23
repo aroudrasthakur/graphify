@@ -2,8 +2,9 @@ from __future__ import annotations
 
 import networkx as nx
 
-from depos.analysis.candidate_identifier import identify_candidates
+from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.run_context import build_run_context
 from depos.analysis.schemas import AnalysisMode, SeedType
 
 
@@ -30,8 +31,11 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
     )
 
     config = IntelligenceConfig(enable_ai_driven_seeds=True)
-    candidates, manifest = identify_candidates(
+    m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
+    rc = build_run_context(graph, m, repo_root=None, config=config)
+    candidates, manifest, _ = identify_candidates(
         graph,
+        run_context=rc,
         config=config,
         mode=AnalysisMode.full_repo_scan,
     )
@@ -43,14 +47,14 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
     assert SeedType.graph_anomaly in seed_types
     assert SeedType.ai_driven in seed_types
 
-    route_surface = [c for c in candidates if c.extra.get("surface_type") == "public_route"]
+    route_surface = [c for c in candidates if c.detector_payload.raw.get("surface_type") == "public_route"]
     assert route_surface
 
-    unmatched_http = [c for c in candidates if c.extra.get("anomaly") == "unmatched_http_client_call"]
+    unmatched_http = [c for c in candidates if c.detector_payload.raw.get("anomaly") == "unmatched_http_client_call"]
     assert unmatched_http
-    assert unmatched_http[0].extra["urls"] == ["/api/missing"]
+    assert unmatched_http[0].detector_payload.raw["urls"] == ["/api/missing"]
 
-    auth_surface = [c for c in candidates if c.extra.get("surface_type") == "auth_boundary"]
+    auth_surface = [c for c in candidates if c.detector_payload.raw.get("surface_type") == "auth_boundary"]
     assert auth_surface
 
 
@@ -68,8 +72,13 @@ def test_candidate_identifier_keeps_file_only_diff_entries() -> None:
         ]
     }
 
-    candidates, manifest = identify_candidates(
+    m = resolve_change_manifest(
+        graph, diff_path=None, manual_manifest=manual_manifest, repo_root=None
+    )
+    rc = build_run_context(graph, m, repo_root=None, config=config)
+    candidates, manifest, _ = identify_candidates(
         graph,
+        run_context=rc,
         config=config,
         mode=AnalysisMode.diff_aware,
         manual_manifest=manual_manifest,
@@ -78,8 +87,8 @@ def test_candidate_identifier_keeps_file_only_diff_entries() -> None:
     assert len(manifest.entries) == 1
     diff_candidates = [c for c in candidates if c.seed_type == SeedType.diff_anchor]
     assert diff_candidates
-    assert diff_candidates[0].extra["file_only"] is True
-    assert diff_candidates[0].extra["removed_entity_references"] == 1
+    assert diff_candidates[0].detector_payload.raw["file_only"] is True
+    assert diff_candidates[0].detector_payload.raw["removed_entity_references"] == 1
 
 
 def test_candidate_identifier_prefers_synthetic_entities_over_leaf_nodes() -> None:
@@ -99,9 +108,13 @@ def test_candidate_identifier_prefers_synthetic_entities_over_leaf_nodes() -> No
         embedded_text="def verify_token():\n    return True",
     )
 
-    candidates, _ = identify_candidates(
+    cfg = IntelligenceConfig(enable_ai_driven_seeds=True)
+    m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
+    rc = build_run_context(graph, m, repo_root=None, config=cfg)
+    candidates, _, _ = identify_candidates(
         graph,
-        config=IntelligenceConfig(enable_ai_driven_seeds=True),
+        run_context=rc,
+        config=cfg,
         mode=AnalysisMode.full_repo_scan,
     )
 

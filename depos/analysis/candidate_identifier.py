@@ -12,11 +12,11 @@ Responsibilities:
    - ``ai_driven``       \u2014 placeholder for future AI-driven seeds; kept
                             behind a feature flag so ranking always
                             receives the same shape.
-3. Prioritize candidates with a deterministic heuristic: diff anchors
-   score highest, interface surfaces second, anomalies third. Ties are
-   broken lexically by ``candidate_id`` so replays are reproducible.
-4. Deduplicate candidates that cover the same
-   (scope_id, seam_edge_set, diff_anchors) tuple.
+3. Run the full detector registry via :func:`~depos.analysis.detectors.run_all`,
+   then attach manifest ``dropped_from_budget`` from the prioritized set.
+4. Deduplication and composite ranking for seeds happen inside detector
+   :func:`~depos.analysis.detectors.run_all` (same (scope_id, seam edges,
+   diff_anchors) key as the historical identifier).
 
 The identifier is pure: it does not mutate the graph. It returns a list
 of :class:`Candidate` along with the resolved :class:`ChangeManifest`.
@@ -32,16 +32,19 @@ from typing import Any, Iterable, Optional, Sequence
 import networkx as nx
 
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.run_context import RunContext
 from depos.graph_relations import CONSUMES_PAYLOAD
 from depos.graph_relations import HTTP_CALLS_ROUTE
 from depos.graph_relations import PRODUCES_PAYLOAD
 from depos.graph_relations import TASK_CONSUMES
 from depos.graph_relations import TASK_ENQUEUES
+from depos.analysis.detectors.builtin.common import build_seed_candidate
 from depos.analysis.schemas import (
     AnalysisMode,
     Candidate,
     ChangeManifest,
     ChangeManifestEntry,
+    DetectorRunStats,
     SeedType,
 )
 
@@ -210,13 +213,13 @@ def _diff_anchor_candidates(
         if not entry.node_ids and entry.path:
             scope_id = f"file:{entry.path}"
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.diff_anchor, entry.path),
                     scope_id=scope_id,
                     seed_type=SeedType.diff_anchor,
-                    priority_score=0.88 + (0.05 if entry.migration_change else 0.0),
+                    detector_confidence=0.88 + (0.05 if entry.migration_change else 0.0),
                     analysis_mode=mode,
-                    extra={
+                    raw={
                         "path": entry.path,
                         "migration_change": entry.migration_change,
                         "file_only": True,
@@ -227,14 +230,14 @@ def _diff_anchor_candidates(
         for node_id in entry.node_ids:
             scope_id = f"file:{entry.path}" if entry.path else f"node:{node_id}"
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.diff_anchor, node_id),
                     scope_id=scope_id,
                     seed_type=SeedType.diff_anchor,
-                    priority_score=0.9 + (0.05 if entry.migration_change else 0.0),
+                    detector_confidence=0.9 + (0.05 if entry.migration_change else 0.0),
                     diff_anchors=[node_id],
                     analysis_mode=mode,
-                    extra={"path": entry.path, "migration_change": entry.migration_change},
+                    raw={"path": entry.path, "migration_change": entry.migration_change},
                 )
             )
     return out
@@ -301,29 +304,29 @@ def _surface_candidates_for_node(graph: nx.DiGraph, node_id: str, attrs: dict[st
         route = str(attrs.get("route_pattern") or node_id)
         scope_id = f"surface:http:{method}:{route}"
         out.append(
-            Candidate(
+            build_seed_candidate(
                 candidate_id=_candidate_id(scope_id, SeedType.interface_surface, node_id),
                 scope_id=scope_id,
                 seed_type=SeedType.interface_surface,
-                priority_score=0.76,
+                detector_confidence=0.76,
                 language_pair="public->service",
                 diff_anchors=[node_id],
                 analysis_mode=mode,
-                extra={"surface_type": "public_route", "route": route, "method": method},
+                raw={"surface_type": "public_route", "route": route, "method": method},
             )
         )
     if _is_queue_surface_node(graph, node_id):
         scope_id = f"surface:queue:{node_id}"
         out.append(
-            Candidate(
+            build_seed_candidate(
                 candidate_id=_candidate_id(scope_id, SeedType.interface_surface, node_id),
                 scope_id=scope_id,
                 seed_type=SeedType.interface_surface,
-                priority_score=0.72,
+                detector_confidence=0.72,
                 language_pair="producer->queue",
                 diff_anchors=[node_id],
                 analysis_mode=mode,
-                extra={"surface_type": "queue_task"},
+                raw={"surface_type": "queue_task"},
             )
         )
     if _is_auth_boundary_node(attrs):
@@ -335,14 +338,14 @@ def _surface_candidates_for_node(graph: nx.DiGraph, node_id: str, attrs: dict[st
         scope_id = f"surface:auth:{node_id}"
         auth_priority = 0.42 if mode == AnalysisMode.full_repo_scan else 0.68
         out.append(
-            Candidate(
+            build_seed_candidate(
                 candidate_id=_candidate_id(scope_id, SeedType.interface_surface, node_id),
                 scope_id=scope_id,
                 seed_type=SeedType.interface_surface,
-                priority_score=auth_priority,
+                detector_confidence=auth_priority,
                 diff_anchors=[node_id],
                 analysis_mode=mode,
-                extra={"surface_type": "auth_boundary"},
+                raw={"surface_type": "auth_boundary"},
             )
         )
     return out
@@ -362,17 +365,17 @@ def _interface_surface_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list
             if scope_id in seen:
                 continue
             seen.add(scope_id)
-            edge_id = f"{u}|{v}|{rel}"
+            edge_id = str(data.get("edge_id") or f"{u}->{v}")
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.interface_surface, rel),
                     scope_id=scope_id,
                     seed_type=SeedType.interface_surface,
-                    priority_score=0.7 + (0.1 if rel == HTTP_CALLS_ROUTE else 0.0),
+                    detector_confidence=0.7 + (0.1 if rel == HTTP_CALLS_ROUTE else 0.0),
                     language_pair=lang_pair,
-                    seam_edges=[edge_id],
+                    seam_edge_ids=[edge_id],
                     analysis_mode=mode,
-                    extra={"relation": rel, "inferred": bool(data.get("inferred", False))},
+                    raw={"relation": rel, "inferred": bool(data.get("inferred", False))},
                 )
             )
     for node_id, attrs in graph.nodes(data=True):
@@ -444,13 +447,13 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
             if not has_caller:
                 scope_id = f"route:unused:{nid}"
                 out.append(
-                    Candidate(
+                    build_seed_candidate(
                         candidate_id=_candidate_id(scope_id, SeedType.graph_anomaly, nid),
                         scope_id=scope_id,
                         seed_type=SeedType.graph_anomaly,
-                        priority_score=0.55 + bump,
+                        detector_confidence=0.55 + bump,
                         analysis_mode=mode,
-                        extra={
+                        raw={
                             "anomaly": "fastapi_route_without_client_calls",
                             "route": attrs.get("route_pattern"),
                             "method": attrs.get("http_method"),
@@ -466,14 +469,14 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
             if not has_route_match:
                 scope_id = f"http:unmatched:{nid}"
                 out.append(
-                    Candidate(
+                    build_seed_candidate(
                         candidate_id=_candidate_id(scope_id, SeedType.graph_anomaly, nid),
                         scope_id=scope_id,
                         seed_type=SeedType.graph_anomaly,
-                        priority_score=0.57 + bump,
+                        detector_confidence=0.57 + bump,
                         diff_anchors=[nid],
                         analysis_mode=mode,
-                        extra={
+                        raw={
                             "anomaly": "unmatched_http_client_call",
                             "urls": [site.get("url_literal") for site in attrs.get("http_call_sites", [])],
                             "unresolved_symbol_count": len(attrs.get("http_call_sites", [])),
@@ -485,28 +488,28 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
         if (_is_public_route_node(attrs) or _is_queue_surface_node(graph, nid)) and incoming == 0 and outgoing == 0:
             scope_id = f"surface:orphan:{nid}"
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.graph_anomaly, nid),
                     scope_id=scope_id,
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.53 + bump,
+                    detector_confidence=0.53 + bump,
                     diff_anchors=[nid],
                     analysis_mode=mode,
-                    extra={"anomaly": "orphan_interface_surface"},
+                    raw={"anomaly": "orphan_interface_surface"},
                 )
             )
 
         if _node_has_unresolved_signal(attrs):
             scope_id = f"node:unresolved:{nid}"
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.graph_anomaly, nid),
                     scope_id=scope_id,
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.59 + bump,
+                    detector_confidence=0.59 + bump,
                     diff_anchors=[nid],
                     analysis_mode=mode,
-                    extra={"anomaly": "unresolved_symbol", "unresolved_symbol_count": 1},
+                    raw={"anomaly": "unresolved_symbol", "unresolved_symbol_count": 1},
                 )
             )
 
@@ -516,14 +519,14 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
         if mode == AnalysisMode.full_repo_scan and _is_dataset_unresolved_node(attrs):
             scope_id = f"dataset:unresolved:{nid}"
             out.append(
-                Candidate(
+                build_seed_candidate(
                     candidate_id=_candidate_id(scope_id, SeedType.graph_anomaly, nid),
                     scope_id=scope_id,
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.50 + bump,
+                    detector_confidence=0.50 + bump,
                     diff_anchors=[nid],
                     analysis_mode=mode,
-                    extra={
+                    raw={
                         "anomaly": "dataset_unresolved_source",
                         "source_resolved_via": str(attrs.get("source_resolved_via") or ""),
                         "source_file": str(attrs.get("source_file") or ""),
@@ -563,14 +566,14 @@ def _ai_driven_candidates(graph: nx.DiGraph, config: IntelligenceConfig, mode: A
     for score, nid, extra in scored[:10]:
         scope_id = f"ai:{nid}"
         out.append(
-            Candidate(
+            build_seed_candidate(
                 candidate_id=_candidate_id(scope_id, SeedType.ai_driven, nid),
                 scope_id=scope_id,
                 seed_type=SeedType.ai_driven,
-                priority_score=score,
+                detector_confidence=score,
                 diff_anchors=[nid],
                 analysis_mode=mode,
-                extra=extra,
+                raw=extra,
             )
         )
     return out
@@ -584,13 +587,14 @@ def _ai_driven_candidates(graph: nx.DiGraph, config: IntelligenceConfig, mode: A
 def _dedup(candidates: Iterable[Candidate]) -> list[Candidate]:
     seen: dict[tuple[str, tuple[str, ...], tuple[str, ...]], Candidate] = {}
     for cand in candidates:
+        seam_ids = tuple(sorted(e.edge_id for e in cand.seam_edges))
         key = (
             cand.scope_id,
-            tuple(sorted(cand.seam_edges)),
+            seam_ids,
             tuple(sorted(cand.diff_anchors)),
         )
         prior = seen.get(key)
-        if prior is None or cand.priority_score > prior.priority_score:
+        if prior is None or cand.score.composite > prior.score.composite:
             seen[key] = cand
     return list(seen.values())
 
@@ -598,7 +602,7 @@ def _dedup(candidates: Iterable[Candidate]) -> list[Candidate]:
 def _prioritize(candidates: Sequence[Candidate], budget: int) -> list[Candidate]:
     ordered = sorted(
         candidates,
-        key=lambda c: (-c.priority_score, c.candidate_id),
+        key=lambda c: (-c.score.composite, c.candidate_id),
     )
     return list(ordered[:budget])
 
@@ -611,28 +615,49 @@ def _prioritize(candidates: Sequence[Candidate], budget: int) -> list[Candidate]
 def identify_candidates(
     graph: nx.DiGraph,
     *,
+    run_context: RunContext,
     config: IntelligenceConfig,
     mode: AnalysisMode,
     diff_path: Optional[str] = None,
     manual_manifest: Optional[dict[str, Any]] = None,
     repo_root: Optional[Path] = None,
-) -> tuple[list[Candidate], ChangeManifest]:
+    detector_policy: dict[str, Any] | None = None,
+) -> tuple[list[Candidate], ChangeManifest, list[DetectorRunStats]]:
+    if not isinstance(run_context, RunContext):
+        raise RuntimeError(
+            "RunContext must be pre-computed and passed into identify_candidates — "
+            "never rebuilt mid-pipeline."
+        )
     manifest = resolve_change_manifest(
         graph,
         diff_path=diff_path,
         manual_manifest=manual_manifest,
         repo_root=repo_root,
     )
+    if manifest.model_dump() != run_context.manifest.model_dump():
+        raise RuntimeError(
+            "RunContext must be pre-computed and passed into identify_candidates — "
+            "never rebuilt mid-pipeline. Resolve the same manifest (graph, diff_path, "
+            "manual_manifest, repo_root) used to build this RunContext."
+        )
     from depos.analysis.detectors import run_all
 
-    prioritized, _stats = run_all(graph, manifest, mode, config)
+    prioritized, stats = run_all(
+        graph,
+        manifest,
+        mode,
+        config,
+        detector_policy,
+        run_context=run_context,
+        repo_root=repo_root,
+    )
 
     # Track dropped-from-budget nodes back into the manifest (if diff mode).
     picked_anchors = {a for c in prioritized for a in c.diff_anchors}
     for entry in manifest.entries:
         entry.dropped_from_budget = [n for n in entry.node_ids if n not in picked_anchors]
 
-    return prioritized, manifest
+    return prioritized, manifest, stats
 
 
 __all__ = ["identify_candidates", "resolve_change_manifest"]

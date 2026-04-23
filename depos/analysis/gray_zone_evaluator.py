@@ -240,11 +240,11 @@ def _panel_vote(
 ) -> tuple[GrayZoneVote, float, str, list[str], list[str]]:
     prompt = _prompt_for_role(role, finding, audit, graph=graph)
     provider_config = deepcopy(config)
-    provider_config.reasoner.provider = provider_name
+    provider_config.llm.provider = provider_name
     provider = get_provider(provider_config, ReasonerMode.A)
     if not isinstance(provider, StubProvider):
         try:
-            raw = provider.complete(prompt, max_tokens=config.reasoner.default_max_tokens)
+            raw, _meta = provider.complete(prompt, max_tokens=config.llm.default_max_tokens)
             data = json.loads(raw)
             vote = _parse_vote(str(data.get("verdict", "")))
             if vote is not None:

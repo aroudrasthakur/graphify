@@ -27,24 +27,6 @@ from depos.cli import main
 FIXTURE_ROOT = Path(__file__).resolve().parent.parent / "fixtures" / "datasets" / "tiny_drift"
 
 
-def _fake_score_bundles(bundles, **_kwargs):
-    """Stub for GraphCodeBERT so the test does not download a 500MB model."""
-    rows = []
-    for idx, bundle in enumerate(bundles):
-        rows.append(
-            {
-                "bundle_id": bundle.get("bundle_id", f"b{idx}"),
-                "candidate_id": bundle.get("candidate_id", f"c{idx}"),
-                "scope_id": bundle.get("scope_id", ""),
-                "graphcodebert_score": 0.8 - idx * 0.01,
-                "graphcodebert_pattern": "auth_guard_drift",
-                "top_patterns": [{"label": "auth_guard_drift", "score": 0.8 - idx * 0.01}],
-                "bundle_fingerprint": f"fp{idx}",
-            }
-        )
-    return rows
-
-
 def _run_dataset(
     *,
     tmp_path: Path,
@@ -61,8 +43,6 @@ def _run_dataset(
     # floor here so the gate doesn't accidentally skip every bundle and mask
     # what we're trying to test.
     monkeypatch.setenv("DEPOS_INTEL_MIN_EVIDENCE_SCORE", "0.0")
-    monkeypatch.setattr("depos.analysis.graphcodebert.score_bundles", _fake_score_bundles)
-
     output_dir = tmp_path / "out"
     args = [
         "analyze",

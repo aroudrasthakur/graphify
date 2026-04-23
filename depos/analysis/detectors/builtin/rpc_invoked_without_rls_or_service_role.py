@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["rls_awareness", "cross_universe_edge_exists"],
     requires_reasoner=False,
     severity="critical",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -28,7 +28,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"auth:rpc-no-rls:{node_id}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.9,
+                    detector_confidence=0.9,
                     analysis_mode=mode,
                     diff_anchors=[node_id] + [target for target, _ in rpc_calls],
                     extra={

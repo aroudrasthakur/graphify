@@ -13,10 +13,11 @@ from typing import Any, Callable, Optional
 
 import networkx as nx
 
-from depos.analysis.candidate_identifier import resolve_change_manifest
+from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.run_context import build_run_context
 from depos.analysis.context_bundle import build_bundle
-from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin, run_all
+from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin
 from depos.analysis.gray_zone_evaluator import evaluate as evaluate_gray_zone
 from depos.analysis.gray_zone_evaluator import persist as persist_gray_zone
 from depos.analysis.observability import emit_event, timed_stage
@@ -72,19 +73,19 @@ def _emit_progress(progress: Callable[[str], None] | None, message: str) -> None
 def _build_ranker_input(candidate, bundle) -> RankerInput:
     cross_lang = len(bundle.cross_language_seams)
     changed_nodes = len(candidate.diff_anchors) + len([c for c in bundle.call_chain_in if c.get("depth", 0) == 1])
-    unresolved = int(candidate.extra.get("unresolved_symbol_count", 0))
-    removed_refs = int(candidate.extra.get("removed_entity_references", 0))
-    detector_meta = candidate.extra.get("detector") if isinstance(candidate.extra.get("detector"), dict) else {}
-    oracle_hints = dict(detector_meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
-    missing_guard_signals = int(oracle_hints.get("missing_guard_signals", candidate.extra.get("missing_guard_signals", 0)) or 0)
-    graphcodebert_score = float(candidate.extra.get("graphcodebert_score", 0.0) or 0.0)
+    raw = candidate.detector_payload.raw
+    unresolved = int(raw.get("unresolved_symbol_count", 0) or 0)
+    removed_refs = int(raw.get("removed_entity_references", 0) or 0)
+    oracle_hints = dict(candidate.detector_payload.oracle_hints or {})
+    missing_guard_signals = int(oracle_hints.get("missing_guard_signals", raw.get("missing_guard_signals", 0)) or 0)
+    comp = float(candidate.score.composite)
     features = RankerDiffFeatures(
         changed_nodes_on_path=changed_nodes,
         cross_lang_seams_on_path=cross_lang,
         unresolved_symbols=unresolved,
         removed_entities_referenced=removed_refs,
         missing_guard_signals=missing_guard_signals,
-        graphcodebert_score=graphcodebert_score,
+        candidate_score_composite=comp,
     )
     return RankerInput(
         candidate_id=candidate.candidate_id,
@@ -136,36 +137,6 @@ def _prepare_run_metadata(
     run_meta.ingest_errors.extend(error for error in extra_errors if isinstance(error, dict))
 
 
-def _score_graphcodebert(
-    bundles: list[dict[str, Any]],
-    *,
-    config: IntelligenceConfig,
-    run_id: str,
-    progress: Callable[[str], None] | None = None,
-) -> dict[str, dict[str, Any]]:
-    if not config.ranker.use_graphcodebert or not bundles:
-        if config.ranker.use_graphcodebert and not bundles:
-            _emit_progress(progress, "GraphCodeBERT: enabled, but no bundles were available to score.")
-        return {}
-    _emit_progress(progress, f"GraphCodeBERT: scoring {len(bundles)} bundles.")
-    try:
-        from depos.analysis.graphcodebert import score_bundles
-    except Exception as exc:  # noqa: BLE001
-        emit_event(config, run_id, "graphcodebert_skipped", reason=str(exc))
-        _emit_progress(progress, f"GraphCodeBERT: skipped ({exc}).")
-        return {}
-    rows = score_bundles(
-        bundles,
-        model_name=config.ranker.graphcodebert_model_name,
-        cache_dir=config.ranker.graphcodebert_cache_dir,
-        device=config.ranker.graphcodebert_device,
-        local_files_only=config.ranker.graphcodebert_local_files_only,
-    )
-    emit_event(config, run_id, "graphcodebert_scored", bundles=len(rows))
-    _emit_progress(progress, f"GraphCodeBERT: scored {len(rows)} bundles.")
-    return {str(row.get("candidate_id", "")): row for row in rows if isinstance(row, dict)}
-
-
 def run_modules_2_through_7(
     graph: nx.DiGraph,
     *,
@@ -194,7 +165,18 @@ def run_modules_2_through_7(
     _emit_progress(progress, f"Module 2: manifest resolved via {manifest.resolved_via}.")
     _emit_progress(progress, "Module 2: running detectors.")
     with timed_stage(config, run_meta.run_id, "detector_run"):
-        candidates, detector_stats = run_all(graph, manifest, mode, config, detector_policy)
+        run_context = build_run_context(
+            graph, manifest, repo_root=repo_root, config=config
+        )
+        candidates, manifest, detector_stats = identify_candidates(
+            graph,
+            run_context=run_context,
+            config=config,
+            mode=mode,
+            diff_path=diff_path,
+            repo_root=repo_root,
+            detector_policy=detector_policy,
+        )
     _emit_progress(progress, f"Module 2: detectors emitted {len(candidates)} candidates.")
     if not candidates:
         for stat in detector_stats:
@@ -216,40 +198,23 @@ def run_modules_2_through_7(
     quality_floor = _QUALITY_RANK.get(quality_floor_name, _QUALITY_RANK["embedded"])
     score_floor = float(config.bundles.min_evidence_score_for_reasoner)
 
-    # Track dropped-from-budget nodes back into the manifest.
-    picked_anchors = {anchor for candidate in candidates for anchor in candidate.diff_anchors}
-    for entry in manifest.entries:
-        entry.dropped_from_budget = [node_id for node_id in entry.node_ids if node_id not in picked_anchors]
-
     bundles = {}
     bundle_rows: list[dict[str, Any]] = []
     _emit_progress(progress, f"Module 3: building {len(candidates)} context bundles.")
     with timed_stage(config, run_meta.run_id, "bundle_build", candidates=len(candidates)):
         for candidate in candidates:
-            bundle = build_bundle(graph, candidate, config=config)
+            bundle = build_bundle(graph, candidate, config=config, run_context=run_context)
             bundles[candidate.candidate_id] = bundle
             bundle_rows.append(bundle.model_dump(mode="json"))
             quality = _dominant_quality(bundle.evidence)
             evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
     _emit_progress(progress, f"Module 3: built {len(bundle_rows)} bundles.")
 
-    graphcodebert_scores = _score_graphcodebert(
-        bundle_rows,
-        config=config,
-        run_id=run_meta.run_id,
-        progress=progress,
-    )
-
     # Modules 3 \u2192 6 per-candidate.
     total_candidates = len(candidates)
     for index, candidate in enumerate(candidates, start=1):
         bundle = bundles[candidate.candidate_id]
-        if candidate.candidate_id in graphcodebert_scores:
-            candidate.extra["graphcodebert_score"] = float(graphcodebert_scores[candidate.candidate_id].get("graphcodebert_score", 0.0))
-            candidate.extra["graphcodebert_pattern"] = str(graphcodebert_scores[candidate.candidate_id].get("graphcodebert_pattern", ""))
-
-        detector_meta = candidate.extra.get("detector") if isinstance(candidate.extra.get("detector"), dict) else {}
-        detector_name = str(detector_meta.get("detector_name") or "legacy")
+        detector_name = str(candidate.detector_payload.detector_name or "legacy")
         _emit_progress(progress, f"Candidate {index}/{total_candidates}: detector={detector_name} candidate_id={candidate.candidate_id}.")
         requires_reasoner = False
         if detector_name != "legacy":
@@ -281,7 +246,6 @@ def run_modules_2_through_7(
                         config=config,
                         run_id=run_meta.run_id,
                         ranking_phase=run_meta.ranking_phase,
-                        graphcodebert_hint=graphcodebert_scores.get(candidate.candidate_id),
                         stats=bundle_stats,
                     )
                 reasoner_stats.merge(bundle_stats)

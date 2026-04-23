@@ -13,7 +13,7 @@ SPEC = simple_spec(
     verifier_checks=["graph_path_exists", "negation_witness"],
     requires_reasoner=False,
     severity="high",
-)
+    semantic_requirement=None,)
 
 
 def _external(url: str) -> bool:
@@ -35,7 +35,7 @@ def run(graph, manifest, mode, config, ctx):
                     make_candidate(
                         scope_id=f"env:redirect-not-safelisted:{node_id}:{origin}",
                         seed_type=SeedType.graph_anomaly,
-                        priority_score=0.84,
+                        detector_confidence=0.84,
                         analysis_mode=mode,
                         diff_anchors=[node_id],
                         extra={"target": target, "origin": origin},

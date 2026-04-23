@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["negation_witness", "cross_universe_edge_exists"],
     requires_reasoner=False,
     severity="high",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -31,7 +31,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"env:cors-omits-origin:{node_id}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.79,
+                    detector_confidence=0.79,
                     analysis_mode=mode,
                     diff_anchors=[node_id],
                     extra={"missing_origins": missing, "config_key": key},

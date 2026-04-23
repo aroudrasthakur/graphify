@@ -94,7 +94,7 @@ def test_run_repo_honors_provider_override(monkeypatch, tmp_path: Path, capsys) 
     from depos.cli import analyze as analyze_cli
 
     cfg = IntelligenceConfig(data_dir=tmp_path)
-    cfg.reasoner.provider = "gemma"
+    cfg.llm.provider = "gemma"
 
     class DummySource:
         def get_source_metadata(self) -> dict[str, str]:
@@ -103,7 +103,7 @@ def test_run_repo_honors_provider_override(monkeypatch, tmp_path: Path, capsys) 
     seen: dict[str, str] = {}
 
     def fake_run_pipeline(source, config, run_meta, **kwargs):
-        seen["provider"] = config.reasoner.provider
+        seen["provider"] = config.llm.provider
         return RunResult(findings=[], detector_stats=[], ingest_reports=[], run_metadata=run_meta)
 
     monkeypatch.setattr(analyze_cli, "load_config_from_env", lambda: cfg)
