@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Any, Optional
+from typing import Any
 
 import networkx as nx
 
@@ -28,6 +28,25 @@ class SeamEdge:
     target_language: str
     pattern: str
     relation: str
+    contract_defined: bool = False
+    contract_verified: bool = False
+
+    @property
+    def risk(self) -> float:
+        base = {
+            "ffi": 0.9,
+            "unknown": 0.85,
+            "generic": 0.85,
+            "wasm": 0.75,
+            "ipc": 0.7,
+            "rpc": 0.7,
+            "serverless": 0.7,
+            "queue": 0.6,
+            "schema": 0.55,
+            "http": 0.5,
+            "http_bridge": 0.5,
+        }.get(self.pattern, 0.85)
+        return base if not self.contract_verified else base * 0.4
 
 
 def _lang(attrs: dict) -> str:
@@ -55,6 +74,13 @@ def _classify(relation: str) -> str:
     return "generic"
 
 
+def _contract_defined(data: dict[str, Any], relation: str) -> bool:
+    if any(data.get(key) for key in ("proto_file", "schema_ref", "openapi_ref", "type_stub")):
+        return True
+    lowered = relation.lower()
+    return any(token in lowered for token in ("typed", "proto", "schema", "contract"))
+
+
 def build_seam_edge_index(graph: nx.DiGraph) -> dict[str, Any]:
     """Attach ``seam`` metadata on cross-language graph edges; return edge_id -> SeamEdge."""
     index: dict[str, SeamEdge] = {}
@@ -69,6 +95,9 @@ def build_seam_edge_index(graph: nx.DiGraph) -> dict[str, Any]:
             graph.edges[u, v]["edge_id"] = eid
         rel = str(data.get("relation") or data.get("label") or "edge")
         pat = _classify(rel)
+        contract_defined = _contract_defined(data, rel)
+        # TODO: static type verification across seam boundaries.
+        contract_verified = False
         record = SeamEdge(
             edge_id=eid,
             u=str(u),
@@ -77,6 +106,8 @@ def build_seam_edge_index(graph: nx.DiGraph) -> dict[str, Any]:
             target_language=lb,
             pattern=pat,
             relation=rel,
+            contract_defined=contract_defined,
+            contract_verified=contract_verified,
         )
         index[eid] = record
         data["seam"] = {
@@ -84,6 +115,8 @@ def build_seam_edge_index(graph: nx.DiGraph) -> dict[str, Any]:
             "source_language": la,
             "target_language": lb,
             "pattern": pat,
+            "contract_defined": contract_defined,
+            "contract_verified": contract_verified,
         }
     for u, v, data in graph.edges(data=True):
         if not (data.get("source_system") and data.get("target_system")):

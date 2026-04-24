@@ -139,6 +139,11 @@ def _seam_schemas_for_ids(
                     source=rec.u,
                     target=rec.v,
                     relation=rec.relation,
+                    source_language=rec.source_language,
+                    target_language=rec.target_language,
+                    pattern=rec.pattern,
+                    contract_defined=rec.contract_defined,
+                    contract_verified=rec.contract_verified,
                     metadata=SemanticEdgeMetadata(),
                 )
             )
@@ -148,6 +153,7 @@ def _seam_schemas_for_ids(
             continue
         u, v, data = found
         rel = str(data.get("relation") or data.get("label") or "edge")
+        seam_info = dict(data.get("seam") or {})
         try:
             metadata = SemanticEdgeMetadata.model_validate(
                 {k2: v2 for k2, v2 in data.items() if k2 != "relation"}
@@ -160,6 +166,11 @@ def _seam_schemas_for_ids(
                 source=u,
                 target=v,
                 relation=rel,
+                source_language=str(seam_info.get("source_language") or ""),
+                target_language=str(seam_info.get("target_language") or ""),
+                pattern=str(seam_info.get("pattern") or "unknown"),
+                contract_defined=bool(seam_info.get("contract_defined", False)),
+                contract_verified=bool(seam_info.get("contract_verified", False)),
                 metadata=metadata,
             )
         )

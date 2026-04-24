@@ -22,16 +22,23 @@ class GraphMetrics:
 
     node_pagerank: dict[str, float] = field(default_factory=dict)
     betweenness: dict[str, float] = field(default_factory=dict)
+    articulation_points: list[str] = field(default_factory=list)
     fan_in: dict[str, int] = field(default_factory=dict)
     fan_out: dict[str, int] = field(default_factory=dict)
     scc_count: int = 0
     scc_id_by_node: dict[str, int] = field(default_factory=dict)
+    scc_size_by_node: dict[str, int] = field(default_factory=dict)
     cross_lang_cycles: list[list[str]] = field(default_factory=list)
     _computed: bool = False
 
     def require_computed(self) -> None:
         if not self._computed:
             raise RuntimeError("GraphMetrics requested before compute_graph_metrics() ran.")
+
+    @property
+    def pagerank(self) -> dict[str, float]:
+        """Compatibility alias used by newer pipeline stages."""
+        return self.node_pagerank
 
 
 @dataclass

@@ -37,11 +37,17 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Path to violations.json produced by a depOS run.",
     )
     gate.add_argument(
+        "--allowlist",
+        default=Path(".depOS/allowlist.json"),
+        type=Path,
+        help="Path to the depOS allowlist JSON file. Defaults to .depOS/allowlist.json.",
+    )
+    gate.add_argument(
         "--allow-finding-id",
         action="append",
         default=[],
         metavar="ID",
-        help="Finding ID to exclude from the gate (repeatable).",
+        help="Deprecated alias for temporarily excluding a finding ID from the gate (repeatable).",
     )
 
     repo = a_sub.add_parser("repo", help="Full-repo scan (no diff required).")
@@ -71,8 +77,21 @@ def _build_parser() -> argparse.ArgumentParser:
     replay.add_argument("--queue", required=True)
     replay.add_argument("--output")
     replay.add_argument("--provider", default=None)
+    replay.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root for cached prompts (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Run artifact subdirectory under data-dir, e.g. ".canonical" for dataset-pipeline (default: intelligence).',
+    )
 
-    score_bundles = a_sub.add_parser("score-bundles", help="Write stub bundle score rows (ranking uses CandidateScore in-pipeline).")
+    score_bundles = a_sub.add_parser(
+        "score-bundles",
+        help="Report-only sidecar: write stub bundle score rows from canonical bundles.json.",
+    )
     score_bundles.add_argument("--bundles-json", required=True)
     score_bundles.add_argument("--output")
     score_bundles.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
@@ -80,7 +99,10 @@ def _build_parser() -> argparse.ArgumentParser:
     score_bundles.add_argument("--device")
     score_bundles.add_argument("--local-files-only", action="store_true")
 
-    bundle_pipeline = a_sub.add_parser("bundle-pipeline", help="Run reasoner (Gemma/…) -> verifier on pre-built bundles.")
+    bundle_pipeline = a_sub.add_parser(
+        "bundle-pipeline",
+        help="Deprecated shim. Use dataset-pipeline, repo, or diff for canonical analysis.",
+    )
     bundle_pipeline.add_argument("--bundles-json", required=True)
     bundle_pipeline.add_argument("--scores-json")
     bundle_pipeline.add_argument("--graph-json")
@@ -151,7 +173,10 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Optional override for the dataset/<repo_name>/ directory name.",
     )
 
-    dataset_pipeline = a_sub.add_parser("dataset-pipeline", help="Run raw dataset AST files through normalize -> bundles -> reasoner -> verifier.")
+    dataset_pipeline = a_sub.add_parser(
+        "dataset-pipeline",
+        help="Run raw dataset AST files through normalize -> canonical Stage 1-11 pipeline.",
+    )
     dataset_pipeline.add_argument("--dataset-dir", required=True)
     dataset_pipeline.add_argument("--output-dir", required=True)
     dataset_pipeline.add_argument("--repo-root", default=".")
@@ -207,6 +232,16 @@ def _build_parser() -> argparse.ArgumentParser:
     replay_cmd.add_argument("--mode", choices=["A", "B", "C"], default=None)
     replay_cmd.add_argument("--max", type=int, default=None)
     replay_cmd.add_argument("--provider", default=None)
+    replay_cmd.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root containing the run folder (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay_cmd.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Subdirectory under data-dir for run_id, e.g. ".canonical" for dataset-pipeline output.',
+    )
 
     return p
 

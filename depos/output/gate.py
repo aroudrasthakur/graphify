@@ -1,6 +1,7 @@
 """CI gate: non-zero when CONFIRMED findings hit high/critical severity (allowlistable)."""
 from __future__ import annotations
 
+import datetime
 import json
 from pathlib import Path
 from typing import Any
@@ -13,6 +14,29 @@ def load_violations_path(path: Path) -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("violations file must be a JSON object")
     return data
+
+
+def load_allowlist(path: str | Path = ".depOS/allowlist.json") -> set[str]:
+    allowlist_path = Path(path)
+    try:
+        raw = json.loads(allowlist_path.read_text(encoding="utf-8"))
+    except FileNotFoundError:
+        return set()
+    if not isinstance(raw, list):
+        return set()
+    today = datetime.date.today().isoformat()
+    allowed: set[str] = set()
+    for entry in raw:
+        if not isinstance(entry, dict):
+            continue
+        finding_id = str(entry.get("finding_id") or "").strip()
+        expires = str(entry.get("expires") or "").strip()
+        if not finding_id:
+            continue
+        if expires and expires < today:
+            continue
+        allowed.add(finding_id)
+    return allowed
 
 
 def finding_triggers_gate(f: dict[str, Any]) -> bool:
@@ -43,4 +67,4 @@ def evaluate_gate(
     return (len(blocking) > 0, blocking)
 
 
-__all__ = ["evaluate_gate", "finding_triggers_gate", "load_violations_path"]
+__all__ = ["evaluate_gate", "finding_triggers_gate", "load_allowlist", "load_violations_path"]

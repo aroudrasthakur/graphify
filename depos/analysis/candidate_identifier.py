@@ -189,7 +189,7 @@ def resolve_change_manifest(
         entries = [ChangeManifestEntry.model_validate(e) for e in manual_manifest.get("entries", [])]
         manifest = ChangeManifest(entries=entries, resolved_via="manual")
     if manifest is None:
-        manifest = ChangeManifest(entries=[], resolved_via="git")
+        manifest = ChangeManifest(entries=[], resolved_via="empty")
     return _attach_graph_nodes(graph, manifest)
 
 
@@ -351,7 +351,12 @@ def _surface_candidates_for_node(graph: nx.DiGraph, node_id: str, attrs: dict[st
     return out
 
 
-def _interface_surface_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Candidate]:
+def _interface_surface_candidates(
+    graph: nx.DiGraph,
+    mode: AnalysisMode,
+    *,
+    run_context: RunContext | None = None,
+) -> list[Candidate]:
     out: list[Candidate] = []
     seen: set[str] = set()
     for u, v, data in graph.edges(data=True):
@@ -375,6 +380,8 @@ def _interface_surface_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list
                     language_pair=lang_pair,
                     seam_edge_ids=[edge_id],
                     analysis_mode=mode,
+                    graph=graph,
+                    run_context=run_context,
                     raw={"relation": rel, "inferred": bool(data.get("inferred", False))},
                 )
             )

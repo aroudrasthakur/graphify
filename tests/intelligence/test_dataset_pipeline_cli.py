@@ -65,7 +65,7 @@ def test_dataset_pipeline_cli_runs_end_to_end(tmp_path, monkeypatch, capsys) -> 
     assert "[depos-intel]" in captured.err
     assert "Dataset pipeline: normalizing AST dataset" in captured.err
     assert "Dataset pipeline: writing stub bundle rank scores" in captured.err
-    assert "Bundle pipeline:" in captured.err
+    assert "Dataset pipeline: starting canonical Stage 1-11 pipeline." in captured.err
     assert payload["normalized_nodes"] >= 2
     assert payload["candidates"] >= 1
     assert payload["bundles"] >= 1

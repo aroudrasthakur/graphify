@@ -16,7 +16,7 @@ SPEC = simple_spec(
 
 
 def run(graph, manifest, mode, config, ctx):
-    return _interface_surface_candidates(graph, mode)
+    return _interface_surface_candidates(graph, mode, run_context=ctx.get("run_context"))
 
 
 register(SPEC, run)

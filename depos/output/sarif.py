@@ -7,13 +7,32 @@ from typing import Any
 from depos.output.canonical import enrich_violations_payload
 
 
-def _level(severity: str | None) -> str:
+def _level(status: str | None, severity: str | None) -> str:
+    if status == "GRAY-ZONE":
+        return "note"
+    if status != "CONFIRMED":
+        return "note"
     s = (severity or "medium").lower()
     if s in ("critical", "high"):
         return "error"
     if s in ("medium",):
         return "warning"
     return "note"
+
+
+def _gray_zone_message(finding: dict[str, Any]) -> str:
+    description = str(finding.get("description") or finding.get("bug_type") or "finding")
+    if str(finding.get("status") or "") != "GRAY-ZONE":
+        return description
+    failed_rule = str(finding.get("failed_rule") or "").strip()
+    missing = finding.get("missing_evidence") or []
+    missing_text = ", ".join(str(item) for item in missing) if isinstance(missing, list) else str(missing)
+    parts = [description]
+    if failed_rule:
+        parts.append(f"Failed rule: {failed_rule}")
+    if missing_text:
+        parts.append(f"Missing evidence: {missing_text}")
+    return "\n".join(parts)
 
 
 def violations_to_sarif_runs(
@@ -32,18 +51,21 @@ def violations_to_sarif_runs(
     for f in payload.get("findings") or []:
         if not isinstance(f, dict):
             continue
+        status = str(f.get("status") or "")
+        if status == "CLEAN":
+            continue
         fid = str(f.get("finding_id") or "")
         rule_id = str(f.get("detector_name") or "depos.finding")
         results.append(
             {
                 "ruleId": rule_id,
                 "message": {
-                    "text": str(f.get("description") or f.get("bug_type") or "finding")
+                    "text": _gray_zone_message(f)
                 },
-                "level": _level(str(f.get("severity"))),
+                "level": _level(status, str(f.get("severity"))),
                 "properties": {
                     "depOS_finding_id": fid,
-                    "depOS_status": f.get("status"),
+                    "depOS_status": status,
                     "depOS_verifier_outcome": f.get("verifier_outcome"),
                 },
             }

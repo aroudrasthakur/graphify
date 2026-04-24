@@ -3,43 +3,41 @@ from __future__ import annotations
 
 from typing import Any, Literal
 
-# Uppercase labels for IDEs and SARIF; aligned with :class:`VerifierOutcome`.
+from depos.analysis.schemas import VerifierOutcome
+
+# Uppercase labels for IDEs and SARIF; aligned with :class:`VerifierOutcome.canonical`.
 StatusLabel = Literal[
     "CLEAN",
     "CONFIRMED",
-    "PARTIALLY_CONFIRMED",
-    "UNCONFIRMED",
-    "INVALID_REASONING",
-    "EVALUATOR_SURFACED",
+    "GRAY-ZONE",
     "UNKNOWN",
 ]
 
-_VERIFIER_TO_STATUS: dict[str, StatusLabel] = {
-    "confirmed": "CONFIRMED",
-    "partially_confirmed": "PARTIALLY_CONFIRMED",
-    "unconfirmed": "UNCONFIRMED",
-    "invalid_reasoning": "INVALID_REASONING",
-    "evaluator_surfaced": "EVALUATOR_SURFACED",
-}
-
-
-def verifier_to_status(verifier_outcome: str | None) -> StatusLabel:
+def verifier_to_status(verifier_outcome: str | VerifierOutcome | None) -> StatusLabel:
     if not verifier_outcome:
         return "UNKNOWN"
-    return _VERIFIER_TO_STATUS.get(str(verifier_outcome), "UNKNOWN")
+    if isinstance(verifier_outcome, VerifierOutcome):
+        return verifier_outcome.canonical  # type: ignore[return-value]
+    raw = str(verifier_outcome)
+    if raw == "CLEAN":
+        return "CLEAN"
+    try:
+        return VerifierOutcome(raw).canonical  # type: ignore[return-value]
+    except ValueError:
+        return "UNKNOWN"
 
 
 def default_recommended_action(
     status: StatusLabel, severity: str | None, *, uncited: bool = False
 ) -> str:
-    if uncited and status in {"CONFIRMED", "PARTIALLY_CONFIRMED"}:
+    if uncited and status in {"CONFIRMED", "GRAY-ZONE"}:
         return "REVIEW_REQUIRED"
     if status == "CONFIRMED" and severity in ("critical", "high"):
         return "REMEDIATE"
-    if status in ("CONFIRMED", "PARTIALLY_CONFIRMED"):
-        return "REVIEW"
-    if status == "EVALUATOR_SURFACED":
+    if status == "GRAY-ZONE":
         return "REVIEW_REQUIRED"
+    if status == "CONFIRMED":
+        return "REVIEW"
     return "MONITOR"
 
 
@@ -88,12 +86,9 @@ def enrich_violations_payload(
     worst: StatusLabel = "CLEAN"
     order = {
         "CLEAN": 0,
-        "UNCONFIRMED": 1,
-        "PARTIALLY_CONFIRMED": 2,
-        "INVALID_REASONING": 2,
-        "EVALUATOR_SURFACED": 3,
-        "CONFIRMED": 4,
         "UNKNOWN": 1,
+        "GRAY-ZONE": 2,
+        "CONFIRMED": 3,
     }
     for f in findings_in:
         if not isinstance(f, dict):

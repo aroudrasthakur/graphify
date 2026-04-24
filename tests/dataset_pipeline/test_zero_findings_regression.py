@@ -77,7 +77,7 @@ def test_stub_provider_end_to_end_succeeds(tmp_path, monkeypatch):
     assert rc == 0
 
     summary_path = output_dir / "gemma4-run" / "run_summary.json"
-    assert summary_path.exists(), "run_summary.json must be written by the bundle pipeline"
+    assert summary_path.exists(), "run_summary.json must be written by the canonical dataset pipeline"
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
 
     # Healthy run: every reasoner call should succeed and the run should

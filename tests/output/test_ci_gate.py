@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from depos.output.gate import evaluate_gate, finding_triggers_gate
+import json
+from pathlib import Path
+
+from depos.output.gate import evaluate_gate, finding_triggers_gate, load_allowlist
 
 
 def test_gate_blocks_on_confirmed_high() -> None:
@@ -69,10 +72,63 @@ def test_gate_allowlist_skips_finding() -> None:
     assert blocking == []
 
 
-def test_cli_gate_runs_with_zero_exit_code_subprocess() -> None:
-    import json
-    from pathlib import Path
+def test_expired_allowlist_entry_does_not_suppress_confirmed_finding(tmp_path: Path) -> None:
+    allowlist_path = tmp_path / "allowlist.json"
+    allowlist_path.write_text(
+        json.dumps(
+            [
+                {
+                    "finding_id": "expired",
+                    "reason": "legacy waiver",
+                    "expires": "2000-01-01",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    findings = [
+        {
+            "finding_id": "expired",
+            "verifier_outcome": "confirmed",
+            "severity": "high",
+        }
+    ]
 
+    fail, blocking = evaluate_gate(findings, allowlist=load_allowlist(allowlist_path))
+
+    assert fail
+    assert len(blocking) == 1
+
+
+def test_valid_allowlist_entry_suppresses_confirmed_finding(tmp_path: Path) -> None:
+    allowlist_path = tmp_path / "allowlist.json"
+    allowlist_path.write_text(
+        json.dumps(
+            [
+                {
+                    "finding_id": "valid",
+                    "reason": "accepted risk",
+                    "expires": "2999-01-01",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    findings = [
+        {
+            "finding_id": "valid",
+            "verifier_outcome": "confirmed",
+            "severity": "high",
+        }
+    ]
+
+    fail, blocking = evaluate_gate(findings, allowlist=load_allowlist(allowlist_path))
+
+    assert not fail
+    assert blocking == []
+
+
+def test_cli_gate_runs_with_zero_exit_code_subprocess() -> None:
     from depos.cli import main
 
     p = {
@@ -96,9 +152,6 @@ def test_cli_gate_runs_with_zero_exit_code_subprocess() -> None:
 
 
 def test_cli_gate_nonzero_on_block() -> None:
-    import json
-    from pathlib import Path
-
     from depos.cli import main
 
     p = {

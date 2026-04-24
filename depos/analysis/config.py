@@ -39,6 +39,11 @@ class BundleBudget(BaseModel):
     extra_source_roots: list[str] = Field(default_factory=list)
     path_aliases: dict[str, str] = Field(default_factory=dict)
     min_snippet_chars: int = 80
+    max_caller_texts: int = 3
+    max_callee_texts: int = 3
+    max_seam_neighbor_texts: int = 3
+    max_snippet_chars: int = 400
+    max_prompt_tokens: int = 2048
     min_evidence_quality_for_reasoner: str = "embedded"  # full | embedded | label_only
     min_evidence_score_for_reasoner: float = 0.00
 
@@ -60,6 +65,14 @@ class ReasonerProviderConfig(BaseModel):
     gemma_response_path: str = "response"
     openai_response_path: str = "choices[0].message.content"
     ollama_response_path: str = "response"
+    # HTTP timeouts (seconds). Keep connect small so unreachable providers
+    # fail fast; read needs to cover first-token latency for local models
+    # like Ollama loading weights on the first call.
+    connect_timeout_seconds: float = 5.0
+    read_timeout_seconds: float = 60.0
+    ollama_preflight_timeout: float = 30.0
+    ollama_first_call_timeout: float = 300.0
+    ollama_subsequent_timeout: float = 90.0
 
 
 class GrayZoneConfig(BaseModel):
@@ -182,12 +195,84 @@ def load_config_from_env() -> IntelligenceConfig:
         cfg.bundles.token_budget_default = int(os.environ.get("DEPOS_INTEL_TOKEN_BUDGET", cfg.bundles.token_budget_default))
     except ValueError:
         pass
+    try:
+        cfg.llm.connect_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_CONNECT_TIMEOUT", cfg.llm.connect_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.read_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_READ_TIMEOUT", cfg.llm.read_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_preflight_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT",
+                cfg.llm.ollama_preflight_timeout,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_first_call_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT",
+                cfg.llm.ollama_first_call_timeout,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_subsequent_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT",
+                cfg.llm.ollama_subsequent_timeout,
+            )
+        )
+    except ValueError:
+        pass
 
     extra_roots = os.environ.get("DEPOS_INTEL_EXTRA_SOURCE_ROOTS")
     if extra_roots:
         cfg.bundles.extra_source_roots = [
             part for part in extra_roots.split(os.pathsep) if part.strip()
         ]
+    try:
+        cfg.bundles.max_caller_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLER_TEXTS", cfg.bundles.max_caller_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_callee_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLEE_TEXTS", cfg.bundles.max_callee_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_seam_neighbor_texts = int(
+            os.environ.get(
+                "DEPOS_BUNDLE_MAX_SEAM_NEIGHBOR_TEXTS",
+                cfg.bundles.max_seam_neighbor_texts,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_snippet_chars = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_SNIPPET_CHARS", cfg.bundles.max_snippet_chars)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_prompt_tokens = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_PROMPT_TOKENS", cfg.bundles.max_prompt_tokens)
+        )
+    except ValueError:
+        pass
     aliases_json = os.environ.get("DEPOS_INTEL_PATH_ALIASES_JSON")
     if aliases_json:
         try:

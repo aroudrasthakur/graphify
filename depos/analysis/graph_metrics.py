@@ -35,19 +35,29 @@ def compute_graph_metrics(graph: nx.DiGraph) -> GraphMetrics:
 
     scc = list(nx.strongly_connected_components(g))
     scc_id: dict[str, int] = {}
+    scc_size: dict[str, int] = {}
     for i, comp in enumerate(scc):
+        comp_size = len(comp)
         for node in comp:
             scc_id[str(node)] = i
+            scc_size[str(node)] = comp_size
+
+    try:
+        articulation_points = [str(node) for node in nx.articulation_points(g.to_undirected(as_view=True))]
+    except Exception:  # noqa: BLE001
+        articulation_points = []
 
     cycles: list[list[str]] = _cross_language_cycles(g)
 
     metrics = GraphMetrics(
         node_pagerank={str(k): float(v) for k, v in pr.items()},
         betweenness={str(k): float(v) for k, v in betw.items()},
+        articulation_points=articulation_points,
         fan_in=fin,
         fan_out=fout,
         scc_count=len(scc),
         scc_id_by_node=scc_id,
+        scc_size_by_node=scc_size,
         cross_lang_cycles=cycles,
     )
     metrics._computed = True

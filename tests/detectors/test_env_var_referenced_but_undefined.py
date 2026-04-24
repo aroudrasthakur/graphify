@@ -54,7 +54,6 @@ def test_env_var_referenced_but_undefined_verifier_confirms() -> None:
     candidate = next(candidate for candidate in candidates if candidate.detector_payload.detector_name == "env-var-referenced-but-undefined")
     bundle = build_bundle(graph, candidate, config=config)
     audits, findings = verify_all(
-        graph=graph,
         candidate=candidate,
         bundle=bundle,
         reasoner_outputs={},

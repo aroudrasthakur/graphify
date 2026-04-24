@@ -61,7 +61,6 @@ def test_dep_version_mismatch_verifier_confirms() -> None:
     candidate = next(candidate for candidate in candidates if candidate.detector_payload.detector_name == "dep-version-mismatch-across-workspaces")
     bundle = build_bundle(graph, candidate, config=config)
     audits, findings = verify_all(
-        graph=graph,
         candidate=candidate,
         bundle=bundle,
         reasoner_outputs={},

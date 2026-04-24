@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 def run_gate(args: Namespace) -> int:
-    from depos.output.gate import evaluate_gate, load_violations_path
+    from depos.output.gate import evaluate_gate, load_allowlist, load_violations_path
 
     path = Path(args.violations)
     if not path.is_file():
@@ -16,7 +16,13 @@ def run_gate(args: Namespace) -> int:
         return 2
     doc = load_violations_path(path)
     findings = list(doc.get("findings") or [])
-    allow = set(str(x) for x in (args.allow_finding_id or []) if x)
+    allow = load_allowlist(args.allowlist)
+    if args.allow_finding_id:
+        print(
+            "warning: --allow-finding-id is deprecated; prefer .depOS/allowlist.json",
+            file=sys.stderr,
+        )
+        allow.update(str(x) for x in args.allow_finding_id if x)
     fail, blocking = evaluate_gate(findings, allowlist=allow)
     summary = {
         "gate": "failed" if fail else "passed",

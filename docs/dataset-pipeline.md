@@ -2,7 +2,7 @@
 
 This guide explains how to run the depOS intelligence pipeline starting from the raw per-file AST JSON files under `dataset/`, through **semantic pre-computation (Python CFG/DFG/taint, Phase 1a)**, **CandidateScore** ranking, the configured **LLM** (Gemma 4 in typical setups), verifier checks, and gray-zone evaluation.
 
-**Legacy embedding-based ranking was removed** — bundle ordering uses `CandidateScore.composite` and stub `bundle-scores.json` rows for continuity with older scripts.
+**Legacy embedding-based ranking was removed** — bundle ordering and adapter-level pruning use `CandidateScore.composite`, `bundle-scores.json` is a compatibility sidecar, and `bundle-pipeline` is deprecated.
 
 It is intended for contributors working with the current sample dataset format in this repo.
 
@@ -14,10 +14,10 @@ The `dataset-pipeline` CLI command runs these stages:
 2. Normalize them into a graphify-valid enriched graph.
 3. Generate depOS candidates.
 4. Build context bundles.
-5. Write stub `bundle-scores.json` (or load pre-scored JSON); ranking is `CandidateScore.composite` in the main pipeline.
-6. Send the top-ranked bundles to Gemma.
-7. Run verifier checks.
-8. Run gray-zone evaluation for ambiguous findings.
+5. Write compatibility `bundle-scores.json` rows as a derived artifact.
+6. Route the normalized graph into the same canonical Stage 1-11 runner used by `repo` and `diff`.
+7. Build context bundles, run the configured LLM, verifier, and gray-zone evaluation in that one execution path.
+8. Mirror canonical audit artifacts into `gemma4-run/`.
 9. Write intermediate and final artifacts to disk.
 
 The command is:
@@ -154,11 +154,11 @@ Useful options:
 - `--output-dir`
   Directory where all intermediate and final artifacts are written.
 - `--top-n`
-  Number of top-ranked bundles (by `CandidateScore` / score JSON) to send to the LLM.
+  Number of prioritized candidates that continue through the downstream bundle / reasoner / verifier path.
 - `--max-bundles`
-  Cap bundle creation earlier in the pipeline.
+  Cap how many bundles are materialized before downstream stages.
 - `--min-score`
-  Skip bundles below a composite score threshold.
+  Skip candidates below a composite score threshold before bundle creation.
 - `--write-extraction`
   Persist the normalized extraction JSON in addition to the node-link graph.
 - `--local-files-only`
@@ -236,7 +236,7 @@ Module 3 context bundles. These are the evidence packs fed into the reasoner and
 
 ### `bundle-scores.json`
 
-Stub or precomputed per-bundle ranking hints. Each row typically contains:
+Compatibility per-bundle ranking hints written from the canonical run. Each row typically contains:
 
 - `bundle_id`
 - `candidate_id`
@@ -254,7 +254,7 @@ Audit log for ambiguous findings that entered the gray-zone evaluator.
 
 ### `gemma4-run/bundle_pipeline_trace.json`
 
-Per-bundle trace of:
+Per-candidate trace from the canonical pipeline (name retained for compatibility) of:
 
 - selected bundle
 - composite score and rank pattern
@@ -267,10 +267,9 @@ If you want to inspect each step manually instead of using the one-command path:
 
 1. Normalize the dataset.
 2. Inspect the normalized graph.
-3. Generate candidates and bundles.
-4. Score or stub rank rows (`score-bundles` writes stubs).
-5. Run the LLM on the top-ranked bundles.
-6. Inspect verifier and gray-zone outputs.
+3. Run the canonical dataset pipeline.
+4. Optionally write `score-bundles` compatibility rows from `bundles.json`.
+5. Inspect verifier and gray-zone outputs.
 
 The dedicated commands are:
 
@@ -282,9 +281,7 @@ depos-intel analyze normalize-dataset --dataset-dir dataset --repo-root . --outp
 depos-intel analyze score-bundles --bundles-json graphify-out/bundles.json --output graphify-out/bundle-scores.json
 ```
 
-```powershell
-depos-intel analyze bundle-pipeline --bundles-json graphify-out/bundles.json --scores-json graphify-out/bundle-scores.json --graph-json graphify-out/dataset-normalized-node-link.json --top-n 20 --output-dir graphify-out/gemma4-run
-```
+`bundle-pipeline` is deprecated and no longer executes a separate analysis path. Use `dataset-pipeline`, `repo`, or `diff` instead.
 
 ## Current contributor notes for this dataset
 

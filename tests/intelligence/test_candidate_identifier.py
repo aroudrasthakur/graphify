@@ -41,6 +41,7 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
     )
 
     assert manifest.entries == []
+    assert manifest.resolved_via == "empty"
 
     seed_types = {candidate.seed_type for candidate in candidates}
     assert SeedType.interface_surface in seed_types
@@ -121,3 +122,49 @@ def test_candidate_identifier_prefers_synthetic_entities_over_leaf_nodes() -> No
     anchor_ids = {anchor for candidate in candidates for anchor in candidate.diff_anchors}
     assert "entity:function:verify" in anchor_ids
     assert "leaf:identifier" not in anchor_ids
+
+
+def test_interface_surface_candidates_materialize_seam_endpoints() -> None:
+    graph = nx.DiGraph()
+    graph.add_node(
+        "ts:file:repos",
+        label="loadRepos()",
+        source_file="apps/web/app/repos/page.tsx",
+        language="javascript",
+        http_call_sites=[{"url_literal": "/api/repos", "http_method": "GET"}],
+    )
+    graph.add_node(
+        "py:route:list_repos",
+        label="list_repos()",
+        source_file="backend/routers/repos.py",
+        language="python",
+        is_fastapi_route=True,
+        http_method="GET",
+        route_pattern="/api/repos",
+    )
+    graph.add_edge(
+        "ts:file:repos",
+        "py:route:list_repos",
+        relation="HTTP_CALLS_ROUTE",
+        source_system="javascript",
+        target_system="python",
+    )
+
+    config = IntelligenceConfig()
+    manifest = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
+    run_context = build_run_context(graph, manifest, repo_root=None, config=config)
+    candidates, _, _ = identify_candidates(
+        graph,
+        run_context=run_context,
+        config=config,
+        mode=AnalysisMode.full_repo_scan,
+    )
+
+    seam_candidates = [candidate for candidate in candidates if candidate.seam_edges]
+    assert seam_candidates
+    for candidate in seam_candidates:
+        assert candidate.language_path == ["javascript", "python"]
+        assert candidate.score.seam_exposure == candidate.seam_edges[0].risk
+        for seam in candidate.seam_edges:
+            assert seam.source != ""
+            assert seam.target != ""

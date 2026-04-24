@@ -224,16 +224,35 @@ _GEMINI_HOOK = {
 }
 
 
+def _gemini_skill_candidates(project_dir: Path | None = None) -> list[Path]:
+    if platform.system() == "Windows":
+        rel = Path(".agents") / "skills" / "graphify" / "SKILL.md"
+    else:
+        rel = Path(".gemini") / "skills" / "graphify" / "SKILL.md"
+    candidates = [Path.home() / rel]
+    if project_dir is not None:
+        candidates.append(project_dir / rel)
+    return list(dict.fromkeys(candidates))
+
+
+def _resolve_gemini_skill_dst(project_dir: Path | None = None) -> Path:
+    last = _gemini_skill_candidates(project_dir)[-1]
+    for candidate in _gemini_skill_candidates(project_dir):
+        try:
+            candidate.parent.mkdir(parents=True, exist_ok=True)
+            return candidate
+        except OSError:
+            continue
+    last.parent.mkdir(parents=True, exist_ok=True)
+    return last
+
+
 def gemini_install(project_dir: Path | None = None) -> None:
     """Copy skill file to ~/.gemini/skills/graphify/, write GEMINI.md section, and install BeforeTool hook."""
     # Copy skill file to ~/.gemini/skills/graphify/SKILL.md
     # On Windows, Gemini CLI prioritises ~/.agents/skills/ over ~/.gemini/skills/
     skill_src = Path(__file__).parent / "skill.md"
-    if platform.system() == "Windows":
-        skill_dst = Path.home() / ".agents" / "skills" / "graphify" / "SKILL.md"
-    else:
-        skill_dst = Path.home() / ".gemini" / "skills" / "graphify" / "SKILL.md"
-    skill_dst.parent.mkdir(parents=True, exist_ok=True)
+    skill_dst = _resolve_gemini_skill_dst(project_dir)
     shutil.copy(skill_src, skill_dst)
     (skill_dst.parent / ".graphify_version").write_text(__version__, encoding="utf-8")
     print(f"  skill installed  ->  {skill_dst}")
@@ -291,21 +310,18 @@ def _uninstall_gemini_hook(project_dir: Path) -> None:
 def gemini_uninstall(project_dir: Path | None = None) -> None:
     """Remove the graphify section from GEMINI.md, uninstall hook, and remove skill file."""
     # Remove skill file (mirror the install path detection)
-    if platform.system() == "Windows":
-        skill_dst = Path.home() / ".agents" / "skills" / "graphify" / "SKILL.md"
-    else:
-        skill_dst = Path.home() / ".gemini" / "skills" / "graphify" / "SKILL.md"
-    if skill_dst.exists():
-        skill_dst.unlink()
-        print(f"  skill removed    ->  {skill_dst}")
-    version_file = skill_dst.parent / ".graphify_version"
-    if version_file.exists():
-        version_file.unlink()
-    for d in (skill_dst.parent, skill_dst.parent.parent):
-        try:
-            d.rmdir()
-        except OSError:
-            break
+    for skill_dst in _gemini_skill_candidates(project_dir):
+        if skill_dst.exists():
+            skill_dst.unlink()
+            print(f"  skill removed    ->  {skill_dst}")
+        version_file = skill_dst.parent / ".graphify_version"
+        if version_file.exists():
+            version_file.unlink()
+        for d in (skill_dst.parent, skill_dst.parent.parent):
+            try:
+                d.rmdir()
+            except OSError:
+                break
 
     target = (project_dir or Path(".")) / "GEMINI.md"
     if not target.exists():
