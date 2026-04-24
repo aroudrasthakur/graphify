@@ -1,0 +1,3625 @@
+{
+  "analysis_timestamp": "2026-04-24T11:05:58+00:00",
+  "branch": "crf/kiro-spec",
+  "commit_sha": "56cd47b38eb4efb79438dc76a34b26921249598a",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement:129",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause:128",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier:127",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:identifier:126",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement:125",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration:124",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block:123",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement:122",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object:121",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:863:867:shorthand_property_identifier:120",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:863:867:shorthand_property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:858:861:shorthand_property_identifier:119",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:858:861:shorthand_property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement:118",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement:117",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:841:845:null:116",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:841:845:null",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression:115",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression:114",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression:113",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:828:832:identifier:112",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:828:832:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression:111",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:820:823:identifier:110",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:820:823:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration:109",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator:108",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression:107",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:809:811:arguments:106",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:809:811:arguments",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:809:identifier:105",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:809:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern:104",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:785:789:shorthand_property_identifier_pattern:103",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:785:789:shorthand_property_identifier_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:780:783:shorthand_property_identifier_pattern:102",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:780:783:shorthand_property_identifier_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:765:767:formal_parameters:101",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:765:767:formal_parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:743:765:identifier:100",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:743:765:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement:99",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration:98",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block:97",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement:96",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object:95",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:716:720:shorthand_property_identifier:94",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:716:720:shorthand_property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:711:714:shorthand_property_identifier:93",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:711:714:shorthand_property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement:92",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block:91",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement:90",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression:89",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments:88",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string:87",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution:86",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:669:685:identifier:85",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:669:685:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:665:667:string_fragment:84",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:665:667:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution:83",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:658:664:identifier:82",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:658:664:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:591:656:string_fragment:81",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:591:656:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:577:582:identifier:80",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:577:582:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration:79",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator:78",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression:77",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:559:561:string:76",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:559:561:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string:75",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:541:555:string_fragment:74",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:541:555:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression:73",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string:72",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:530:536:string_fragment:71",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:530:536:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:524:identifier:70",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:524:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:514:identifier:69",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:514:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression:68",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression:67",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression:66",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:490:494:identifier:65",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:490:494:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression:64",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:482:485:identifier:63",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:482:485:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration:62",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator:61",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression:60",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:471:473:arguments:59",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:471:473:arguments",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:471:identifier:58",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:471:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern:57",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:447:451:shorthand_property_identifier_pattern:56",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:447:451:shorthand_property_identifier_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:442:445:shorthand_property_identifier_pattern:55",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:442:445:shorthand_property_identifier_pattern",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters:54",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter:53",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string:52",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:421:427:string_fragment:51",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:421:427:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation:50",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type:49",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type:48",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string:47",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:410:416:string_fragment:46",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:410:416:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type:45",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string:44",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:399:405:string_fragment:43",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:399:405:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:396:identifier:42",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:396:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:366:388:identifier:41",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:366:388:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration:40",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block:39",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement:38",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object:37",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair:36",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression:35",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:311:340:property_identifier:34",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:311:340:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression:33",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:307:310:property_identifier:32",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:307:310:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:306:identifier:31",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:306:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:297:property_identifier:30",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:297:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair:29",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression:28",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:263:287:property_identifier:27",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:263:287:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression:26",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:259:262:property_identifier:25",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:259:262:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:258:identifier:24",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:258:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:249:property_identifier:23",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:249:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation:22",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type:21",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature:20",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation:19",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type:18",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type:17",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:undefined:16",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:undefined",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:214:predefined_type:15",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:214:predefined_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:206:property_identifier:14",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:206:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature:13",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation:12",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type:11",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type:10",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:undefined:9",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:undefined",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:188:predefined_type:8",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:188:predefined_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:180:property_identifier:7",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:180:property_identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:171:173:formal_parameters:6",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:171:173:formal_parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:156:171:identifier:5",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:156:171:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration:4",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator:3",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string:2",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:28:143:string_fragment:1",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:28:143:string_fragment",
+      "type": "child"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator->ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:22:identifier:0",
+      "role": "child",
+      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator",
+      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:22:identifier",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:903:program",
+      "kind": "program",
+      "label": "const MISSING_GUIDANCE =\n  \"Set them in the repo root .env, or let apps/web/next.config.js derive them from SUPABASE_URL and SUPABASE_ANON_KEY.\";\n\nfunction readSupabaseEnv(): { url: string | undefined; anon: string | undefined } {\n  return {\n    url: process.env.NEXT_PUBLIC_SUPABASE_URL,\n    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,\n  };\n}\n\nexport function getRequiredSupabaseEnv(context: \"client\" | \"server\" = \"client\") {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) {\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }\n  return { url, anon };\n}\n\nexport function getOptionalSupabaseEnv() {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) return null;\n  return { url, anon };\n}\n\nexport { MISSING_GUIDANCE };\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 29,
+          "column": 0,
+          "byte": 903
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement"
+      ],
+      "text_digest": "1e5464d32bd265aca9d494971864eeb9013a36aaaa68134490199337fd56ef11"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:874:902:export_statement",
+      "kind": "export_statement",
+      "label": "export { MISSING_GUIDANCE };",
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 0,
+          "byte": 874
+        },
+        "end": {
+          "line": 28,
+          "column": 28,
+          "byte": 902
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause"
+      ],
+      "text_digest": "bf8b191434d15c29c5e618493fae3af23b7a1971598b40e4264db2d30518b01c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:881:901:export_clause",
+      "kind": "export_clause",
+      "label": "{ MISSING_GUIDANCE }",
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 7,
+          "byte": 881
+        },
+        "end": {
+          "line": 28,
+          "column": 27,
+          "byte": 901
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier"
+      ],
+      "text_digest": "943debfffc69ecde13fa43d8dbd0bf537447c8f3ed337012e701a35ad97e1fe1"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:export_specifier",
+      "kind": "export_specifier",
+      "label": "MISSING_GUIDANCE",
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 9,
+          "byte": 883
+        },
+        "end": {
+          "line": 28,
+          "column": 25,
+          "byte": 899
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:identifier"
+      ],
+      "text_digest": "95043f0ddab49a8c83b037a376ca39f3659d2ac6bc63ae6122b7a04b3fa4078d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:883:899:identifier",
+      "kind": "identifier",
+      "label": "MISSING_GUIDANCE",
+      "span": {
+        "start": {
+          "line": 28,
+          "column": 9,
+          "byte": 883
+        },
+        "end": {
+          "line": 28,
+          "column": 25,
+          "byte": 899
+        }
+      },
+      "children_ids": [],
+      "text_digest": "95043f0ddab49a8c83b037a376ca39f3659d2ac6bc63ae6122b7a04b3fa4078d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:727:872:export_statement",
+      "kind": "export_statement",
+      "label": "export function getOptionalSupabaseEnv() {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) return null;\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 0,
+          "byte": 727
+        },
+        "end": {
+          "line": 26,
+          "column": 1,
+          "byte": 872
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration"
+      ],
+      "text_digest": "5372d49bfe823c264f782dae2ab99bfb84f6b34c5f46c2c9f9879a2c8f77631d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:734:872:function_declaration",
+      "kind": "function_declaration",
+      "label": "function getOptionalSupabaseEnv() {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) return null;\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 7,
+          "byte": 734
+        },
+        "end": {
+          "line": 26,
+          "column": 1,
+          "byte": 872
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:743:765:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:765:767:formal_parameters",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block"
+      ],
+      "text_digest": "f355000a75219173294924a6c89bf54a06acdcb009a26cddd2daef55eddb44d6"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:768:872:statement_block",
+      "kind": "statement_block",
+      "label": "{\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) return null;\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 41,
+          "byte": 768
+        },
+        "end": {
+          "line": 26,
+          "column": 1,
+          "byte": 872
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement"
+      ],
+      "text_digest": "77b5195b90bb2e26562f995c6619aae1f41e6afefef20decf3ca2addbf0dc270"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:849:870:return_statement",
+      "kind": "return_statement",
+      "label": "return { url, anon };",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 2,
+          "byte": 849
+        },
+        "end": {
+          "line": 25,
+          "column": 23,
+          "byte": 870
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object"
+      ],
+      "text_digest": "5a9ab8386aa3ca89150e4d678b57038bac230dcb85119f30ae7e86513dec825c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:856:869:object",
+      "kind": "object",
+      "label": "{ url, anon }",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 9,
+          "byte": 856
+        },
+        "end": {
+          "line": 25,
+          "column": 22,
+          "byte": 869
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:858:861:shorthand_property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:863:867:shorthand_property_identifier"
+      ],
+      "text_digest": "729b39dfc0fd6eba7bf11762b758da28c17bcbedd2976c117ed94f3fe336cf61"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:863:867:shorthand_property_identifier",
+      "kind": "shorthand_property_identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 16,
+          "byte": 863
+        },
+        "end": {
+          "line": 25,
+          "column": 20,
+          "byte": 867
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:858:861:shorthand_property_identifier",
+      "kind": "shorthand_property_identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 11,
+          "byte": 858
+        },
+        "end": {
+          "line": 25,
+          "column": 14,
+          "byte": 861
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:815:846:if_statement",
+      "kind": "if_statement",
+      "label": "if (!url || !anon) return null;",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 2,
+          "byte": 815
+        },
+        "end": {
+          "line": 24,
+          "column": 33,
+          "byte": 846
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement"
+      ],
+      "text_digest": "85f16041f9041d2df84b9e17fbbda701fa8b89700132005dda7d2fd59d40dbfb"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:834:846:return_statement",
+      "kind": "return_statement",
+      "label": "return null;",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 21,
+          "byte": 834
+        },
+        "end": {
+          "line": 24,
+          "column": 33,
+          "byte": 846
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:841:845:null"
+      ],
+      "text_digest": "4ad2292cb6c5c2d31325739acfa4452421493ab7819e55fbaef0c55ac99bab33"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:841:845:null",
+      "kind": "null",
+      "label": "null",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 28,
+          "byte": 841
+        },
+        "end": {
+          "line": 24,
+          "column": 32,
+          "byte": 845
+        }
+      },
+      "children_ids": [],
+      "text_digest": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:818:833:parenthesized_expression",
+      "kind": "parenthesized_expression",
+      "label": "(!url || !anon)",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 5,
+          "byte": 818
+        },
+        "end": {
+          "line": 24,
+          "column": 20,
+          "byte": 833
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression"
+      ],
+      "text_digest": "b2d0e3d14bed535447251960153d1309a122ba6efbefed3c125b9e5cdc735db1"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:832:binary_expression",
+      "kind": "binary_expression",
+      "label": "!url || !anon",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 6,
+          "byte": 819
+        },
+        "end": {
+          "line": 24,
+          "column": 19,
+          "byte": 832
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression"
+      ],
+      "text_digest": "12c69a1ed2ffbcb96d375e3f106f095d2ad80ba008ca290c8788576da332b398"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:827:832:unary_expression",
+      "kind": "unary_expression",
+      "label": "!anon",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 14,
+          "byte": 827
+        },
+        "end": {
+          "line": 24,
+          "column": 19,
+          "byte": 832
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:828:832:identifier"
+      ],
+      "text_digest": "8bde98d1d83c93a0c6aba03bc850376a6568b4a70168d8eee3333b4c4eb72bab"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:828:832:identifier",
+      "kind": "identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 15,
+          "byte": 828
+        },
+        "end": {
+          "line": 24,
+          "column": 19,
+          "byte": 832
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:819:823:unary_expression",
+      "kind": "unary_expression",
+      "label": "!url",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 6,
+          "byte": 819
+        },
+        "end": {
+          "line": 24,
+          "column": 10,
+          "byte": 823
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:820:823:identifier"
+      ],
+      "text_digest": "19c2d03647a2e2376326124c6643e971d07a7789a6b0bc9f2e5e294d5898cc9a"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:820:823:identifier",
+      "kind": "identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 7,
+          "byte": 820
+        },
+        "end": {
+          "line": 24,
+          "column": 10,
+          "byte": 823
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:772:812:lexical_declaration",
+      "kind": "lexical_declaration",
+      "label": "const { url, anon } = readSupabaseEnv();",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 2,
+          "byte": 772
+        },
+        "end": {
+          "line": 23,
+          "column": 42,
+          "byte": 812
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator"
+      ],
+      "text_digest": "dce34dbb50fa5ccbf4f7ac5b3d5066827dac0d03192e51f8f7197d7ab35c0790"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:811:variable_declarator",
+      "kind": "variable_declarator",
+      "label": "{ url, anon } = readSupabaseEnv()",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 778
+        },
+        "end": {
+          "line": 23,
+          "column": 41,
+          "byte": 811
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression"
+      ],
+      "text_digest": "69ac6bb559de68055139b526e37adfe79175b488080bcd21f8fc57728ff4c525"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:811:call_expression",
+      "kind": "call_expression",
+      "label": "readSupabaseEnv()",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 24,
+          "byte": 794
+        },
+        "end": {
+          "line": 23,
+          "column": 41,
+          "byte": 811
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:809:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:809:811:arguments"
+      ],
+      "text_digest": "e622bf80abf2128c3d268b2f521454e267edd2271ed33df7a913af755204e134"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:809:811:arguments",
+      "kind": "arguments",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 39,
+          "byte": 809
+        },
+        "end": {
+          "line": 23,
+          "column": 41,
+          "byte": 811
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:794:809:identifier",
+      "kind": "identifier",
+      "label": "readSupabaseEnv",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 24,
+          "byte": 794
+        },
+        "end": {
+          "line": 23,
+          "column": 39,
+          "byte": 809
+        }
+      },
+      "children_ids": [],
+      "text_digest": "423674e1f74b97c0fd06bafd9c82e30987dfb8e90f1dfdc4e5c3cf5db8cf05e0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:778:791:object_pattern",
+      "kind": "object_pattern",
+      "label": "{ url, anon }",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 778
+        },
+        "end": {
+          "line": 23,
+          "column": 21,
+          "byte": 791
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:780:783:shorthand_property_identifier_pattern",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:785:789:shorthand_property_identifier_pattern"
+      ],
+      "text_digest": "729b39dfc0fd6eba7bf11762b758da28c17bcbedd2976c117ed94f3fe336cf61"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:785:789:shorthand_property_identifier_pattern",
+      "kind": "shorthand_property_identifier_pattern",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 15,
+          "byte": 785
+        },
+        "end": {
+          "line": 23,
+          "column": 19,
+          "byte": 789
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:780:783:shorthand_property_identifier_pattern",
+      "kind": "shorthand_property_identifier_pattern",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 10,
+          "byte": 780
+        },
+        "end": {
+          "line": 23,
+          "column": 13,
+          "byte": 783
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:765:767:formal_parameters",
+      "kind": "formal_parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 38,
+          "byte": 765
+        },
+        "end": {
+          "line": 22,
+          "column": 40,
+          "byte": 767
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:743:765:identifier",
+      "kind": "identifier",
+      "label": "getOptionalSupabaseEnv",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 16,
+          "byte": 743
+        },
+        "end": {
+          "line": 22,
+          "column": 38,
+          "byte": 765
+        }
+      },
+      "children_ids": [],
+      "text_digest": "02e4e9a31eceb0df59693cad81d6a8a767f7fbe628f0b843eaba4bd153cdbce8"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:350:725:export_statement",
+      "kind": "export_statement",
+      "label": "export function getRequiredSupabaseEnv(context: \"client\" | \"server\" = \"client\") {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) {\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 0,
+          "byte": 350
+        },
+        "end": {
+          "line": 20,
+          "column": 1,
+          "byte": 725
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration"
+      ],
+      "text_digest": "afa4407a471dfd4a8c509efaae82cb5d390aaf1aa06252abb9242f8559046a8c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:357:725:function_declaration",
+      "kind": "function_declaration",
+      "label": "function getRequiredSupabaseEnv(context: \"client\" | \"server\" = \"client\") {\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) {\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 7,
+          "byte": 357
+        },
+        "end": {
+          "line": 20,
+          "column": 1,
+          "byte": 725
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:366:388:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block"
+      ],
+      "text_digest": "dfea679a47af667331f23075a5ba53acc71d03e52a937a6eac9e3e140e92455d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:430:725:statement_block",
+      "kind": "statement_block",
+      "label": "{\n  const { url, anon } = readSupabaseEnv();\n  if (!url || !anon) {\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }\n  return { url, anon };\n}",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 80,
+          "byte": 430
+        },
+        "end": {
+          "line": 20,
+          "column": 1,
+          "byte": 725
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement"
+      ],
+      "text_digest": "4dbdf36bd20b15e507f29ce786edf5f55d6ab312274899639232abdb27d895dc"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:702:723:return_statement",
+      "kind": "return_statement",
+      "label": "return { url, anon };",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 2,
+          "byte": 702
+        },
+        "end": {
+          "line": 19,
+          "column": 23,
+          "byte": 723
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object"
+      ],
+      "text_digest": "5a9ab8386aa3ca89150e4d678b57038bac230dcb85119f30ae7e86513dec825c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:709:722:object",
+      "kind": "object",
+      "label": "{ url, anon }",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 9,
+          "byte": 709
+        },
+        "end": {
+          "line": 19,
+          "column": 22,
+          "byte": 722
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:711:714:shorthand_property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:716:720:shorthand_property_identifier"
+      ],
+      "text_digest": "729b39dfc0fd6eba7bf11762b758da28c17bcbedd2976c117ed94f3fe336cf61"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:716:720:shorthand_property_identifier",
+      "kind": "shorthand_property_identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 16,
+          "byte": 716
+        },
+        "end": {
+          "line": 19,
+          "column": 20,
+          "byte": 720
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:711:714:shorthand_property_identifier",
+      "kind": "shorthand_property_identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 11,
+          "byte": 711
+        },
+        "end": {
+          "line": 19,
+          "column": 14,
+          "byte": 714
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:477:699:if_statement",
+      "kind": "if_statement",
+      "label": "if (!url || !anon) {\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 2,
+          "byte": 477
+        },
+        "end": {
+          "line": 18,
+          "column": 3,
+          "byte": 699
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block"
+      ],
+      "text_digest": "371d5021d6d5a11eab72df8d6fca1accff2692714243a2748ec0a271b212e112"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:496:699:statement_block",
+      "kind": "statement_block",
+      "label": "{\n    const suffix = context === \"server\" ? \" on the server\" : \"\";\n    throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );\n  }",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 21,
+          "byte": 496
+        },
+        "end": {
+          "line": 18,
+          "column": 3,
+          "byte": 699
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement"
+      ],
+      "text_digest": "b8cb404747a06c4d89de97319d535bc249e6394393cedbe24db28ca27ad7f2df"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:567:695:throw_statement",
+      "kind": "throw_statement",
+      "label": "throw new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    );",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 4,
+          "byte": 567
+        },
+        "end": {
+          "line": 17,
+          "column": 6,
+          "byte": 695
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression"
+      ],
+      "text_digest": "8f377ed5e34608928937c444718558c4b5f67121ea75d99b3898ceb9c9623cac"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:573:694:new_expression",
+      "kind": "new_expression",
+      "label": "new Error(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    )",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 10,
+          "byte": 573
+        },
+        "end": {
+          "line": 17,
+          "column": 5,
+          "byte": 694
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:577:582:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments"
+      ],
+      "text_digest": "27a9fe9d0a119e6448c345103b79b3a35cb4fc494556a988b3fa6aa9862cf9fe"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:582:694:arguments",
+      "kind": "arguments",
+      "label": "(\n      `Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`,\n    )",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 19,
+          "byte": 582
+        },
+        "end": {
+          "line": 17,
+          "column": 5,
+          "byte": 694
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string"
+      ],
+      "text_digest": "113f95d546c4f26b82ef993195bb0fceb34ce706910527cc737b7eb24ad7f5b3"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:590:687:template_string",
+      "kind": "template_string",
+      "label": "`Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY${suffix}. ${MISSING_GUIDANCE}`",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 6,
+          "byte": 590
+        },
+        "end": {
+          "line": 16,
+          "column": 103,
+          "byte": 687
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:591:656:string_fragment",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:665:667:string_fragment",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution"
+      ],
+      "text_digest": "c17b0e369f4916e85e851b8be6bbc1bfbecee783005c372aad664b4a5bcf860f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:667:686:template_substitution",
+      "kind": "template_substitution",
+      "label": "${MISSING_GUIDANCE}",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 83,
+          "byte": 667
+        },
+        "end": {
+          "line": 16,
+          "column": 102,
+          "byte": 686
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:669:685:identifier"
+      ],
+      "text_digest": "6ace26332798757586ace0fdc31247a80a445eb95b5c22b8ea6a1fcfeddd1404"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:669:685:identifier",
+      "kind": "identifier",
+      "label": "MISSING_GUIDANCE",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 85,
+          "byte": 669
+        },
+        "end": {
+          "line": 16,
+          "column": 101,
+          "byte": 685
+        }
+      },
+      "children_ids": [],
+      "text_digest": "95043f0ddab49a8c83b037a376ca39f3659d2ac6bc63ae6122b7a04b3fa4078d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:665:667:string_fragment",
+      "kind": "string_fragment",
+      "label": ". ",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 81,
+          "byte": 665
+        },
+        "end": {
+          "line": 16,
+          "column": 83,
+          "byte": 667
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8dccf256f6d5783e62bba717ef04a6cfcea41d9befffa5ade55235e0b6a0eeb0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:656:665:template_substitution",
+      "kind": "template_substitution",
+      "label": "${suffix}",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 72,
+          "byte": 656
+        },
+        "end": {
+          "line": 16,
+          "column": 81,
+          "byte": 665
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:658:664:identifier"
+      ],
+      "text_digest": "4b87d41e59be163b804026587fd92526215635beed4a95feba308ea7b4796d82"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:658:664:identifier",
+      "kind": "identifier",
+      "label": "suffix",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 74,
+          "byte": 658
+        },
+        "end": {
+          "line": 16,
+          "column": 80,
+          "byte": 664
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a1b7c6f1aa933f882745c9a905739790931b7fb9a01e49b44d2b4d19e1bf8e39"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:591:656:string_fragment",
+      "kind": "string_fragment",
+      "label": "Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 7,
+          "byte": 591
+        },
+        "end": {
+          "line": 16,
+          "column": 72,
+          "byte": 656
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dd1b858ada07c6a95545003f9591c325a2e182193dbe532b9dd89d5ea4c3757e"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:577:582:identifier",
+      "kind": "identifier",
+      "label": "Error",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 14,
+          "byte": 577
+        },
+        "end": {
+          "line": 15,
+          "column": 19,
+          "byte": 582
+        }
+      },
+      "children_ids": [],
+      "text_digest": "54a0e8c17ebb21a11f8a25b8042786ef7efe52441e6cc87e92c67e0c4c0c6e78"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:502:562:lexical_declaration",
+      "kind": "lexical_declaration",
+      "label": "const suffix = context === \"server\" ? \" on the server\" : \"\";",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 502
+        },
+        "end": {
+          "line": 14,
+          "column": 64,
+          "byte": 562
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator"
+      ],
+      "text_digest": "28acd30f4565ad83d0043f07a049eeb59bef075603defc91921eab665d72bec8"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:561:variable_declarator",
+      "kind": "variable_declarator",
+      "label": "suffix = context === \"server\" ? \" on the server\" : \"\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 10,
+          "byte": 508
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 561
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:514:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression"
+      ],
+      "text_digest": "995356dc76bfb42f03233f10797393001702045a05564ddf801401711a08eec5"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:561:ternary_expression",
+      "kind": "ternary_expression",
+      "label": "context === \"server\" ? \" on the server\" : \"\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 19,
+          "byte": 517
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 561
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:559:561:string"
+      ],
+      "text_digest": "c9ced1f1a379ec2c63a3c76de145bf8721f2dc02d3225ae112f2e782ea73b43e"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:559:561:string",
+      "kind": "string",
+      "label": "\"\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 61,
+          "byte": 559
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 561
+        }
+      },
+      "children_ids": [],
+      "text_digest": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:540:556:string",
+      "kind": "string",
+      "label": "\" on the server\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 42,
+          "byte": 540
+        },
+        "end": {
+          "line": 14,
+          "column": 58,
+          "byte": 556
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:541:555:string_fragment"
+      ],
+      "text_digest": "131e114572c6440a021f2a39f85600a5fe55c6faf306ffdefbe1ba3f5e516db0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:541:555:string_fragment",
+      "kind": "string_fragment",
+      "label": " on the server",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 43,
+          "byte": 541
+        },
+        "end": {
+          "line": 14,
+          "column": 57,
+          "byte": 555
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eb724608731c7c708cf1b150180c7c2ffd8e26302cb6e7e9e5e659f4526e57d3"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:537:binary_expression",
+      "kind": "binary_expression",
+      "label": "context === \"server\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 19,
+          "byte": 517
+        },
+        "end": {
+          "line": 14,
+          "column": 39,
+          "byte": 537
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:524:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string"
+      ],
+      "text_digest": "93b9f48e39a6959474f528866f4f32343f806820056ea67c09b1ce29e1405747"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:529:537:string",
+      "kind": "string",
+      "label": "\"server\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 31,
+          "byte": 529
+        },
+        "end": {
+          "line": 14,
+          "column": 39,
+          "byte": 537
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:530:536:string_fragment"
+      ],
+      "text_digest": "c0f0ad2c21d3bbd26199e6c3df4caf0fa1dd4277c0a3f2fa1b82d06e3d993bb4"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:530:536:string_fragment",
+      "kind": "string_fragment",
+      "label": "server",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 32,
+          "byte": 530
+        },
+        "end": {
+          "line": 14,
+          "column": 38,
+          "byte": 536
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b3eacd33433b31b5252351032c9b3e7a2e7aa7738d5decdf0dd6c62680853c06"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:517:524:identifier",
+      "kind": "identifier",
+      "label": "context",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 19,
+          "byte": 517
+        },
+        "end": {
+          "line": 14,
+          "column": 26,
+          "byte": 524
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ea7792a26f405e2ae9c6f49ca93bbe6076ceac0a1fc53d83426c7d7f2d9377e4"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:508:514:identifier",
+      "kind": "identifier",
+      "label": "suffix",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 10,
+          "byte": 508
+        },
+        "end": {
+          "line": 14,
+          "column": 16,
+          "byte": 514
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a1b7c6f1aa933f882745c9a905739790931b7fb9a01e49b44d2b4d19e1bf8e39"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:480:495:parenthesized_expression",
+      "kind": "parenthesized_expression",
+      "label": "(!url || !anon)",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 5,
+          "byte": 480
+        },
+        "end": {
+          "line": 13,
+          "column": 20,
+          "byte": 495
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression"
+      ],
+      "text_digest": "b2d0e3d14bed535447251960153d1309a122ba6efbefed3c125b9e5cdc735db1"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:494:binary_expression",
+      "kind": "binary_expression",
+      "label": "!url || !anon",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 6,
+          "byte": 481
+        },
+        "end": {
+          "line": 13,
+          "column": 19,
+          "byte": 494
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression"
+      ],
+      "text_digest": "12c69a1ed2ffbcb96d375e3f106f095d2ad80ba008ca290c8788576da332b398"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:489:494:unary_expression",
+      "kind": "unary_expression",
+      "label": "!anon",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 14,
+          "byte": 489
+        },
+        "end": {
+          "line": 13,
+          "column": 19,
+          "byte": 494
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:490:494:identifier"
+      ],
+      "text_digest": "8bde98d1d83c93a0c6aba03bc850376a6568b4a70168d8eee3333b4c4eb72bab"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:490:494:identifier",
+      "kind": "identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 15,
+          "byte": 490
+        },
+        "end": {
+          "line": 13,
+          "column": 19,
+          "byte": 494
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:481:485:unary_expression",
+      "kind": "unary_expression",
+      "label": "!url",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 6,
+          "byte": 481
+        },
+        "end": {
+          "line": 13,
+          "column": 10,
+          "byte": 485
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:482:485:identifier"
+      ],
+      "text_digest": "19c2d03647a2e2376326124c6643e971d07a7789a6b0bc9f2e5e294d5898cc9a"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:482:485:identifier",
+      "kind": "identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 7,
+          "byte": 482
+        },
+        "end": {
+          "line": 13,
+          "column": 10,
+          "byte": 485
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:434:474:lexical_declaration",
+      "kind": "lexical_declaration",
+      "label": "const { url, anon } = readSupabaseEnv();",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 2,
+          "byte": 434
+        },
+        "end": {
+          "line": 12,
+          "column": 42,
+          "byte": 474
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator"
+      ],
+      "text_digest": "dce34dbb50fa5ccbf4f7ac5b3d5066827dac0d03192e51f8f7197d7ab35c0790"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:473:variable_declarator",
+      "kind": "variable_declarator",
+      "label": "{ url, anon } = readSupabaseEnv()",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 8,
+          "byte": 440
+        },
+        "end": {
+          "line": 12,
+          "column": 41,
+          "byte": 473
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression"
+      ],
+      "text_digest": "69ac6bb559de68055139b526e37adfe79175b488080bcd21f8fc57728ff4c525"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:473:call_expression",
+      "kind": "call_expression",
+      "label": "readSupabaseEnv()",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 24,
+          "byte": 456
+        },
+        "end": {
+          "line": 12,
+          "column": 41,
+          "byte": 473
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:471:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:471:473:arguments"
+      ],
+      "text_digest": "e622bf80abf2128c3d268b2f521454e267edd2271ed33df7a913af755204e134"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:471:473:arguments",
+      "kind": "arguments",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 39,
+          "byte": 471
+        },
+        "end": {
+          "line": 12,
+          "column": 41,
+          "byte": 473
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:456:471:identifier",
+      "kind": "identifier",
+      "label": "readSupabaseEnv",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 24,
+          "byte": 456
+        },
+        "end": {
+          "line": 12,
+          "column": 39,
+          "byte": 471
+        }
+      },
+      "children_ids": [],
+      "text_digest": "423674e1f74b97c0fd06bafd9c82e30987dfb8e90f1dfdc4e5c3cf5db8cf05e0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:440:453:object_pattern",
+      "kind": "object_pattern",
+      "label": "{ url, anon }",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 8,
+          "byte": 440
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 453
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:442:445:shorthand_property_identifier_pattern",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:447:451:shorthand_property_identifier_pattern"
+      ],
+      "text_digest": "729b39dfc0fd6eba7bf11762b758da28c17bcbedd2976c117ed94f3fe336cf61"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:447:451:shorthand_property_identifier_pattern",
+      "kind": "shorthand_property_identifier_pattern",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 15,
+          "byte": 447
+        },
+        "end": {
+          "line": 12,
+          "column": 19,
+          "byte": 451
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:442:445:shorthand_property_identifier_pattern",
+      "kind": "shorthand_property_identifier_pattern",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 10,
+          "byte": 442
+        },
+        "end": {
+          "line": 12,
+          "column": 13,
+          "byte": 445
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:388:429:formal_parameters",
+      "kind": "formal_parameters",
+      "label": "(context: \"client\" | \"server\" = \"client\")",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 38,
+          "byte": 388
+        },
+        "end": {
+          "line": 11,
+          "column": 79,
+          "byte": 429
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter"
+      ],
+      "text_digest": "20489d8a213551f556d1514e6d60d5f35230046797a9cda4826b1f3f55b73a8c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:428:required_parameter",
+      "kind": "required_parameter",
+      "label": "context: \"client\" | \"server\" = \"client\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 39,
+          "byte": 389
+        },
+        "end": {
+          "line": 11,
+          "column": 78,
+          "byte": 428
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:396:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string"
+      ],
+      "text_digest": "223ba9be49020ea17e035df1a6d25c14f5e66f4665baa1126b660b1376c7f705"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:420:428:string",
+      "kind": "string",
+      "label": "\"client\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 70,
+          "byte": 420
+        },
+        "end": {
+          "line": 11,
+          "column": 78,
+          "byte": 428
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:421:427:string_fragment"
+      ],
+      "text_digest": "0426edc5034cbd6b79a3b07041e44160331130720dbfc4d88e988862405cc3d7"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:421:427:string_fragment",
+      "kind": "string_fragment",
+      "label": "client",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 71,
+          "byte": 421
+        },
+        "end": {
+          "line": 11,
+          "column": 77,
+          "byte": 427
+        }
+      },
+      "children_ids": [],
+      "text_digest": "948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:396:417:type_annotation",
+      "kind": "type_annotation",
+      "label": ": \"client\" | \"server\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 46,
+          "byte": 396
+        },
+        "end": {
+          "line": 11,
+          "column": 67,
+          "byte": 417
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type"
+      ],
+      "text_digest": "e68fef76198170132b23f204bfe9f45dca3b3cee9af3434e2e55d957a2033720"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:417:union_type",
+      "kind": "union_type",
+      "label": "\"client\" | \"server\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 48,
+          "byte": 398
+        },
+        "end": {
+          "line": 11,
+          "column": 67,
+          "byte": 417
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type"
+      ],
+      "text_digest": "2d053c81f7ad80bcffacf18dff8ef1d5c4576b3465dbbd055b969c53a75d4651"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:literal_type",
+      "kind": "literal_type",
+      "label": "\"server\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 59,
+          "byte": 409
+        },
+        "end": {
+          "line": 11,
+          "column": 67,
+          "byte": 417
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string"
+      ],
+      "text_digest": "c0f0ad2c21d3bbd26199e6c3df4caf0fa1dd4277c0a3f2fa1b82d06e3d993bb4"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:409:417:string",
+      "kind": "string",
+      "label": "\"server\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 59,
+          "byte": 409
+        },
+        "end": {
+          "line": 11,
+          "column": 67,
+          "byte": 417
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:410:416:string_fragment"
+      ],
+      "text_digest": "c0f0ad2c21d3bbd26199e6c3df4caf0fa1dd4277c0a3f2fa1b82d06e3d993bb4"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:410:416:string_fragment",
+      "kind": "string_fragment",
+      "label": "server",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 60,
+          "byte": 410
+        },
+        "end": {
+          "line": 11,
+          "column": 66,
+          "byte": 416
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b3eacd33433b31b5252351032c9b3e7a2e7aa7738d5decdf0dd6c62680853c06"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:literal_type",
+      "kind": "literal_type",
+      "label": "\"client\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 48,
+          "byte": 398
+        },
+        "end": {
+          "line": 11,
+          "column": 56,
+          "byte": 406
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string"
+      ],
+      "text_digest": "0426edc5034cbd6b79a3b07041e44160331130720dbfc4d88e988862405cc3d7"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:398:406:string",
+      "kind": "string",
+      "label": "\"client\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 48,
+          "byte": 398
+        },
+        "end": {
+          "line": 11,
+          "column": 56,
+          "byte": 406
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:399:405:string_fragment"
+      ],
+      "text_digest": "0426edc5034cbd6b79a3b07041e44160331130720dbfc4d88e988862405cc3d7"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:399:405:string_fragment",
+      "kind": "string_fragment",
+      "label": "client",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 49,
+          "byte": 399
+        },
+        "end": {
+          "line": 11,
+          "column": 55,
+          "byte": 405
+        }
+      },
+      "children_ids": [],
+      "text_digest": "948fe603f61dc036b5c596dc09fe3ce3f3d30dc90f024c85f3c82db2ccab679d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:389:396:identifier",
+      "kind": "identifier",
+      "label": "context",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 39,
+          "byte": 389
+        },
+        "end": {
+          "line": 11,
+          "column": 46,
+          "byte": 396
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ea7792a26f405e2ae9c6f49ca93bbe6076ceac0a1fc53d83426c7d7f2d9377e4"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:366:388:identifier",
+      "kind": "identifier",
+      "label": "getRequiredSupabaseEnv",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 16,
+          "byte": 366
+        },
+        "end": {
+          "line": 11,
+          "column": 38,
+          "byte": 388
+        }
+      },
+      "children_ids": [],
+      "text_digest": "865ad45db58278e92e0e4bfca5002748d68f42106d25b7e27f4f4b68d0fda4ea"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:147:348:function_declaration",
+      "kind": "function_declaration",
+      "label": "function readSupabaseEnv(): { url: string | undefined; anon: string | undefined } {\n  return {\n    url: process.env.NEXT_PUBLIC_SUPABASE_URL,\n    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,\n  };\n}",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 147
+        },
+        "end": {
+          "line": 9,
+          "column": 1,
+          "byte": 348
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:156:171:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:171:173:formal_parameters",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block"
+      ],
+      "text_digest": "5f25c633506faea6b11c4d60a8e0cdd51dea4dfcc7a6336500c11e440caf196c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:229:348:statement_block",
+      "kind": "statement_block",
+      "label": "{\n  return {\n    url: process.env.NEXT_PUBLIC_SUPABASE_URL,\n    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,\n  };\n}",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 82,
+          "byte": 229
+        },
+        "end": {
+          "line": 9,
+          "column": 1,
+          "byte": 348
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement"
+      ],
+      "text_digest": "5abd75bd35a2dc82def3838b835a03b83c0a085eb2d27033aa96415fc803f93b"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:233:346:return_statement",
+      "kind": "return_statement",
+      "label": "return {\n    url: process.env.NEXT_PUBLIC_SUPABASE_URL,\n    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,\n  };",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 2,
+          "byte": 233
+        },
+        "end": {
+          "line": 8,
+          "column": 4,
+          "byte": 346
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object"
+      ],
+      "text_digest": "fc6adecf120463dfbbb0c41647029f88b36a6343fcf7f4b60d1511c425ba6438"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:240:345:object",
+      "kind": "object",
+      "label": "{\n    url: process.env.NEXT_PUBLIC_SUPABASE_URL,\n    anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,\n  }",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 9,
+          "byte": 240
+        },
+        "end": {
+          "line": 8,
+          "column": 3,
+          "byte": 345
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair"
+      ],
+      "text_digest": "959d91f724367ef3003d57462e48fd49033fe3ad89dd480527930d14cc19eea5"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:340:pair",
+      "kind": "pair",
+      "label": "anon: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 4,
+          "byte": 293
+        },
+        "end": {
+          "line": 7,
+          "column": 51,
+          "byte": 340
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:297:property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression"
+      ],
+      "text_digest": "a524dc700030c8ebe554feb3689b625442dce88238081a490ea85e6cd03b0216"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:340:member_expression",
+      "kind": "member_expression",
+      "label": "process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 10,
+          "byte": 299
+        },
+        "end": {
+          "line": 7,
+          "column": 51,
+          "byte": 340
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:311:340:property_identifier"
+      ],
+      "text_digest": "edff2af572a8b56a35ee7d8fe38d80965b2475df81428bc8d484be6d46875f34"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:311:340:property_identifier",
+      "kind": "property_identifier",
+      "label": "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 22,
+          "byte": 311
+        },
+        "end": {
+          "line": 7,
+          "column": 51,
+          "byte": 340
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f97a233d6dc2a224699f760af6d9649a30e589584002d9e0ca3e6546b4e16da5"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:310:member_expression",
+      "kind": "member_expression",
+      "label": "process.env",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 10,
+          "byte": 299
+        },
+        "end": {
+          "line": 7,
+          "column": 21,
+          "byte": 310
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:306:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:307:310:property_identifier"
+      ],
+      "text_digest": "a97d7492edeb30eaf7b260e2b02ffe125474c2adcf5764051a055aeb22e51457"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:307:310:property_identifier",
+      "kind": "property_identifier",
+      "label": "env",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 18,
+          "byte": 307
+        },
+        "end": {
+          "line": 7,
+          "column": 21,
+          "byte": 310
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b77349bf1fa9b26d45d545d7d64dad96737e9cfbb3cbb5f5d10fb77b0fcc44ad"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:299:306:identifier",
+      "kind": "identifier",
+      "label": "process",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 10,
+          "byte": 299
+        },
+        "end": {
+          "line": 7,
+          "column": 17,
+          "byte": 306
+        }
+      },
+      "children_ids": [],
+      "text_digest": "19ed40bf62c399b8492efda5b9a9184b68cf4d9d4a165b38557b9d14201d0c03"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:293:297:property_identifier",
+      "kind": "property_identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 4,
+          "byte": 293
+        },
+        "end": {
+          "line": 7,
+          "column": 8,
+          "byte": 297
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:287:pair",
+      "kind": "pair",
+      "label": "url: process.env.NEXT_PUBLIC_SUPABASE_URL",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 4,
+          "byte": 246
+        },
+        "end": {
+          "line": 6,
+          "column": 45,
+          "byte": 287
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:249:property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression"
+      ],
+      "text_digest": "d9990fd50c6a9e23f0c138493c812003ac5510125ee343abf0433e6acce84af8"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:287:member_expression",
+      "kind": "member_expression",
+      "label": "process.env.NEXT_PUBLIC_SUPABASE_URL",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 9,
+          "byte": 251
+        },
+        "end": {
+          "line": 6,
+          "column": 45,
+          "byte": 287
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:263:287:property_identifier"
+      ],
+      "text_digest": "20167180d753786297917bf91e421e2ab115e15d8ad3c9771d032cea6c170aab"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:263:287:property_identifier",
+      "kind": "property_identifier",
+      "label": "NEXT_PUBLIC_SUPABASE_URL",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 21,
+          "byte": 263
+        },
+        "end": {
+          "line": 6,
+          "column": 45,
+          "byte": 287
+        }
+      },
+      "children_ids": [],
+      "text_digest": "84d28aed79accf16c0699414e7b9a97b510064e0c299f729f914c5398b8c8a0f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:262:member_expression",
+      "kind": "member_expression",
+      "label": "process.env",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 9,
+          "byte": 251
+        },
+        "end": {
+          "line": 6,
+          "column": 20,
+          "byte": 262
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:258:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:259:262:property_identifier"
+      ],
+      "text_digest": "a97d7492edeb30eaf7b260e2b02ffe125474c2adcf5764051a055aeb22e51457"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:259:262:property_identifier",
+      "kind": "property_identifier",
+      "label": "env",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 17,
+          "byte": 259
+        },
+        "end": {
+          "line": 6,
+          "column": 20,
+          "byte": 262
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b77349bf1fa9b26d45d545d7d64dad96737e9cfbb3cbb5f5d10fb77b0fcc44ad"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:251:258:identifier",
+      "kind": "identifier",
+      "label": "process",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 9,
+          "byte": 251
+        },
+        "end": {
+          "line": 6,
+          "column": 16,
+          "byte": 258
+        }
+      },
+      "children_ids": [],
+      "text_digest": "19ed40bf62c399b8492efda5b9a9184b68cf4d9d4a165b38557b9d14201d0c03"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:246:249:property_identifier",
+      "kind": "property_identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 4,
+          "byte": 246
+        },
+        "end": {
+          "line": 6,
+          "column": 7,
+          "byte": 249
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:173:228:type_annotation",
+      "kind": "type_annotation",
+      "label": ": { url: string | undefined; anon: string | undefined }",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 26,
+          "byte": 173
+        },
+        "end": {
+          "line": 4,
+          "column": 81,
+          "byte": 228
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type"
+      ],
+      "text_digest": "7657cb2596d4c63e28df614b3f51b0ca29c91a88c1213e1afbbfb701243b13ce"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:175:228:object_type",
+      "kind": "object_type",
+      "label": "{ url: string | undefined; anon: string | undefined }",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 28,
+          "byte": 175
+        },
+        "end": {
+          "line": 4,
+          "column": 81,
+          "byte": 228
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature"
+      ],
+      "text_digest": "7077e9e526cb6b61c661b3cb9dd2d78608ca205908a9e4ee0111817972a0087a"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:226:property_signature",
+      "kind": "property_signature",
+      "label": "anon: string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 55,
+          "byte": 202
+        },
+        "end": {
+          "line": 4,
+          "column": 79,
+          "byte": 226
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:206:property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation"
+      ],
+      "text_digest": "14806e33123146ee5f767ca23c87f00e26d00ebea5520b0bc3eb4030702ab921"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:206:226:type_annotation",
+      "kind": "type_annotation",
+      "label": ": string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 59,
+          "byte": 206
+        },
+        "end": {
+          "line": 4,
+          "column": 79,
+          "byte": 226
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type"
+      ],
+      "text_digest": "08a4060061d4fea8205d869f6aca5925abfb9712a783821b6b78622fd597c00f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:226:union_type",
+      "kind": "union_type",
+      "label": "string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 61,
+          "byte": 208
+        },
+        "end": {
+          "line": 4,
+          "column": 79,
+          "byte": 226
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:214:predefined_type",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type"
+      ],
+      "text_digest": "742bc7c431ffabcc3c4fdcd378a50d88556b429d980d9073f023600584a4239f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:literal_type",
+      "kind": "literal_type",
+      "label": "undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 70,
+          "byte": 217
+        },
+        "end": {
+          "line": 4,
+          "column": 79,
+          "byte": 226
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:undefined"
+      ],
+      "text_digest": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:217:226:undefined",
+      "kind": "undefined",
+      "label": "undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 70,
+          "byte": 217
+        },
+        "end": {
+          "line": 4,
+          "column": 79,
+          "byte": 226
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:208:214:predefined_type",
+      "kind": "predefined_type",
+      "label": "string",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 61,
+          "byte": 208
+        },
+        "end": {
+          "line": 4,
+          "column": 67,
+          "byte": 214
+        }
+      },
+      "children_ids": [],
+      "text_digest": "473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:202:206:property_identifier",
+      "kind": "property_identifier",
+      "label": "anon",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 55,
+          "byte": 202
+        },
+        "end": {
+          "line": 4,
+          "column": 59,
+          "byte": 206
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5430eeed859cad61d925097ec4f532461ccf1ab6b9802b09a313be1478a4d614"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:200:property_signature",
+      "kind": "property_signature",
+      "label": "url: string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 30,
+          "byte": 177
+        },
+        "end": {
+          "line": 4,
+          "column": 53,
+          "byte": 200
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:180:property_identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation"
+      ],
+      "text_digest": "edea3605a7250dd4385d04abd5b5a70af717ac28bd4e31547f3aebe7c165a268"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:180:200:type_annotation",
+      "kind": "type_annotation",
+      "label": ": string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 33,
+          "byte": 180
+        },
+        "end": {
+          "line": 4,
+          "column": 53,
+          "byte": 200
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type"
+      ],
+      "text_digest": "08a4060061d4fea8205d869f6aca5925abfb9712a783821b6b78622fd597c00f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:200:union_type",
+      "kind": "union_type",
+      "label": "string | undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 35,
+          "byte": 182
+        },
+        "end": {
+          "line": 4,
+          "column": 53,
+          "byte": 200
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:188:predefined_type",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type"
+      ],
+      "text_digest": "742bc7c431ffabcc3c4fdcd378a50d88556b429d980d9073f023600584a4239f"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:literal_type",
+      "kind": "literal_type",
+      "label": "undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 44,
+          "byte": 191
+        },
+        "end": {
+          "line": 4,
+          "column": 53,
+          "byte": 200
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:undefined"
+      ],
+      "text_digest": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:191:200:undefined",
+      "kind": "undefined",
+      "label": "undefined",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 44,
+          "byte": 191
+        },
+        "end": {
+          "line": 4,
+          "column": 53,
+          "byte": 200
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eb045d78d273107348b0300c01d29b7552d622abbc6faf81b3ec55359aa9950c"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:182:188:predefined_type",
+      "kind": "predefined_type",
+      "label": "string",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 35,
+          "byte": 182
+        },
+        "end": {
+          "line": 4,
+          "column": 41,
+          "byte": 188
+        }
+      },
+      "children_ids": [],
+      "text_digest": "473287f8298dba7163a897908958f7c0eae733e25d2e027992ea2edc9bed2fa8"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:177:180:property_identifier",
+      "kind": "property_identifier",
+      "label": "url",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 30,
+          "byte": 177
+        },
+        "end": {
+          "line": 4,
+          "column": 33,
+          "byte": 180
+        }
+      },
+      "children_ids": [],
+      "text_digest": "28e5ebabd9d8f6e237df63da2b503785093f0229241bc7021198f63c43b93269"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:171:173:formal_parameters",
+      "kind": "formal_parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 24,
+          "byte": 171
+        },
+        "end": {
+          "line": 4,
+          "column": 26,
+          "byte": 173
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:156:171:identifier",
+      "kind": "identifier",
+      "label": "readSupabaseEnv",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 9,
+          "byte": 156
+        },
+        "end": {
+          "line": 4,
+          "column": 24,
+          "byte": 171
+        }
+      },
+      "children_ids": [],
+      "text_digest": "423674e1f74b97c0fd06bafd9c82e30987dfb8e90f1dfdc4e5c3cf5db8cf05e0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:0:145:lexical_declaration",
+      "kind": "lexical_declaration",
+      "label": "const MISSING_GUIDANCE =\n  \"Set them in the repo root .env, or let apps/web/next.config.js derive them from SUPABASE_URL and SUPABASE_ANON_KEY.\";",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 120,
+          "byte": 145
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator"
+      ],
+      "text_digest": "f39695e88d882751992953d08bbdcd036ba09257e32c4336c4483255eb805e75"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:144:variable_declarator",
+      "kind": "variable_declarator",
+      "label": "MISSING_GUIDANCE =\n  \"Set them in the repo root .env, or let apps/web/next.config.js derive them from SUPABASE_URL and SUPABASE_ANON_KEY.\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 6,
+          "byte": 6
+        },
+        "end": {
+          "line": 2,
+          "column": 119,
+          "byte": 144
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:22:identifier",
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string"
+      ],
+      "text_digest": "9ae0a49959e278a1baa6d8d2bb1e0d6c30f21210feff65366b9b80d05d13e379"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:27:144:string",
+      "kind": "string",
+      "label": "\"Set them in the repo root .env, or let apps/web/next.config.js derive them from SUPABASE_URL and SUPABASE_ANON_KEY.\"",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 2,
+          "byte": 27
+        },
+        "end": {
+          "line": 2,
+          "column": 119,
+          "byte": 144
+        }
+      },
+      "children_ids": [
+        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:28:143:string_fragment"
+      ],
+      "text_digest": "f20216ec8e28bdeae53f9cbced4c4f4dcbd2d5a1cb8ae9ca3fb498a6b929415e"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:28:143:string_fragment",
+      "kind": "string_fragment",
+      "label": "Set them in the repo root .env, or let apps/web/next.config.js derive them from SUPABASE_URL and SUPABASE_ANON_KEY.",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 3,
+          "byte": 28
+        },
+        "end": {
+          "line": 2,
+          "column": 118,
+          "byte": 143
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3335b2ed9139fb13fc5cc48fe6c328aeb5d257ad181d9f3684b93e916e276be0"
+    },
+    {
+      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:apps/web/lib/supabase/env.ts:6:22:identifier",
+      "kind": "identifier",
+      "label": "MISSING_GUIDANCE",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 6,
+          "byte": 6
+        },
+        "end": {
+          "line": 1,
+          "column": 22,
+          "byte": 22
+        }
+      },
+      "children_ids": [],
+      "text_digest": "95043f0ddab49a8c83b037a376ca39f3659d2ac6bc63ae6122b7a04b3fa4078d"
+    }
+  ],
+  "parser_id": "tree_sitter_typescript",
+  "relative_path": "apps/web/lib/supabase/env.ts",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "typescript",
+  "warnings": []
+}
