@@ -4,14 +4,11 @@ Responsibilities:
 
 1. Build / consume a :class:`ChangeManifest` from one of three sources
    (in priority order): CPG/graph diff, git diff, or a manual JSON blob.
-2. Seed candidates from 4 sources:
+2. Seed candidates from 3 sources:
    - ``diff_anchor``     \u2014 nodes touching the change manifest
    - ``interface_surface`` \u2014 cross-language seam edges
    - ``graph_anomaly``   \u2014 structural anomalies (e.g. unused edges,
                             orphan nodes, API handlers without callers)
-   - ``ai_driven``       \u2014 placeholder for future AI-driven seeds; kept
-                            behind a feature flag so ranking always
-                            receives the same shape.
 3. Run the full detector registry via :func:`~depos.analysis.detectors.run_all`,
    then attach manifest ``dropped_from_budget`` from the prioritized set.
 4. Deduplication and composite ranking for seeds happen inside detector
@@ -49,22 +46,6 @@ from depos.analysis.schemas import (
 )
 
 _QUEUE_RELATIONS = {TASK_ENQUEUES, TASK_CONSUMES, PRODUCES_PAYLOAD, CONSUMES_PAYLOAD}
-_AI_SEED_KEYWORDS = (
-    "auth",
-    "guard",
-    "permission",
-    "policy",
-    "rls",
-    "session",
-    "token",
-    "admin",
-    "queue",
-    "task",
-    "webhook",
-    "callback",
-    "delete",
-    "update",
-)
 _NOISY_AST_KINDS = {
     "identifier",
     "string",
@@ -541,48 +522,6 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
                     },
                 )
             )
-    return out
-
-
-def _ai_driven_candidates(graph: nx.DiGraph, config: IntelligenceConfig, mode: AnalysisMode) -> list[Candidate]:
-    """Deterministic lexical fallback until a real embedding model lands."""
-    if not config.enable_ai_driven_seeds:
-        return []
-    scored: list[tuple[float, str, dict[str, Any]]] = []
-    for nid, attrs in graph.nodes(data=True):
-        if not _is_seedable_node(attrs):
-            continue
-        haystack = _node_text(attrs)
-        hits = [kw for kw in _AI_SEED_KEYWORDS if kw in haystack]
-        if not hits:
-            continue
-        score = min(0.74, 0.45 + (0.04 * len(hits)) + (0.08 if attrs.get("synthetic_entity") else 0.0))
-        extra = {
-            "strategy": "lexical_similarity_fallback",
-            "keywords": hits,
-            "surface_hint": (
-                "public_route" if _is_public_route_node(attrs) else
-                "queue_task" if _is_queue_surface_node(graph, nid) else
-                "auth_boundary" if _is_auth_boundary_node(attrs) else
-                "generic"
-            ),
-        }
-        scored.append((score, nid, extra))
-    scored.sort(key=lambda row: (-row[0], row[1]))
-    out: list[Candidate] = []
-    for score, nid, extra in scored[:10]:
-        scope_id = f"ai:{nid}"
-        out.append(
-            build_seed_candidate(
-                candidate_id=_candidate_id(scope_id, SeedType.ai_driven, nid),
-                scope_id=scope_id,
-                seed_type=SeedType.ai_driven,
-                detector_confidence=score,
-                diff_anchors=[nid],
-                analysis_mode=mode,
-                raw=extra,
-            )
-        )
     return out
 
 

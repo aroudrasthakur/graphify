@@ -4,6 +4,8 @@ import json
 
 import pytest
 
+from depos.analysis.schemas import Finding, RunMetadata, RunResult
+from depos.cli.analyze import _write_violations
 from depos.analysis.schemas import VerifierOutcome
 from depos.output.canonical import enrich_violations_payload, verifier_to_status
 from depos.output.json import render_violations_document
@@ -101,3 +103,26 @@ def test_gray_zone_outputs_include_failed_rule_details() -> None:
     md = render_violations_pr_comment(doc)
     assert "<summary>Why gray-zone?</summary>" in md
     assert "**Failed rule:** cfg_summary" in md
+
+
+def test_write_violations_keeps_product_fields_out_of_legacy_shape(tmp_path) -> None:
+    result = RunResult(
+        run_metadata=RunMetadata(
+            run_id="legacy-shape",
+            output_paths={"findings": "product/findings.json"},
+        ),
+        findings=[
+            Finding(
+                finding_id="f1",
+                trust_level=VerifierOutcome.confirmed,
+                verifier_outcome=VerifierOutcome.confirmed,
+                severity="high",
+            )
+        ],
+    )
+
+    _write_violations(tmp_path, result)
+    payload = json.loads((tmp_path / "violations.json").read_text(encoding="utf-8"))
+
+    assert "output_paths" not in payload["run_metadata"]
+    assert "legacy_finding_id" not in payload["findings"][0]

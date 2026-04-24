@@ -9,7 +9,7 @@ import networkx as nx
 
 from depos.analysis.detectors import register
 from depos.analysis.detectors.policy import iter_eligible_scopes
-from depos.analysis.detectors.builtin.common import make_candidate, simple_spec
+from depos.analysis.detectors.builtin.common import make_candidate, simple_spec, read_source_text_safely
 from depos.analysis.schemas import SeedType, Universe
 
 RE_INF = re.compile(r"while\s*\(\s*true\s*\)\s*;|while\s*\(\s*true\s*\)|while\s+True\s*:", re.I)
@@ -22,13 +22,6 @@ RE_EMPTY_CATCH = re.compile(
 # TypeScript / JS non-null assertion before member access: `x!.y` — often a smell.
 RE_TS_NON_NULL = re.compile(r"\b\w+!\s*\.\s*\w+")
 RE_DBL_NEG = re.compile(r"if\s*\(\s*!\s*!\s*", re.M)
-def _read(repo_root: Path | None, rel: str) -> str | None:
-    if not repo_root or not rel:
-        return None
-    p = (repo_root / rel).resolve()
-    if not p.is_file():
-        return None
-    return p.read_text(encoding="utf-8", errors="replace")
 
 
 def _iter_cfg_scopes(
@@ -125,7 +118,7 @@ def _run_infinite_loop(graph, manifest, mode, config, ctx) -> list:
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
         if not has_cfg:
             continue
-        src = _read(root, str(a.get("source_file") or ""))
+        src = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not src or not RE_INF.search(src):
             continue
         out.append(_make("infinite-loop", sid, mode, config, {"pattern": "while_true"}, 0.8))
@@ -140,7 +133,7 @@ def _run_unreachable(graph, manifest, mode, config, ctx) -> list:
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
         if not has_cfg:
             continue
-        src = _read(root, str(a.get("source_file") or ""))
+        src = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not src or not RE_UNREACH.search(src):
             continue
         out.append(_make("unreachable-branch", sid, mode, config, {"pattern": "if_false"}, 0.72))
@@ -155,7 +148,7 @@ def _run_offby(graph, manifest, mode, config, ctx) -> list:
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
         if not has_cfg:
             continue
-        src = _read(root, str(a.get("source_file") or ""))
+        src = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not src or not RE_OFFBY.search(src):
             continue
         out.append(_make("off-by-one-approx", sid, mode, config, {"pattern": "index_vs_length"}, 0.65))
@@ -173,7 +166,7 @@ def _run_null_deref(graph, manifest, mode, config, ctx) -> list:
         rel = str(a.get("source_file") or "")
         if not rel.endswith((".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs")):
             continue
-        src = _read(root, rel)
+        src = read_source_text_safely(root, rel)
         if not src or not RE_TS_NON_NULL.search(src):
             continue
         out.append(
@@ -190,7 +183,7 @@ def _run_unhandled(graph, manifest, mode, config, ctx) -> list:
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
         if not has_cfg:
             continue
-        src = _read(root, str(a.get("source_file") or ""))
+        src = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not src or "try" not in src:
             continue
         if RE_EMPTY_CATCH.search(src):
@@ -208,7 +201,7 @@ def _run_logic_inversion(graph, manifest, mode, config, ctx) -> list:
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
         if not has_cfg:
             continue
-        src = _read(root, str(a.get("source_file") or ""))
+        src = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not src or not RE_DBL_NEG.search(src):
             continue
         out.append(
@@ -217,21 +210,6 @@ def _run_logic_inversion(graph, manifest, mode, config, ctx) -> list:
     return out
 
 
-def _run_race(graph, manifest, mode, config, ctx) -> list:
-    spec = ctx["detector"]
-    rctx = ctx.get("run_context")
-    if rctx is None or not any(rctx.cfg_available.values()):
-        return []
-    out = []
-    root = rctx.repo_root
-    for n in iter_eligible_scopes(graph, rctx, spec):
-        a = graph.nodes.get(n) or {}
-        s = _read(root, str(a.get("source_file") or ""))
-        if s and RE_AW_RACE.search(s) and RE_AW_MUT.search(s):
-            out.append(
-                _make("race-condition-approx", str(n), mode, config, {"pattern": "async_mutation"}, 0.58)
-            )
-    return out
 
 
 def run1(*a):

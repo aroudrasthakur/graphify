@@ -1,42 +1,42 @@
 {
-  "analysis_timestamp": "2026-04-24T11:06:07+00:00",
-  "branch": "crf/kiro-spec",
-  "commit_sha": "56cd47b38eb4efb79438dc76a34b26921249598a",
+  "analysis_timestamp": "2026-04-24T20:35:28+00:00",
+  "branch": "feat/pipeline-updates",
+  "commit_sha": "9b01c5fca103027d1b1a7bd68560da58f2073655",
   "dependency_resolution_status": "manifest_only",
   "edges": [
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:40:module->ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement:4",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:40:module->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement:4",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:40:module",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:40:module",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
       "type": "child"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement->ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string:3",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string:3",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string",
       "type": "child"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:36:39:string_end:2",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:36:39:string_end:2",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:36:39:string_end",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:36:39:string_end",
       "type": "child"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:3:36:string_content:1",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:3:36:string_content:1",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
       "type": "child"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:3:string_start:0",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:3:string_start:0",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
       "type": "child"
     }
   ],
@@ -44,7 +44,7 @@
   "generation_version": "depos-dataset-export-0.1",
   "nodes": [
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:40:module",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:40:module",
       "kind": "module",
       "label": "\"\"\"Builtin detector implementations.\"\"\"\n",
       "span": {
@@ -60,12 +60,12 @@
         }
       },
       "children_ids": [
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement"
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement"
       ],
       "text_digest": "f420605d15640b9476809a4c77c457c8255ac032a3192d07a20d8afd8d1319cc"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:expression_statement",
       "kind": "expression_statement",
       "label": "\"\"\"Builtin detector implementations.\"\"\"",
       "span": {
@@ -81,12 +81,12 @@
         }
       },
       "children_ids": [
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string"
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string"
       ],
       "text_digest": "7df20d2032b70b3db4a0e88fdc0e976c544abac6c474ad91595ddbb5c0338b4d"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:39:string",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:39:string",
       "kind": "string",
       "label": "\"\"\"Builtin detector implementations.\"\"\"",
       "span": {
@@ -102,14 +102,14 @@
         }
       },
       "children_ids": [
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:36:39:string_end"
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:36:39:string_end"
       ],
       "text_digest": "7df20d2032b70b3db4a0e88fdc0e976c544abac6c474ad91595ddbb5c0338b4d"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:36:39:string_end",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:36:39:string_end",
       "kind": "string_end",
       "label": "\"\"\"",
       "span": {
@@ -128,7 +128,7 @@
       "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:3:36:string_content",
       "kind": "string_content",
       "label": "Builtin detector implementations.",
       "span": {
@@ -147,7 +147,7 @@
       "text_digest": "bac14020332c796b17ce43d7aa18165656f0099eb8c0b07ae01abe36600f765e"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:depos/analysis/detectors/builtin/__init__.py:0:3:string_start",
       "kind": "string_start",
       "label": "\"\"\"",
       "span": {

@@ -77,9 +77,23 @@ def build_run_context(
     Phase 0: manifest + empty placeholder metrics only.
     Phase 1a: full Python CFG/DFG/taint and metrics.
     """
-    from depos.analysis.run_context_bootstrap import apply_semantic_layer
+    from depos.analysis.graph_metrics import compute_graph_metrics
+    from depos.analysis.seams import build_seam_edge_index
+    from depos.analysis.semantic_jsts import enrich_jsts_semantics
+    from depos.analysis.semantic_python import enrich_python_semantics
 
-    return apply_semantic_layer(graph, manifest, repo_root=repo_root, config=config)
+    metrics = compute_graph_metrics(graph)
+    seam_index = build_seam_edge_index(graph)
+
+    ctx = RunContext(
+        manifest=manifest,
+        repo_root=repo_root,
+        graph_metrics=metrics,
+        seam_edge_index=seam_index,
+    )
+    enrich_python_semantics(graph, ctx, repo_root=repo_root)
+    enrich_jsts_semantics(graph, ctx, repo_root=repo_root)
+    return ctx
 
 
 __all__ = [

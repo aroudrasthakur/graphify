@@ -1,14 +1,14 @@
 {
-  "analysis_timestamp": "2026-04-24T11:06:22+00:00",
-  "branch": "crf/kiro-spec",
-  "commit_sha": "56cd47b38eb4efb79438dc76a34b26921249598a",
+  "analysis_timestamp": "2026-04-24T20:35:43+00:00",
+  "branch": "feat/pipeline-updates",
+  "commit_sha": "9b01c5fca103027d1b1a7bd68560da58f2073655",
   "dependency_resolution_status": "manifest_only",
   "edges": [
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:edge:ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:49:module->ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:48:comment:0",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:edge:ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:49:module->ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:48:comment:0",
       "role": "child",
-      "source_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:49:module",
-      "target_id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:48:comment",
+      "source_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:49:module",
+      "target_id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:48:comment",
       "type": "child"
     }
   ],
@@ -16,7 +16,7 @@
   "generation_version": "depos-dataset-export-0.1",
   "nodes": [
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:49:module",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:49:module",
       "kind": "module",
       "label": "# Tests for depos.output renderers and CI gate.\r\n",
       "span": {
@@ -32,12 +32,12 @@
         }
       },
       "children_ids": [
-        "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:48:comment"
+        "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:48:comment"
       ],
       "text_digest": "f60ec5b037dd3855cb17190ccc91cf9c1d28a155f2e84ede31f7adbfa1225feb"
     },
     {
-      "id": "ast:56cd47b38eb4efb79438dc76a34b26921249598a:tests/output/__init__.py:0:48:comment",
+      "id": "ast:9b01c5fca103027d1b1a7bd68560da58f2073655:tests/output/__init__.py:0:48:comment",
       "kind": "comment",
       "label": "# Tests for depos.output renderers and CI gate.\r",
       "span": {

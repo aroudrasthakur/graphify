@@ -17,36 +17,7 @@ _SEAM_PATTERNS: list[tuple[re.Pattern[str], str]] = [
 ]
 
 
-@dataclass
-class SeamEdge:
-    """Lightweight seam record (superseded by schemas.SeamEdge in Phase 2)."""
-
-    edge_id: str
-    u: str
-    v: str
-    source_language: str
-    target_language: str
-    pattern: str
-    relation: str
-    contract_defined: bool = False
-    contract_verified: bool = False
-
-    @property
-    def risk(self) -> float:
-        base = {
-            "ffi": 0.9,
-            "unknown": 0.85,
-            "generic": 0.85,
-            "wasm": 0.75,
-            "ipc": 0.7,
-            "rpc": 0.7,
-            "serverless": 0.7,
-            "queue": 0.6,
-            "schema": 0.55,
-            "http": 0.5,
-            "http_bridge": 0.5,
-        }.get(self.pattern, 0.85)
-        return base if not self.contract_verified else base * 0.4
+from depos.analysis.schemas import SeamEdge
 
 
 def _lang(attrs: dict) -> str:
@@ -96,12 +67,13 @@ def build_seam_edge_index(graph: nx.DiGraph) -> dict[str, Any]:
         rel = str(data.get("relation") or data.get("label") or "edge")
         pat = _classify(rel)
         contract_defined = _contract_defined(data, rel)
-        # TODO: static type verification across seam boundaries.
+        # Cross-boundary type verification requires integration with type-checkers (e.g. mypy, tsc).
+        # Currently, all seam contracts default to unverified unless externally proven.
         contract_verified = False
         record = SeamEdge(
             edge_id=eid,
-            u=str(u),
-            v=str(v),
+            source=str(u),
+            target=str(v),
             source_language=la,
             target_language=lb,
             pattern=pat,

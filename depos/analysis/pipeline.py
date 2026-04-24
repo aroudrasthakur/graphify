@@ -36,6 +36,7 @@ from depos.analysis.schemas import (
     ContextBundle,
     Finding,
     IngestReport,
+    PreselectionInfo,
     RankerDiffFeatures,
     RankerInput,
     ReasonerCallStats,
@@ -45,7 +46,7 @@ from depos.analysis.schemas import (
     Universe,
     VerifierOutcome,
 )
-from depos.analysis.verifier import verify_all
+from depos.analysis.verifier import SourceSnippetCache, verify_all, verify_staged
 
 
 # Mirrors depos.analysis.context_bundle._QUALITY_RANK so we can compare bundle
@@ -81,7 +82,9 @@ def _detector_spec_for_candidate(candidate: Candidate):
         return None
     try:
         return get_detector(detector_name)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to get detector '%s' for candidate: %s", detector_name, e)
         return None
 
 
@@ -130,6 +133,90 @@ def _reasoner_modes_for_candidate(
     if requirement in {"dfg", "taint"}:
         return (ReasonerMode.C,)
     return (ReasonerMode.A,)
+
+
+def _detector_policy_value(mapping: dict[str, Any], detector_name: str) -> Any:
+    if detector_name in mapping:
+        return mapping[detector_name]
+    normalized = detector_name.replace("-", "_")
+    if normalized in mapping:
+        return mapping[normalized]
+    return None
+
+
+def _detector_policy_contains(values: set[str], detector_name: str) -> bool:
+    return detector_name in values or detector_name.replace("-", "_") in values
+
+
+def _empty_reasoner_policy_summary(config: IntelligenceConfig) -> dict[str, Any]:
+    return {
+        "disabled_detectors": sorted(config.reasoner_policy.disabled_detectors),
+        "min_evidence_by_detector": dict(sorted(config.reasoner_policy.min_evidence_by_detector.items())),
+        "max_candidates_by_detector": dict(sorted(config.reasoner_policy.max_candidates_by_detector.items())),
+        "skipped_by_reason": {
+            "detector_policy_disabled": 0,
+            "detector_policy_min_evidence": 0,
+            "detector_policy_max_candidates": 0,
+        },
+        "skipped_by_detector": {},
+        "sent_to_reasoner_by_detector": {},
+        "warnings": [],
+    }
+
+
+def _record_policy_skip(
+    summary: dict[str, Any],
+    *,
+    detector_name: str,
+    reason: str,
+) -> None:
+    summary["skipped_by_reason"][reason] = summary["skipped_by_reason"].get(reason, 0) + 1
+    by_detector = summary["skipped_by_detector"].setdefault(
+        detector_name,
+        {
+            "detector_policy_disabled": 0,
+            "detector_policy_min_evidence": 0,
+            "detector_policy_max_candidates": 0,
+        },
+    )
+    by_detector[reason] = by_detector.get(reason, 0) + 1
+
+
+def _record_reasoner_sent(summary: dict[str, Any], *, detector_name: str) -> None:
+    sent = summary["sent_to_reasoner_by_detector"]
+    sent[detector_name] = sent.get(detector_name, 0) + 1
+
+
+def _slow_ollama_warnings(
+    *,
+    config: IntelligenceConfig,
+    selected_reasoner_candidate_count: int,
+    bundles_sent_to_reasoner: int,
+) -> list[str]:
+    if (config.llm.provider or "").lower() != "ollama":
+        return []
+    triggers: list[str] = []
+    if selected_reasoner_candidate_count > 10 or bundles_sent_to_reasoner > 10:
+        triggers.append(
+            f"{max(selected_reasoner_candidate_count, bundles_sent_to_reasoner)} candidates may be sent to local Ollama"
+        )
+    if float(config.bundles.min_evidence_score_for_reasoner) < 0.3:
+        triggers.append(
+            f"min_evidence_score_for_reasoner={config.bundles.min_evidence_score_for_reasoner:.2f}"
+        )
+    if int(config.llm.default_max_tokens) >= 1000:
+        triggers.append(f"default_max_tokens={config.llm.default_max_tokens}")
+    if not triggers:
+        return []
+    return [
+        "Local Ollama bulk reasoning may be slow ("
+        + "; ".join(triggers)
+        + "). Consider DEPOS_INTEL_MIN_EVIDENCE_SCORE=0.3 or 0.45, "
+        "DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR=graph_anomaly:0.45, "
+        "DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR=graph_anomaly:5, a smaller output token budget, "
+        "and reasoner_attempts.jsonl / reasoner_attempt_summary for timeout calibration. "
+        "Keep Ollama concurrency at 1 unless the hardware supports parallel inference."
+    ]
 
 
 def _emit_progress(progress: Callable[[str], None] | None, message: str) -> None:
@@ -265,6 +352,16 @@ def run_modules_2_through_7(
         )
     _emit_progress(progress, f"Module 2: detectors emitted {len(candidates)} candidates.")
     if not candidates:
+        run_meta.reasoner_policy_summary = _empty_reasoner_policy_summary(config)
+        run_meta.preselection_info = PreselectionInfo(
+            total_candidates=0,
+            eligible_candidates=0,
+            bundled_candidates=0,
+            selected_candidates=0,
+            min_score=min_score,
+            bundle_limit=bundle_limit,
+            selected_limit=selected_limit,
+        )
         for stat in detector_stats:
             stat.run_id = run_meta.run_id
         _emit_progress(progress, "Pipeline: no candidates emitted; stopping after Module 2.")
@@ -276,6 +373,7 @@ def run_modules_2_through_7(
             change_manifest=manifest,
             candidates=[],
             bundles=[],
+            verifier_audits=[],
             gray_zone_rows=[],
             bundle_trace=[],
         )
@@ -296,6 +394,15 @@ def run_modules_2_through_7(
         if selected_limit is not None
         else bundle_candidates
     )
+    run_meta.preselection_info = PreselectionInfo(
+        total_candidates=len(all_candidates),
+        eligible_candidates=len(eligible_candidates),
+        bundled_candidates=len(bundle_candidates),
+        selected_candidates=len(selected_candidates),
+        min_score=min_score,
+        bundle_limit=bundle_limit,
+        selected_limit=selected_limit,
+    )
 
     all_findings: list[Finding] = []
     all_audits = []
@@ -310,10 +417,14 @@ def run_modules_2_through_7(
     bundles_skipped_deterministic_reasoner = 0
     evidence_quality_counts: dict[str, int] = {"full": 0, "embedded": 0, "label_only": 0, "missing": 0}
     bundle_trace: list[BundleTraceEntry] = []
+    reasoner_policy_summary = _empty_reasoner_policy_summary(config)
+    reasoner_sent_by_detector: dict[str, int] = {}
+    selected_reasoner_candidate_count = 0
     quality_floor_name = config.bundles.min_evidence_quality_for_reasoner
     quality_floor = _QUALITY_RANK.get(quality_floor_name, _QUALITY_RANK["embedded"])
     score_floor = float(config.bundles.min_evidence_score_for_reasoner)
     reasoner_session = ReasonerSession(config)
+    source_cache = SourceSnippetCache()
 
     bundles = {}
     built_bundles = []
@@ -363,10 +474,14 @@ def run_modules_2_through_7(
                 BundleTraceEntry(
                     bundle_id=bundle.bundle_id,
                     candidate_id=bundle.candidate_id,
+                    detector_name=detector_name,
                     candidate_score_composite=float(candidate.score.composite),
                     reasoner_modes_returned=[],
                     findings=0,
                     skipped_reason=skip_reason,
+                    reasoner_skipped=True,
+                    reasoner_skip_reason=skip_reason,
+                    reasoner_skip_detail={"policy_source": "semantic_requirement"},
                     evidence_quality=_dominant_quality(bundle.evidence),
                     evidence_score=float(bundle.evidence.evidence_score),
                     reasoner_attempts=0,
@@ -377,24 +492,64 @@ def run_modules_2_through_7(
         elif requires_reasoner:
             evidence = bundle.evidence
             quality = _dominant_quality(evidence)
+            detector_threshold = _detector_policy_value(
+                config.reasoner_policy.min_evidence_by_detector,
+                detector_name,
+            )
+            effective_score_floor = float(detector_threshold) if detector_threshold is not None else score_floor
             passes_quality = _QUALITY_RANK.get(quality, 0) >= quality_floor
-            passes_score = evidence.evidence_score >= score_floor
+            passes_score = evidence.evidence_score >= effective_score_floor
             if not (passes_quality and passes_score):
+                skip_reason = "detector_policy_min_evidence" if detector_threshold is not None and passes_quality else "low_evidence"
+                if skip_reason == "detector_policy_min_evidence":
+                    _record_policy_skip(
+                        reasoner_policy_summary,
+                        detector_name=detector_name,
+                        reason=skip_reason,
+                    )
+                    emit_event(
+                        config,
+                        run_meta.run_id,
+                        "reasoner_policy_skip",
+                        candidate_id=candidate.candidate_id,
+                        detector_name=detector_name,
+                        reasoner_skipped=True,
+                        reasoner_skip_reason=skip_reason,
+                        reasoner_skip_detail={
+                            "evidence_score": float(evidence.evidence_score),
+                            "threshold": effective_score_floor,
+                            "policy_source": "DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR",
+                        },
+                    )
                 bundles_skipped_low_evidence += 1
                 _emit_progress(
                     progress,
                     f"Module 4: skipped reasoner for candidate {index}/{total_candidates} "
                     f"(evidence_quality={quality}, score={evidence.evidence_score:.2f} "
-                    f"< floor quality={quality_floor_name}/score={score_floor:.2f}).",
+                    f"< floor quality={quality_floor_name}/score={effective_score_floor:.2f}).",
                 )
                 bundle_trace.append(
                     BundleTraceEntry(
                         bundle_id=bundle.bundle_id,
                         candidate_id=bundle.candidate_id,
+                        detector_name=detector_name,
                         candidate_score_composite=float(candidate.score.composite),
                         reasoner_modes_returned=[],
                         findings=0,
-                        skipped_reason="low_evidence",
+                        skipped_reason=skip_reason,
+                        reasoner_skipped=True,
+                        reasoner_skip_reason=skip_reason,
+                        reasoner_skip_detail={
+                            "evidence_score": float(evidence.evidence_score),
+                            "threshold": effective_score_floor,
+                            "policy_source": (
+                                "DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR"
+                                if skip_reason == "detector_policy_min_evidence"
+                                else "DEPOS_INTEL_MIN_EVIDENCE_SCORE"
+                            ),
+                            "evidence_quality": quality,
+                            "quality_floor": quality_floor_name,
+                        },
                         evidence_quality=quality,
                         evidence_score=float(evidence.evidence_score),
                         reasoner_attempts=0,
@@ -403,67 +558,136 @@ def run_modules_2_through_7(
                     )
                 )
             else:
-                bundles_sent_to_reasoner += 1
-                mode_labels = ",".join(mode.value for mode in selected_modes) or "-"
-                _emit_progress(
-                    progress,
-                    f"Module 4: running reasoner for candidate {index}/{total_candidates} (modes={mode_labels}).",
+                policy_skip_reason = ""
+                policy_skip_detail: dict[str, Any] = {}
+                if _detector_policy_contains(config.reasoner_policy.disabled_detectors, detector_name):
+                    policy_skip_reason = "detector_policy_disabled"
+                    policy_skip_detail = {
+                        "policy_source": "DEPOS_REASONER_DISABLED_DETECTORS",
+                    }
+                detector_cap = _detector_policy_value(
+                    config.reasoner_policy.max_candidates_by_detector,
+                    detector_name,
                 )
-                bundle_stats = ReasonerCallStats()
-                with timed_stage(config, run_meta.run_id, "reasoner_run", candidate_id=candidate.candidate_id):
-                    reasoner_out = run_all_modes(
-                        bundle,
-                        config=config,
-                        run_id=run_meta.run_id,
-                        ranking_phase=run_meta.ranking_phase,
-                        stats=bundle_stats,
-                        session=reasoner_session,
-                        modes=selected_modes,
+                sent_for_detector = reasoner_sent_by_detector.get(detector_name, 0)
+                if not policy_skip_reason and detector_cap is not None and sent_for_detector >= int(detector_cap):
+                    policy_skip_reason = "detector_policy_max_candidates"
+                    policy_skip_detail = {
+                        "sent_to_reasoner": sent_for_detector,
+                        "max_candidates": int(detector_cap),
+                        "policy_source": "DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR",
+                    }
+                if policy_skip_reason:
+                    _record_policy_skip(
+                        reasoner_policy_summary,
+                        detector_name=detector_name,
+                        reason=policy_skip_reason,
                     )
-                reasoner_stats.merge(bundle_stats)
-                failure_suffix = ""
-                if bundle_stats.failures > 0 and bundle_stats.by_reason:
-                    top_reasons = sorted(
-                        bundle_stats.by_reason.items(), key=lambda kv: (-kv[1], kv[0])
+                    emit_event(
+                        config,
+                        run_meta.run_id,
+                        "reasoner_policy_skip",
+                        candidate_id=candidate.candidate_id,
+                        detector_name=detector_name,
+                        reasoner_skipped=True,
+                        reasoner_skip_reason=policy_skip_reason,
+                        reasoner_skip_detail=policy_skip_detail,
                     )
-                    failure_suffix = (
-                        " Failures: "
-                        + ", ".join(f"{reason}={count}" for reason, count in top_reasons)
-                        + "."
+                    _emit_progress(
+                        progress,
+                        f"Module 4: skipped reasoner for candidate {index}/{total_candidates} "
+                        f"(detector policy: {policy_skip_reason}).",
                     )
-                _emit_progress(
-                    progress,
-                    f"Module 4: reasoner returned {len(reasoner_out)} mode outputs for "
-                    f"candidate {index}/{total_candidates} "
-                    f"across {len(selected_modes)} selected mode(s) "
-                    f"({bundle_stats.successes}/{bundle_stats.attempts} calls succeeded)."
-                    + failure_suffix,
-                )
-                bundle_trace.append(
-                    BundleTraceEntry(
-                        bundle_id=bundle.bundle_id,
-                        candidate_id=bundle.candidate_id,
-                        candidate_score_composite=float(candidate.score.composite),
-                        reasoner_modes_returned=sorted(mode.value for mode in reasoner_out.keys()),
-                        findings=0,
-                        skipped_reason="",
-                        evidence_quality=quality,
-                        evidence_score=float(evidence.evidence_score),
-                        reasoner_attempts=bundle_stats.attempts,
-                        reasoner_successes=bundle_stats.successes,
-                        reasoner_failures=bundle_stats.failures,
+                    bundle_trace.append(
+                        BundleTraceEntry(
+                            bundle_id=bundle.bundle_id,
+                            candidate_id=bundle.candidate_id,
+                            detector_name=detector_name,
+                            candidate_score_composite=float(candidate.score.composite),
+                            reasoner_modes_returned=[],
+                            findings=0,
+                            skipped_reason=policy_skip_reason,
+                            reasoner_skipped=True,
+                            reasoner_skip_reason=policy_skip_reason,
+                            reasoner_skip_detail=policy_skip_detail,
+                            evidence_quality=quality,
+                            evidence_score=float(evidence.evidence_score),
+                            reasoner_attempts=0,
+                            reasoner_successes=0,
+                            reasoner_failures=0,
+                        )
                     )
-                )
+                else:
+                    selected_reasoner_candidate_count += 1
+                    reasoner_sent_by_detector[detector_name] = sent_for_detector + 1
+                    _record_reasoner_sent(reasoner_policy_summary, detector_name=detector_name)
+                    bundles_sent_to_reasoner += 1
+                    mode_labels = ",".join(mode.value for mode in selected_modes) or "-"
+                    _emit_progress(
+                        progress,
+                        f"Module 4: running reasoner for candidate {index}/{total_candidates} (modes={mode_labels}).",
+                    )
+                    bundle_stats = ReasonerCallStats()
+                    with timed_stage(config, run_meta.run_id, "reasoner_run", candidate_id=candidate.candidate_id):
+                        reasoner_out = run_all_modes(
+                            bundle,
+                            config=config,
+                            run_id=run_meta.run_id,
+                            ranking_phase=run_meta.ranking_phase,
+                            stats=bundle_stats,
+                            session=reasoner_session,
+                            modes=selected_modes,
+                            detector_name=detector_name,
+                        )
+                    reasoner_stats.merge(bundle_stats)
+                    failure_suffix = ""
+                    if bundle_stats.failures > 0 and bundle_stats.by_reason:
+                        top_reasons = sorted(
+                            bundle_stats.by_reason.items(), key=lambda kv: (-kv[1], kv[0])
+                        )
+                        failure_suffix = (
+                            " Failures: "
+                            + ", ".join(f"{reason}={count}" for reason, count in top_reasons)
+                            + "."
+                        )
+                    _emit_progress(
+                        progress,
+                        f"Module 4: reasoner returned {len(reasoner_out)} mode outputs for "
+                        f"candidate {index}/{total_candidates} "
+                        f"across {len(selected_modes)} selected mode(s) "
+                        f"({bundle_stats.successes}/{bundle_stats.attempts} calls succeeded)."
+                        + failure_suffix,
+                    )
+                    bundle_trace.append(
+                        BundleTraceEntry(
+                            bundle_id=bundle.bundle_id,
+                            candidate_id=bundle.candidate_id,
+                            detector_name=detector_name,
+                            candidate_score_composite=float(candidate.score.composite),
+                            reasoner_modes_returned=sorted(mode.value for mode in reasoner_out.keys()),
+                            findings=0,
+                            skipped_reason="",
+                            evidence_quality=quality,
+                            evidence_score=float(evidence.evidence_score),
+                            reasoner_attempts=bundle_stats.attempts,
+                            reasoner_successes=bundle_stats.successes,
+                            reasoner_failures=bundle_stats.failures,
+                        )
+                    )
         else:
             _emit_progress(progress, f"Module 4: skipped reasoner for candidate {index}/{total_candidates} (mechanical detector).")
             bundle_trace.append(
                 BundleTraceEntry(
                     bundle_id=bundle.bundle_id,
                     candidate_id=bundle.candidate_id,
+                    detector_name=detector_name,
                     candidate_score_composite=float(candidate.score.composite),
                     reasoner_modes_returned=[],
                     findings=0,
                     skipped_reason="mechanical_detector",
+                    reasoner_skipped=True,
+                    reasoner_skip_reason="mechanical_detector",
+                    reasoner_skip_detail={"policy_source": "detector_requires_reasoner"},
                     evidence_quality=_dominant_quality(bundle.evidence),
                     evidence_score=float(bundle.evidence.evidence_score),
                     reasoner_attempts=0,
@@ -480,6 +704,7 @@ def run_modules_2_through_7(
             full_repo_scan=full_repo_scan,
             deterministic_only=deterministic_only,
         )
+        audits = verify_staged(audits, bundle=bundle, cache=source_cache)
         if bundle_trace:
             bundle_trace[-1].findings = len(findings)
         _emit_progress(progress, f"Module 6: candidate {index}/{total_candidates} produced {len(findings)} findings and {len(audits)} audits.")
@@ -497,7 +722,8 @@ def run_modules_2_through_7(
         elif audits and all(a.verifier_outcome == VerifierOutcome.invalid_reasoning for a in audits):
             labels[candidate.candidate_id] = ("not_suspicious", "verifier_contradicted")
 
-    # Module 5 \u2014 rank and serialize phase-0 training rows.
+    # Module 5 is post-selection: it annotates findings/training rows and does
+    # not choose the initial top-N candidate set.
     _emit_progress(progress, f"Module 5: ranking {len(ranker_inputs)} candidates and writing training rows.")
     scores = rank(ranker_inputs, config=config)
     score_map = {s.candidate_id: s for s in scores}
@@ -534,6 +760,15 @@ def run_modules_2_through_7(
     bundles_built = len(built_bundles)
     health = reasoner_stats.health()
     health_reason = _reasoner_health_reason(reasoner_stats, bundles_sent_to_reasoner)
+    warnings = _slow_ollama_warnings(
+        config=config,
+        selected_reasoner_candidate_count=selected_reasoner_candidate_count,
+        bundles_sent_to_reasoner=bundles_sent_to_reasoner,
+    )
+    reasoner_policy_summary["warnings"] = warnings
+    for warning in warnings:
+        _emit_progress(progress, f"Warning: {warning}")
+        emit_event(config, run_meta.run_id, "reasoner_policy_warning", warning=warning)
     evidence_summary = {
         "bundles_built": bundles_built,
         "bundles_sent_to_reasoner": bundles_sent_to_reasoner,
@@ -550,6 +785,7 @@ def run_modules_2_through_7(
     run_meta.bundles_sent_to_reasoner = bundles_sent_to_reasoner
     run_meta.bundles_skipped_low_evidence = bundles_skipped_low_evidence
     run_meta.evidence_summary = evidence_summary
+    run_meta.reasoner_policy_summary = reasoner_policy_summary
 
     result = RunResult(
         findings=all_findings,
@@ -561,6 +797,7 @@ def run_modules_2_through_7(
         change_manifest=manifest,
         candidates=all_candidates,
         bundles=built_bundles,
+        verifier_audits=all_audits,
         gray_zone_rows=gray_rows,
         bundle_trace=bundle_trace,
     )

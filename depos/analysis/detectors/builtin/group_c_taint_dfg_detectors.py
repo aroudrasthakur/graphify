@@ -7,18 +7,9 @@ from pathlib import Path
 import networkx as nx
 
 from depos.analysis.detectors import register
-from depos.analysis.detectors.builtin.common import make_candidate, simple_spec
+from depos.analysis.detectors.builtin.common import make_candidate, simple_spec, read_source_text_safely
 from depos.analysis.detectors.policy import iter_eligible_scopes
 from depos.analysis.schemas import SeedType, TaintEdge, Universe
-
-
-def _read(repo_root: Path | None, rel: str) -> str | None:
-    if not repo_root or not rel:
-        return None
-    p = (repo_root / rel).resolve()
-    if not p.is_file():
-        return None
-    return p.read_text(encoding="utf-8", errors="replace")
 
 
 RE_SQL = re.compile(r"execute\(|raw\(|`select\s|INSERT\s+INTO", re.I)
@@ -148,7 +139,7 @@ def _run_auth_bypass(graph, manifest, mode, config, ctx) -> list:
     for n in iter_eligible_scopes(graph, rctx, spec):
         a = graph.nodes.get(n) or {}
         rel = str(a.get("source_file") or "")
-        src = _read(root, rel)
+        src = read_source_text_safely(root, rel)
         if not src or "middleware" not in rel and "auth" not in rel.lower():
             continue
         if re.search(r"if\s*\(\s*true\s*\)\s*return|if\s*True:\s*return", src):
@@ -183,7 +174,7 @@ def _run_priv(graph, manifest, mode, config, ctx) -> list:
     root = rctx.repo_root
     for n in iter_eligible_scopes(graph, rctx, spec):
         a = graph.nodes.get(n) or {}
-        s = _read(root, str(a.get("source_file") or ""))
+        s = read_source_text_safely(root, str(a.get("source_file") or ""))
         if s and RE_SUDO.search(s):
             out.append(
                 _make("privilege-escalation-approx", str(n), mode, config, {"file": a.get("source_file")}, 0.78, req_dfg=True)
@@ -200,7 +191,7 @@ def _run_uaf(graph, manifest, mode, config, ctx) -> list:
     root = rctx.repo_root
     for n in iter_eligible_scopes(graph, rctx, spec):
         a = graph.nodes.get(n) or {}
-        s = _read(root, str(a.get("source_file") or ""))
+        s = read_source_text_safely(root, str(a.get("source_file") or ""))
         if s and RE_UAF.search(s) and "delete" in s:
             out.append(
                 _make("use-after-free-approx", str(n), mode, config, {"pattern": "delete_or_free"}, 0.63, req_dfg=True)
@@ -217,7 +208,7 @@ def _run_overflow(graph, manifest, mode, config, ctx) -> list:
     root = rctx.repo_root
     for n in iter_eligible_scopes(graph, rctx, spec):
         a = graph.nodes.get(n) or {}
-        s = _read(root, str(a.get("source_file") or ""))
+        s = read_source_text_safely(root, str(a.get("source_file") or ""))
         if s and RE_OVERFLOW.search(s):
             out.append(
                 _make("integer-overflow-approx", str(n), mode, config, {"pattern": "bitshift_or_mul"}, 0.57, req_dfg=True)
@@ -239,7 +230,7 @@ def _run_race(graph, manifest, mode, config, ctx) -> list:
     ]
     for n in iter_eligible_scopes(graph, rctx, spec):
         a = graph.nodes.get(n) or {}
-        s = _read(root, str(a.get("source_file") or ""))
+        s = read_source_text_safely(root, str(a.get("source_file") or ""))
         if not s:
             continue
         if RE_AW_RACE.search(s) and RE_AW_MUT.search(s):

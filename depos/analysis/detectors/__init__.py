@@ -29,7 +29,6 @@ _BUILTIN_MODULES = [
     "depos.analysis.detectors.builtin.diff_anchor",
     "depos.analysis.detectors.builtin.interface_surface",
     "depos.analysis.detectors.builtin.graph_anomaly",
-    "depos.analysis.detectors.builtin.lexical_keyword_seed",
     "depos.analysis.detectors.builtin.dep_version_mismatch_across_workspaces",
     "depos.analysis.detectors.builtin.lockfile_drift",
     "depos.analysis.detectors.builtin.peer_dep_unsatisfied",

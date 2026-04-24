@@ -12,7 +12,6 @@ import networkx as nx
 from depos.analysis.cfg import python_cfg as _cfg
 from depos.analysis.run_context import RunContext
 from depos.analysis.schemas import SeamEdge, SemanticEdgeMetadata, TaintEdge
-from depos.analysis.seams import SeamEdge as SeamsDTE
 
 _TAINT_SINKS = re.compile(
     r"(execute\(\s*|\.execute\(\s*|raw\(|os\.system|subprocess|eval\(|eval\s*\(|exec\()",
@@ -158,7 +157,9 @@ def _seam_schemas_for_ids(
             metadata = SemanticEdgeMetadata.model_validate(
                 {k2: v2 for k2, v2 in data.items() if k2 != "relation"}
             )
-        except Exception:  # noqa: BLE001
+        except Exception as e:  # noqa: BLE001
+            import logging
+            logging.getLogger(__name__).warning("Failed to validate SemanticEdgeMetadata: %s", e)
             metadata = SemanticEdgeMetadata()
         out.append(
             SeamEdge(
@@ -332,7 +333,9 @@ def taint_for_jsts_scope(
     try:
         lang = _load_language_for_path(rel)
         tree = Parser(lang).parse(raw)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to parse JS/TS scope %s: %s", rel, e)
         return []
     fn = _find_innermost_function(tree.root_node, start)
     if fn is None:

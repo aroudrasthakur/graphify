@@ -1,34 +1,34 @@
 ---
 name: architecture-risk pipeline
-overview: Refine the depOS intelligence pipeline with additive product-facing outputs (ProductFinding models), advisory staged verifier, graph reliability as a product signal, product CIDecision, centralized write_product_outputs, and legacy-safe serialization. Shipped in small gated phases; each phase preserves existing artifacts and passes targeted tests before proceeding. Full pytest tests/ -q at final gate. Do not implement until this plan is approved.
+overview: Refine the depOS intelligence pipeline with additive product-facing outputs (ProductFinding models), advisory staged verifier, graph reliability as a product signal, product CIDecision, centralized write_product_outputs, and legacy-safe serialization. Shipped in small gated phases; each phase preserves existing artifacts and passes targeted tests before proceeding. Full pytest tests/ -q at final gate. Completed after approval.
 todos:
   - id: phase0-inventory
     content: Phase 0 - Codebase inspection and output contract inventory (schemas, Finding type, writers, output dirs, RunResult wiring, model_dump risk, golden tests). Document in plan appendix; no feature code.
-    status: pending
+    status: completed
   - id: phase1-product-schemas
     content: Phase 1 - Add ProductFinding, ProductEvidence, ProductImpactPath, ProductImpactPathNode, ProductImpactPathEdge, ProductAffectedSurface, ProductMCPContext, ProductRunSummary, shared enums, PreselectionInfo, CIDecision; minimal VerifierAuditEntry advisory fields only. No large Finding expansion unless legacy-safe and tested.
-    status: pending
+    status: completed
   - id: phase1-legacy-serialization
     content: Phase 1 - Legacy serialization protection for _write_violations and any model_dump paths; regression tests for violations.json shape; gate.py unchanged.
-    status: pending
+    status: completed
   - id: phase1-output-helpers
     content: Phase 1 - resolve_product_output_dir + write_product_outputs (DEPOS_PRODUCT_OUTPUTS_ENABLED); single call per analyze mode; schema_version 1.0 on all new artifacts.
-    status: pending
+    status: completed
   - id: phase1-pipeline-preselection
     content: Phase 1 - Attach PreselectionInfo in run_modules_2_through_7 after slicing (search for function); comment Module 5 post-selection. No change to ordering or top-N.
-    status: pending
+    status: completed
   - id: phase1-staged-advisory
     content: Phase 1 - verify_staged advisory only (stage_results + validity fields); bounded per-run SourceSnippetCache; no VerifierOutcome mutation; no gate change; no finding rejection.
-    status: pending
+    status: completed
   - id: phase2-graph-product
     content: Phase 2 - graph_reliability product signal; ProductFinding impact_confidence/caveats/request_review for coverage-sensitive; no core gray-zone movement; examples A/B in tests/docs.
-    status: pending
+    status: completed
   - id: phase2-ci-mcp
     content: Phase 2 - CIDecision from ProductFinding + policy snapshot; conservative defaults vs legacy gate; MCP caps, redaction, review_only.
-    status: pending
+    status: completed
   - id: phase3-docs-tests-final
     content: Phase 3 - Docs (product, architecture, dataset-pipeline); unit-first tests + minimal integration; final pytest tests/ -q.
-    status: pending
+    status: completed
 isProject: false
 ---
 
@@ -349,4 +349,53 @@ flowchart LR
 - **Tests:** unit-first; **final** full pytest.
 - **Phased** rollout, **not** a single session.
 
-**Do not implement code until this revised plan is approved.**
+## Completion notes
+
+Status: complete.
+
+### Phase 0 inventory
+
+- `Finding`, `RunMetadata`, and `RunResult` are Pydantic models in
+  `depos/analysis/schemas.py`.
+- `violations.json` is written by `_write_violations` in
+  `depos/cli/analyze.py`; it now uses an explicit legacy `Finding` include set
+  and excludes product `output_paths` from `run_metadata`.
+- Existing writers remain in `depos/cli/analyze.py`: `_write_candidates_json`,
+  `_write_bundles_json`, `_write_bundle_scores_json`,
+  `_write_bundle_trace_json`, and `_write_run_summary`.
+- Repo and diff runs use the canonical intelligence run directory from
+  `config.data_dir / config.run_output_subdir / run_id`.
+- Dataset pipeline product outputs use `<out_dir>/gemma4-run/`, alongside
+  `violations.json`, while the internal `.canonical` mirror behavior remains
+  unchanged.
+- `RunResult` is the handoff point for product assembly. Findings, bundles,
+  verifier audits, gray-zone rows, candidate data, and bundle trace are all
+  available after the canonical pipeline completes.
+- Module 5 remains post-selection annotation/training; it does not select the
+  initial top-N candidates.
+- Optional product fields were not added to legacy `Finding`; product data
+  lives in `ProductFinding` and related models.
+
+### Implemented surfaces
+
+- Product schemas: `ProductFinding`, `ProductEvidence`,
+  `ProductImpactPath`, `ProductAffectedSurface`, `ProductMCPContext`,
+  `ProductRunSummary`, `PreselectionInfo`, `CIDecision`, and shared enums.
+- Product writer: `depos/analysis/product_outputs.py` centralizes
+  `resolve_product_output_dir`, `write_product_outputs`, product CI decisions,
+  graph reliability mapping, MCP capping, and redaction.
+- CLI wiring: repo, diff, and dataset-pipeline each call product writing once
+  when `DEPOS_PRODUCT_OUTPUTS_ENABLED` is enabled.
+- Staged verifier: `verify_staged` and bounded per-run `SourceSnippetCache`
+  attach advisory audit fields without mutating legacy `VerifierOutcome`.
+- Docs updated: `docs/product.md`, `docs/architecture.md`, and
+  `docs/dataset-pipeline.md`.
+
+### Verification
+
+- Targeted suite:
+  `uv run --with pytest pytest tests/analysis/test_product_outputs.py tests/analysis/test_staged_verifier.py tests/pipeline/test_run_result_shape.py tests/output/test_golden_roundtrip.py tests/output/test_ci_gate.py tests/intelligence/test_dataset_pipeline_cli.py -q`
+  passed with `28 passed`.
+- Final gate:
+  `uv run --with pytest pytest tests/ -q` passed with
+  `627 passed, 5 skipped, 2 warnings`.

@@ -23,6 +23,13 @@ from typing import Any, Callable
 
 from depos.analysis.config import IntelligenceConfig, load_config_from_env
 from depos.analysis.detectors import get_detector, list_detectors, load_builtin
+from depos.analysis.product_outputs import (
+    mode_from_analysis,
+    product_outputs_enabled,
+    resolve_product_output_dir,
+    write_product_outputs,
+)
+from depos.analysis.reasoning_engine import summarize_reasoner_attempts
 from depos.analysis.schemas import AnalysisMode, ContextBundle, Finding, RunResult, RunMetadata, StitcherCoverageReport
 from depos.graph_source import GraphifySource, GraphSource
 
@@ -35,6 +42,36 @@ STRICT_EXIT_INGEST_ERROR = 4
 # Mirrors depos.analysis.context_bundle._QUALITY_RANK so the CLI can compare
 # bundle evidence quality without importing the bundling module at module load.
 _QUALITY_RANK = {"missing": 0, "label_only": 1, "embedded": 2, "full": 3}
+
+_LEGACY_FINDING_FIELDS = {
+    "finding_id",
+    "trust_level",
+    "mode",
+    "verifier_outcome",
+    "bug_type",
+    "description",
+    "affected_components",
+    "witness_path",
+    "missing_guard",
+    "recommended_fix",
+    "reasoner_confidence",
+    "ranking_phase",
+    "verifier_checks_passed",
+    "verifier_checks_inconclusive",
+    "rls_verdict",
+    "migration_state_facts",
+    "pack_manifest_id",
+    "detector_name",
+    "detector_version",
+    "pipeline_version",
+    "severity",
+    "partially_confirmed_caveat",
+    "evaluator_surfaced_caveat",
+    "low_stitcher_coverage_caveat",
+    "stale_diff_replay_caveat",
+    "uncited",
+    "evidence_text",
+}
 
 
 def _dominant_quality(evidence) -> str:
@@ -286,12 +323,26 @@ def _write_violations(
         result = RunResult(findings=result, detector_stats=[], ingest_reports=[], run_metadata=run_meta)
     payload: dict[str, Any] = {
         "run_id": result.run_metadata.run_id,
-        "run_metadata": result.run_metadata.model_dump(mode="json"),
+        "run_metadata": result.run_metadata.model_dump(mode="json", exclude={"output_paths"}),
         "ingest_reports": [report.model_dump(mode="json") for report in result.ingest_reports],
         "detector_stats": [stat.model_dump(mode="json") for stat in result.detector_stats],
-        "findings": [f.model_dump(mode="json") for f in result.findings],
+        "findings": [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings],
     }
     (out_dir / "violations.json").write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
+
+
+def _maybe_write_product_outputs(
+    *,
+    result: RunResult,
+    config: IntelligenceConfig,
+    existing_out_dir: Path,
+    mode: str | None = None,
+) -> dict[str, str]:
+    if not product_outputs_enabled():
+        return {}
+    run_mode = mode_from_analysis(mode or result.run_metadata.analysis_mode.value)
+    out_dir = resolve_product_output_dir(run_mode, result, config, existing_out_dir=existing_out_dir)
+    return write_product_outputs(out_dir, result, run_mode, config)
 
 
 def _detector_policy_from_args(args) -> dict[str, Any]:
@@ -351,7 +402,10 @@ def run_repo(args) -> int:
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
+    product_paths = _maybe_write_product_outputs(result=result, config=config, existing_out_dir=out_dir)
     payload: dict[str, Any] = {"run_id": run_meta.run_id, "output_dir": str(out_dir), "findings": len(result.findings)}
+    if product_paths:
+        payload["product_outputs"] = product_paths
     if getattr(args, "print_detector_stats", False):
         payload["detector_stats"] = [row.model_dump(mode="json") for row in result.detector_stats]
     progress(f"Run {run_meta.run_id} complete.")
@@ -385,7 +439,10 @@ def run_diff(args) -> int:
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
+    product_paths = _maybe_write_product_outputs(result=result, config=config, existing_out_dir=out_dir)
     payload: dict[str, Any] = {"run_id": run_meta.run_id, "output_dir": str(out_dir), "findings": len(result.findings)}
+    if product_paths:
+        payload["product_outputs"] = product_paths
     if getattr(args, "print_detector_stats", False):
         payload["detector_stats"] = [row.model_dump(mode="json") for row in result.detector_stats]
     progress(f"Run {run_meta.run_id} complete.")
@@ -733,6 +790,10 @@ def _write_run_summary(
         "reasoner_run_health": result.run_metadata.reasoner_run_health,
         "reasoner_health_reason": result.run_metadata.reasoner_health_reason,
         "reasoner_call_stats": result.reasoner_call_stats.model_dump(mode="json"),
+        "reasoner_attempt_summary": summarize_reasoner_attempts(
+            output_path.parent / "reasoner_attempts.jsonl"
+        ),
+        "reasoner_policy_summary": result.run_metadata.reasoner_policy_summary,
         "evidence_summary": result.evidence_summary,
     }
     if dataset_path_resolution is not None:
@@ -881,6 +942,12 @@ def run_dataset_pipeline(args) -> int:
     _mirror_run_artifacts(internal_run_dir, final_run_dir, progress=progress)
     _write_violations(final_run_dir, result)
     _write_bundle_trace_json(final_run_dir / "bundle_pipeline_trace.json", result=result)
+    product_paths = _maybe_write_product_outputs(
+        result=result,
+        config=run_config,
+        existing_out_dir=final_run_dir,
+        mode="dataset",
+    )
     pipeline_summary = _write_run_summary(
         final_run_dir / "run_summary.json",
         result=result,
@@ -910,6 +977,7 @@ def run_dataset_pipeline(args) -> int:
                     "extraction_json": str(extraction_output) if extraction_output is not None else None,
                 },
                 "pipeline": pipeline_summary,
+                "product_outputs": product_paths,
                 "dataset_path_resolution": resolution_summary,
                 "final_output_dir": str(final_run_dir),
             },

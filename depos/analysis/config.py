@@ -8,12 +8,15 @@ from here.
 from __future__ import annotations
 
 import os
+import logging
 from pathlib import Path
 from typing import Optional
 
 import warnings
 
 from pydantic import AliasChoices, BaseModel, Field
+
+logger = logging.getLogger(__name__)
 
 
 class VerifierPolicy(BaseModel):
@@ -73,6 +76,12 @@ class ReasonerProviderConfig(BaseModel):
     ollama_preflight_timeout: float = 30.0
     ollama_first_call_timeout: float = 300.0
     ollama_subsequent_timeout: float = 120.0
+
+
+class ReasonerPolicyConfig(BaseModel):
+    disabled_detectors: set[str] = Field(default_factory=set)
+    min_evidence_by_detector: dict[str, float] = Field(default_factory=dict)
+    max_candidates_by_detector: dict[str, int] = Field(default_factory=dict)
 
 
 class GrayZoneConfig(BaseModel):
@@ -153,6 +162,7 @@ class IntelligenceConfig(BaseModel):
         default_factory=ReasonerProviderConfig,
         validation_alias=AliasChoices("llm", "reasoner"),
     )
+    reasoner_policy: ReasonerPolicyConfig = Field(default_factory=ReasonerPolicyConfig)
     gray_zone: GrayZoneConfig = Field(default_factory=GrayZoneConfig)
     ranker: RankerConfig = Field(default_factory=RankerConfig)
     scoring: ScoringConfig = Field(default_factory=ScoringConfig)
@@ -176,6 +186,20 @@ def load_config_from_env() -> IntelligenceConfig:
     vars are ignored; everything falls back to the defaults above."""
     cfg = IntelligenceConfig()
     cfg.llm.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.llm.provider)
+    cfg.reasoner_policy.disabled_detectors = _parse_detector_set(
+        os.environ.get("DEPOS_REASONER_DISABLED_DETECTORS", "")
+    )
+    cfg.reasoner_policy.min_evidence_by_detector = _parse_detector_float_map(
+        os.environ.get("DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR", ""),
+        env_name="DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR",
+        minimum=0.0,
+        maximum=1.0,
+    )
+    cfg.reasoner_policy.max_candidates_by_detector = _parse_detector_int_map(
+        os.environ.get("DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR", ""),
+        env_name="DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR",
+        minimum=0,
+    )
     cfg.llm.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.llm.openai_api_key)
     cfg.llm.openai_model = os.environ.get("OPENAI_MODEL", cfg.llm.openai_model)
     cfg.llm.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.llm.gemma_api_url)
@@ -219,21 +243,33 @@ def load_config_from_env() -> IntelligenceConfig:
     try:
         cfg.llm.ollama_first_call_timeout = float(
             os.environ.get(
+                "DEPOS_OLLAMA_FIRST_CALL_TIMEOUT",
+                os.environ.get(
                 "DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT",
                 cfg.llm.ollama_first_call_timeout,
+                ),
             )
         )
     except ValueError:
-        pass
+        logger.warning("Ignoring invalid DEPOS_OLLAMA_FIRST_CALL_TIMEOUT / DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT")
     try:
         cfg.llm.ollama_subsequent_timeout = float(
             os.environ.get(
+                "DEPOS_OLLAMA_SUBSEQUENT_TIMEOUT",
+                os.environ.get(
                 "DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT",
                 cfg.llm.ollama_subsequent_timeout,
+                ),
             )
         )
     except ValueError:
-        pass
+        logger.warning("Ignoring invalid DEPOS_OLLAMA_SUBSEQUENT_TIMEOUT / DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT")
+    try:
+        cfg.llm.max_retries = int(
+            os.environ.get("DEPOS_REASONER_MAX_RETRIES", cfg.llm.max_retries)
+        )
+    except ValueError:
+        logger.warning("Ignoring invalid DEPOS_REASONER_MAX_RETRIES")
 
     extra_roots = os.environ.get("DEPOS_INTEL_EXTRA_SOURCE_ROOTS")
     if extra_roots:
@@ -296,3 +332,73 @@ def load_config_from_env() -> IntelligenceConfig:
     except ValueError:
         pass
     return cfg
+
+
+def _parse_detector_set(raw: str) -> set[str]:
+    return {part.strip() for part in raw.split(",") if part.strip()}
+
+
+def _parse_detector_float_map(
+    raw: str,
+    *,
+    env_name: str,
+    minimum: float,
+    maximum: float,
+) -> dict[str, float]:
+    out: dict[str, float] = {}
+    for item in (part.strip() for part in raw.split(",") if part.strip()):
+        if ":" not in item:
+            logger.warning("Ignoring malformed %s entry: %s", env_name, item)
+            continue
+        detector, value_raw = (part.strip() for part in item.split(":", 1))
+        if not detector:
+            logger.warning("Ignoring %s entry with empty detector: %s", env_name, item)
+            continue
+        try:
+            value = float(value_raw)
+        except ValueError:
+            logger.warning("Ignoring non-numeric %s entry: %s", env_name, item)
+            continue
+        if value < minimum or value > maximum:
+            logger.warning(
+                "Ignoring out-of-range %s entry: %s (expected %.1f..%.1f)",
+                env_name,
+                item,
+                minimum,
+                maximum,
+            )
+            continue
+        out[detector] = value
+    return out
+
+
+def _parse_detector_int_map(
+    raw: str,
+    *,
+    env_name: str,
+    minimum: int,
+) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for item in (part.strip() for part in raw.split(",") if part.strip()):
+        if ":" not in item:
+            logger.warning("Ignoring malformed %s entry: %s", env_name, item)
+            continue
+        detector, value_raw = (part.strip() for part in item.split(":", 1))
+        if not detector:
+            logger.warning("Ignoring %s entry with empty detector: %s", env_name, item)
+            continue
+        try:
+            value = int(value_raw)
+        except ValueError:
+            logger.warning("Ignoring non-integer %s entry: %s", env_name, item)
+            continue
+        if value < minimum:
+            logger.warning(
+                "Ignoring out-of-range %s entry: %s (expected >= %d)",
+                env_name,
+                item,
+                minimum,
+            )
+            continue
+        out[detector] = value
+    return out

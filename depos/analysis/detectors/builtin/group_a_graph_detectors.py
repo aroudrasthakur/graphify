@@ -5,8 +5,7 @@ import networkx as nx
 
 from depos.analysis.detectors import register
 from depos.analysis.detectors.builtin.common import iter_nodes_by_kind, make_candidate, simple_spec
-from depos.analysis.schemas import ChangeManifest, SeedType, Universe
-from depos.analysis.seams import SeamEdge
+from depos.analysis.schemas import ChangeManifest, SeedType, Universe, SeamEdge
 
 # Canonical entry kinds for reachability (verified from graph fixtures: node_kind).
 ENTRY_NODE_KINDS_PROD: frozenset[str] = frozenset({"next_route", "openapi_operation"})

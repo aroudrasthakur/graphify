@@ -10,6 +10,8 @@ detectors remain deterministic and testable.
 """
 from __future__ import annotations
 
+from collections import OrderedDict
+from pathlib import Path
 from typing import Any, Callable, Iterable
 
 from depos.analysis import verifier_rules
@@ -31,9 +33,45 @@ from depos.analysis.schemas import (
     VerifierAuditEntry,
     VerifierCheckResult,
     VerifierOutcome,
+    VerifierStageResult,
 )
 
 Probe = Callable[[], VerifierCheckResult]
+
+
+class SourceSnippetCache:
+    """Bounded per-run source reader for advisory verifier stages."""
+
+    def __init__(self, max_entries: int = 128) -> None:
+        self.max_entries = max_entries
+        self._cache: OrderedDict[tuple[str, int, int, int, int], str] = OrderedDict()
+        self.read_count = 0
+
+    def read(self, path: str | Path, start_line: int = 0, end_line: int = 0) -> str:
+        source_path = Path(path).resolve()
+        stat = source_path.stat()
+        key = (
+            str(source_path),
+            int(start_line),
+            int(end_line),
+            int(stat.st_mtime_ns),
+            int(stat.st_size),
+        )
+        cached = self._cache.get(key)
+        if cached is not None:
+            self._cache.move_to_end(key)
+            return cached
+        text = source_path.read_text(encoding="utf-8", errors="replace")
+        self.read_count += 1
+        if start_line > 0 or end_line > 0:
+            lines = text.splitlines()
+            start = max(start_line - 1, 0) if start_line > 0 else 0
+            end = max(end_line, start_line) if end_line > 0 else len(lines)
+            text = "\n".join(lines[start:end])
+        self._cache[key] = text
+        if len(self._cache) > self.max_entries:
+            self._cache.popitem(last=False)
+        return text
 
 
 def _detector_meta(candidate: Candidate) -> dict[str, Any]:
@@ -52,7 +90,9 @@ def _detector_spec(candidate: Candidate):
         if name == "legacy":
             return None
         return get_detector(name)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to load detector '%s': %s", _detector_name(candidate), e)
         return None
 
 
@@ -60,6 +100,8 @@ def _safe_probe(name: str, fn: Probe) -> VerifierCheckResult:
     try:
         return fn()
     except Exception as exc:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Probe '%s' failed unexpectedly: %s", name, exc)
         return VerifierCheckResult(name=name, result="unavailable", detail=f"exception:{exc}")
 
 
@@ -998,6 +1040,83 @@ def verify_all(
             audits.append(audit)
             findings.append(finding)
     return audits, findings
+
+
+def verify_staged(
+    audits: list[VerifierAuditEntry],
+    *,
+    bundle: ContextBundle,
+    cache: SourceSnippetCache | None = None,
+) -> list[VerifierAuditEntry]:
+    """Attach advisory staged verifier metadata without changing outcomes."""
+
+    cache = cache or SourceSnippetCache()
+    source_checks = _source_stage_results(bundle, cache)
+    for audit in audits:
+        checks = list(audit.checks_run)
+        pass_count = sum(1 for check in checks if check.result in {"pass", "rls_covered"})
+        fail_count = sum(1 for check in checks if check.result in {"fail", "invalid"})
+        unavailable_count = sum(1 for check in checks if check.result in {"unavailable", "insufficient_static_evidence"})
+        stage_results = [
+            VerifierStageResult(
+                stage="legacy_rules",
+                result="fail" if fail_count else "pass" if pass_count else "unavailable",
+                detail=f"pass={pass_count} fail={fail_count} unavailable={unavailable_count}",
+            ),
+            *source_checks,
+        ]
+        audit.stage_results = stage_results
+        if fail_count:
+            audit.advisory_validity = "invalid"
+            audit.advisory_reason = "legacy verifier checks failed"
+        elif any(stage.result == "fail" for stage in source_checks):
+            audit.advisory_validity = "needs_review"
+            audit.advisory_reason = "source evidence could not be validated"
+        elif pass_count or any(stage.result == "pass" for stage in source_checks):
+            audit.advisory_validity = "valid"
+            audit.advisory_reason = "advisory stages passed"
+        else:
+            audit.advisory_validity = "unknown"
+            audit.advisory_reason = "no advisory stages were conclusive"
+    return audits
+
+
+def _source_stage_results(
+    bundle: ContextBundle,
+    cache: SourceSnippetCache,
+) -> list[VerifierStageResult]:
+    if not bundle.code_snippets:
+        return [VerifierStageResult(stage="source_snippets", result="unavailable", detail="no snippets")]
+    results: list[VerifierStageResult] = []
+    for snippet in bundle.code_snippets[:5]:
+        if not snippet.source_file:
+            results.append(
+                VerifierStageResult(
+                    stage="source_snippets",
+                    result="unavailable",
+                    detail=f"{snippet.node_id}: no source_file",
+                )
+            )
+            continue
+        try:
+            text = cache.read(snippet.source_file, snippet.start_line, snippet.end_line)
+        except OSError as exc:
+            results.append(
+                VerifierStageResult(
+                    stage="source_snippets",
+                    result="fail",
+                    detail=f"{snippet.node_id}: {exc.__class__.__name__}",
+                )
+            )
+            continue
+        results.append(
+            VerifierStageResult(
+                stage="source_snippets",
+                result="pass" if text.strip() else "unavailable",
+                detail=f"{snippet.node_id}: read {len(text)} chars",
+            )
+        )
+    return results
 
 
 __all__ = ["verify", "verify_all"]
