@@ -173,12 +173,7 @@ class Detector(BaseModel):
     semantic_requirement: Optional[Literal["cfg", "dfg", "taint"]] = None
 
 
-class DetectorCandidateExtra(BaseModel):
-    detector_name: str
-    detector_version: str
-    pipeline_version: str
-    severity: SeverityLevel = "medium"
-    oracle_hints: dict[str, Any] = Field(default_factory=dict)
+
 
 
 class CandidateScore(BaseModel):
@@ -384,7 +379,7 @@ class ContextBundle(BaseModel):
     scope_language: str = ""
     # Deterministic sort key + full score vector (prompt + queue metadata).
     score_composite: float = 0.0
-    candidate_score: dict[str, Any] = Field(default_factory=dict)
+    candidate_score: CandidateScore = Field(default_factory=CandidateScore)
     cfg_available: bool = False
     dfg_available: bool = False
     taint_edges_available: bool = False

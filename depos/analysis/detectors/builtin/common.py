@@ -26,6 +26,18 @@ if TYPE_CHECKING:
 
 _UNSET = object()
 
+def read_source_text_safely(repo_root: Any, rel: str) -> str | None:
+    if not repo_root or not rel:
+        return None
+    try:
+        from pathlib import Path
+        p = (repo_root / rel).resolve()
+        if not p.is_file():
+            return None
+        return p.read_text(encoding="utf-8", errors="replace")
+    except Exception:  # noqa: BLE001
+        return None
+
 
 def simple_spec(
     *,
@@ -393,5 +405,6 @@ __all__ = [
     "make_candidate",
     "outgoing_by_relation",
     "package_groups",
+    "read_source_text_safely",
     "simple_spec",
 ]

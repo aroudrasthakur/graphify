@@ -90,7 +90,9 @@ def _detector_spec(candidate: Candidate):
         if name == "legacy":
             return None
         return get_detector(name)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to load detector '%s': %s", _detector_name(candidate), e)
         return None
 
 
@@ -98,6 +100,8 @@ def _safe_probe(name: str, fn: Probe) -> VerifierCheckResult:
     try:
         return fn()
     except Exception as exc:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Probe '%s' failed unexpectedly: %s", name, exc)
         return VerifierCheckResult(name=name, result="unavailable", detail=f"exception:{exc}")
 
 

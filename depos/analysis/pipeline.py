@@ -82,7 +82,9 @@ def _detector_spec_for_candidate(candidate: Candidate):
         return None
     try:
         return get_detector(detector_name)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to get detector '%s' for candidate: %s", detector_name, e)
         return None
 
 
