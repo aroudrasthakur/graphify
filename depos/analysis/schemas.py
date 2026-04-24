@@ -541,6 +541,12 @@ class VerifierCheckResult(BaseModel):
     detail: str = ""
 
 
+class VerifierStageResult(BaseModel):
+    stage: str
+    result: Literal["pass", "fail", "unavailable", "skip"] = "unavailable"
+    detail: str = ""
+
+
 class VerifierAuditEntry(BaseModel):
     finding_id: str
     verifier_outcome: VerifierOutcome
@@ -551,6 +557,9 @@ class VerifierAuditEntry(BaseModel):
     surfaced: bool = False
     failed_rule: str = ""
     missing_evidence: list[str] = Field(default_factory=list)
+    stage_results: list[VerifierStageResult] = Field(default_factory=list)
+    advisory_validity: Literal["valid", "needs_review", "invalid", "unknown"] = "unknown"
+    advisory_reason: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -604,10 +613,14 @@ class GrayZoneAuditRow(BaseModel):
 class BundleTraceEntry(BaseModel):
     bundle_id: str
     candidate_id: str
+    detector_name: str = ""
     candidate_score_composite: float = 0.0
     reasoner_modes_returned: list[str] = Field(default_factory=list)
     findings: int = 0
     skipped_reason: str = ""
+    reasoner_skipped: bool = False
+    reasoner_skip_reason: str = ""
+    reasoner_skip_detail: dict[str, Any] = Field(default_factory=dict)
     evidence_quality: str = ""
     evidence_score: float = 0.0
     reasoner_attempts: int = 0
@@ -650,6 +663,159 @@ class Finding(BaseModel):
     # LLM output lacks any bundle node/edge id in the narrative (Block 11).
     uncited: bool = False
     evidence_text: str = ""
+
+
+# ---------------------------------------------------------------------------
+# Product-facing outputs
+# ---------------------------------------------------------------------------
+
+class RiskCategory(str, Enum):
+    dependency = "dependency"
+    config = "config"
+    schema = "schema"
+    security = "security"
+    runtime = "runtime"
+    architecture = "architecture"
+    unknown = "unknown"
+
+
+class Confidence(str, Enum):
+    high = "high"
+    medium = "medium"
+    low = "low"
+    unknown = "unknown"
+
+
+class GraphReliability(str, Enum):
+    high = "high"
+    partial = "partial"
+    low = "low"
+    unknown = "unknown"
+
+
+class RecommendedAction(str, Enum):
+    fix = "fix"
+    monitor = "monitor"
+    request_review = "request_review"
+    dismiss = "dismiss"
+
+
+class FindingStatus(str, Enum):
+    verified = "verified"
+    gray_zone = "gray_zone"
+    review_only = "review_only"
+    invalid = "invalid"
+
+
+class RunMode(str, Enum):
+    pr = "pr"
+    full_repo = "full_repo"
+    dataset = "dataset"
+    ci = "ci"
+    unknown = "unknown"
+
+
+class ProductEvidence(BaseModel):
+    kind: str = "snippet"
+    node_id: str = ""
+    source_file: str = ""
+    start_line: int = 0
+    end_line: int = 0
+    text: str = ""
+    redacted: bool = False
+    quality: str = ""
+
+
+class ProductImpactPathNode(BaseModel):
+    node_id: str
+    label: str = ""
+    kind: str = ""
+
+
+class ProductImpactPathEdge(BaseModel):
+    source: str
+    target: str
+    relation: str = ""
+    inferred: bool = False
+    confidence: float = 1.0
+
+
+class ProductImpactPath(BaseModel):
+    finding_id: str
+    nodes: list[ProductImpactPathNode] = Field(default_factory=list)
+    edges: list[ProductImpactPathEdge] = Field(default_factory=list)
+    graph_reliability: GraphReliability = GraphReliability.unknown
+
+
+class ProductAffectedSurface(BaseModel):
+    component: str
+    surface_type: str = "unknown"
+    confidence: Confidence = Confidence.unknown
+
+
+class ProductMCPContext(BaseModel):
+    finding_id: str
+    review_only: bool = False
+    summary: str = ""
+    evidence: list[ProductEvidence] = Field(default_factory=list)
+    uncertainties: list[str] = Field(default_factory=list)
+    suggested_fix_strategy: str = ""
+
+
+class ProductFinding(BaseModel):
+    finding_id: str
+    legacy_finding_id: str
+    title: str = ""
+    description: str = ""
+    risk_category: RiskCategory = RiskCategory.unknown
+    status: FindingStatus = FindingStatus.review_only
+    severity: SeverityLevel = "medium"
+    finding_confidence: Confidence = Confidence.unknown
+    impact_confidence: Confidence = Confidence.unknown
+    graph_reliability: GraphReliability = GraphReliability.unknown
+    recommended_action: RecommendedAction = RecommendedAction.request_review
+    affected_surfaces: list[ProductAffectedSurface] = Field(default_factory=list)
+    evidence: list[ProductEvidence] = Field(default_factory=list)
+    impact_path: ProductImpactPath | None = None
+    caveats: list[str] = Field(default_factory=list)
+    review_only: bool = False
+    advisory_validity: Literal["valid", "needs_review", "invalid", "unknown"] = "unknown"
+
+
+class ProductRunSummary(BaseModel):
+    run_id: str
+    mode: RunMode = RunMode.unknown
+    findings_total: int = 0
+    verified_total: int = 0
+    review_total: int = 0
+    graph_reliability: GraphReliability = GraphReliability.unknown
+    output_paths: dict[str, str] = Field(default_factory=dict)
+
+
+class ProductCIPolicy(BaseModel):
+    block_on_critical_verified: bool = True
+    block_on_high_verified: bool = False
+    block_on_gray_zone: bool = False
+    max_allowed_critical: int = 0
+    max_allowed_high: int | None = None
+
+
+class CIDecision(BaseModel):
+    should_block: bool = False
+    blocking_finding_ids: list[str] = Field(default_factory=list)
+    policy_snapshot: ProductCIPolicy = Field(default_factory=ProductCIPolicy)
+    reason: str = ""
+
+
+class PreselectionInfo(BaseModel):
+    total_candidates: int = 0
+    eligible_candidates: int = 0
+    bundled_candidates: int = 0
+    selected_candidates: int = 0
+    min_score: float | None = None
+    bundle_limit: int | None = None
+    selected_limit: int | None = None
+    sort_key: str = "(-CandidateScore.composite, candidate_id)"
 
 
 # ---------------------------------------------------------------------------
@@ -810,7 +976,10 @@ class RunMetadata(BaseModel):
     bundles_sent_to_reasoner: int = 0
     bundles_skipped_low_evidence: int = 0
     evidence_summary: dict[str, Any] = Field(default_factory=dict)
+    reasoner_policy_summary: dict[str, Any] = Field(default_factory=dict)
     dataset_path_resolution: dict[str, Any] = Field(default_factory=dict)
+    preselection_info: PreselectionInfo | None = None
+    output_paths: dict[str, str] = Field(default_factory=dict)
 
 
 class RunResult(BaseModel):
@@ -823,5 +992,6 @@ class RunResult(BaseModel):
     change_manifest: ChangeManifest | None = None
     candidates: list[Candidate] = Field(default_factory=list)
     bundles: list[ContextBundle] = Field(default_factory=list)
+    verifier_audits: list[VerifierAuditEntry] = Field(default_factory=list)
     gray_zone_rows: list[GrayZoneAuditRow] = Field(default_factory=list)
     bundle_trace: list[BundleTraceEntry] = Field(default_factory=list)

@@ -36,6 +36,7 @@ from pydantic import ValidationError
 
 from depos.analysis.bundle_prompter import render_bundle_prompt
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.observability import emit_event
 from depos.analysis.schemas import (
     Candidate,
     ContextBundle,
@@ -209,6 +210,7 @@ class ReasonerSession:
         self.config = config
         self.provider = (config.llm.provider or "stub").lower()
         self.call_index = 0
+        self.last_timeout_seconds: float | None = None
 
     def _get_timeout(self, call_index: int) -> float:
         if self.provider != "ollama":
@@ -221,6 +223,7 @@ class ReasonerSession:
 
     def get_provider(self, mode: ReasonerMode) -> ReasoningProvider:
         read_timeout = self._get_timeout(self.call_index)
+        self.last_timeout_seconds = read_timeout
         self.call_index += 1
         if read_timeout == self.config.llm.read_timeout_seconds:
             return get_provider(self.config, mode)
@@ -775,6 +778,12 @@ def _queue_path(config: IntelligenceConfig, run_id: str) -> Path:
     return out / "reasoner_queue.jsonl"
 
 
+def _attempts_path(config: IntelligenceConfig, run_id: str) -> Path:
+    out = config.data_dir / config.run_output_subdir / run_id
+    out.mkdir(parents=True, exist_ok=True)
+    return out / "reasoner_attempts.jsonl"
+
+
 def _prompts_dir(config: IntelligenceConfig, run_id: str) -> Path:
     out = config.data_dir / config.run_output_subdir / run_id / "prompts"
     out.mkdir(parents=True, exist_ok=True)
@@ -837,6 +846,225 @@ def _enqueue(
         fp.write(row.model_dump_json() + "\n")
 
 
+_ATTEMPT_KEYS = (
+    "event_type",
+    "run_id",
+    "candidate_id",
+    "detector_name",
+    "mode",
+    "provider",
+    "model",
+    "attempt_idx",
+    "max_retries",
+    "timeout_seconds",
+    "prompt_chars",
+    "prompt_bytes",
+    "max_prompt_tokens",
+    "requested_output_tokens",
+    "elapsed_ms",
+    "success",
+    "failure_type",
+    "failure_message",
+    "recovered_by_retry",
+)
+
+
+def _attempt_record(
+    *,
+    run_id: str | None,
+    bundle: ContextBundle,
+    detector_name: str | None,
+    mode: ReasonerMode,
+    provider_name: str | None,
+    model: str | None,
+    attempt_idx: int | None,
+    max_retries: int | None,
+    timeout_seconds: float | None,
+    prompt: str | None,
+    max_prompt_tokens: int | None,
+    requested_output_tokens: int | None,
+    elapsed_ms: float | None,
+    success: bool,
+    failure_type: str | None,
+    failure_message: str | None,
+    recovered_by_retry: bool = False,
+) -> dict[str, Any]:
+    record = {
+        "event_type": "reasoner_attempt",
+        "run_id": run_id,
+        "candidate_id": bundle.candidate_id if bundle is not None else None,
+        "detector_name": detector_name,
+        "mode": mode.value if mode is not None else None,
+        "provider": provider_name,
+        "model": model,
+        "attempt_idx": attempt_idx,
+        "max_retries": max_retries,
+        "timeout_seconds": timeout_seconds,
+        "prompt_chars": len(prompt) if prompt is not None else None,
+        "prompt_bytes": len(prompt.encode("utf-8")) if prompt is not None else None,
+        "max_prompt_tokens": max_prompt_tokens,
+        "requested_output_tokens": requested_output_tokens,
+        "elapsed_ms": elapsed_ms,
+        "success": success,
+        "failure_type": failure_type,
+        "failure_message": _clip(failure_message or "", 500) if failure_message else None,
+        "recovered_by_retry": recovered_by_retry,
+    }
+    return {key: record.get(key) for key in _ATTEMPT_KEYS}
+
+
+def _flush_attempt_records(
+    config: IntelligenceConfig,
+    run_id: str,
+    records: list[dict[str, Any]],
+) -> None:
+    if not records:
+        return
+    path = _attempts_path(config, run_id)
+    with path.open("a", encoding="utf-8") as fp:
+        for record in records:
+            fp.write(json.dumps(record, default=str) + "\n")
+            observability_payload = dict(record)
+            observability_payload.pop("run_id", None)
+            emit_event(config, run_id, "reasoner_attempt", **observability_payload)
+
+
+def _empty_attempt_summary() -> dict[str, Any]:
+    return {
+        "provider": None,
+        "model": None,
+        "total_attempts": 0,
+        "successful_attempts": 0,
+        "failed_attempts": 0,
+        "recovered_failures": 0,
+        "total_elapsed_ms": 0,
+        "avg_attempt_ms": None,
+        "p50_attempt_ms": None,
+        "p75_attempt_ms": None,
+        "p90_attempt_ms": None,
+        "p95_attempt_ms": None,
+        "timeouts": 0,
+        "by_detector": {},
+    }
+
+
+def _percentile(values: list[float], percentile: float) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(values)
+    if len(ordered) == 1:
+        return round(ordered[0], 3)
+    rank = (len(ordered) - 1) * percentile
+    lower = int(rank)
+    upper = min(lower + 1, len(ordered) - 1)
+    fraction = rank - lower
+    value = ordered[lower] + (ordered[upper] - ordered[lower]) * fraction
+    return round(value, 3)
+
+
+def _unique_or_mixed(values: list[Any]) -> str | None:
+    normalized = {str(value) for value in values if value not in (None, "")}
+    if not normalized:
+        return None
+    if len(normalized) == 1:
+        return next(iter(normalized))
+    return "mixed"
+
+
+def _is_timeout_record(record: dict[str, Any]) -> bool:
+    text = f"{record.get('failure_type') or ''} {record.get('failure_message') or ''}".lower()
+    return "timeout" in text or "timed out" in text
+
+
+def summarize_reasoner_attempts(attempts_path: Path) -> dict[str, Any]:
+    summary = _empty_attempt_summary()
+    if not attempts_path.exists():
+        return summary
+
+    records: list[dict[str, Any]] = []
+    for line in attempts_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(row, dict):
+            records.append(row)
+    if not records:
+        return summary
+
+    elapsed_values = [
+        float(row["elapsed_ms"])
+        for row in records
+        if isinstance(row.get("elapsed_ms"), (int, float))
+    ]
+    total_elapsed = round(sum(elapsed_values), 3)
+    total_attempts = len(records)
+    summary.update(
+        {
+            "provider": _unique_or_mixed([row.get("provider") for row in records]),
+            "model": _unique_or_mixed([row.get("model") for row in records]),
+            "total_attempts": total_attempts,
+            "successful_attempts": sum(1 for row in records if row.get("success") is True),
+            "failed_attempts": sum(1 for row in records if row.get("success") is not True),
+            "recovered_failures": sum(1 for row in records if row.get("recovered_by_retry") is True),
+            "total_elapsed_ms": total_elapsed,
+            "avg_attempt_ms": round(total_elapsed / len(elapsed_values), 3) if elapsed_values else None,
+            "p50_attempt_ms": _percentile(elapsed_values, 0.50),
+            "p75_attempt_ms": _percentile(elapsed_values, 0.75),
+            "p90_attempt_ms": _percentile(elapsed_values, 0.90),
+            "p95_attempt_ms": _percentile(elapsed_values, 0.95),
+            "timeouts": sum(1 for row in records if row.get("success") is not True and _is_timeout_record(row)),
+        }
+    )
+
+    detectors: dict[str, dict[str, Any]] = {}
+    detector_candidates: dict[str, set[str]] = {}
+    detector_elapsed: dict[str, list[float]] = {}
+    for row in records:
+        detector = str(row.get("detector_name") or "unknown")
+        bucket = detectors.setdefault(
+            detector,
+            {
+                "candidates": 0,
+                "attempts": 0,
+                "successes": 0,
+                "failures": 0,
+                "recovered_failures": 0,
+                "total_elapsed_ms": 0,
+                "avg_attempt_ms": None,
+                "p90_attempt_ms": None,
+            },
+        )
+        detector_candidates.setdefault(detector, set())
+        detector_elapsed.setdefault(detector, [])
+        candidate_id = row.get("candidate_id")
+        if candidate_id:
+            detector_candidates[detector].add(str(candidate_id))
+        bucket["attempts"] += 1
+        if row.get("success") is True:
+            bucket["successes"] += 1
+        else:
+            bucket["failures"] += 1
+        if row.get("recovered_by_retry") is True:
+            bucket["recovered_failures"] += 1
+        if isinstance(row.get("elapsed_ms"), (int, float)):
+            elapsed = float(row["elapsed_ms"])
+            bucket["total_elapsed_ms"] = round(float(bucket["total_elapsed_ms"]) + elapsed, 3)
+            detector_elapsed[detector].append(elapsed)
+
+    for detector, bucket in detectors.items():
+        values = detector_elapsed.get(detector, [])
+        bucket["candidates"] = len(detector_candidates.get(detector, set()))
+        bucket["avg_attempt_ms"] = (
+            round(float(bucket["total_elapsed_ms"]) / len(values), 3) if values else None
+        )
+        bucket["p90_attempt_ms"] = _percentile(values, 0.90)
+    summary["by_detector"] = detectors
+    return summary
+
+
 # ---------------------------------------------------------------------------
 # Reasoner runners
 # ---------------------------------------------------------------------------
@@ -852,6 +1080,7 @@ def run_reasoner(
     rank_metadata: Optional[dict[str, Any]] = None,
     stats: Optional[ReasonerCallStats] = None,
     session: Optional[ReasonerSession] = None,
+    detector_name: str | None = None,
 ) -> Optional[ModeAOutput | ModeBOutput | ModeCOutput]:
     session = session or ReasonerSession(config)
     provider = session.get_provider(mode)
@@ -870,18 +1099,48 @@ def run_reasoner(
     provider_model = ""
     provider_name = getattr(provider, "name", provider.__class__.__name__)
     current_raw_excerpt = ""
+    attempt_records: list[dict[str, Any]] = []
 
     for attempt_idx in range(1, attempts + 1):
         last_attempt = attempt_idx
+        attempt_started = time.perf_counter()
+        attempt_elapsed_ms: float | None = None
+        attempt_model = provider_model or str(getattr(provider, "model", "") or "") or None
         try:
             raw, meta = provider.complete(prompt, max_tokens=config.llm.default_max_tokens)
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             current_raw_excerpt = _clip(raw, 2048)
             provider_model = str(meta.get("model", ""))
+            attempt_model = provider_model or attempt_model
             last_response_path = meta.get("response_path_used") or last_response_path
             parsed, repairs = _parse(mode, raw)
             last_repairs = repairs
             if stats is not None:
                 stats.record_success(mode.value)
+            for record in attempt_records:
+                if not record["success"]:
+                    record["recovered_by_retry"] = True
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=prompt,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=True,
+                    failure_type=None,
+                    failure_message=None,
+                )
+            )
+            _flush_attempt_records(config, run_id, attempt_records)
             if repairs:
                 logger.info(
                     "reasoner_call_repaired",
@@ -894,6 +1153,7 @@ def run_reasoner(
                 )
             return parsed
         except ProviderError as exc:
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = exc.reason
             last_http_status = exc.http_status
             last_raw_excerpt = exc.raw_excerpt or str(exc)
@@ -918,7 +1178,29 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=prompt,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type=exc.reason,
+                    failure_message=str(exc),
+                )
+            )
         except json.JSONDecodeError as exc:
+            if attempt_elapsed_ms is None:
+                attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "not_json"
             last_raw_excerpt = _clip(getattr(exc, "doc", "") or str(exc), 2048)
             if stats is not None:
@@ -939,7 +1221,29 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=prompt,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="not_json",
+                    failure_message=str(exc),
+                )
+            )
         except ValidationError as exc:
+            if attempt_elapsed_ms is None:
+                attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "json_but_invalid_schema"
             last_raw_excerpt = current_raw_excerpt or last_raw_excerpt
             last_validation_errors = [
@@ -964,7 +1268,28 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=prompt,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="json_but_invalid_schema",
+                    failure_message=str(exc),
+                )
+            )
         except Exception as exc:  # noqa: BLE001
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "other"
             last_raw_excerpt = _clip(str(exc), 2048)
             if stats is not None:
@@ -985,6 +1310,26 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=prompt,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="other",
+                    failure_message=str(exc),
+                )
+            )
         if attempt_idx < attempts:
             time.sleep(_retry_backoff_seconds(attempt_idx))
 
@@ -1000,6 +1345,7 @@ def run_reasoner(
     extra_meta: dict[str, Any] = {}
     if last_repairs:
         extra_meta["repairs"] = last_repairs
+    _flush_attempt_records(config, run_id, attempt_records)
     _enqueue(
         config,
         run_id,
@@ -1042,6 +1388,7 @@ def run_all_modes(
     stats: Optional[ReasonerCallStats] = None,
     session: Optional[ReasonerSession] = None,
     modes: Optional[Iterable[ReasonerMode]] = None,
+    detector_name: str | None = None,
 ) -> dict[ReasonerMode, Any]:
     out: dict[ReasonerMode, Any] = {}
     session = session or ReasonerSession(config)
@@ -1060,6 +1407,7 @@ def run_all_modes(
             rank_metadata=rank_metadata,
             stats=stats,
             session=session,
+            detector_name=detector_name,
         )
         if result is not None:
             out[mode] = result
@@ -1165,5 +1513,6 @@ __all__ = [
     "get_provider",
     "run_reasoner",
     "run_all_modes",
+    "summarize_reasoner_attempts",
     "replay_one",
 ]

@@ -220,6 +220,19 @@ Final reasoning artifacts are written under:
   to decide whether a "0 findings" run is a clean negative or a silent
   failure.
 
+When `DEPOS_PRODUCT_OUTPUTS_ENABLED` is unset or `true`, the same
+`gemma4-run/` directory also includes additive product artifacts:
+
+- `gemma4-run/findings.json`
+- `gemma4-run/impact_paths.json`
+- `gemma4-run/triage_backlog.json`
+- `gemma4-run/mcp_context.json`
+- `gemma4-run/product_summary.json`
+
+These product files are generated from the completed `RunResult` and do not
+change `violations.json`, the legacy CI gate, candidate preselection, verifier
+outcomes, or gray-zone evaluation.
+
 ## What each artifact means
 
 ### `dataset-normalized-node-link.json`
