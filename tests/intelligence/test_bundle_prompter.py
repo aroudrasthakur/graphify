@@ -122,3 +122,82 @@ def test_render_bundle_prompt_enforces_bundle_prompt_budget() -> None:
     assert len(payload["seam_neighbor_texts"]) <= 1
     assert all(len(snippet["text"]) <= 40 for snippet in payload["code_snippets"])
     assert max(1, (len(prompt) + 3) // 4) <= config.bundles.max_prompt_tokens
+
+
+def test_render_bundle_prompt_logs_truncation_when_budget_exceeded(caplog) -> None:
+    """Test that structured logging occurs when prompt budget enforcement truncates content."""
+    import logging
+    
+    bundle = _bundle()
+    bundle.callers = ["caller-a", "caller-b", "caller-c", "caller-d"]
+    bundle.callees = ["callee-a", "callee-b", "callee-c", "callee-d"]
+    bundle.caller_texts = {
+        "caller-a": "A" * 500,
+        "caller-b": "B" * 500,
+        "caller-c": "C" * 500,
+        "caller-d": "D" * 500,
+    }
+    bundle.callee_texts = {
+        "callee-a": "E" * 500,
+        "callee-b": "F" * 500,
+        "callee-c": "G" * 500,
+        "callee-d": "H" * 500,
+    }
+    bundle.seam_neighbor_texts = {
+        "neighbor-a": "I" * 500,
+        "neighbor-b": "J" * 500,
+        "neighbor-c": "K" * 500,
+    }
+    bundle.code_snippets = [
+        CodeSnippet(node_id="snippet-1", source_file="a.py", text="L" * 800),
+        CodeSnippet(node_id="snippet-2", source_file="b.py", text="M" * 800),
+    ]
+
+    config = IntelligenceConfig()
+    config.bundles.max_prompt_tokens = 800  # Very low to force truncation
+
+    with caplog.at_level(logging.INFO, logger="depos.analysis.bundle_prompter"):
+        prompt = render_bundle_prompt(ReasonerMode.A, bundle, config=config)
+    
+    # Verify truncation occurred
+    assert max(1, (len(prompt) + 3) // 4) <= config.bundles.max_prompt_tokens
+    
+    # Verify logging occurred
+    assert len(caplog.records) > 0
+    log_record = caplog.records[0]
+    assert log_record.levelname == "INFO"
+    assert log_record.message == "Prompt budget enforcement applied"
+    
+    # Verify structured logging fields
+    assert "original_tokens" in log_record.__dict__
+    assert "final_tokens" in log_record.__dict__
+    assert "truncation_order_applied" in log_record.__dict__
+    assert "max_prompt_tokens" in log_record.__dict__
+    assert "candidate_id" in log_record.__dict__
+    
+    # Verify truncation order follows priority: seam_neighbor_texts → callee_texts → caller_texts → code_snippets → call_chain_out → call_chain_in
+    truncation_order = log_record.__dict__["truncation_order_applied"]
+    assert isinstance(truncation_order, list)
+    assert len(truncation_order) > 0
+    
+    # Verify original_tokens > final_tokens
+    assert log_record.__dict__["original_tokens"] > log_record.__dict__["final_tokens"]
+    assert log_record.__dict__["final_tokens"] <= config.bundles.max_prompt_tokens
+    assert log_record.__dict__["max_prompt_tokens"] == config.bundles.max_prompt_tokens
+    assert log_record.__dict__["candidate_id"] == "cand_1"
+
+
+def test_render_bundle_prompt_no_logging_when_within_budget() -> None:
+    """Test that no logging occurs when prompt is within budget."""
+    import logging
+    from unittest.mock import patch
+    
+    bundle = _bundle()
+    config = IntelligenceConfig()
+    config.bundles.max_prompt_tokens = 10000  # Very high, no truncation needed
+    
+    with patch("depos.analysis.bundle_prompter.logger") as mock_logger:
+        prompt = render_bundle_prompt(ReasonerMode.A, bundle, config=config)
+        
+        # Verify no logging occurred
+        mock_logger.info.assert_not_called()

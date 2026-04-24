@@ -293,6 +293,7 @@ class Candidate(BaseModel):
     analysis_mode: AnalysisMode = AnalysisMode.diff_aware
     score: CandidateScore = Field(default_factory=CandidateScore)
     detector_payload: DetectorPayload = Field(default_factory=DetectorPayload)
+    ranking_metadata: Optional[RankingMetadata] = None
 
 
 class DetectorRunStats(BaseModel):
@@ -480,6 +481,12 @@ class ModeCOutput(BaseModel):
 # ---------------------------------------------------------------------------
 # Module 5 — ranker
 # ---------------------------------------------------------------------------
+
+class RankingMetadata(BaseModel):
+    """Stores attack pattern labels separately from detector identity."""
+    
+    matched_pattern: Optional[str] = None
+
 
 class RankerDiffFeatures(BaseModel):
     changed_nodes_on_path: int = 0

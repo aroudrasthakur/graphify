@@ -2,10 +2,13 @@
 from __future__ import annotations
 
 import json
+import logging
 from typing import Any, Iterable, Optional
 
 from depos.analysis.config import BundleBudget, IntelligenceConfig
 from depos.analysis.schemas import GraphContextBundle, ReasonerMode
+
+logger = logging.getLogger(__name__)
 
 _PROMPT_HEAD = """You are a software reasoning engine. Output ONLY JSON that matches the schema for the requested mode.
 
@@ -162,56 +165,87 @@ def _enforce_prompt_budget(
     prompt = _render_prompt_text(citation_block, body)
     if max_prompt_tokens <= 0:
         return prompt
+    
+    original_tokens = _estimate_tokens(prompt)
+    truncation_order_applied: list[str] = []
+    
     while _estimate_tokens(prompt) > max_prompt_tokens:
         if _pop_last_mapping_entry(body["seam_neighbor_texts"]):
+            truncation_order_applied.append("seam_neighbor_texts")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if _pop_last_mapping_entry(body["callee_texts"], body["callees"]):
+            truncation_order_applied.append("callee_texts")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["callees"]:
             body["callees"].pop()
+            truncation_order_applied.append("callees")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if _pop_last_mapping_entry(body["caller_texts"], body["callers"]):
+            truncation_order_applied.append("caller_texts")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["callers"]:
             body["callers"].pop()
+            truncation_order_applied.append("callers")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if _shrink_largest_snippet(body["code_snippets"]):
+            truncation_order_applied.append("code_snippets")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["code_snippets"]:
             body["code_snippets"].pop()
+            truncation_order_applied.append("code_snippets")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["call_chain_out"]:
             body["call_chain_out"].pop()
+            truncation_order_applied.append("call_chain_out")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["call_chain_in"]:
             body["call_chain_in"].pop()
+            truncation_order_applied.append("call_chain_in")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body.get("null_paths"):
             body["null_paths"] = None
+            truncation_order_applied.append("null_paths")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body.get("cfg_summary"):
             body["cfg_summary"] = None
+            truncation_order_applied.append("cfg_summary")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["taint_edges"]:
             body["taint_edges"].pop()
+            truncation_order_applied.append("taint_edges")
             prompt = _render_prompt_text(citation_block, body)
             continue
         if body["cross_language_seams"]:
             body["cross_language_seams"].pop()
+            truncation_order_applied.append("cross_language_seams")
             prompt = _render_prompt_text(citation_block, body)
             continue
         break
+    
+    final_tokens = _estimate_tokens(prompt)
+    if truncation_order_applied:
+        logger.info(
+            "Prompt budget enforcement applied",
+            extra={
+                "original_tokens": original_tokens,
+                "final_tokens": final_tokens,
+                "truncation_order_applied": truncation_order_applied,
+                "max_prompt_tokens": max_prompt_tokens,
+                "candidate_id": body.get("candidate_id"),
+            },
+        )
+    
     return prompt
 
 

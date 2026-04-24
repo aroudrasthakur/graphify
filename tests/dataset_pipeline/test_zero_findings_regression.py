@@ -127,12 +127,12 @@ def test_wrong_source_root_strict_returns_path_resolution_exit_code(tmp_path, mo
 
 
 # ---------------------------------------------------------------------------
-# (c) Mode A always fails JSON parsing → degraded health, B/C still produce
+# (c) Selected Mode A fails JSON parsing → failure reason is still surfaced
 # ---------------------------------------------------------------------------
 
 
 def test_mode_a_malformed_json_records_per_reason_breakdown(tmp_path, monkeypatch):
-    """Stub provider patched so Mode A always returns junk; B and C stay healthy."""
+    """Stub provider patched so selected Mode A calls always return junk."""
     from depos.analysis import reasoning_engine
     from depos.analysis.schemas import ReasonerMode
 
@@ -155,16 +155,14 @@ def test_mode_a_malformed_json_records_per_reason_breakdown(tmp_path, monkeypatc
     stats = summary["reasoner_call_stats"]
     by_mode = stats["by_mode"]
 
-    # Mode A failed every attempt; B and C succeeded.
+    # Selected Mode A failed every attempt. With per-detector mode routing,
+    # other modes may not run for this fixture at all.
     assert by_mode.get("A", {}).get("failures", 0) >= 1
     assert by_mode.get("A", {}).get("successes", 0) == 0
-    assert by_mode.get("B", {}).get("successes", 0) >= 1
-    assert by_mode.get("C", {}).get("successes", 0) >= 1
 
     # The per-reason breakdown must point the operator at the right cluster.
     by_reason = stats["by_reason"]
     assert any(reason in by_reason for reason in ("not_json", "json_but_invalid_schema"))
 
-    # Health is degraded (some calls succeed, some fail), not failed.
-    assert summary["reasoner_run_health"] in {"ok", "degraded"}
-    assert summary["reasoner_run_health"] != "failed"
+    # Health can now be "failed" when the selected mode set only contains A.
+    assert summary["reasoner_run_health"] in {"failed", "degraded"}

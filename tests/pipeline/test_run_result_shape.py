@@ -250,6 +250,15 @@ def test_pipeline_routes_taint_reasoner_candidates_to_mode_c_only(tmp_path: Path
         candidate_id=candidate.candidate_id,
         scope_id=candidate.scope_id,
         pack_manifest=PackManifest(manifest_id="pack-mode-c"),
+        taint_edges_available=True,
+        taint_edges=[
+            TaintEdge(
+                source_node="node:input",
+                sink_node="node:sink",
+                intermediate_path=["node:input", "node:scope", "node:sink"],
+                scope="scope",
+            )
+        ],
         evidence=BundleEvidence(
             snippet_count=1,
             snippets_full=1,
@@ -297,3 +306,79 @@ def test_pipeline_routes_taint_reasoner_candidates_to_mode_c_only(tmp_path: Path
     )
 
     assert seen_modes == [(ReasonerMode.C,)]
+
+
+def test_pipeline_marks_missing_taint_evidence_skip_reason(tmp_path: Path, monkeypatch) -> None:
+    graph = nx.DiGraph()
+    config = IntelligenceConfig(data_dir=tmp_path / "depos-data")
+    manifest = ChangeManifest(resolved_via="test")
+    candidate = Candidate(
+        candidate_id="cand-missing-taint",
+        scope_id="node:scope",
+        seed_type=SeedType.graph_anomaly,
+        score=CandidateScore(
+            seam_exposure=0.6,
+            composite=0.9,
+        ),
+        detector_payload=DetectorPayload(
+            detector_name="sql-injection-approx",
+            detector_version="1",
+            pipeline_version="2.0.0",
+        ),
+    )
+    bundle = ContextBundle(
+        bundle_id="bundle-missing-taint",
+        candidate_id=candidate.candidate_id,
+        scope_id=candidate.scope_id,
+        pack_manifest=PackManifest(manifest_id="pack-missing-taint"),
+        taint_edges_available=False,
+        taint_edges=[],
+    )
+
+    verify_calls: list[bool] = []
+
+    monkeypatch.setattr("depos.analysis.pipeline._prepare_run_metadata", lambda *args, **kwargs: None)
+    monkeypatch.setattr("depos.analysis.pipeline.resolve_change_manifest", lambda *args, **kwargs: manifest)
+    monkeypatch.setattr("depos.analysis.pipeline.build_run_context", lambda *args, **kwargs: object())
+    monkeypatch.setattr(
+        "depos.analysis.pipeline.identify_candidates",
+        lambda *args, **kwargs: ([candidate], manifest, []),
+    )
+    monkeypatch.setattr("depos.analysis.pipeline.build_bundle", lambda *args, **kwargs: bundle)
+    monkeypatch.setattr(
+        "depos.analysis.pipeline.get_detector",
+        lambda name: SimpleNamespace(requires_reasoner=True, semantic_requirement="taint"),
+    )
+    monkeypatch.setattr(
+        "depos.analysis.pipeline.run_all_modes",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("reasoner should be skipped")),
+    )
+    monkeypatch.setattr(
+        "depos.analysis.pipeline.verify_all",
+        lambda *, deterministic_only, **kwargs: (
+            verify_calls.append(deterministic_only) or [],
+            [],
+        ),
+    )
+    monkeypatch.setattr("depos.analysis.pipeline.rank", lambda *args, **kwargs: [])
+    monkeypatch.setattr("depos.analysis.pipeline.serialize_examples", lambda *args, **kwargs: None)
+    monkeypatch.setattr("depos.analysis.pipeline.evaluate_gray_zone", lambda *args, **kwargs: [])
+    monkeypatch.setattr("depos.analysis.pipeline.persist_gray_zone", lambda *args, **kwargs: None)
+    monkeypatch.setattr(
+        "depos.analysis.pipeline.timed_stage",
+        lambda *args, **kwargs: contextlib.nullcontext(),
+    )
+
+    result = run_modules_2_through_7(
+        graph,
+        config=config,
+        run_meta=RunMetadata(
+            run_id="missing-taint-skip",
+            analysis_mode=AnalysisMode.full_repo_scan,
+            provider="stub",
+        ),
+        repo_root=tmp_path,
+    )
+
+    assert verify_calls == [True]
+    assert result.bundle_trace[0].skipped_reason == "missing_taint_evidence"

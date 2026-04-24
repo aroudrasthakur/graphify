@@ -22,7 +22,12 @@ from typing import Optional
 MIN_EMIT_CONFIDENCE = 0.6
 INFERRED_THRESHOLD = 0.8
 INFERRED_METHOD_PENALTY = 0.1
-DYNAMIC_URL_MAX_CONFIDENCE = 0.4
+# BUGFIX: Raised from 0.4 to 0.7 to allow dynamic URL template literals
+# to emit edges. Template literals like `/api/repos/${id}` are valid
+# client-server matches and should not be rejected. The 0.7 confidence
+# reflects that dynamic construction is slightly less certain than exact
+# string literals (1.0) but still valid enough to emit.
+DYNAMIC_URL_MAX_CONFIDENCE = 0.7
 
 # Recognize TS/FastAPI dynamic segments.
 _TS_BRACE = re.compile(r"\{[^/]+\}")

@@ -95,6 +95,13 @@ def _needs_llm_reasoning(
     if spec is None or not bool(getattr(spec, "requires_reasoner", False)):
         return False
 
+    # Group C taint evidence gating: auto-gray-zone candidates without taint evidence
+    requirement = getattr(spec, "semantic_requirement", None) if spec is not None else None
+    if requirement == "taint":
+        # For Group C candidates, require non-empty taint_edges to proceed to LLM
+        if not bundle.taint_edges_available or len(bundle.taint_edges) == 0:
+            return False
+
     score = candidate.score
     if score.taint_chain_present and bundle.taint_edges:
         return False
@@ -339,6 +346,13 @@ def run_modules_2_through_7(
         if requires_reasoner and not needs_llm_reasoning:
             deterministic_only = True
             bundles_skipped_deterministic_reasoner += 1
+            
+            # Determine skip reason: check if it's due to missing taint evidence for Group C
+            requirement = getattr(spec, "semantic_requirement", None) if spec is not None else None
+            skip_reason = "deterministic_gate"
+            if requirement == "taint" and (not bundle.taint_edges_available or len(bundle.taint_edges) == 0):
+                skip_reason = "missing_taint_evidence"
+            
             _emit_progress(
                 progress,
                 f"Module 4: skipped reasoner for candidate {index}/{total_candidates} "
@@ -352,7 +366,7 @@ def run_modules_2_through_7(
                     candidate_score_composite=float(candidate.score.composite),
                     reasoner_modes_returned=[],
                     findings=0,
-                    skipped_reason="deterministic_gate",
+                    skipped_reason=skip_reason,
                     evidence_quality=_dominant_quality(bundle.evidence),
                     evidence_score=float(bundle.evidence.evidence_score),
                     reasoner_attempts=0,

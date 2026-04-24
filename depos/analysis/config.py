@@ -72,7 +72,7 @@ class ReasonerProviderConfig(BaseModel):
     read_timeout_seconds: float = 60.0
     ollama_preflight_timeout: float = 30.0
     ollama_first_call_timeout: float = 300.0
-    ollama_subsequent_timeout: float = 90.0
+    ollama_subsequent_timeout: float = 120.0
 
 
 class GrayZoneConfig(BaseModel):

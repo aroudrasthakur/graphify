@@ -124,15 +124,31 @@ def _wrap_candidate(
     mode: Any,
     config: Any,
 ) -> Candidate:
+    from depos.analysis.schemas import RankingMetadata, SeedType
+    
     raw = dict(candidate.detector_payload.raw)
     extra_oh = raw.pop("oracle_hints", None)
     hints = dict(candidate.detector_payload.oracle_hints)
     if isinstance(extra_oh, dict):
         hints.update({str(k): v for k, v in extra_oh.items()})
     severity = str(policy.severity_for(spec))
+    
+    # Fix 2: Preserve detector_name for graph-anomaly candidates from Group C detectors
+    # Group C detectors (taint-based) mark candidates with "group": "C" in raw dict
+    # Store attack pattern labels in ranking_metadata.matched_pattern instead
+    is_group_c = raw.get("group") == "C"
+    if candidate.seed_type == SeedType.graph_anomaly and is_group_c:
+        # Preserve original detector identity as "graph-anomaly"
+        detector_name = "graph-anomaly"
+        # Store the attack pattern (spec.name) in ranking_metadata
+        candidate.ranking_metadata = RankingMetadata(matched_pattern=spec.name)
+    else:
+        # Non-Group-C detectors: use spec.name as detector_name (existing behavior)
+        detector_name = spec.name
+    
     candidate.detector_payload = DetectorPayload(
         category=spec.name,
-        detector_name=spec.name,
+        detector_name=detector_name,
         detector_version=spec.version,
         pipeline_version=PIPELINE_VERSION,
         severity=severity,
