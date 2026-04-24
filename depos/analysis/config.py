@@ -11,7 +11,9 @@ import os
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, Field
+import warnings
+
+from pydantic import AliasChoices, BaseModel, Field
 
 
 class VerifierPolicy(BaseModel):
@@ -37,6 +39,11 @@ class BundleBudget(BaseModel):
     extra_source_roots: list[str] = Field(default_factory=list)
     path_aliases: dict[str, str] = Field(default_factory=dict)
     min_snippet_chars: int = 80
+    max_caller_texts: int = 3
+    max_callee_texts: int = 3
+    max_seam_neighbor_texts: int = 3
+    max_snippet_chars: int = 400
+    max_prompt_tokens: int = 2048
     min_evidence_quality_for_reasoner: str = "embedded"  # full | embedded | label_only
     min_evidence_score_for_reasoner: float = 0.00
 
@@ -58,6 +65,14 @@ class ReasonerProviderConfig(BaseModel):
     gemma_response_path: str = "response"
     openai_response_path: str = "choices[0].message.content"
     ollama_response_path: str = "response"
+    # HTTP timeouts (seconds). Keep connect small so unreachable providers
+    # fail fast; read needs to cover first-token latency for local models
+    # like Ollama loading weights on the first call.
+    connect_timeout_seconds: float = 5.0
+    read_timeout_seconds: float = 60.0
+    ollama_preflight_timeout: float = 30.0
+    ollama_first_call_timeout: float = 300.0
+    ollama_subsequent_timeout: float = 120.0
 
 
 class GrayZoneConfig(BaseModel):
@@ -70,21 +85,28 @@ class GrayZoneConfig(BaseModel):
 
 class RankerConfig(BaseModel):
     ranking_phase_override: Optional[int] = None  # force a phase for tests
-    use_graphcodebert: bool = False
-    graphcodebert_model_name: str = "microsoft/graphcodebert-base"
-    graphcodebert_cache_dir: str | None = None
-    graphcodebert_device: str | None = None
-    graphcodebert_local_files_only: bool = False
     phase_0_weights: dict[str, float] = Field(
         default_factory=lambda: {
-            "cross_language_seam_count": 0.3,
-            "changed_node_density": 0.25,
-            "unresolved_symbol_count": 0.2,
-            "removed_entity_references": 0.15,
+            "cross_language_seam_count": 0.25,
+            "changed_node_density": 0.22,
+            "unresolved_symbol_count": 0.18,
+            "removed_entity_references": 0.12,
             "missing_guard_signals": 0.1,
-            "graphcodebert_score": 0.05,
+            "candidate_score_composite": 0.13,
         }
     )
+
+
+class ScoringConfig(BaseModel):
+    """Weights per analysis mode for :class:`CandidateScore` composite."""
+
+    weights: dict[str, dict[str, float]] = Field(default_factory=dict)
+
+
+class DetectorHeuristicsConfig(BaseModel):
+    """Detector-specific allowlists and heuristics."""
+
+    env_var_safe_names: list[str] = Field(default_factory=list)
 
 
 class IntelligenceConfig(BaseModel):
@@ -124,39 +146,92 @@ class IntelligenceConfig(BaseModel):
     branch_ref: Optional[str] = None
 
     verifier: VerifierPolicy = Field(default_factory=VerifierPolicy)
+    detectors: DetectorHeuristicsConfig = Field(default_factory=DetectorHeuristicsConfig)
     candidates: CandidateBudget = Field(default_factory=CandidateBudget)
     bundles: BundleBudget = Field(default_factory=BundleBudget)
-    reasoner: ReasonerProviderConfig = Field(default_factory=ReasonerProviderConfig)
+    llm: ReasonerProviderConfig = Field(
+        default_factory=ReasonerProviderConfig,
+        validation_alias=AliasChoices("llm", "reasoner"),
+    )
     gray_zone: GrayZoneConfig = Field(default_factory=GrayZoneConfig)
     ranker: RankerConfig = Field(default_factory=RankerConfig)
+    scoring: ScoringConfig = Field(default_factory=ScoringConfig)
+
+    @property
+    def reasoner(self) -> ReasonerProviderConfig:  # noqa: ANN201 - public compat
+        warnings.warn(
+            "IntelligenceConfig.reasoner is deprecated; use .llm",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.llm
+
+    def resolved_llm_model_label(self) -> str:
+        r = self.llm
+        return str(r.gemma_model or r.openai_model or r.ollama_model or "gemma-4")
 
 
 def load_config_from_env() -> IntelligenceConfig:
     """Build a config from DEPOS_INTEL_* env vars where present. Unknown
     vars are ignored; everything falls back to the defaults above."""
     cfg = IntelligenceConfig()
-    cfg.reasoner.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.reasoner.provider)
-    cfg.reasoner.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.reasoner.openai_api_key)
-    cfg.reasoner.openai_model = os.environ.get("OPENAI_MODEL", cfg.reasoner.openai_model)
-    cfg.reasoner.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.reasoner.gemma_api_url)
-    cfg.reasoner.gemma_model = os.environ.get("GEMMA_MODEL", cfg.reasoner.gemma_model)
-    cfg.reasoner.gemma_response_path = os.environ.get(
-        "GEMMA_RESPONSE_PATH", cfg.reasoner.gemma_response_path
+    cfg.llm.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.llm.provider)
+    cfg.llm.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.llm.openai_api_key)
+    cfg.llm.openai_model = os.environ.get("OPENAI_MODEL", cfg.llm.openai_model)
+    cfg.llm.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.llm.gemma_api_url)
+    cfg.llm.gemma_model = os.environ.get("GEMMA_MODEL", cfg.llm.gemma_model)
+    cfg.llm.gemma_response_path = os.environ.get(
+        "GEMMA_RESPONSE_PATH", cfg.llm.gemma_response_path
     )
-    cfg.reasoner.openai_response_path = os.environ.get(
-        "OPENAI_RESPONSE_PATH", cfg.reasoner.openai_response_path
+    cfg.llm.openai_response_path = os.environ.get(
+        "OPENAI_RESPONSE_PATH", cfg.llm.openai_response_path
     )
-    cfg.reasoner.ollama_response_path = os.environ.get(
-        "OLLAMA_RESPONSE_PATH", cfg.reasoner.ollama_response_path
+    cfg.llm.ollama_response_path = os.environ.get(
+        "OLLAMA_RESPONSE_PATH", cfg.llm.ollama_response_path
     )
-    cfg.reasoner.ollama_host = os.environ.get("OLLAMA_HOST", cfg.reasoner.ollama_host)
-    cfg.reasoner.ollama_model = os.environ.get("OLLAMA_MODEL", cfg.reasoner.ollama_model)
-    cfg.ranker.use_graphcodebert = os.environ.get("DEPOS_INTEL_USE_GRAPHCODEBERT", "").strip().lower() in {"1", "true", "yes", "on"}
-    cfg.ranker.graphcodebert_cache_dir = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_CACHE", cfg.ranker.graphcodebert_cache_dir)
-    cfg.ranker.graphcodebert_device = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_DEVICE", cfg.ranker.graphcodebert_device)
-    cfg.ranker.graphcodebert_local_files_only = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_LOCAL_ONLY", "").strip().lower() in {"1", "true", "yes", "on"}
+    cfg.llm.ollama_host = os.environ.get("OLLAMA_HOST", cfg.llm.ollama_host)
+    cfg.llm.ollama_model = os.environ.get("OLLAMA_MODEL", cfg.llm.ollama_model)
     try:
         cfg.bundles.token_budget_default = int(os.environ.get("DEPOS_INTEL_TOKEN_BUDGET", cfg.bundles.token_budget_default))
+    except ValueError:
+        pass
+    try:
+        cfg.llm.connect_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_CONNECT_TIMEOUT", cfg.llm.connect_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.read_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_READ_TIMEOUT", cfg.llm.read_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_preflight_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT",
+                cfg.llm.ollama_preflight_timeout,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_first_call_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT",
+                cfg.llm.ollama_first_call_timeout,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_subsequent_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT",
+                cfg.llm.ollama_subsequent_timeout,
+            )
+        )
     except ValueError:
         pass
 
@@ -165,6 +240,39 @@ def load_config_from_env() -> IntelligenceConfig:
         cfg.bundles.extra_source_roots = [
             part for part in extra_roots.split(os.pathsep) if part.strip()
         ]
+    try:
+        cfg.bundles.max_caller_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLER_TEXTS", cfg.bundles.max_caller_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_callee_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLEE_TEXTS", cfg.bundles.max_callee_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_seam_neighbor_texts = int(
+            os.environ.get(
+                "DEPOS_BUNDLE_MAX_SEAM_NEIGHBOR_TEXTS",
+                cfg.bundles.max_seam_neighbor_texts,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_snippet_chars = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_SNIPPET_CHARS", cfg.bundles.max_snippet_chars)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_prompt_tokens = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_PROMPT_TOKENS", cfg.bundles.max_prompt_tokens)
+        )
+    except ValueError:
+        pass
     aliases_json = os.environ.get("DEPOS_INTEL_PATH_ALIASES_JSON")
     if aliases_json:
         try:

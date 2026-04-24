@@ -10,7 +10,7 @@ def _write_ast(path: Path, payload: dict) -> None:
     path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
 
-def test_dataset_pipeline_cli_runs_with_stubbed_graphcodebert(tmp_path, monkeypatch, capsys) -> None:
+def test_dataset_pipeline_cli_runs_end_to_end(tmp_path, monkeypatch, capsys) -> None:
     monkeypatch.setenv("DEPOS_DATA", str(tmp_path / "depos-data"))
     monkeypatch.setenv("DEPOS_INTEL_PROVIDER", "stub")
 
@@ -44,24 +44,6 @@ def test_dataset_pipeline_cli_runs_with_stubbed_graphcodebert(tmp_path, monkeypa
         },
     )
 
-    def _fake_score_bundles(bundles, **kwargs):
-        rows = []
-        for idx, bundle in enumerate(bundles):
-            rows.append(
-                {
-                    "bundle_id": bundle.get("bundle_id", f"b{idx}"),
-                    "candidate_id": bundle.get("candidate_id", f"c{idx}"),
-                    "scope_id": bundle.get("scope_id", ""),
-                    "graphcodebert_score": 0.81 - (idx * 0.01),
-                    "graphcodebert_pattern": "auth_guard_drift",
-                    "top_patterns": [{"label": "auth_guard_drift", "score": 0.81 - (idx * 0.01)}],
-                    "bundle_fingerprint": f"fp{idx}",
-                }
-            )
-        return rows
-
-    monkeypatch.setattr("depos.analysis.graphcodebert.score_bundles", _fake_score_bundles)
-
     rc = main(
         [
             "analyze",
@@ -82,8 +64,8 @@ def test_dataset_pipeline_cli_runs_with_stubbed_graphcodebert(tmp_path, monkeypa
     payload = json.loads(captured.out)
     assert "[depos-intel]" in captured.err
     assert "Dataset pipeline: normalizing AST dataset" in captured.err
-    assert "Dataset pipeline: scoring" in captured.err
-    assert "Bundle pipeline:" in captured.err
+    assert "Dataset pipeline: writing stub bundle rank scores" in captured.err
+    assert "Dataset pipeline: starting canonical Stage 1-11 pipeline." in captured.err
     assert payload["normalized_nodes"] >= 2
     assert payload["candidates"] >= 1
     assert payload["bundles"] >= 1

@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["graph_path_exists", "negation_witness", "cross_universe_edge_exists"],
     requires_reasoner=False,
     severity="high",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -26,7 +26,7 @@ def run(graph, manifest, mode, config, ctx):
             make_candidate(
                 scope_id=f"env:undefined:{attrs.get('name') or node_id}",
                 seed_type=SeedType.graph_anomaly,
-                priority_score=0.82,
+                detector_confidence=0.82,
                 analysis_mode=mode,
                 diff_anchors=[node_id] + [source for source, _ in readers],
                 extra={"env_var": attrs.get("name"), "readers": [source for source, _ in readers]},

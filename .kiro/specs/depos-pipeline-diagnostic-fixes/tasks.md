@@ -1,0 +1,254 @@
+# Implementation Plan
+
+- [x] 1. Write bug condition exploration test for Fix 1 (Stitcher Route Matching)
+  - **Property 1: Bug Condition** - Stitcher Route Matching Failures
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate stitcher reports 0/23 routes linked with errors=74
+  - **Scoped PBT Approach**: Test concrete failing case - FastAPI route `@router.get("/repos")` with TS client `fetch("/api/repos")`
+  - Test that emit_http_calls_route creates 0 HTTP_CALLS_ROUTE edges for valid client-server pairs
+  - The test assertions should match Expected Behavior: linked_routes > 0, errors < 74
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: "0/23 routes linked; errors=74"
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.1, 1.2, 2.1, 2.2_
+
+- [x] 2. Write bug condition exploration test for Fix 2 (Ranker Label Preservation)
+  - **Property 1: Bug Condition** - Ranker Label Corruption
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate ranker overwrites detector_name with attack pattern labels
+  - **Scoped PBT Approach**: Test concrete failing case - graph-anomaly candidate with matched_pattern="command-injection-approx"
+  - Test that ranker preserves detector_payload.detector_name as "graph-anomaly" (currently fails - overwrites to "command-injection-approx")
+  - The test assertions should match Expected Behavior: detector_name == "graph-anomaly" AND ranking_metadata.matched_pattern == "command-injection-approx"
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: "detector_name overwritten with 'command-injection-approx'"
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.3, 1.4, 2.3, 2.4_
+
+- [x] 3. Write bug condition exploration test for Fix 3 (Ollama Timeout and Prompt Truncation)
+  - **Property 1: Bug Condition** - Ollama Timeout and Prompt Truncation Failures
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate Ollama timeouts at 90s and prompt truncation errors
+  - **Scoped PBT Approach**: Test concrete failing cases:
+    - Mock Ollama provider with 120s response delay, assert transport failure at 90s timeout
+    - Create bundle with 10 caller_texts of 500 chars each, assert prompt exceeds 2048 tokens
+  - The test assertions should match Expected Behavior: 300s first-call timeout, 120s subsequent timeout, prompts <= 2048 tokens
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: "Ollama timeout at 90s" and "prompt exceeds 2048 tokens"
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.5, 1.6, 1.7, 1.8, 2.5, 2.6, 2.7, 2.8_
+
+- [x] 4. Write bug condition exploration test for Fix 4 (Graph-Anomaly Noise Suppression)
+  - **Property 1: Bug Condition** - Graph-Anomaly Noise in Low Coverage Runs
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate graph-anomaly floods candidate budget in low-coverage runs
+  - **Scoped PBT Approach**: Test concrete failing case - full_repo_scan with 5% stitcher coverage
+  - Test that graph-anomaly detector emits 0 candidates when coverage < 20% (currently fails - emits 200+ candidates)
+  - The test assertions should match Expected Behavior: 0 candidates emitted when low_stitcher_coverage=True
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: "200+ graph-anomaly candidates emitted at 5% coverage"
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.9, 1.10, 2.9, 2.10_
+
+- [x] 5. Write bug condition exploration test for Fix 5 (Group C Taint Evidence Gating)
+  - **Property 1: Bug Condition** - Group C Hallucinated Findings
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate Group C candidates with no taint produce hallucinated findings
+  - **Scoped PBT Approach**: Test concrete failing case - Group C candidate with empty taint_edges list
+  - Test that pipeline auto-gray-zones candidate without LLM call (currently fails - sends to LLM)
+  - The test assertions should match Expected Behavior: skipped_reason="missing_taint_evidence" AND no LLM call
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: "Group C candidate with no taint sent to LLM, produced hallucinated finding"
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.11, 1.12, 2.11, 2.12_
+
+- [x] 6. Write preservation property tests (BEFORE implementing fixes)
+  - **Property 2: Preservation** - Non-Buggy Input Behavior
+  - **IMPORTANT**: Follow observation-first methodology
+  - Observe behavior on UNFIXED code for non-buggy inputs:
+    - Routes with exact path matches continue to link correctly
+    - Non-graph-anomaly detectors preserve their detector_name values
+    - Non-Ollama providers use existing timeout behavior (connect=5s, read=60s)
+    - Prompts within budget include full caller/callee texts without truncation
+    - Adequate-coverage runs (>=20%) emit graph-anomaly candidates normally
+    - Group A/B candidates process through reasoner without taint requirements
+    - Group C candidates with non-empty taint_edges reach LLM
+  - Write property-based tests capturing observed behavior patterns from Preservation Requirements
+  - Property-based testing generates many test cases for stronger guarantees
+  - Run tests on UNFIXED code
+  - **EXPECTED OUTCOME**: Tests PASS (this confirms baseline behavior to preserve)
+  - Mark task complete when tests are written, run, and passing on unfixed code
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
+
+- [ ] 7. Fix 1: Stitcher Route Matching
+  - [x] 7.1 Improve route normalization in semantic_edges.py
+    - Update normalize_route calls to handle /api prefix stripping consistently for both client and server routes
+    - Review score_match confidence penalties for dynamic URLs to avoid rejecting valid template literal matches
+    - Add debug logging showing (client_route, server_route, score, emit_decision) for each match attempt
+    - _Bug_Condition: stitcher_coverage == 0 AND stitcher_errors > 0_
+    - _Expected_Behavior: linked_routes > 0 AND errors < 74_
+    - _Preservation: Routes with exact path matches continue to link correctly_
+    - _Requirements: 1.1, 1.2, 2.1, 2.2, 3.6_
+
+  - [x] 7.2 Preserve method context in http_probes.py
+    - Ensure http_method is correctly extracted from fetch options and axios method calls
+    - Improve match confidence by preserving HTTP method context
+    - _Bug_Condition: Client routes fail to match server routes due to missing method context_
+    - _Expected_Behavior: HTTP_CALLS_ROUTE edges created with confidence > 0.8_
+    - _Preservation: Existing route matching behavior unchanged_
+    - _Requirements: 2.1, 2.2_
+
+  - [x] 7.3 Run pytest validation after Fix 1
+    - Run `pytest tests/ -q` to verify all existing tests pass
+    - Re-run bug condition exploration test from task 1
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - Verify linked_routes > 0 and errors < 74
+    - _Requirements: 2.1, 2.2, 3.8_
+
+- [x] 8. Fix 2: Ranker Label Preservation
+  - [x] 8.1 Add RankingMetadata schema in schemas.py
+    - Define new RankingMetadata Pydantic model with matched_pattern: Optional[str] field
+    - Add ranking_metadata: Optional[RankingMetadata] to Candidate schema with default None
+    - _Bug_Condition: No separate field for attack pattern labels_
+    - _Expected_Behavior: RankingMetadata field available for matched_pattern storage_
+    - _Preservation: Existing schema fields unchanged_
+    - _Requirements: 2.3, 2.4_
+
+  - [x] 8.2 Update ranker to preserve detector_name
+    - Remove code that writes matched_pattern to candidate.detector_payload.detector_name
+    - Store matched_pattern in candidate.ranking_metadata.matched_pattern instead
+    - Preserve detector_payload.detector_name as original detector identity
+    - _Bug_Condition: detector_name overwritten with attack pattern labels_
+    - _Expected_Behavior: detector_name == "graph-anomaly" AND ranking_metadata.matched_pattern == "command-injection-approx"_
+    - _Preservation: Non-graph-anomaly detectors preserve their detector_name values_
+    - _Requirements: 1.3, 1.4, 2.3, 2.4, 3.4_
+
+  - [x] 8.3 Run pytest validation after Fix 2
+    - Run `pytest tests/ -q` to verify all existing tests pass
+    - Re-run bug condition exploration test from task 2
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - Verify detector_name preserved and ranking_metadata populated correctly
+    - _Requirements: 2.3, 2.4, 3.8_
+
+- [x] 9. Fix 3: Ollama Timeout and Prompt Truncation
+  - [x] 9.1 Add Ollama timeout configuration in config.py
+    - Add ollama_preflight_timeout: float = 30.0 to ReasonerProviderConfig
+    - Add ollama_first_call_timeout: float = 300.0 to ReasonerProviderConfig
+    - Add ollama_subsequent_timeout: float = 120.0 to ReasonerProviderConfig
+    - Update load_config_from_env to read DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT, DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT, DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT
+    - _Bug_Condition: Single 60s read timeout insufficient for Ollama_
+    - _Expected_Behavior: Configurable timeouts for preflight, first call, subsequent calls_
+    - _Preservation: Non-Ollama providers use existing timeout behavior_
+    - _Requirements: 2.5, 2.6, 3.3_
+
+  - [x] 9.2 Implement timeout selection logic in reasoning_engine.py
+    - Update ReasonerSession.\_get_timeout to return ollama_first_call_timeout for call_index == 0
+    - Return ollama_subsequent_timeout for call_index > 0 when provider is "ollama"
+    - Add \_preflight_ollama method with ollama_preflight_timeout to validate model availability
+    - Call preflight probe before first bundle prompt to fail fast if model unavailable
+    - _Bug_Condition: Ollama calls timeout at 90s causing transport failures_
+    - _Expected_Behavior: 300s first-call timeout, 120s subsequent timeout, no transport failures_
+    - _Preservation: Non-Ollama providers continue using existing timeout behavior_
+    - _Requirements: 1.5, 1.6, 2.5, 2.6, 3.3_
+
+  - [x] 9.3 Enforce prompt budget in bundle_prompter.py
+    - Ensure \_enforce_prompt_budget is called with max_prompt_tokens from config
+    - Truncate in priority order: seam_neighbor_texts → callee_texts → caller_texts → code_snippets → call_chain_out → call_chain_in
+    - Add structured logging when truncation occurs showing (original_tokens, final_tokens, truncation_order_applied)
+    - _Bug_Condition: Prompts exceed max_prompt_tokens=2048 causing truncation errors_
+    - _Expected_Behavior: Prompts truncated to fit within token budget_
+    - _Preservation: Prompts within budget include full caller/callee texts without truncation_
+    - _Requirements: 1.7, 1.8, 2.7, 2.8, 3.5_
+
+  - [x] 9.4 Run pytest validation after Fix 3
+    - Run `pytest tests/ -q` to verify all existing tests pass
+    - Re-run bug condition exploration test from task 3
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - Verify Ollama timeouts work correctly and prompts fit within budget
+    - _Requirements: 2.5, 2.6, 2.7, 2.8, 3.8_
+
+- [x] 10. Fix 4: Graph-Anomaly Noise Suppression
+  - [x] 10.1 Add coverage check to graph-anomaly detector
+    - Before emitting graph-anomaly candidates, check run_context.run_metadata.low_stitcher_coverage
+    - If low_stitcher_coverage == True AND mode == AnalysisMode.full_repo_scan, skip candidate emission
+    - Log suppression reason: "Suppressing graph-anomaly emission due to low stitcher coverage (<20%)"
+    - Preserve diff-aware mode: continue to emit graph-anomaly candidates in AnalysisMode.diff_aware regardless of coverage
+    - _Bug_Condition: low_stitcher_coverage AND detector_name == "graph-anomaly" AND mode == "full_repo_scan"_
+    - _Expected_Behavior: 0 candidates emitted when coverage < 20%_
+    - _Preservation: Adequate-coverage runs (>=20%) emit graph-anomaly candidates normally_
+    - _Requirements: 1.9, 1.10, 2.9, 2.10, 3.1_
+
+  - [x] 10.2 Run pytest validation after Fix 4
+    - Run `pytest tests/ -q` to verify all existing tests pass
+    - Re-run bug condition exploration test from task 4
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - Verify 0 graph-anomaly candidates emitted in low-coverage full_repo_scan
+    - Verify adequate-coverage runs continue to emit candidates normally
+    - _Requirements: 2.9, 2.10, 3.1, 3.8_
+
+- [x] 11. Fix 5: Group C Taint Evidence Gating
+  - [x] 11.1 Add taint evidence check to \_needs_llm_reasoning in pipeline.py
+    - For Group C candidates (semantic_requirement="taint"), check bundle.taint_edges_available and len(bundle.taint_edges) > 0
+    - Return False if taint evidence is missing, causing candidate to skip LLM
+    - Add bundle_trace entry with skipped_reason="missing_taint_evidence" for observability
+    - _Bug_Condition: Group C candidate with empty taint_edges sent to LLM_
+    - _Expected_Behavior: Auto-gray-zone without LLM call when taint evidence missing_
+    - _Preservation: Group C candidates with non-empty taint_edges continue to reach LLM_
+    - _Requirements: 1.11, 1.12, 2.11, 2.12, 3.7_
+
+  - [x] 11.2 Implement auto-gray-zone logic in run_modules_2_through_7
+    - When needs_llm_reasoning == False due to missing taint evidence, set deterministic_only=True
+    - Add bundle_trace entry with skipped_reason="missing_taint_evidence"
+    - Ensure candidate proceeds to verifier without LLM invocation
+    - _Bug_Condition: Group C candidates without taint produce hallucinated findings_
+    - _Expected_Behavior: Candidates auto-gray-zoned, no hallucinated findings in violations.json_
+    - _Preservation: Group A/B candidates process through reasoner without taint requirements_
+    - _Requirements: 2.11, 2.12, 3.2, 3.7_
+
+  - [x] 11.3 Run pytest validation after Fix 5
+    - Run `pytest tests/ -q` to verify all existing tests pass
+    - Re-run bug condition exploration test from task 5
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - Verify Group C candidates with no taint are auto-gray-zoned
+    - Verify Group A/B candidates continue to process normally
+    - _Requirements: 2.11, 2.12, 3.2, 3.8_
+
+- [x] 12. Verify preservation tests still pass
+  - **Property 2: Preservation** - Non-Buggy Input Behavior
+  - **IMPORTANT**: Re-run the SAME tests from task 6 - do NOT write new tests
+  - Run preservation property tests from step 6
+  - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
+  - Confirm all preservation requirements maintained:
+    - Routes with exact path matches link correctly
+    - Non-graph-anomaly detectors preserve detector_name
+    - Non-Ollama providers use existing timeouts
+    - Within-budget prompts include full texts
+    - Adequate-coverage runs emit graph-anomaly candidates
+    - Group A/B candidates process without taint requirements
+    - Group C candidates with taint reach LLM
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
+
+- [~] 13. Final Verification - Re-run full pipeline with diagnostic dataset
+  - Run complete pipeline on diagnostic dataset that originally showed all 5 bugs
+  - Verify stitcher coverage report shows linked_routes > 0 (improved from 0/23)
+  - Verify reasoner_call_stats shows no transport failures for Ollama
+  - Verify bundle_trace shows correct skipped_reason values for gated candidates
+  - Verify violations.json contains no hallucinated Group C findings
+  - Report final metrics: linked_routes, error_count, transport_failures, graph_anomaly_candidates, group_c_auto_gray_zoned
+  - Ensure all pytest tests pass: `pytest tests/ -q`
+  - Ask user if any questions or issues arise
+  - _Requirements: All requirements 1.1-3.8_

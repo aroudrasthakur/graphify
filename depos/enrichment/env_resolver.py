@@ -7,6 +7,8 @@ from pathlib import Path
 import networkx as nx
 
 _ENV_REF = re.compile(r"(?:process\.env\.|process\.env\[['\"]|os\.getenv\(['\"]|os\.environ(?:\.get)?\(['\"])([A-Z0-9_]+)")
+# Dynamic / non-literal bracket access: process.env[foo] or process.env['x' + y]
+_ENV_BRACKET_DYNAMIC = re.compile(r"process\.env\[([^\]]+)\]")
 
 
 def _candidate_nodes(graph: nx.DiGraph, source_file: str) -> list[str]:
@@ -40,6 +42,33 @@ def emit_env_edges(graph: nx.DiGraph, *, repo_root: Path | None = None) -> int:
         if not readers:
             continue
         source_id = readers[0]
+        for bm in _ENV_BRACKET_DYNAMIC.finditer(text):
+            inner = bm.group(1).strip()
+            if re.fullmatch(r"['\"][A-Z0-9_]+['\"]", inner):
+                continue  # static string — handled by _ENV_REF
+            synthetic_id = f"env::dynamic@{path.name}:{bm.start()}"
+            if not graph.has_node(synthetic_id):
+                graph.add_node(
+                    synthetic_id,
+                    node_kind="env_var",
+                    universe="env",
+                    source_file=source_file,
+                    label="dynamic",
+                    dynamic=True,
+                )
+            if graph.has_edge(source_id, synthetic_id):
+                continue
+            graph.add_edge(
+                source_id,
+                synthetic_id,
+                relation="READS_ENV_VAR",
+                source_system="code",
+                target_system="env",
+                confidence=0.45,
+                inferred=False,
+            )
+            added += 1
+
         for match in _ENV_REF.finditer(text):
             name = match.group(1)
             targets = env_nodes.get(name, [])

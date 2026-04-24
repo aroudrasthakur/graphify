@@ -12,11 +12,11 @@ SPEC = simple_spec(
     verifier_checks=["graph_path_exists", "cross_universe_edge_exists"],
     requires_reasoner=True,
     severity="medium",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
-    return _interface_surface_candidates(graph, mode)
+    return _interface_surface_candidates(graph, mode, run_context=ctx.get("run_context"))
 
 
 register(SPEC, run)

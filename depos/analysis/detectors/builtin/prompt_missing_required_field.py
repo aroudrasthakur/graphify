@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["external_oracle_lookup"],
     requires_reasoner=False,
     severity="medium",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -25,7 +25,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"prompt:missing-field:{node_id}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.68,
+                    detector_confidence=0.68,
                     analysis_mode=mode,
                     diff_anchors=[node_id],
                     extra={"missing_fields": missing, "schema_id": attrs.get("schema_id")},

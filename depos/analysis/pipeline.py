@@ -13,22 +13,33 @@ from typing import Any, Callable, Optional
 
 import networkx as nx
 
-from depos.analysis.candidate_identifier import resolve_change_manifest
+from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.run_context import build_run_context
 from depos.analysis.context_bundle import build_bundle
-from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin, run_all
+from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin
 from depos.analysis.gray_zone_evaluator import evaluate as evaluate_gray_zone
 from depos.analysis.gray_zone_evaluator import persist as persist_gray_zone
 from depos.analysis.observability import emit_event, timed_stage
 from depos.analysis.ranker import rank, serialize_examples
-from depos.analysis.reasoning_engine import run_all_modes
+from depos.analysis.reasoning_engine import (
+    ReasonerSession,
+    _preflight_ollama,
+    _validate_ollama_model,
+    resolve_ollama_base_url,
+    run_all_modes,
+)
 from depos.analysis.schemas import (
     AnalysisMode,
+    BundleTraceEntry,
+    Candidate,
+    ContextBundle,
     Finding,
     IngestReport,
     RankerDiffFeatures,
     RankerInput,
     ReasonerCallStats,
+    ReasonerMode,
     RunResult,
     RunMetadata,
     Universe,
@@ -64,6 +75,63 @@ def _reasoner_health_reason(stats: ReasonerCallStats, bundles_sent: int) -> str:
     return ""
 
 
+def _detector_spec_for_candidate(candidate: Candidate):
+    detector_name = str(candidate.detector_payload.detector_name or "legacy")
+    if detector_name == "legacy":
+        return None
+    try:
+        return get_detector(detector_name)
+    except Exception:  # noqa: BLE001
+        return None
+
+
+def _needs_llm_reasoning(
+    candidate: Candidate,
+    bundle: ContextBundle,
+    *,
+    detector_spec=None,
+) -> bool:
+    spec = detector_spec if detector_spec is not None else _detector_spec_for_candidate(candidate)
+    if spec is None or not bool(getattr(spec, "requires_reasoner", False)):
+        return False
+
+    # Group C taint evidence gating: auto-gray-zone candidates without taint evidence
+    requirement = getattr(spec, "semantic_requirement", None) if spec is not None else None
+    if requirement == "taint":
+        # For Group C candidates, require non-empty taint_edges to proceed to LLM
+        if not bundle.taint_edges_available or len(bundle.taint_edges) == 0:
+            return False
+
+    score = candidate.score
+    if score.taint_chain_present and bundle.taint_edges:
+        return False
+
+    seam_risk = float(score.seam_exposure)
+    if (
+        getattr(spec, "semantic_requirement", None) is None
+        and seam_risk < 0.3
+        and not candidate.diff_anchors
+        and float(score.composite) < 0.4
+    ):
+        return False
+
+    return True
+
+
+def _reasoner_modes_for_candidate(
+    candidate: Candidate,
+    *,
+    detector_spec=None,
+) -> tuple[ReasonerMode, ...]:
+    spec = detector_spec if detector_spec is not None else _detector_spec_for_candidate(candidate)
+    requirement = getattr(spec, "semantic_requirement", None) if spec is not None else None
+    if requirement == "cfg":
+        return (ReasonerMode.B,)
+    if requirement in {"dfg", "taint"}:
+        return (ReasonerMode.C,)
+    return (ReasonerMode.A,)
+
+
 def _emit_progress(progress: Callable[[str], None] | None, message: str) -> None:
     if progress is not None:
         progress(message)
@@ -72,19 +140,19 @@ def _emit_progress(progress: Callable[[str], None] | None, message: str) -> None
 def _build_ranker_input(candidate, bundle) -> RankerInput:
     cross_lang = len(bundle.cross_language_seams)
     changed_nodes = len(candidate.diff_anchors) + len([c for c in bundle.call_chain_in if c.get("depth", 0) == 1])
-    unresolved = int(candidate.extra.get("unresolved_symbol_count", 0))
-    removed_refs = int(candidate.extra.get("removed_entity_references", 0))
-    detector_meta = candidate.extra.get("detector") if isinstance(candidate.extra.get("detector"), dict) else {}
-    oracle_hints = dict(detector_meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
-    missing_guard_signals = int(oracle_hints.get("missing_guard_signals", candidate.extra.get("missing_guard_signals", 0)) or 0)
-    graphcodebert_score = float(candidate.extra.get("graphcodebert_score", 0.0) or 0.0)
+    raw = candidate.detector_payload.raw
+    unresolved = int(raw.get("unresolved_symbol_count", 0) or 0)
+    removed_refs = int(raw.get("removed_entity_references", 0) or 0)
+    oracle_hints = dict(candidate.detector_payload.oracle_hints or {})
+    missing_guard_signals = int(oracle_hints.get("missing_guard_signals", raw.get("missing_guard_signals", 0)) or 0)
+    comp = float(candidate.score.composite)
     features = RankerDiffFeatures(
         changed_nodes_on_path=changed_nodes,
         cross_lang_seams_on_path=cross_lang,
         unresolved_symbols=unresolved,
         removed_entities_referenced=removed_refs,
         missing_guard_signals=missing_guard_signals,
-        graphcodebert_score=graphcodebert_score,
+        candidate_score_composite=comp,
     )
     return RankerInput(
         candidate_id=candidate.candidate_id,
@@ -136,36 +204,6 @@ def _prepare_run_metadata(
     run_meta.ingest_errors.extend(error for error in extra_errors if isinstance(error, dict))
 
 
-def _score_graphcodebert(
-    bundles: list[dict[str, Any]],
-    *,
-    config: IntelligenceConfig,
-    run_id: str,
-    progress: Callable[[str], None] | None = None,
-) -> dict[str, dict[str, Any]]:
-    if not config.ranker.use_graphcodebert or not bundles:
-        if config.ranker.use_graphcodebert and not bundles:
-            _emit_progress(progress, "GraphCodeBERT: enabled, but no bundles were available to score.")
-        return {}
-    _emit_progress(progress, f"GraphCodeBERT: scoring {len(bundles)} bundles.")
-    try:
-        from depos.analysis.graphcodebert import score_bundles
-    except Exception as exc:  # noqa: BLE001
-        emit_event(config, run_id, "graphcodebert_skipped", reason=str(exc))
-        _emit_progress(progress, f"GraphCodeBERT: skipped ({exc}).")
-        return {}
-    rows = score_bundles(
-        bundles,
-        model_name=config.ranker.graphcodebert_model_name,
-        cache_dir=config.ranker.graphcodebert_cache_dir,
-        device=config.ranker.graphcodebert_device,
-        local_files_only=config.ranker.graphcodebert_local_files_only,
-    )
-    emit_event(config, run_id, "graphcodebert_scored", bundles=len(rows))
-    _emit_progress(progress, f"GraphCodeBERT: scored {len(rows)} bundles.")
-    return {str(row.get("candidate_id", "")): row for row in rows if isinstance(row, dict)}
-
-
 def run_modules_2_through_7(
     graph: nx.DiGraph,
     *,
@@ -174,6 +212,9 @@ def run_modules_2_through_7(
     diff_path: Optional[str] = None,
     repo_root: Optional[Path] = None,
     detector_policy: dict[str, Any] | None = None,
+    bundle_limit: int | None = None,
+    selected_limit: int | None = None,
+    min_score: float | None = None,
     progress: Callable[[str], None] | None = None,
 ) -> RunResult:
     mode = run_meta.analysis_mode
@@ -194,16 +235,71 @@ def run_modules_2_through_7(
     _emit_progress(progress, f"Module 2: manifest resolved via {manifest.resolved_via}.")
     _emit_progress(progress, "Module 2: running detectors.")
     with timed_stage(config, run_meta.run_id, "detector_run"):
-        candidates, detector_stats = run_all(graph, manifest, mode, config, detector_policy)
+        run_context = build_run_context(
+            graph, manifest, repo_root=repo_root, config=config
+        )
+        if (config.llm.provider or "stub").lower() == "ollama":
+            base_url = resolve_ollama_base_url(config.llm.ollama_host)
+            _emit_progress(
+                progress,
+                f"Pipeline: validating Ollama model tag '{config.llm.ollama_model}'.",
+            )
+            _validate_ollama_model(base_url, config.llm.ollama_model)
+            _emit_progress(
+                progress,
+                f"Pipeline: preflighting Ollama model '{config.llm.ollama_model}'.",
+            )
+            _preflight_ollama(
+                base_url,
+                config.llm.ollama_model,
+                timeout=config.llm.ollama_preflight_timeout,
+            )
+        candidates, manifest, detector_stats = identify_candidates(
+            graph,
+            run_context=run_context,
+            config=config,
+            mode=mode,
+            diff_path=diff_path,
+            repo_root=repo_root,
+            detector_policy=detector_policy,
+        )
     _emit_progress(progress, f"Module 2: detectors emitted {len(candidates)} candidates.")
     if not candidates:
         for stat in detector_stats:
             stat.run_id = run_meta.run_id
         _emit_progress(progress, "Pipeline: no candidates emitted; stopping after Module 2.")
-        return RunResult(findings=[], detector_stats=detector_stats, ingest_reports=_load_ingest_reports(graph), run_metadata=run_meta)
+        return RunResult(
+            findings=[],
+            detector_stats=detector_stats,
+            ingest_reports=_load_ingest_reports(graph),
+            run_metadata=run_meta,
+            change_manifest=manifest,
+            candidates=[],
+            bundles=[],
+            gray_zone_rows=[],
+            bundle_trace=[],
+        )
+
+    all_candidates = list(candidates)
+    eligible_candidates = (
+        [candidate for candidate in all_candidates if float(candidate.score.composite) >= float(min_score)]
+        if min_score is not None
+        else all_candidates
+    )
+    bundle_candidates = (
+        eligible_candidates[: max(0, int(bundle_limit))]
+        if bundle_limit is not None
+        else eligible_candidates
+    )
+    selected_candidates = (
+        bundle_candidates[: max(0, int(selected_limit))]
+        if selected_limit is not None
+        else bundle_candidates
+    )
 
     all_findings: list[Finding] = []
     all_audits = []
+    gray_zone_inputs: list[tuple[Finding, Any, Any]] = []
     ranker_inputs: list[RankerInput] = []
     labels: dict[str, tuple[str, str]] = {}
     full_repo_scan = mode == AnalysisMode.full_repo_scan
@@ -211,54 +307,74 @@ def run_modules_2_through_7(
     reasoner_stats = ReasonerCallStats()
     bundles_sent_to_reasoner = 0
     bundles_skipped_low_evidence = 0
+    bundles_skipped_deterministic_reasoner = 0
     evidence_quality_counts: dict[str, int] = {"full": 0, "embedded": 0, "label_only": 0, "missing": 0}
+    bundle_trace: list[BundleTraceEntry] = []
     quality_floor_name = config.bundles.min_evidence_quality_for_reasoner
     quality_floor = _QUALITY_RANK.get(quality_floor_name, _QUALITY_RANK["embedded"])
     score_floor = float(config.bundles.min_evidence_score_for_reasoner)
-
-    # Track dropped-from-budget nodes back into the manifest.
-    picked_anchors = {anchor for candidate in candidates for anchor in candidate.diff_anchors}
-    for entry in manifest.entries:
-        entry.dropped_from_budget = [node_id for node_id in entry.node_ids if node_id not in picked_anchors]
+    reasoner_session = ReasonerSession(config)
 
     bundles = {}
-    bundle_rows: list[dict[str, Any]] = []
-    _emit_progress(progress, f"Module 3: building {len(candidates)} context bundles.")
-    with timed_stage(config, run_meta.run_id, "bundle_build", candidates=len(candidates)):
-        for candidate in candidates:
-            bundle = build_bundle(graph, candidate, config=config)
+    built_bundles = []
+    _emit_progress(progress, f"Module 3: building {len(bundle_candidates)} context bundles.")
+    with timed_stage(config, run_meta.run_id, "bundle_build", candidates=len(bundle_candidates)):
+        for candidate in bundle_candidates:
+            bundle = build_bundle(graph, candidate, config=config, run_context=run_context)
             bundles[candidate.candidate_id] = bundle
-            bundle_rows.append(bundle.model_dump(mode="json"))
+            built_bundles.append(bundle)
             quality = _dominant_quality(bundle.evidence)
             evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
-    _emit_progress(progress, f"Module 3: built {len(bundle_rows)} bundles.")
-
-    graphcodebert_scores = _score_graphcodebert(
-        bundle_rows,
-        config=config,
-        run_id=run_meta.run_id,
-        progress=progress,
-    )
+    _emit_progress(progress, f"Module 3: built {len(built_bundles)} bundles.")
 
     # Modules 3 \u2192 6 per-candidate.
-    total_candidates = len(candidates)
-    for index, candidate in enumerate(candidates, start=1):
+    total_candidates = len(selected_candidates)
+    for index, candidate in enumerate(selected_candidates, start=1):
         bundle = bundles[candidate.candidate_id]
-        if candidate.candidate_id in graphcodebert_scores:
-            candidate.extra["graphcodebert_score"] = float(graphcodebert_scores[candidate.candidate_id].get("graphcodebert_score", 0.0))
-            candidate.extra["graphcodebert_pattern"] = str(graphcodebert_scores[candidate.candidate_id].get("graphcodebert_pattern", ""))
-
-        detector_meta = candidate.extra.get("detector") if isinstance(candidate.extra.get("detector"), dict) else {}
-        detector_name = str(detector_meta.get("detector_name") or "legacy")
+        detector_name = str(candidate.detector_payload.detector_name or "legacy")
         _emit_progress(progress, f"Candidate {index}/{total_candidates}: detector={detector_name} candidate_id={candidate.candidate_id}.")
-        requires_reasoner = False
-        if detector_name != "legacy":
-            try:
-                requires_reasoner = bool(get_detector(detector_name).requires_reasoner)
-            except Exception:  # noqa: BLE001
-                requires_reasoner = False
+        spec = _detector_spec_for_candidate(candidate)
+        requires_reasoner = bool(spec is not None and spec.requires_reasoner)
+        selected_modes = _reasoner_modes_for_candidate(candidate, detector_spec=spec) if requires_reasoner else ()
+        needs_llm_reasoning = _needs_llm_reasoning(
+            candidate,
+            bundle,
+            detector_spec=spec,
+        )
         reasoner_out = {}
-        if requires_reasoner:
+        deterministic_only = False
+        if requires_reasoner and not needs_llm_reasoning:
+            deterministic_only = True
+            bundles_skipped_deterministic_reasoner += 1
+            
+            # Determine skip reason: check if it's due to missing taint evidence for Group C
+            requirement = getattr(spec, "semantic_requirement", None) if spec is not None else None
+            skip_reason = "deterministic_gate"
+            if requirement == "taint" and (not bundle.taint_edges_available or len(bundle.taint_edges) == 0):
+                skip_reason = "missing_taint_evidence"
+            
+            _emit_progress(
+                progress,
+                f"Module 4: skipped reasoner for candidate {index}/{total_candidates} "
+                f"(deterministic verifier gate: taint={candidate.score.taint_chain_present}, "
+                f"seam_exposure={candidate.score.seam_exposure:.2f}, composite={candidate.score.composite:.2f}).",
+            )
+            bundle_trace.append(
+                BundleTraceEntry(
+                    bundle_id=bundle.bundle_id,
+                    candidate_id=bundle.candidate_id,
+                    candidate_score_composite=float(candidate.score.composite),
+                    reasoner_modes_returned=[],
+                    findings=0,
+                    skipped_reason=skip_reason,
+                    evidence_quality=_dominant_quality(bundle.evidence),
+                    evidence_score=float(bundle.evidence.evidence_score),
+                    reasoner_attempts=0,
+                    reasoner_successes=0,
+                    reasoner_failures=0,
+                )
+            )
+        elif requires_reasoner:
             evidence = bundle.evidence
             quality = _dominant_quality(evidence)
             passes_quality = _QUALITY_RANK.get(quality, 0) >= quality_floor
@@ -271,9 +387,28 @@ def run_modules_2_through_7(
                     f"(evidence_quality={quality}, score={evidence.evidence_score:.2f} "
                     f"< floor quality={quality_floor_name}/score={score_floor:.2f}).",
                 )
+                bundle_trace.append(
+                    BundleTraceEntry(
+                        bundle_id=bundle.bundle_id,
+                        candidate_id=bundle.candidate_id,
+                        candidate_score_composite=float(candidate.score.composite),
+                        reasoner_modes_returned=[],
+                        findings=0,
+                        skipped_reason="low_evidence",
+                        evidence_quality=quality,
+                        evidence_score=float(evidence.evidence_score),
+                        reasoner_attempts=0,
+                        reasoner_successes=0,
+                        reasoner_failures=0,
+                    )
+                )
             else:
                 bundles_sent_to_reasoner += 1
-                _emit_progress(progress, f"Module 4: running reasoner for candidate {index}/{total_candidates}.")
+                mode_labels = ",".join(mode.value for mode in selected_modes) or "-"
+                _emit_progress(
+                    progress,
+                    f"Module 4: running reasoner for candidate {index}/{total_candidates} (modes={mode_labels}).",
+                )
                 bundle_stats = ReasonerCallStats()
                 with timed_stage(config, run_meta.run_id, "reasoner_run", candidate_id=candidate.candidate_id):
                     reasoner_out = run_all_modes(
@@ -281,30 +416,76 @@ def run_modules_2_through_7(
                         config=config,
                         run_id=run_meta.run_id,
                         ranking_phase=run_meta.ranking_phase,
-                        graphcodebert_hint=graphcodebert_scores.get(candidate.candidate_id),
                         stats=bundle_stats,
+                        session=reasoner_session,
+                        modes=selected_modes,
                     )
                 reasoner_stats.merge(bundle_stats)
+                failure_suffix = ""
+                if bundle_stats.failures > 0 and bundle_stats.by_reason:
+                    top_reasons = sorted(
+                        bundle_stats.by_reason.items(), key=lambda kv: (-kv[1], kv[0])
+                    )
+                    failure_suffix = (
+                        " Failures: "
+                        + ", ".join(f"{reason}={count}" for reason, count in top_reasons)
+                        + "."
+                    )
                 _emit_progress(
                     progress,
                     f"Module 4: reasoner returned {len(reasoner_out)} mode outputs for "
                     f"candidate {index}/{total_candidates} "
-                    f"({bundle_stats.successes}/{bundle_stats.attempts} calls succeeded).",
+                    f"across {len(selected_modes)} selected mode(s) "
+                    f"({bundle_stats.successes}/{bundle_stats.attempts} calls succeeded)."
+                    + failure_suffix,
+                )
+                bundle_trace.append(
+                    BundleTraceEntry(
+                        bundle_id=bundle.bundle_id,
+                        candidate_id=bundle.candidate_id,
+                        candidate_score_composite=float(candidate.score.composite),
+                        reasoner_modes_returned=sorted(mode.value for mode in reasoner_out.keys()),
+                        findings=0,
+                        skipped_reason="",
+                        evidence_quality=quality,
+                        evidence_score=float(evidence.evidence_score),
+                        reasoner_attempts=bundle_stats.attempts,
+                        reasoner_successes=bundle_stats.successes,
+                        reasoner_failures=bundle_stats.failures,
+                    )
                 )
         else:
             _emit_progress(progress, f"Module 4: skipped reasoner for candidate {index}/{total_candidates} (mechanical detector).")
+            bundle_trace.append(
+                BundleTraceEntry(
+                    bundle_id=bundle.bundle_id,
+                    candidate_id=bundle.candidate_id,
+                    candidate_score_composite=float(candidate.score.composite),
+                    reasoner_modes_returned=[],
+                    findings=0,
+                    skipped_reason="mechanical_detector",
+                    evidence_quality=_dominant_quality(bundle.evidence),
+                    evidence_score=float(bundle.evidence.evidence_score),
+                    reasoner_attempts=0,
+                    reasoner_successes=0,
+                    reasoner_failures=0,
+                )
+            )
         _emit_progress(progress, f"Module 6: verifying candidate {index}/{total_candidates}.")
         audits, findings = verify_all(
-            graph=graph,
             candidate=candidate,
             bundle=bundle,
             reasoner_outputs=reasoner_out,
             config=config,
             full_repo_scan=full_repo_scan,
+            deterministic_only=deterministic_only,
         )
+        if bundle_trace:
+            bundle_trace[-1].findings = len(findings)
         _emit_progress(progress, f"Module 6: candidate {index}/{total_candidates} produced {len(findings)} findings and {len(audits)} audits.")
         all_findings.extend(findings)
         all_audits.extend(audits)
+        gray_zone_inputs.extend((finding, audit, bundle) for finding, audit in zip(findings, audits, strict=True))
         ranker_inputs.append(_build_ranker_input(candidate, bundle))
         stat = detector_stats_by_name.get(detector_name)
         if stat is not None:
@@ -339,11 +520,10 @@ def run_modules_2_through_7(
     # Module 7 \u2014 gray-zone evaluator.
     _emit_progress(progress, f"Module 7: evaluating gray-zone cases across {len(all_findings)} findings.")
     gray_rows = evaluate_gray_zone(
-        zip(all_findings, all_audits),
+        gray_zone_inputs,
         config=config,
         run_id=run_meta.run_id,
         run_low_stitcher_coverage=run_meta.low_stitcher_coverage,
-        graph=graph,
     )
     persist_gray_zone(gray_rows, config=config, run_id=run_meta.run_id)
     _emit_progress(progress, f"Module 7: wrote {len(gray_rows)} gray-zone audit rows.")
@@ -351,13 +531,14 @@ def run_modules_2_through_7(
     for stat in detector_stats:
         stat.run_id = run_meta.run_id
 
-    bundles_built = len(bundle_rows)
+    bundles_built = len(built_bundles)
     health = reasoner_stats.health()
     health_reason = _reasoner_health_reason(reasoner_stats, bundles_sent_to_reasoner)
     evidence_summary = {
         "bundles_built": bundles_built,
         "bundles_sent_to_reasoner": bundles_sent_to_reasoner,
         "bundles_skipped_low_evidence": bundles_skipped_low_evidence,
+        "bundles_skipped_deterministic_reasoner": bundles_skipped_deterministic_reasoner,
         "by_quality": evidence_quality_counts,
         "min_evidence_quality_for_reasoner": quality_floor_name,
         "min_evidence_score_for_reasoner": score_floor,
@@ -377,6 +558,11 @@ def run_modules_2_through_7(
         run_metadata=run_meta,
         reasoner_call_stats=reasoner_stats,
         evidence_summary=evidence_summary,
+        change_manifest=manifest,
+        candidates=all_candidates,
+        bundles=built_bundles,
+        gray_zone_rows=gray_rows,
+        bundle_trace=bundle_trace,
     )
     _emit_progress(
         progress,

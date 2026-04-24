@@ -97,6 +97,7 @@ _TS_AXIOS = re.compile(
         (?:\.(?P<method>get|post|put|patch|delete|options|head))?
         \s*\(\s*
         (?P<quote>[`'"])(?P<url>[^`'"]+)(?P=quote)
+        (?:\s*,\s*\{(?P<config>[^}]*)\})?              # optional config object
     """,
     re.VERBOSE,
 )
@@ -106,9 +107,18 @@ _TEMPLATE_EXPR = re.compile(r"\$\{([^}]+)\}")
 
 
 def _detect_method(options_blob: Optional[str]) -> Optional[str]:
+    """Extract HTTP method from fetch/axios options object.
+    
+    Supports single quotes, double quotes, and backticks around method value.
+    Examples:
+        method: 'POST'
+        method: "PUT"
+        method: `DELETE`
+    """
     if not options_blob:
         return None
-    m = re.search(r"method\s*:\s*['\"]([A-Za-z]+)['\"]", options_blob)
+    # Match method with single quotes, double quotes, or backticks
+    m = re.search(r"method\s*:\s*['\"`]([A-Za-z]+)['\"`]", options_blob)
     return m.group(1).upper() if m else None
 
 
@@ -148,7 +158,14 @@ def scan_ts_http_calls(source: str, *, file: str) -> list[HTTPCallSite]:
     for m in _TS_AXIOS.finditer(source):
         url = m.group("url")
         line = source[: m.start()].count("\n") + 1
-        method = (m.group("method") or "get").upper()
+        # Try to get method from function name (axios.get, axios.post, etc.)
+        method_from_name = m.group("method")
+        # If no method in function name, try to extract from config object
+        config = m.group("config")
+        method_from_config = _detect_method(config) if config else None
+        # Prefer method from function name, fall back to config, default to GET
+        method = (method_from_name or method_from_config or "get").upper()
+        method_inferred = method_from_name is None and method_from_config is None
         tokens = [t.strip() for t in _TEMPLATE_EXPR.findall(url)]
         dynamic = "${" in url
         out.append(
@@ -159,7 +176,7 @@ def scan_ts_http_calls(source: str, *, file: str) -> list[HTTPCallSite]:
                 url_template_tokens=tokens,
                 is_dynamic_url=dynamic,
                 http_method=method,
-                method_inferred=False,
+                method_inferred=method_inferred,
                 kind="axios",
             )
         )

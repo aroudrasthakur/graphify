@@ -1,12 +1,10 @@
 # depOS - dataset pipeline
 
-This guide explains how to run the depOS intelligence pipeline starting from the raw per-file AST JSON files under `dataset/`, through GraphCodeBERT scoring, into Gemma 4 reasoning, verifier checks, and gray-zone evaluation.
+This guide explains how to run the depOS intelligence pipeline starting from the raw per-file AST JSON files under `dataset/`, through **semantic pre-computation (Python CFG/DFG/taint, Phase 1a)**, **CandidateScore** ranking, the configured **LLM** (Gemma 4 in typical setups), verifier checks, and gray-zone evaluation.
+
+**Legacy embedding-based ranking was removed** — bundle ordering and adapter-level pruning use `CandidateScore.composite`, `bundle-scores.json` is a compatibility sidecar, and `bundle-pipeline` is deprecated.
 
 It is intended for contributors working with the current sample dataset format in this repo.
-
-> Operational note: the detector-platform rollout wires GraphCodeBERT into the main pipeline only as an opt-in pre-ranker behind `config.ranker.use_graphcodebert`, and leaves it off by default. The dataset pipeline in this document still uses GraphCodeBERT directly as a first-class ranking stage.
-
-> **Team note (Apr 2026):** The **GraphCodeBERT** and **Gemma 4** stages still need a **focused backend review** (model versions, prompts, artifact contracts, reproducibility). See the current handoff: [`handoffs/2026-04-19-web-auth-landing-supabase.md`](handoffs/2026-04-19-web-auth-landing-supabase.md) — *Still to do*.
 
 ## What this pipeline does
 
@@ -16,10 +14,10 @@ The `dataset-pipeline` CLI command runs these stages:
 2. Normalize them into a graphify-valid enriched graph.
 3. Generate depOS candidates.
 4. Build context bundles.
-5. Score bundles with GraphCodeBERT.
-6. Send the top-ranked bundles to Gemma.
-7. Run verifier checks.
-8. Run gray-zone evaluation for ambiguous findings.
+5. Write compatibility `bundle-scores.json` rows as a derived artifact.
+6. Route the normalized graph into the same canonical Stage 1-11 runner used by `repo` and `diff`.
+7. Build context bundles, run the configured LLM, verifier, and gray-zone evaluation in that one execution path.
+8. Mirror canonical audit artifacts into `gemma4-run/`.
 9. Write intermediate and final artifacts to disk.
 
 The command is:
@@ -81,7 +79,7 @@ It also writes depOS-friendly node attributes such as:
 - `synthetic_entity`
 - `entity_kind`
 
-Those fields matter because candidates, bundles, GraphCodeBERT, and Gemma all depend on them.
+Those fields matter because candidates, bundles, the reasoner, and the verifier all depend on them.
 
 ## Environment and install
 
@@ -156,19 +154,19 @@ Useful options:
 - `--output-dir`
   Directory where all intermediate and final artifacts are written.
 - `--top-n`
-  Number of top GraphCodeBERT-ranked bundles to send to Gemma.
+  Number of prioritized candidates that continue through the downstream bundle / reasoner / verifier path.
 - `--max-bundles`
-  Cap bundle creation earlier in the pipeline.
+  Cap how many bundles are materialized before downstream stages.
 - `--min-score`
-  Skip bundles below a GraphCodeBERT threshold.
+  Skip candidates below a composite score threshold before bundle creation.
 - `--write-extraction`
   Persist the normalized extraction JSON in addition to the node-link graph.
 - `--local-files-only`
-  Avoid downloading model files from Hugging Face if they are already cached.
+  Reserved for future use (legacy flag).
 - `--device`
-  Force GraphCodeBERT device, for example `cpu`.
+  Reserved for future use (legacy flag).
 - `--model-name`
-  Override GraphCodeBERT model name. Default is `microsoft/graphcodebert-base`.
+  Reserved for future use (optional ranker hook).
 - `--source-root` *(repeatable)*
   Extra source root the normalizer/bundler can use to resolve `source_file`
   paths recorded in the dataset. Use this when your dataset was extracted
@@ -234,18 +232,17 @@ Module 2 candidate seeds. These are not findings. They are investigation targets
 
 ### `bundles.json`
 
-Module 3 context bundles. These are the evidence packs fed into GraphCodeBERT and Gemma.
+Module 3 context bundles. These are the evidence packs fed into the reasoner and verifier.
 
 ### `bundle-scores.json`
 
-GraphCodeBERT ranking output. Each row contains:
+Compatibility per-bundle ranking hints written from the canonical run. Each row typically contains:
 
 - `bundle_id`
 - `candidate_id`
-- `scope_id`
-- `graphcodebert_score`
-- `graphcodebert_pattern`
-- `top_patterns`
+- `candidate_score_composite`
+- `rank_pattern` (or legacy `graphcodebert_*` keys still accepted for older files)
+- `top_patterns` (optional)
 
 ### `gemma4-run/violations.json`
 
@@ -257,11 +254,11 @@ Audit log for ambiguous findings that entered the gray-zone evaluator.
 
 ### `gemma4-run/bundle_pipeline_trace.json`
 
-Per-bundle trace of:
+Per-candidate trace from the canonical pipeline (name retained for compatibility) of:
 
 - selected bundle
-- GraphCodeBERT score and pattern
-- which Gemma modes returned
+- composite score and rank pattern
+- which reasoner modes returned
 - how many findings came out of verifier for that bundle
 
 ## Recommended run order while developing
@@ -270,10 +267,9 @@ If you want to inspect each step manually instead of using the one-command path:
 
 1. Normalize the dataset.
 2. Inspect the normalized graph.
-3. Generate candidates and bundles.
-4. Score bundles with GraphCodeBERT.
-5. Run Gemma on the top-ranked bundles.
-6. Inspect verifier and gray-zone outputs.
+3. Run the canonical dataset pipeline.
+4. Optionally write `score-bundles` compatibility rows from `bundles.json`.
+5. Inspect verifier and gray-zone outputs.
 
 The dedicated commands are:
 
@@ -285,9 +281,7 @@ depos-intel analyze normalize-dataset --dataset-dir dataset --repo-root . --outp
 depos-intel analyze score-bundles --bundles-json graphify-out/bundles.json --output graphify-out/bundle-scores.json
 ```
 
-```powershell
-depos-intel analyze bundle-pipeline --bundles-json graphify-out/bundles.json --scores-json graphify-out/bundle-scores.json --graph-json graphify-out/dataset-normalized-node-link.json --top-n 20 --output-dir graphify-out/gemma4-run
-```
+`bundle-pipeline` is deprecated and no longer executes a separate analysis path. Use `dataset-pipeline`, `repo`, or `diff` instead.
 
 ## Current contributor notes for this dataset
 
@@ -307,9 +301,9 @@ The dataset pipeline uses an empty manual manifest so it does not accidentally s
 
 `IMPORTS` and `CALLS` are inferred from AST labels and local structure. They are useful, but they are not as precise as a purpose-built semantic extractor. If you extend the dataset schema later, prefer improving the normalizer instead of bypassing it.
 
-### 5. GraphCodeBERT is a ranking prior, not a verdict
+### 5. Stated bundle scores are a ranking prior, not a verdict
 
-The score is only used to prioritize which bundles Gemma sees first. It does not confirm a bug by itself.
+The score is only used to prioritize which bundles the LLM sees first. It does not confirm a bug by itself.
 
 ### 6. `confirmed` is still verifier-only
 
@@ -373,10 +367,6 @@ the replay.
 ### `ModuleNotFoundError: networkx`
 
 Use the repo virtualenv interpreter instead of a different Python launcher.
-
-### Hugging Face load warnings with GraphCodeBERT
-
-Warnings about `lm_head.*` being `UNEXPECTED` and `pooler.*` being `MISSING` are normal for this embedding-style use of `microsoft/graphcodebert-base`.
 
 ### `pytest` is missing in the venv
 

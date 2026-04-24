@@ -13,6 +13,8 @@ layer is responsible for:
 from __future__ import annotations
 
 import json
+import os
+import shutil
 import sys
 import uuid
 from datetime import datetime, timezone
@@ -21,19 +23,8 @@ from typing import Any, Callable
 
 from depos.analysis.config import IntelligenceConfig, load_config_from_env
 from depos.analysis.detectors import get_detector, list_detectors, load_builtin
-from depos.analysis.schemas import (
-    AnalysisMode,
-    Candidate,
-    ContextBundle,
-    Finding,
-    ReasonerCallStats,
-    RunResult,
-    SeedType,
-    RunMetadata,
-    StitcherCoverageReport,
-    VerifierOutcome,
-)
-from depos.graph_source import GraphifySource, GraphSource, InMemoryGraphSource
+from depos.analysis.schemas import AnalysisMode, ContextBundle, Finding, RunResult, RunMetadata, StitcherCoverageReport
+from depos.graph_source import GraphifySource, GraphSource
 
 
 # Exit codes used under --strict (per plan §3.5).
@@ -193,7 +184,36 @@ def _run_output_dir(config: IntelligenceConfig, run_id: str) -> Path:
 def _apply_provider_override(config: IntelligenceConfig, args) -> None:
     provider = getattr(args, "provider", None)
     if provider:
-        config.reasoner.provider = provider
+        config.llm.provider = provider
+
+
+def _replay_intelligence_config(base: IntelligenceConfig, args: Any) -> IntelligenceConfig:
+    """Apply replay-only path overrides (CLI beats DEPOS_INTEL_* replay env vars).
+
+    Dataset-pipeline runs use ``data_dir = <output-dir>`` and
+    ``run_output_subdir = ".canonical"``; repo/diff runs use ``DEPOS_DATA`` and
+    ``intelligence``. Replay must resolve ``prompts/`` and ``reasoner_queue.jsonl``
+    under ``data_dir / run_output_subdir / <run_id>``.
+
+    ``DEPOS_INTEL_DATA_DIR`` / ``DEPOS_INTEL_RUN_OUTPUT_SUBDIR`` are read here only
+    (not in :func:`load_config_from_env`) so normal ``analyze repo``/``diff`` runs
+    keep using ``DEPOS_DATA``."""
+    cfg = base.model_copy(deep=True)
+    data_dir = getattr(args, "data_dir", None)
+    if not data_dir:
+        env_data = os.environ.get("DEPOS_INTEL_DATA_DIR", "").strip()
+        if env_data:
+            data_dir = env_data
+    if data_dir:
+        cfg.data_dir = Path(str(data_dir))
+    run_subdir = getattr(args, "run_subdir", None)
+    if run_subdir is None or not str(run_subdir).strip():
+        env_sub = os.environ.get("DEPOS_INTEL_RUN_OUTPUT_SUBDIR", "").strip()
+        if env_sub:
+            run_subdir = env_sub
+    if run_subdir is not None and str(run_subdir).strip():
+        cfg.run_output_subdir = str(run_subdir).strip()
+    return cfg
 
 
 def _make_progress_reporter(prefix: str = "depos-intel") -> Callable[[str], None]:
@@ -250,7 +270,7 @@ def _new_run_metadata(
     return RunMetadata(
         run_id=uuid.uuid4().hex,
         analysis_mode=mode,
-        provider=config.reasoner.provider,
+        provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
         graph_source_metadata=source.get_source_metadata(),
     )
@@ -314,7 +334,7 @@ def run_repo(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_provider_override(config, args)
-    progress(f"Config loaded. provider={config.reasoner.provider} graphcodebert={str(config.ranker.use_graphcodebert).lower()}.")
+    progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
     progress(f"Graph source resolved from {source.get_source_metadata().get('repo_path') or source.get_source_metadata().get('graph_json_path') or 'unknown source'}.")
     run_meta = _new_run_metadata(config, source, mode=AnalysisMode.full_repo_scan)
@@ -343,7 +363,7 @@ def run_diff(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_provider_override(config, args)
-    progress(f"Config loaded. provider={config.reasoner.provider} graphcodebert={str(config.ranker.use_graphcodebert).lower()}.")
+    progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
     progress(f"Graph source resolved from {source.get_source_metadata().get('repo_path') or source.get_source_metadata().get('graph_json_path') or 'unknown source'}.")
     run_meta = _new_run_metadata(config, source, mode=AnalysisMode.diff_aware)
@@ -374,7 +394,7 @@ def run_diff(args) -> int:
 
 
 def run_replay(args) -> int:
-    config = load_config_from_env()
+    config = _replay_intelligence_config(load_config_from_env(), args)
     _apply_provider_override(config, args)
     queue_path = Path(args.queue)
     if not queue_path.exists():
@@ -383,7 +403,7 @@ def run_replay(args) -> int:
     run_meta = RunMetadata(
         run_id=uuid.uuid4().hex,
         analysis_mode=AnalysisMode.diff_aware,
-        provider=config.reasoner.provider,
+        provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
     )
     out_dir = _run_output_dir(config, run_meta.run_id)
@@ -432,25 +452,31 @@ def run_replay(args) -> int:
 
 
 def run_score_bundles(args) -> int:
-    from depos.analysis.graphcodebert import load_bundles, persist_scores, score_bundles
+    """Emit stub per-bundle score rows as a report-only sidecar over canonical bundles."""
 
     progress = _make_progress_reporter()
     bundles_path = Path(args.bundles_json)
     if not bundles_path.exists():
         raise SystemExit(f"bundles json not found: {bundles_path}")
     progress(f"Loading bundles from {bundles_path}.")
-    bundles = load_bundles(bundles_path)
-    progress(f"Scoring {len(bundles)} bundles with GraphCodeBERT.")
-    rows = score_bundles(
-        bundles,
-        model_name=args.model_name,
-        cache_dir=args.cache_dir,
-        device=args.device,
-        local_files_only=bool(args.local_files_only),
-    )
+    data = json.loads(bundles_path.read_text(encoding="utf-8"))
+    bundles: list[dict] = data if isinstance(data, list) else data.get("bundles", [])  # type: ignore[assignment]
+    if not isinstance(bundles, list):
+        bundles = []
+    progress(f"Writing stub scores for {len(bundles)} bundles (ranking is CandidateScore.composite in-pipeline).")
+    rows: list[dict] = [
+        {
+            "bundle_id": b.get("bundle_id", ""),
+            "candidate_id": b.get("candidate_id", ""),
+            "candidate_score_composite": 1.0,
+            "note": "Stub scores; use run metadata / candidates.json for composite scores.",
+        }
+        for b in bundles
+        if isinstance(b, dict)
+    ]
     out_path = Path(args.output) if getattr(args, "output", None) else bundles_path.parent / "bundle-scores.json"
-    persist_scores(rows, out_path)
-    progress(f"Wrote {len(rows)} GraphCodeBERT scores to {out_path}.")
+    out_path.write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    progress(f"Wrote {len(rows)} bundle score rows to {out_path}.")
     print(json.dumps({"bundles": len(bundles), "scores": len(rows), "output": str(out_path)}, indent=2))
     return 0
 
@@ -581,379 +607,169 @@ def _normalize_dataset_to_graph(
     return extraction, graph_output
 
 
-def _build_dataset_candidates_and_bundles(
-    *,
-    graph_json: Path,
-    config: IntelligenceConfig,
-    candidates_output: Path,
-    bundles_output: Path,
-    max_bundles: int | None = None,
-    progress: Callable[[str], None] | None = None,
-    source_roots: list[Path] | None = None,
-    path_aliases: dict[str, str] | None = None,
-) -> tuple[list[Candidate], list[dict[str, Any]], dict[str, Any]]:
-    from depos.analysis.candidate_identifier import identify_candidates
-    from depos.analysis.context_bundle import build_bundle
+def _dataset_bundle_limit(args) -> int | None:
+    raw = getattr(args, "max_bundles", None)
+    return max(0, int(raw)) if raw is not None else None
 
+
+def _dataset_selected_limit(args, *, bundle_limit: int | None) -> int | None:
+    raw = getattr(args, "top_n", None)
+    if raw is None:
+        return bundle_limit
+    selected = max(0, int(raw))
+    if bundle_limit is None:
+        return selected
+    return min(bundle_limit, selected)
+
+
+def _write_candidates_json(
+    output_path: Path,
+    *,
+    result: RunResult,
+    progress: Callable[[str], None] | None = None,
+) -> None:
+    manifest = result.change_manifest
+    payload = {
+        "resolved_via": manifest.resolved_via if manifest is not None else "empty",
+        "candidate_count": len(result.candidates),
+        "candidates": [candidate.model_dump(mode="json") for candidate in result.candidates],
+    }
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     if progress is not None:
-        progress(f"Dataset pipeline: loading normalized graph from {graph_json}.")
-    graph = InMemoryGraphSource.from_node_link_json(graph_json).get_graph()
-    if progress is not None:
-        progress("Dataset pipeline: identifying candidates from normalized graph.")
-    candidates, manifest = identify_candidates(
-        graph,
-        config=config,
-        mode=AnalysisMode.full_repo_scan,
-        manual_manifest={"entries": []},
-        repo_root=None,
-    )
-    candidates_output.parent.mkdir(parents=True, exist_ok=True)
-    candidates_output.write_text(
-        json.dumps(
-            {
-                "resolved_via": manifest.resolved_via,
-                "candidate_count": len(candidates),
-                "candidates": [c.model_dump(mode="json") for c in candidates],
-            },
-            indent=2,
-        ),
+        progress(
+            f"Dataset pipeline: wrote {len(result.candidates)} candidates to {output_path} "
+            f"(resolved via {payload['resolved_via']})."
+        )
+
+
+def _write_bundles_json(
+    output_path: Path,
+    *,
+    result: RunResult,
+    progress: Callable[[str], None] | None = None,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps([bundle.model_dump(mode="json") for bundle in result.bundles], indent=2),
         encoding="utf-8",
     )
     if progress is not None:
-        progress(
-            f"Dataset pipeline: wrote {len(candidates)} candidates to {candidates_output} "
-            f"(resolved via {manifest.resolved_via})."
-        )
-    selected = candidates[: max_bundles] if max_bundles is not None else candidates
-    if progress is not None:
-        progress(f"Dataset pipeline: building {len(selected)} bundles.")
-    bundles = [
-        build_bundle(
-            graph,
-            candidate,
-            config=config,
-            source_roots=source_roots,
-            path_aliases=path_aliases,
-        ).model_dump(mode="json")
-        for candidate in selected
-    ]
-    bundles_output.parent.mkdir(parents=True, exist_ok=True)
-    bundles_output.write_text(json.dumps(bundles, indent=2), encoding="utf-8")
-    if progress is not None:
-        progress(f"Dataset pipeline: wrote {len(bundles)} bundles to {bundles_output}.")
-    return candidates, bundles, {"resolved_via": manifest.resolved_via}
+        progress(f"Dataset pipeline: wrote {len(result.bundles)} bundles to {output_path}.")
 
 
-def _candidate_from_bundle(bundle: ContextBundle, row: dict[str, Any], *, mode: AnalysisMode) -> Candidate:
-    diff_anchors = [str(anchor.get("node_id", "")) for anchor in bundle.diff_anchors if anchor.get("node_id")]
-    return Candidate(
-        candidate_id=bundle.candidate_id,
-        scope_id=bundle.scope_id,
-        seed_type=SeedType.ai_driven,
-        priority_score=float(row.get("graphcodebert_score", 0.0)),
-        diff_anchors=diff_anchors,
-        analysis_mode=mode,
-        extra={
-            "graphcodebert_score": float(row.get("graphcodebert_score", 0.0)),
-            "graphcodebert_pattern": str(row.get("graphcodebert_pattern", "")),
-            "top_patterns": list(row.get("top_patterns", [])),
-            "bundle_pipeline_synthetic_candidate": True,
-        },
-    )
-
-
-def _attach_score_hints(findings: list[Finding], score_map: dict[str, dict[str, Any]]) -> None:
-    for finding in findings:
-        candidate_id = finding.finding_id.split(":", 1)[0]
-        row = score_map.get(candidate_id)
-        if row is None:
-            continue
-        pattern = str(row.get("graphcodebert_pattern", "")).strip()
-        score = float(row.get("graphcodebert_score", 0.0))
-        if pattern:
-            hint = f"GraphCodeBERT triage: {pattern} ({score:.3f})."
-            if finding.recommended_fix:
-                finding.recommended_fix = f"{hint} {finding.recommended_fix}"
-            else:
-                finding.recommended_fix = hint
-
-
-def _execute_bundle_pipeline(
-    args,
-    *,
-    emit_summary: bool = True,
-    progress: Callable[[str], None] | None = None,
-) -> dict[str, Any]:
-    from depos.analysis.graphcodebert import load_bundles, persist_scores, score_bundles
-    from depos.analysis.gray_zone_evaluator import evaluate as evaluate_gray_zone
-    from depos.analysis.reasoning_engine import run_all_modes
-    from depos.analysis.verifier import verify_all
-
-    config = load_config_from_env()
-    if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
-    _apply_evidence_overrides(config, args)
-    if progress is not None:
-        progress(f"Bundle pipeline: config loaded. provider={config.reasoner.provider}.")
-
-    bundles_path = Path(args.bundles_json)
-    if not bundles_path.exists():
-        raise SystemExit(f"bundles json not found: {bundles_path}")
-    if progress is not None:
-        progress(f"Bundle pipeline: loading bundles from {bundles_path}.")
-    bundles_raw = load_bundles(bundles_path)
-    graph_json = Path(args.graph_json) if getattr(args, "graph_json", None) else Path("graphify-out/dataset-node-link.json")
-    if not graph_json.exists():
-        raise SystemExit(f"graph json not found: {graph_json}")
-    if progress is not None:
-        progress(f"Bundle pipeline: using graph {graph_json}.")
-
-    if getattr(args, "scores_json", None):
-        scores_path = Path(args.scores_json)
-        if not scores_path.exists():
-            raise SystemExit(f"scores json not found: {scores_path}")
-        score_rows = json.loads(scores_path.read_text(encoding="utf-8"))
-        if progress is not None:
-            progress(f"Bundle pipeline: loaded {len(score_rows)} existing GraphCodeBERT scores from {scores_path}.")
-    else:
-        if progress is not None:
-            progress(f"Bundle pipeline: scoring {len(bundles_raw)} bundles with GraphCodeBERT.")
-        score_rows = score_bundles(
-            bundles_raw,
-            model_name=args.model_name,
-            cache_dir=args.cache_dir,
-            device=args.device,
-            local_files_only=bool(args.local_files_only),
-        )
-        scores_path = bundles_path.parent / "bundle-scores.json"
-        persist_scores(score_rows, scores_path)
-        if progress is not None:
-            progress(f"Bundle pipeline: wrote {len(score_rows)} GraphCodeBERT scores to {scores_path}.")
-
-    score_map = {str(row.get("bundle_id", "")): row for row in score_rows if isinstance(row, dict)}
-    selected_pairs: list[tuple[dict[str, Any], dict[str, Any]]] = []
-    for bundle_row in bundles_raw:
-        row = score_map.get(str(bundle_row.get("bundle_id", "")))
-        if row is None:
-            continue
-        score = float(row.get("graphcodebert_score", 0.0))
-        if args.min_score is not None and score < args.min_score:
-            continue
-        selected_pairs.append((bundle_row, row))
-    selected_pairs.sort(key=lambda pair: (-float(pair[1].get("graphcodebert_score", 0.0)), str(pair[0].get("bundle_id", ""))))
-    selected_pairs = selected_pairs[: max(0, int(args.top_n))]
-    if progress is not None:
-        progress(f"Bundle pipeline: selected {len(selected_pairs)} bundles for reasoning and verification.")
-
-    run_meta = RunMetadata(
-        run_id=uuid.uuid4().hex,
-        analysis_mode=AnalysisMode.full_repo_scan,
-        provider=config.reasoner.provider,
-        token_estimator=config.bundles.token_estimator,
-        ranking_phase=1,
-        graph_source_metadata={
-            "source_type": "bundles_json",
-            "bundles_json": str(bundles_path),
-            "scores_json": str(scores_path),
-            "graph_json": str(graph_json),
-        },
-    )
-    out_dir = Path(args.output_dir) if getattr(args, "output_dir", None) else _run_output_dir(config, run_meta.run_id)
-    out_dir.mkdir(parents=True, exist_ok=True)
-    if progress is not None:
-        progress(f"Bundle pipeline: run {run_meta.run_id} output directory {out_dir}.")
-
-    graph = InMemoryGraphSource.from_node_link_json(graph_json).get_graph()
-    all_findings: list[Finding] = []
-    all_audits = []
-    bundle_trace: list[dict[str, Any]] = []
-
-    reasoner_stats = ReasonerCallStats()
-    min_quality = config.bundles.min_evidence_quality_for_reasoner
-    min_score = float(config.bundles.min_evidence_score_for_reasoner)
-    quality_floor = _QUALITY_RANK.get(min_quality, _QUALITY_RANK["embedded"])
-
-    bundles_built = len(selected_pairs)
-    bundles_sent = 0
-    bundles_skipped = 0
-    evidence_quality_counts: dict[str, int] = {"full": 0, "embedded": 0, "label_only": 0, "missing": 0}
-
-    total_pairs = len(selected_pairs)
-    for index, (bundle_row, score_row) in enumerate(selected_pairs, start=1):
-        bundle = ContextBundle.model_validate(bundle_row)
-        candidate = _candidate_from_bundle(bundle, score_row, mode=run_meta.analysis_mode)
-        graph_hint = {
-            "score": float(score_row.get("graphcodebert_score", 0.0)),
-            "pattern": str(score_row.get("graphcodebert_pattern", "")),
-            "top_patterns": list(score_row.get("top_patterns", [])),
+def _bundle_score_rows(bundles: list[ContextBundle]) -> list[dict[str, Any]]:
+    return [
+        {
+            "bundle_id": bundle.bundle_id,
+            "candidate_id": bundle.candidate_id,
+            "candidate_score_composite": 1.0,
+            "rank_pattern": "stub",
         }
+        for bundle in bundles
+    ]
 
-        evidence = bundle.evidence
-        dominant_quality = _dominant_quality(evidence)
-        evidence_quality_counts[dominant_quality] = evidence_quality_counts.get(dominant_quality, 0) + 1
-        passes_quality = _QUALITY_RANK.get(dominant_quality, 0) >= quality_floor
-        passes_score = evidence.evidence_score >= min_score
 
-        if not (passes_quality and passes_score):
-            bundles_skipped += 1
-            if progress is not None:
-                progress(
-                    f"Bundle pipeline: bundle {index}/{total_pairs} skipped "
-                    f"(evidence_quality={dominant_quality}, score={evidence.evidence_score:.2f} "
-                    f"< floor quality={min_quality}/score={min_score:.2f})."
-                )
-            bundle_trace.append(
-                {
-                    "bundle_id": bundle.bundle_id,
-                    "candidate_id": bundle.candidate_id,
-                    "graphcodebert_score": graph_hint["score"],
-                    "graphcodebert_pattern": graph_hint["pattern"],
-                    "reasoner_modes_returned": [],
-                    "findings": 0,
-                    "skipped_reason": "low_evidence",
-                    "evidence_quality": dominant_quality,
-                    "evidence_score": evidence.evidence_score,
-                }
-            )
-            continue
-
-        bundles_sent += 1
-        if progress is not None:
-            progress(
-                f"Bundle pipeline: bundle {index}/{total_pairs} "
-                f"candidate_id={bundle.candidate_id} score={graph_hint['score']:.3f} "
-                f"evidence={dominant_quality}/{evidence.evidence_score:.2f}."
-            )
-        bundle_stats = ReasonerCallStats()
-        reasoner_outputs = run_all_modes(
-            bundle,
-            config=config,
-            run_id=run_meta.run_id,
-            ranking_phase=run_meta.ranking_phase,
-            graphcodebert_hint=graph_hint,
-            stats=bundle_stats,
+def _write_bundle_scores_json(
+    output_path: Path,
+    *,
+    bundles: list[ContextBundle],
+    progress: Callable[[str], None] | None = None,
+) -> list[dict[str, Any]]:
+    rows = _bundle_score_rows(bundles)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(rows, indent=2), encoding="utf-8")
+    if progress is not None:
+        progress(
+            f"Dataset pipeline: writing stub bundle rank scores for {len(bundles)} bundles "
+            "(CandidateScore.composite in-pipeline)."
         )
-        reasoner_stats.merge(bundle_stats)
-        if progress is not None:
-            progress(
-                f"Bundle pipeline: bundle {index}/{total_pairs} reasoner returned "
-                f"{len(reasoner_outputs)} mode outputs "
-                f"({bundle_stats.successes}/{bundle_stats.attempts} calls succeeded)."
-            )
-        audits, findings = verify_all(
-            graph=graph,
-            candidate=candidate,
-            bundle=bundle,
-            reasoner_outputs=reasoner_outputs,
-            config=config,
-            full_repo_scan=True,
-        )
-        if progress is not None:
-            progress(f"Bundle pipeline: bundle {index}/{total_pairs} produced {len(findings)} findings and {len(audits)} audits.")
-        all_audits.extend(audits)
-        all_findings.extend(findings)
-        bundle_trace.append(
-            {
-                "bundle_id": bundle.bundle_id,
-                "candidate_id": bundle.candidate_id,
-                "graphcodebert_score": graph_hint["score"],
-                "graphcodebert_pattern": graph_hint["pattern"],
-                "reasoner_modes_returned": sorted(mode.value for mode in reasoner_outputs.keys()),
-                "findings": len(findings),
-                "evidence_quality": dominant_quality,
-                "evidence_score": evidence.evidence_score,
-                "reasoner_attempts": bundle_stats.attempts,
-                "reasoner_successes": bundle_stats.successes,
-                "reasoner_failures": bundle_stats.failures,
-            }
-        )
+        progress(f"Dataset pipeline: wrote {len(rows)} bundle scores to {output_path}.")
+    return rows
 
-    _attach_score_hints(all_findings, {str(row.get("candidate_id", "")): row for row in score_rows if isinstance(row, dict)})
-    gray_rows = evaluate_gray_zone(
-        zip(all_findings, all_audits),
-        config=config,
-        run_id=run_meta.run_id,
-        run_low_stitcher_coverage=False,
-        graph=graph,
+
+def _mirror_run_artifacts(
+    source_dir: Path,
+    destination_dir: Path,
+    *,
+    progress: Callable[[str], None] | None = None,
+) -> None:
+    if not source_dir.exists():
+        return
+    destination_dir.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(source_dir, destination_dir, dirs_exist_ok=True)
+    if progress is not None:
+        progress(f"Dataset pipeline: mirrored canonical run artifacts from {source_dir} to {destination_dir}.")
+
+
+def _write_bundle_trace_json(
+    output_path: Path,
+    *,
+    result: RunResult,
+) -> None:
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(
+        json.dumps([row.model_dump(mode="json") for row in result.bundle_trace], indent=2),
+        encoding="utf-8",
     )
-    if progress is not None:
-        progress(f"Bundle pipeline: gray-zone evaluator produced {len(gray_rows)} rows.")
-    gray_path = out_dir / "gray_zone_audit.jsonl"
-    with gray_path.open("w", encoding="utf-8") as fp:
-        for row in gray_rows:
-            fp.write(row.model_dump_json() + "\n")
 
-    health = reasoner_stats.health()
-    health_reason = _reasoner_health_reason(reasoner_stats, bundles_sent)
-    evidence_summary = {
-        "bundles_built": bundles_built,
-        "bundles_sent_to_reasoner": bundles_sent,
-        "bundles_skipped_low_evidence": bundles_skipped,
-        "by_quality": evidence_quality_counts,
-        "min_evidence_quality_for_reasoner": min_quality,
-        "min_evidence_score_for_reasoner": min_score,
+
+def _write_run_summary(
+    output_path: Path,
+    *,
+    result: RunResult,
+    dataset_path_resolution: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    summary = {
+        "run_id": result.run_metadata.run_id,
+        "output_dir": str(output_path.parent),
+        "provider": result.run_metadata.provider,
+        "selected_bundles": len(result.bundle_trace),
+        "bundles_built": result.run_metadata.bundles_built,
+        "bundles_sent_to_reasoner": result.run_metadata.bundles_sent_to_reasoner,
+        "bundles_skipped_low_evidence": result.run_metadata.bundles_skipped_low_evidence,
+        "findings": len(result.findings),
+        "gray_zone_rows": len(result.gray_zone_rows),
+        "reasoner_run_health": result.run_metadata.reasoner_run_health,
+        "reasoner_health_reason": result.run_metadata.reasoner_health_reason,
+        "reasoner_call_stats": result.reasoner_call_stats.model_dump(mode="json"),
+        "evidence_summary": result.evidence_summary,
     }
-
-    run_meta.reasoner_call_stats = reasoner_stats
-    run_meta.reasoner_run_health = health
-    run_meta.reasoner_health_reason = health_reason
-    run_meta.bundles_built = bundles_built
-    run_meta.bundles_sent_to_reasoner = bundles_sent
-    run_meta.bundles_skipped_low_evidence = bundles_skipped
-    run_meta.evidence_summary = evidence_summary
-
-    _write_violations(out_dir, all_findings, run_meta)
-    (out_dir / "bundle_pipeline_trace.json").write_text(json.dumps(bundle_trace, indent=2), encoding="utf-8")
-    run_summary = {
-        "run_id": run_meta.run_id,
-        "output_dir": str(out_dir),
-        "provider": config.reasoner.provider,
-        "selected_bundles": len(selected_pairs),
-        "bundles_built": bundles_built,
-        "bundles_sent_to_reasoner": bundles_sent,
-        "bundles_skipped_low_evidence": bundles_skipped,
-        "findings": len(all_findings),
-        "gray_zone_rows": len(gray_rows),
-        "reasoner_run_health": health,
-        "reasoner_health_reason": health_reason,
-        "reasoner_call_stats": reasoner_stats.model_dump(mode="json"),
-        "evidence_summary": evidence_summary,
-    }
-    (out_dir / "run_summary.json").write_text(json.dumps(run_summary, indent=2), encoding="utf-8")
-    if progress is not None:
-        progress(
-            f"Bundle pipeline: wrote violations.json, gray_zone_audit.jsonl, "
-            f"bundle_pipeline_trace.json, and run_summary.json to {out_dir}."
-        )
-        progress(
-            f"Bundle pipeline: reasoner_run_health={health} "
-            f"(attempts={reasoner_stats.attempts}, successes={reasoner_stats.successes}, "
-            f"failures={reasoner_stats.failures}). {health_reason}".strip()
-        )
-    return run_summary
+    if dataset_path_resolution is not None:
+        summary["dataset_path_resolution"] = dataset_path_resolution
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(summary, indent=2), encoding="utf-8")
+    return summary
 
 
 def run_bundle_pipeline(args) -> int:
     progress = _make_progress_reporter()
-    summary = _execute_bundle_pipeline(args, emit_summary=False, progress=progress)
-    print(json.dumps(summary, indent=2))
-    if getattr(args, "strict", False):
-        return _strict_exit_code(
-            reasoner_health=summary.get("reasoner_run_health", "ok"),
-            resolution_summary={},
+    message = (
+        "Bundle pipeline is deprecated and no longer runs a separate Stage 4-11 path. "
+        "Use `depos-intel analyze dataset-pipeline` for dataset-backed runs or "
+        "`depos-intel analyze repo` / `depos-intel analyze diff` for canonical analysis."
+    )
+    progress(message)
+    print(
+        json.dumps(
+            {
+                "deprecated": True,
+                "command": "bundle-pipeline",
+                "message": message,
+            },
+            indent=2,
         )
-    return 0
+    )
+    return 2
 
 
 def run_dataset_pipeline(args) -> int:
-    from depos.analysis.graphcodebert import persist_scores, score_bundles
-
     config = load_config_from_env()
     if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
+        config.llm.provider = args.provider
     _apply_evidence_overrides(config, args)
     progress = _make_progress_reporter()
-    progress(f"Dataset pipeline: config loaded. provider={config.reasoner.provider}.")
+    progress(f"Dataset pipeline: config loaded. provider={config.llm.provider}.")
 
     dataset_dir = Path(args.dataset_dir)
     if not dataset_dir.exists():
@@ -1018,58 +834,58 @@ def run_dataset_pipeline(args) -> int:
         f"Wrote {resolution_output}."
     )
 
-    candidates, bundles, manifest_meta = _build_dataset_candidates_and_bundles(
-        graph_json=graph_json,
-        config=config,
-        candidates_output=candidates_output,
-        bundles_output=bundles_output,
-        max_bundles=getattr(args, "max_bundles", None),
+    bundle_limit = _dataset_bundle_limit(args)
+    selected_limit = _dataset_selected_limit(args, bundle_limit=bundle_limit)
+    progress(
+        "Dataset pipeline: starting canonical Stage 1-11 pipeline."
+        + (
+            f" bundle_limit={bundle_limit} selected_limit={selected_limit}."
+            if bundle_limit is not None or selected_limit is not None
+            else ""
+        )
+    )
+
+    run_config = config.model_copy(deep=True)
+    run_config.data_dir = out_dir
+    run_config.run_output_subdir = ".canonical"
+
+    source = GraphifySource(graph_json_path=graph_json)
+    run_meta = _new_run_metadata(run_config, source, mode=AnalysisMode.full_repo_scan)
+    run_meta.graph_source_metadata.update(
+        {
+            "dataset_dir": str(dataset_dir),
+            "repo_root": str(repo_root) if repo_root is not None else None,
+            "graph_json": str(graph_json),
+            "source_type": "dataset_normalized_graph",
+        }
+    )
+    run_meta.dataset_path_resolution = resolution_summary
+    internal_run_dir = _run_output_dir(run_config, run_meta.run_id)
+
+    result = _run_pipeline(
+        source,
+        run_config,
+        run_meta,
+        repo_root=repo_root,
+        bundle_limit=bundle_limit,
+        selected_limit=selected_limit,
+        min_score=args.min_score,
         progress=progress,
-        source_roots=source_roots,
-        path_aliases=path_aliases,
     )
+    result.run_metadata.dataset_path_resolution = resolution_summary
+    _attach_run_caveats(result.findings, result.run_metadata)
 
-    progress(f"Dataset pipeline: scoring {len(bundles)} bundles with GraphCodeBERT.")
-    score_rows = score_bundles(
-        bundles,
-        model_name=args.model_name,
-        cache_dir=args.cache_dir,
-        device=args.device,
-        local_files_only=bool(args.local_files_only),
+    _write_candidates_json(candidates_output, result=result, progress=progress)
+    _write_bundles_json(bundles_output, result=result, progress=progress)
+    score_rows = _write_bundle_scores_json(scores_output, bundles=result.bundles, progress=progress)
+    _mirror_run_artifacts(internal_run_dir, final_run_dir, progress=progress)
+    _write_violations(final_run_dir, result)
+    _write_bundle_trace_json(final_run_dir / "bundle_pipeline_trace.json", result=result)
+    pipeline_summary = _write_run_summary(
+        final_run_dir / "run_summary.json",
+        result=result,
+        dataset_path_resolution=resolution_summary,
     )
-    persist_scores(score_rows, scores_output)
-    progress(f"Dataset pipeline: wrote {len(score_rows)} bundle scores to {scores_output}.")
-
-    class _BundlePipelineArgs:
-        pass
-
-    pipeline_args = _BundlePipelineArgs()
-    pipeline_args.bundles_json = str(bundles_output)
-    pipeline_args.scores_json = str(scores_output)
-    pipeline_args.graph_json = str(graph_json)
-    pipeline_args.output_dir = str(final_run_dir)
-    pipeline_args.top_n = int(args.top_n)
-    pipeline_args.min_score = args.min_score
-    pipeline_args.provider = getattr(args, "provider", None)
-    pipeline_args.model_name = args.model_name
-    pipeline_args.cache_dir = args.cache_dir
-    pipeline_args.device = args.device
-    pipeline_args.local_files_only = bool(args.local_files_only)
-    pipeline_args.source_root = list(getattr(args, "source_root", None) or [])
-    pipeline_args.path_alias = list(getattr(args, "path_alias", None) or [])
-    pipeline_args.min_evidence = getattr(args, "min_evidence", None)
-    pipeline_args.strict = False  # exit-code mapping handled at the dataset level
-    progress("Dataset pipeline: starting bundle reasoning/verifier pipeline.")
-    pipeline_summary = _execute_bundle_pipeline(pipeline_args, emit_summary=False, progress=progress)
-
-    pipeline_summary["dataset_path_resolution"] = resolution_summary
-    final_summary_path = Path(pipeline_summary["output_dir"]) / "run_summary.json"
-    try:
-        existing = json.loads(final_summary_path.read_text(encoding="utf-8"))
-        existing["dataset_path_resolution"] = resolution_summary
-        final_summary_path.write_text(json.dumps(existing, indent=2), encoding="utf-8")
-    except (OSError, ValueError):
-        pass
     progress("Dataset pipeline: complete.")
 
     print(
@@ -1081,9 +897,9 @@ def run_dataset_pipeline(args) -> int:
                 "path_aliases": path_aliases,
                 "normalized_nodes": len(extraction.get("nodes", [])),
                 "normalized_edges": len(extraction.get("edges", [])),
-                "resolved_via": manifest_meta["resolved_via"],
-                "candidates": len(candidates),
-                "bundles": len(bundles),
+                "resolved_via": result.change_manifest.resolved_via if result.change_manifest is not None else "empty",
+                "candidates": len(result.candidates),
+                "bundles": len(result.bundles),
                 "scores": len(score_rows),
                 "intermediates": {
                     "graph_json": str(graph_output),
@@ -1103,7 +919,7 @@ def run_dataset_pipeline(args) -> int:
 
     if getattr(args, "strict", False):
         return _strict_exit_code(
-            reasoner_health=pipeline_summary.get("reasoner_run_health", "ok"),
+            reasoner_health=pipeline_summary["reasoner_run_health"],
             resolution_summary=resolution_summary,
         )
     return 0
@@ -1119,7 +935,11 @@ def _run_pipeline(
     run_meta: RunMetadata,
     *,
     diff_path: str | None = None,
+    repo_root: Path | None = None,
     detector_policy: dict[str, Any] | None = None,
+    bundle_limit: int | None = None,
+    selected_limit: int | None = None,
+    min_score: float | None = None,
     progress: Callable[[str], None] | None = None,
 ) -> RunResult:
     if progress is not None:
@@ -1134,10 +954,10 @@ def _run_pipeline(
         enrich_graph = None
 
     if enrich_graph is not None:
-        repo_root = _source_repo_root(source)
+        resolved_repo_root = repo_root if repo_root is not None else _source_repo_root(source)
         if progress is not None:
             progress("Module 1: running enrichment and cross-universe stitching.")
-        graph, coverage = enrich_graph(graph, config=config, repo_root=repo_root)
+        graph, coverage = enrich_graph(graph, config=config, repo_root=resolved_repo_root)
         run_meta.stitcher_coverage = coverage
         run_meta.low_stitcher_coverage = coverage.low_coverage
         if progress is not None:
@@ -1147,7 +967,7 @@ def _run_pipeline(
                 f"low_coverage={str(coverage.low_coverage).lower()} errors={len(coverage.errors)}."
             )
     else:
-        repo_root = _source_repo_root(source)
+        resolved_repo_root = repo_root if repo_root is not None else _source_repo_root(source)
         if progress is not None:
             progress("Module 1: enrichment module unavailable; continuing without enrichment.")
 
@@ -1161,8 +981,11 @@ def _run_pipeline(
         config=config,
         run_meta=run_meta,
         diff_path=diff_path,
-        repo_root=repo_root,
+        repo_root=resolved_repo_root,
         detector_policy=detector_policy,
+        bundle_limit=bundle_limit,
+        selected_limit=selected_limit,
+        min_score=min_score,
         progress=progress,
     )
 
@@ -1207,15 +1030,16 @@ def run_detectors_explain(args) -> int:
 def run_detectors_replay(args) -> int:
     """Re-issue queued reasoner attempts from a prior run.
 
-    Reads ``<DEPOS_DATA>/intelligence/<run_id>/reasoner_queue.jsonl``, replays
-    each row (optionally filtered by mode), and reports how many calls now
-    succeeded.
+    Reads ``<data_dir>/<run_output_subdir>/<run_id>/reasoner_queue.jsonl``
+    (defaults: ``DEPOS_DATA`` / ``intelligence``; dataset-pipeline uses
+    ``--output-dir`` / ``.canonical``), replays each row (optionally filtered by
+    mode), and reports how many calls now succeeded.
     """
     from depos.analysis.reasoning_engine import replay_one
 
-    config = load_config_from_env()
+    config = _replay_intelligence_config(load_config_from_env(), args)
     if getattr(args, "provider", None):
-        config.reasoner.provider = args.provider
+        config.llm.provider = args.provider
 
     run_id = str(args.run_id).strip()
     if not run_id:
@@ -1248,7 +1072,7 @@ def run_detectors_replay(args) -> int:
     progress = _make_progress_reporter()
     progress(
         f"Replay: re-issuing {len(rows)} queued reasoner attempt(s) from {queue_path} "
-        f"(provider={config.reasoner.provider})."
+        f"(provider={config.llm.provider})."
     )
 
     attempted = 0

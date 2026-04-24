@@ -9,7 +9,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Any, Literal, Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validator
 
 NodeId = str
 EdgeId = str
@@ -149,7 +149,6 @@ class DetectorAction(BaseModel):
     emit: Literal["candidate", "skip", "stop"]
     seed_type: SeedType = SeedType.graph_anomaly
     extra: dict[str, Any] = Field(default_factory=dict)
-    priority_score: float = 0.6
     witness_template: list[str] = Field(default_factory=list)
 
 
@@ -170,6 +169,8 @@ class Detector(BaseModel):
     severity_default: SeverityLevel = "medium"
     enabled_by_default: bool = True
     scope: Literal["graph", "per_node", "per_edge"] = "per_node"
+    # None = Group A (no layer). "cfg" = B. "dfg" / "taint" = C.
+    semantic_requirement: Optional[Literal["cfg", "dfg", "taint"]] = None
 
 
 class DetectorCandidateExtra(BaseModel):
@@ -180,16 +181,119 @@ class DetectorCandidateExtra(BaseModel):
     oracle_hints: dict[str, Any] = Field(default_factory=dict)
 
 
+class CandidateScore(BaseModel):
+    """Vector score; ``composite`` is the deterministic global sort key."""
+
+    structural_centrality: float = 0.0
+    seam_exposure: float = 0.0
+    change_proximity: float = 0.0
+    detector_confidence: float = 0.0
+    evidence_quality: float = 0.0
+    # Set by taint pre-computation, not by detectors. Required by verifier
+    # gate for security findings — lives on the score vector (not in
+    # DetectorPayload) so ranking can use it.
+    taint_chain_present: bool = False
+    # Fan-in cone normalised via min(1.0, fan_in / 50). Computed from
+    # GraphMetrics, not by detectors. Makes blast radius a first-class
+    # ranking dimension.
+    blast_radius_norm: float = 0.0
+    composite: float = 0.0
+
+
+class DetectorPayload(BaseModel):
+    """Typed detector output; use ``raw`` for seed-specific or transitional keys."""
+
+    model_config = ConfigDict(extra="allow")
+
+    category: str = "unknown"
+    detector_name: str = ""
+    detector_version: str = ""
+    pipeline_version: str = ""
+    severity: SeverityLevel = "medium"
+    oracle_hints: dict[str, Any] = Field(default_factory=dict)
+    requires_cfg: bool = False
+    requires_dfg: bool = False
+    raw: dict[str, Any] = Field(default_factory=dict)
+
+
+# Referenced on candidates and in context bundles; defined before :class:`Candidate`.
+class SeamEdge(BaseModel):
+    """Cross-language or cross-unit seam on the graph (candidate + bundle)."""
+
+    edge_id: EdgeId
+    source: NodeId
+    target: NodeId
+    relation: str
+    source_language: str = ""
+    target_language: str = ""
+    pattern: str = "unknown"
+    contract_defined: bool = False
+    contract_verified: bool = False
+    metadata: SemanticEdgeMetadata = Field(default_factory=SemanticEdgeMetadata)
+
+    @computed_field
+    @property
+    def risk(self) -> float:
+        base = {
+            "ffi": 0.9,
+            "unknown": 0.85,
+            "generic": 0.85,
+            "wasm": 0.75,
+            "ipc": 0.7,
+            "rpc": 0.7,
+            "serverless": 0.7,
+            "queue": 0.6,
+            "schema": 0.55,
+            "http": 0.5,
+            "http_bridge": 0.5,
+        }.get(self.pattern, 0.85)
+        return base if not self.contract_verified else base * 0.4
+
+
+class TaintEdge(BaseModel):
+    """Typed taint source -> sink on the graph; single source of truth for every consumer.
+
+    ``intermediate_path`` is the full ordered chain from source to sink. Until
+    inter-procedural taint is implemented it degrades to ``[source_node,
+    sink_node]``; the validator guarantees the endpoints are always present.
+    """
+
+    source_node: NodeId
+    sink_node: NodeId
+    intermediate_path: list[NodeId]
+    crosses_seam: bool = False
+    seam_edges_crossed: list[SeamEdge] = Field(default_factory=list)
+    source_chain: str = ""
+    sink_pattern: str = ""
+    source_hints: list[str] = Field(default_factory=list)
+    scope: str = ""
+    line: int = 0
+
+    @model_validator(mode="after")
+    def _path_must_include_endpoints(self) -> "TaintEdge":
+        if not self.intermediate_path:
+            raise ValueError(
+                "intermediate_path must contain at least [source_node, sink_node]"
+            )
+        if self.intermediate_path[0] != self.source_node:
+            raise ValueError("intermediate_path must start with source_node")
+        if self.intermediate_path[-1] != self.sink_node:
+            raise ValueError("intermediate_path must end with sink_node")
+        return self
+
+
 class Candidate(BaseModel):
     candidate_id: str
     scope_id: str
     seed_type: SeedType
-    priority_score: float = 0.0
-    language_pair: Optional[str] = None
-    seam_edges: list[EdgeId] = Field(default_factory=list)
+    language_path: list[str] = Field(default_factory=list)
+    language_pair: Optional[str] = None  # deprecated; use language_path[0:2]
+    seam_edges: list[SeamEdge] = Field(default_factory=list)
     diff_anchors: list[NodeId] = Field(default_factory=list)
     analysis_mode: AnalysisMode = AnalysisMode.diff_aware
-    extra: dict[str, Any] = Field(default_factory=dict)
+    score: CandidateScore = Field(default_factory=CandidateScore)
+    detector_payload: DetectorPayload = Field(default_factory=DetectorPayload)
+    ranking_metadata: Optional[RankingMetadata] = None
 
 
 class DetectorRunStats(BaseModel):
@@ -217,14 +321,6 @@ class CodeSnippet(BaseModel):
     resolved_via: Optional[str] = None
 
 
-class SeamEdge(BaseModel):
-    edge_id: EdgeId
-    source: NodeId
-    target: NodeId
-    relation: str
-    metadata: SemanticEdgeMetadata = Field(default_factory=SemanticEdgeMetadata)
-
-
 class PackManifest(BaseModel):
     manifest_id: str
     token_estimator: str = "chars4"  # "chars4" | "tiktoken-cl100k" | ...
@@ -232,6 +328,28 @@ class PackManifest(BaseModel):
     truncated: list[str] = Field(default_factory=list)
     dropped: list[str] = Field(default_factory=list)
     truncation_order_applied: list[str] = Field(default_factory=list)
+
+
+class BundleNodeFact(BaseModel):
+    node_id: NodeId
+    node_kind: str = ""
+    universe: str = "code"
+    defined: bool = False
+    incoming_relations: list[str] = Field(default_factory=list)
+    outgoing_relations: list[str] = Field(default_factory=list)
+
+
+class BundleEdgeFact(BaseModel):
+    edge_id: EdgeId = ""
+    source: NodeId
+    target: NodeId
+    relation: str = ""
+    inferred: bool = False
+    confidence: float = 1.0
+    source_universe: str = "code"
+    target_universe: str = "code"
+    payload_missing_fields: list[str] = Field(default_factory=list)
+    payload_extra_fields: list[str] = Field(default_factory=list)
 
 
 class BundleEvidence(BaseModel):
@@ -260,12 +378,38 @@ class ContextBundle(BaseModel):
     bundle_id: str
     candidate_id: str
     scope_id: str
+    # Resolved function/method node for this candidate (for semantic-layer flags).
+    scope_node_id: str = ""
+    scope_text: str = ""
+    scope_language: str = ""
+    # Deterministic sort key + full score vector (prompt + queue metadata).
+    score_composite: float = 0.0
+    candidate_score: dict[str, Any] = Field(default_factory=dict)
+    cfg_available: bool = False
+    dfg_available: bool = False
+    taint_edges_available: bool = False
 
+    callers: list[NodeId] = Field(default_factory=list)
+    callees: list[NodeId] = Field(default_factory=list)
+    caller_texts: dict[NodeId, str] = Field(default_factory=dict)
+    callee_texts: dict[NodeId, str] = Field(default_factory=dict)
     call_chain_in: list[dict[str, Any]] = Field(default_factory=list)
     call_chain_out: list[dict[str, Any]] = Field(default_factory=list)
+    node_facts: dict[NodeId, BundleNodeFact] = Field(default_factory=dict)
+    edge_facts: list[BundleEdgeFact] = Field(default_factory=list)
     data_reads: list[str] = Field(default_factory=list)
     data_writes: list[str] = Field(default_factory=list)
+    seam_edges: list[SeamEdge] = Field(default_factory=list)
     cross_language_seams: list[SeamEdge] = Field(default_factory=list)
+    seam_neighbor_texts: dict[NodeId, str] = Field(default_factory=dict)
+    is_articulation_point: bool = False
+    pagerank_percentile: float = 0.0
+    scc_size: int = 1
+    on_cross_lang_cycle: bool = False
+    taint_edges: list[TaintEdge] = Field(default_factory=list)
+    graph_distance_to_diff: int = -1
+    cfg_summary: Optional[str] = None
+    null_paths: Optional[list[list[str]]] = None
     diff_anchors: list[dict[str, Any]] = Field(default_factory=list)
     rls_coverage: dict[str, RLSCoverage] = Field(default_factory=dict)
     migration_state: dict[str, MigrationState] = Field(default_factory=dict)
@@ -275,6 +419,9 @@ class ContextBundle(BaseModel):
     token_budget: int = 0
     truncation_events: list[str] = Field(default_factory=list)
     evidence: BundleEvidence = Field(default_factory=BundleEvidence)
+
+
+GraphContextBundle = ContextBundle
 
 
 # ---------------------------------------------------------------------------
@@ -335,13 +482,19 @@ class ModeCOutput(BaseModel):
 # Module 5 — ranker
 # ---------------------------------------------------------------------------
 
+class RankingMetadata(BaseModel):
+    """Stores attack pattern labels separately from detector identity."""
+    
+    matched_pattern: Optional[str] = None
+
+
 class RankerDiffFeatures(BaseModel):
     changed_nodes_on_path: int = 0
     removed_entities_referenced: int = 0
     cross_lang_seams_on_path: int = 0
     unresolved_symbols: int = 0
     missing_guard_signals: int = 0
-    graphcodebert_score: float = 0.0
+    candidate_score_composite: float = 0.0
 
 
 class RankerInput(BaseModel):
@@ -371,6 +524,16 @@ class VerifierOutcome(str, Enum):
     invalid_reasoning = "invalid_reasoning"
     evaluator_surfaced = "evaluator_surfaced"
 
+    @property
+    def canonical(self) -> str:
+        return {
+            "confirmed": "CONFIRMED",
+            "partially_confirmed": "GRAY-ZONE",
+            "unconfirmed": "GRAY-ZONE",
+            "invalid_reasoning": "GRAY-ZONE",
+            "evaluator_surfaced": "GRAY-ZONE",
+        }.get(self.value, "GRAY-ZONE")
+
 
 class VerifierCheckResult(BaseModel):
     name: str
@@ -386,6 +549,8 @@ class VerifierAuditEntry(BaseModel):
     pack_manifest_id: str = ""
     reasoner_mode: Optional[ReasonerMode] = None
     surfaced: bool = False
+    failed_rule: str = ""
+    missing_evidence: list[str] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------
@@ -429,6 +594,25 @@ class GrayZoneAuditRow(BaseModel):
     surfaced: bool = False
     final_label: str = ""
     training_export: bool = True
+    # Structured gray-zone (Phase 5)
+    failed_rule: str = ""
+    missing_evidence: list[str] = Field(default_factory=list)
+    confidence_range: tuple[float, float] = (0.0, 1.0)
+    recommended_action: Literal["REVIEW_REQUIRED", "MONITOR", "DISMISS"] = "REVIEW_REQUIRED"
+
+
+class BundleTraceEntry(BaseModel):
+    bundle_id: str
+    candidate_id: str
+    candidate_score_composite: float = 0.0
+    reasoner_modes_returned: list[str] = Field(default_factory=list)
+    findings: int = 0
+    skipped_reason: str = ""
+    evidence_quality: str = ""
+    evidence_score: float = 0.0
+    reasoner_attempts: int = 0
+    reasoner_successes: int = 0
+    reasoner_failures: int = 0
 
 
 # ---------------------------------------------------------------------------
@@ -462,6 +646,10 @@ class Finding(BaseModel):
     evaluator_surfaced_caveat: Optional[str] = None
     low_stitcher_coverage_caveat: Optional[str] = None
     stale_diff_replay_caveat: Optional[str] = None
+
+    # LLM output lacks any bundle node/edge id in the narrative (Block 11).
+    uncited: bool = False
+    evidence_text: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -514,8 +702,7 @@ class ReasonerQueueRow(BaseModel):
     mode: ReasonerMode
     evidence_pack: dict[str, Any] = Field(default_factory=dict)
     pack_manifest: PackManifest
-    graphcodebert_score: float = 0.0
-    graphcodebert_pattern: str = ""
+    score_composite: float = 0.0
     ranking_phase: int = 0
     queued_at: datetime
     failure_reason: ReasonerFailureReason = "other"
@@ -633,3 +820,8 @@ class RunResult(BaseModel):
     run_metadata: RunMetadata
     reasoner_call_stats: ReasonerCallStats = Field(default_factory=ReasonerCallStats)
     evidence_summary: dict[str, Any] = Field(default_factory=dict)
+    change_manifest: ChangeManifest | None = None
+    candidates: list[Candidate] = Field(default_factory=list)
+    bundles: list[ContextBundle] = Field(default_factory=list)
+    gray_zone_rows: list[GrayZoneAuditRow] = Field(default_factory=list)
+    bundle_trace: list[BundleTraceEntry] = Field(default_factory=list)

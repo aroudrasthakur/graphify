@@ -1,13 +1,15 @@
 from __future__ import annotations
 
-import networkx as nx
-
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.gray_zone_evaluator import evaluate
 from depos.analysis.schemas import (
+    BundleEdgeFact,
+    BundleNodeFact,
+    ContextBundle,
     Finding,
     GrayZoneEntryReason,
     GrayZoneVoteOutcome,
+    PackManifest,
     ReasonerMode,
     RLSCoverage,
     VerifierAuditEntry,
@@ -52,6 +54,33 @@ def _audit(
     )
 
 
+def _bundle(*, witness_path: list[str] | None = None, inferred: bool = False) -> ContextBundle:
+    node_ids = witness_path or []
+    return ContextBundle(
+        bundle_id="bundle_1",
+        candidate_id="cand_x",
+        scope_id="node:a",
+        scope_node_id="a",
+        pack_manifest=PackManifest(manifest_id="pack_1"),
+        node_facts={
+            node_id: BundleNodeFact(node_id=node_id)
+            for node_id in node_ids
+        },
+        edge_facts=(
+            [
+                BundleEdgeFact(
+                    source=node_ids[0],
+                    target=node_ids[1],
+                    inferred=inferred,
+                    confidence=1.0,
+                )
+            ]
+            if len(node_ids) >= 2
+            else []
+        ),
+    )
+
+
 def test_gray_zone_routes_partially_confirmed_single_pass() -> None:
     config = IntelligenceConfig()
     finding = _finding(confidence=0.6)
@@ -65,11 +94,10 @@ def test_gray_zone_routes_partially_confirmed_single_pass() -> None:
     )
 
     rows = evaluate(
-        [(finding, audit)],
+        [(finding, audit, _bundle())],
         config=config,
         run_id="testrun",
         run_low_stitcher_coverage=False,
-        graph=nx.DiGraph(),
     )
 
     assert len(rows) == 1
@@ -78,8 +106,6 @@ def test_gray_zone_routes_partially_confirmed_single_pass() -> None:
 
 def test_gray_zone_marks_all_inferred_edges_and_holds_when_model_b_dissents() -> None:
     config = IntelligenceConfig()
-    graph = nx.DiGraph()
-    graph.add_edge("a", "b", inferred=False, confidence=1.0)
     finding = _finding(confidence=0.91, witness_path=["a", "b"])
     audit = _audit(
         outcome=VerifierOutcome.unconfirmed,
@@ -89,11 +115,10 @@ def test_gray_zone_marks_all_inferred_edges_and_holds_when_model_b_dissents() ->
     )
 
     rows = evaluate(
-        [(finding, audit)],
+        [(finding, audit, _bundle(witness_path=["a", "b"], inferred=False))],
         config=config,
         run_id="testrun",
         run_low_stitcher_coverage=False,
-        graph=graph,
     )
 
     assert len(rows) == 1
@@ -106,8 +131,6 @@ def test_gray_zone_marks_all_inferred_edges_and_holds_when_model_b_dissents() ->
 
 def test_gray_zone_surfaces_only_as_evaluator_surfaced_never_confirmed() -> None:
     config = IntelligenceConfig()
-    graph = nx.DiGraph()
-    graph.add_edge("a", "b", inferred=False, confidence=1.0)
     finding = _finding(confidence=0.9, witness_path=["a", "b"])
     audit = _audit(
         outcome=VerifierOutcome.unconfirmed,
@@ -118,11 +141,10 @@ def test_gray_zone_surfaces_only_as_evaluator_surfaced_never_confirmed() -> None
     )
 
     rows = evaluate(
-        [(finding, audit)],
+        [(finding, audit, _bundle(witness_path=["a", "b"]))],
         config=config,
         run_id="testrun",
         run_low_stitcher_coverage=True,
-        graph=graph,
     )
 
     assert len(rows) == 1
@@ -132,3 +154,32 @@ def test_gray_zone_surfaces_only_as_evaluator_surfaced_never_confirmed() -> None
     assert finding.trust_level == VerifierOutcome.evaluator_surfaced
     assert finding.verifier_outcome == VerifierOutcome.unconfirmed
     assert "not graph-confirmed" in (finding.evaluator_surfaced_caveat or "")
+
+
+def test_gray_zone_populates_actionable_fields() -> None:
+    config = IntelligenceConfig()
+    finding = _finding(confidence=0.6)
+    audit = _audit(
+        outcome=VerifierOutcome.partially_confirmed,
+        checks=[
+            VerifierCheckResult(name="global_auto_grayzone", result="pass"),
+            VerifierCheckResult(name="rule_bundle_evidence", result="fail", detail="cfg_summary"),
+        ],
+    )
+    audit.failed_rule = "cfg_summary"
+    audit.missing_evidence = ["cfg_summary", "null_paths"]
+
+    rows = evaluate(
+        [(finding, audit, _bundle())],
+        config=config,
+        run_id="testrun",
+        run_low_stitcher_coverage=False,
+    )
+
+    assert len(rows) == 1
+    row = rows[0]
+    assert row.failed_rule == "cfg_summary"
+    assert row.missing_evidence == ["cfg_summary", "null_paths"]
+    assert isinstance(row.confidence_range, tuple)
+    assert len(row.confidence_range) == 2
+    assert row.recommended_action in {"REVIEW_REQUIRED", "MONITOR", "DISMISS"}

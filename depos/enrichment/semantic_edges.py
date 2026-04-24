@@ -6,6 +6,7 @@ pre-enrichment graph should copy it before calling :func:`enrich_graph`.
 """
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -28,6 +29,8 @@ from depos.graph_relations import PROMPT_DECLARES_VAR
 from depos.graph_relations import PROMPT_USES_VAR
 from depos.graph_relations import READS_ENV_VAR
 from depos.graph_relations import RENDERED_BY_PROMPT
+
+logger = logging.getLogger(__name__)
 from depos.graph_relations import RESOLVES_TO
 from depos.graph_relations import ROUTE_CALLS_RPC
 from depos.graph_relations import ROUTE_GUARDED_BY_RLS
@@ -100,6 +103,16 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
             )
             best = None
             best_score = 0.0
+            
+            # BUGFIX: Add debug logging for match attempts
+            logger.debug(
+                "Matching client route: %s (method=%s, is_dynamic=%s, method_inferred=%s)",
+                client.normalized,
+                client.method,
+                site.get("is_dynamic_url"),
+                site.get("method_inferred"),
+            )
+            
             for (handler_id, server_nr) in routes:
                 result = score_match(
                     client,
@@ -107,12 +120,33 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
                     client_is_dynamic_url=bool(site.get("is_dynamic_url")),
                     client_method_inferred=bool(site.get("method_inferred")),
                 )
+                
+                # BUGFIX: Log each match attempt with score and emit decision
+                logger.debug(
+                    "  vs server route: %s (method=%s) -> score=%.2f, emit=%s, kind=%s",
+                    server_nr.normalized,
+                    server_nr.method,
+                    result.score,
+                    result.emit,
+                    result.match_kind,
+                )
+                
                 if result.emit and result.score > best_score:
                     best = (handler_id, server_nr, result)
                     best_score = result.score
+            
             if best is None:
+                logger.debug("  No match found (all scores below emit threshold)")
                 continue
+            
             handler_id, server_nr, result = best
+            logger.debug(
+                "  EMITTING edge: client=%s -> server=%s (score=%.2f, confidence=%.2f)",
+                client.normalized,
+                server_nr.normalized,
+                result.score,
+                result.score,
+            )
 
             metadata = SemanticEdgeMetadata(
                 confidence=result.score,

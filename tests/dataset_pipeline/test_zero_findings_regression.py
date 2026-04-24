@@ -27,24 +27,6 @@ from depos.cli import main
 FIXTURE_ROOT = Path(__file__).resolve().parent.parent / "fixtures" / "datasets" / "tiny_drift"
 
 
-def _fake_score_bundles(bundles, **_kwargs):
-    """Stub for GraphCodeBERT so the test does not download a 500MB model."""
-    rows = []
-    for idx, bundle in enumerate(bundles):
-        rows.append(
-            {
-                "bundle_id": bundle.get("bundle_id", f"b{idx}"),
-                "candidate_id": bundle.get("candidate_id", f"c{idx}"),
-                "scope_id": bundle.get("scope_id", ""),
-                "graphcodebert_score": 0.8 - idx * 0.01,
-                "graphcodebert_pattern": "auth_guard_drift",
-                "top_patterns": [{"label": "auth_guard_drift", "score": 0.8 - idx * 0.01}],
-                "bundle_fingerprint": f"fp{idx}",
-            }
-        )
-    return rows
-
-
 def _run_dataset(
     *,
     tmp_path: Path,
@@ -61,8 +43,6 @@ def _run_dataset(
     # floor here so the gate doesn't accidentally skip every bundle and mask
     # what we're trying to test.
     monkeypatch.setenv("DEPOS_INTEL_MIN_EVIDENCE_SCORE", "0.0")
-    monkeypatch.setattr("depos.analysis.graphcodebert.score_bundles", _fake_score_bundles)
-
     output_dir = tmp_path / "out"
     args = [
         "analyze",
@@ -97,7 +77,7 @@ def test_stub_provider_end_to_end_succeeds(tmp_path, monkeypatch):
     assert rc == 0
 
     summary_path = output_dir / "gemma4-run" / "run_summary.json"
-    assert summary_path.exists(), "run_summary.json must be written by the bundle pipeline"
+    assert summary_path.exists(), "run_summary.json must be written by the canonical dataset pipeline"
     summary = json.loads(summary_path.read_text(encoding="utf-8"))
 
     # Healthy run: every reasoner call should succeed and the run should
@@ -147,12 +127,12 @@ def test_wrong_source_root_strict_returns_path_resolution_exit_code(tmp_path, mo
 
 
 # ---------------------------------------------------------------------------
-# (c) Mode A always fails JSON parsing → degraded health, B/C still produce
+# (c) Selected Mode A fails JSON parsing → failure reason is still surfaced
 # ---------------------------------------------------------------------------
 
 
 def test_mode_a_malformed_json_records_per_reason_breakdown(tmp_path, monkeypatch):
-    """Stub provider patched so Mode A always returns junk; B and C stay healthy."""
+    """Stub provider patched so selected Mode A calls always return junk."""
     from depos.analysis import reasoning_engine
     from depos.analysis.schemas import ReasonerMode
 
@@ -175,16 +155,14 @@ def test_mode_a_malformed_json_records_per_reason_breakdown(tmp_path, monkeypatc
     stats = summary["reasoner_call_stats"]
     by_mode = stats["by_mode"]
 
-    # Mode A failed every attempt; B and C succeeded.
+    # Selected Mode A failed every attempt. With per-detector mode routing,
+    # other modes may not run for this fixture at all.
     assert by_mode.get("A", {}).get("failures", 0) >= 1
     assert by_mode.get("A", {}).get("successes", 0) == 0
-    assert by_mode.get("B", {}).get("successes", 0) >= 1
-    assert by_mode.get("C", {}).get("successes", 0) >= 1
 
     # The per-reason breakdown must point the operator at the right cluster.
     by_reason = stats["by_reason"]
     assert any(reason in by_reason for reason in ("not_json", "json_but_invalid_schema"))
 
-    # Health is degraded (some calls succeed, some fail), not failed.
-    assert summary["reasoner_run_health"] in {"ok", "degraded"}
-    assert summary["reasoner_run_health"] != "failed"
+    # Health can now be "failed" when the selected mode set only contains A.
+    assert summary["reasoner_run_health"] in {"failed", "degraded"}

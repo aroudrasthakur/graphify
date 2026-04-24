@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["external_oracle_lookup", "version_satisfaction"],
     requires_reasoner=False,
     severity="critical",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -24,7 +24,7 @@ def run(graph, manifest, mode, config, ctx):
             make_candidate(
                 scope_id=f"deps:vulnerable:{node_id}",
                 seed_type=SeedType.graph_anomaly,
-                priority_score=0.92,
+                detector_confidence=0.92,
                 analysis_mode=mode,
                 diff_anchors=[node_id],
                 extra={

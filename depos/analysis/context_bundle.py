@@ -18,14 +18,20 @@ the budget calculation.
 from __future__ import annotations
 
 import hashlib
+import re
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import networkx as nx
 
+if TYPE_CHECKING:
+    from depos.analysis.run_context import RunContext
+
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.schemas import (
+    BundleEdgeFact,
     BundleEvidence,
+    BundleNodeFact,
     Candidate,
     CodeSnippet,
     ContextBundle,
@@ -34,10 +40,13 @@ from depos.analysis.schemas import (
     RLSCoverage,
     SeamEdge,
     SemanticEdgeMetadata,
+    TaintEdge,
 )
 
 
 _QUALITY_RANK = {"missing": 0, "label_only": 1, "embedded": 2, "full": 3}
+_RE_TS_NON_NULL = re.compile(r"\b\w+!\s*\.\s*\w+")
+_RE_PY_OPTIONAL_DEREF = re.compile(r"\b\w+\s*\.\s*\w+")
 
 
 # ---------------------------------------------------------------------------
@@ -109,16 +118,62 @@ def _collect_seams(graph: nx.DiGraph, nodes: set[str]) -> list[SeamEdge]:
         if not (data.get("source_system") and data.get("target_system")):
             continue
         metadata = SemanticEdgeMetadata.model_validate({k2: v2 for k2, v2 in data.items() if k2 != "relation"})
+        eid = str(data.get("edge_id") or f"{u}->{v}")
+        seam_info = dict(data.get("seam") or {})
+        source_attrs = graph.nodes[u] if graph.has_node(u) else {}
+        target_attrs = graph.nodes[v] if graph.has_node(v) else {}
         out.append(
             SeamEdge(
-                edge_id=f"{u}|{v}|{data.get('relation', '')}",
+                edge_id=eid,
                 source=u,
                 target=v,
                 relation=data.get("relation", ""),
+                source_language=str(
+                    seam_info.get("source_language")
+                    or source_attrs.get("language")
+                    or source_attrs.get("lang")
+                    or ""
+                ),
+                target_language=str(
+                    seam_info.get("target_language")
+                    or target_attrs.get("language")
+                    or target_attrs.get("lang")
+                    or ""
+                ),
+                pattern=str(seam_info.get("pattern") or "unknown"),
+                contract_defined=bool(seam_info.get("contract_defined", False)),
+                contract_verified=bool(seam_info.get("contract_verified", False)),
                 metadata=metadata,
             )
         )
     return out
+
+
+def _collect_taint_edges(graph: nx.DiGraph, nodes: set[str]) -> list[TaintEdge]:
+    """Include pre-computed :class:`TaintEdge` rows that touch the bundle neighborhood."""
+    out: list[TaintEdge] = []
+    for item in list(graph.graph.get("taint_edges", []) or []):
+        te = item if isinstance(item, TaintEdge) else TaintEdge.model_validate(item)
+        if te.scope in nodes:
+            out.append(te)
+            continue
+        if te.source_node in nodes or te.sink_node in nodes:
+            out.append(te)
+            continue
+        if any(n in nodes for n in te.intermediate_path):
+            out.append(te)
+    return out
+
+
+def _endpoints_from_canonical_edge_id(edge_id: str) -> tuple[str, str] | None:
+    """Parse ``u->v`` from graph ``edge_id`` (``build_seam_edge_index``)."""
+    s = str(edge_id)
+    if "->" not in s:
+        return None
+    u, v = s.split("->", 1)
+    if u and v:
+        return u, v
+    return None
 
 
 def _collect_data_reads_writes(graph: nx.DiGraph, nodes: set[str]) -> tuple[list[str], list[str]]:
@@ -223,8 +278,7 @@ def _read_snippet_for(
     if not sf and not embedded_text and not label:
         return None
 
-    start = int(node_attrs.get("start_line") or 0)
-    end = int(node_attrs.get("end_line") or 0)
+    start, end = _start_end_lines(node_attrs)
 
     text = ""
     resolved_via: Optional[str] = None
@@ -270,6 +324,278 @@ def _read_snippet_for(
         evidence_quality=quality,  # type: ignore[arg-type]
         resolved_via=resolved_via,
     )
+
+
+def _start_end_lines(node_attrs: dict) -> tuple[int, int]:
+    span = node_attrs.get("span") or {}
+    start = int(
+        node_attrs.get("start_line")
+        or (span.get("start") or {}).get("line")
+        or node_attrs.get("lineno")
+        or 0
+    )
+    end = int(
+        node_attrs.get("end_line")
+        or (span.get("end") or {}).get("line")
+        or start
+        or 0
+    )
+    return start, end
+
+
+def _node_language(attrs: dict) -> str:
+    for key in ("language", "lang", "source_language"):
+        raw = attrs.get(key)
+        if raw:
+            return str(raw)
+    return ""
+
+
+def _node_universe(attrs: dict) -> str:
+    node_kind = str(attrs.get("node_kind") or attrs.get("kind") or "")
+    if node_kind in {"package_manifest", "package_dep", "lockfile_resolution"}:
+        return "deps"
+    if node_kind in {"env_var", "config_key"}:
+        return "env"
+    if node_kind == "prompt_template":
+        return "prompt"
+    if node_kind in {"openapi_operation", "openapi_schema"}:
+        return "schema"
+    if node_kind in {"next_route", "next_middleware"}:
+        return "nextjs"
+    if node_kind in {"infra_workflow", "infra_service", "dockerfile_stage"}:
+        return "infra"
+    return str(attrs.get("universe") or attrs.get("source_system") or "code")
+
+
+def _snippet_for_node(
+    graph: nx.DiGraph,
+    node_id: str,
+    *,
+    source_roots: list[Path],
+    path_aliases: dict[str, str],
+    min_snippet_chars: int,
+) -> Optional[CodeSnippet]:
+    if not graph.has_node(node_id):
+        return None
+    return _read_snippet_for(
+        {**graph.nodes[node_id], "id": node_id},
+        source_roots=source_roots,
+        path_aliases=path_aliases,
+        min_snippet_chars=min_snippet_chars,
+    )
+
+
+def _fallback_node_text(attrs: dict) -> str:
+    for key in ("source", "code", "embedded_text", "label", "name"):
+        raw = str(attrs.get(key) or "").strip()
+        if raw:
+            return raw
+    return ""
+
+
+def _text_for_node(
+    graph: nx.DiGraph,
+    node_id: str,
+    *,
+    source_roots: list[Path],
+    path_aliases: dict[str, str],
+    min_snippet_chars: int,
+) -> str:
+    snippet = _snippet_for_node(
+        graph,
+        node_id,
+        source_roots=source_roots,
+        path_aliases=path_aliases,
+        min_snippet_chars=min_snippet_chars,
+    )
+    if snippet is not None and snippet.text.strip():
+        return snippet.text
+    if not graph.has_node(node_id):
+        return ""
+    return _fallback_node_text(graph.nodes[node_id])
+
+
+def _sort_by_pagerank(node_ids: list[str], pagerank: dict[str, float]) -> list[str]:
+    return sorted(
+        dict.fromkeys(node_ids),
+        key=lambda nid: (-float(pagerank.get(nid, 0.0)), nid),
+    )
+
+
+def _is_call_graph_edge(data: dict) -> bool:
+    if data.get("source_system") and data.get("target_system"):
+        return False
+    relation = str(data.get("relation") or data.get("label") or "").upper()
+    return "CALL" in relation or "INVOK" in relation
+
+
+def _direct_callers(graph: nx.DiGraph, scope_node_id: str, pagerank: dict[str, float]) -> list[str]:
+    node_ids = [
+        str(u)
+        for u, _, data in graph.in_edges(scope_node_id, data=True)
+        if _is_call_graph_edge(data)
+    ]
+    return _sort_by_pagerank(node_ids, pagerank)[:5]
+
+
+def _direct_callees(graph: nx.DiGraph, scope_node_id: str, pagerank: dict[str, float]) -> list[str]:
+    node_ids = [
+        str(v)
+        for _, v, data in graph.out_edges(scope_node_id, data=True)
+        if _is_call_graph_edge(data)
+    ]
+    return _sort_by_pagerank(node_ids, pagerank)
+
+
+def _graph_distance_to_diff(
+    graph: nx.DiGraph,
+    scope_node_id: str,
+    diff_anchors: list[str],
+) -> int:
+    if not scope_node_id or not diff_anchors or not graph.has_node(scope_node_id):
+        return -1
+    targets = [node_id for node_id in diff_anchors if graph.has_node(node_id)]
+    if not targets:
+        return -1
+    if scope_node_id in targets:
+        return 0
+    try:
+        lengths = nx.single_source_shortest_path_length(graph.to_undirected(as_view=True), scope_node_id)
+    except Exception:  # noqa: BLE001
+        return -1
+    distances = [int(lengths[target]) for target in targets if target in lengths]
+    return min(distances) if distances else -1
+
+
+def _cfg_nodes_for_scope(graph: nx.DiGraph, scope_node_id: str) -> list[str]:
+    return [
+        str(node_id)
+        for node_id, attrs in graph.nodes(data=True)
+        if attrs.get("type") == "cfg_block" and attrs.get("parent_scope") == scope_node_id
+    ]
+
+
+def _cfg_summary(graph: nx.DiGraph, scope_node_id: str) -> str:
+    cfg_nodes = _cfg_nodes_for_scope(graph, scope_node_id)
+    cfg_edges = [
+        data
+        for u, v, data in graph.edges(data=True)
+        if data.get("type") == "cfg" and u in cfg_nodes and v in cfg_nodes
+    ]
+    branch_edges = sum(1 for data in cfg_edges if data.get("kind") in {"if_true", "if_false", "switch_case"})
+    back_edges = sum(1 for data in cfg_edges if data.get("kind") == "back_edge")
+    await_edges = sum(1 for data in cfg_edges if data.get("kind") == "await_suspend")
+    exit_nodes = sum(1 for node_id in cfg_nodes if str(graph.nodes[node_id].get("label") or "") == "exit")
+    if not cfg_nodes:
+        return "CFG available for this scope, but no block summary was captured."
+    return (
+        f"CFG for {scope_node_id}: {len(cfg_nodes)} blocks from entry to {exit_nodes or 1} exit node(s), "
+        f"with {branch_edges} branch edge(s), {back_edges} loop back edge(s), and {await_edges} await suspension edge(s)."
+    )
+
+
+def _null_paths_for_scope(
+    graph: nx.DiGraph,
+    scope_node_id: str,
+    *,
+    language: str,
+    scope_text: str,
+) -> list[list[str]]:
+    cfg_nodes = _cfg_nodes_for_scope(graph, scope_node_id)
+    if not cfg_nodes:
+        return []
+    ordered_cfg = sorted(cfg_nodes, key=lambda node_id: int(graph.nodes[node_id].get("line") or 0))
+    lines = scope_text.splitlines()
+    out: list[list[str]] = []
+
+    if language.lower() in {"javascript", "typescript", "js", "ts", "tsx", "jsx"}:
+        for node_id in ordered_cfg:
+            line_no = int(graph.nodes[node_id].get("line") or 0)
+            if line_no <= 0 or line_no > len(lines):
+                continue
+            if _RE_TS_NON_NULL.search(lines[line_no - 1]):
+                out.append([scope_node_id, node_id])
+    elif language.lower() in {"python", "py"}:
+        prior_none_return = any("return None" in line for line in lines)
+        if prior_none_return:
+            for node_id in ordered_cfg:
+                line_no = int(graph.nodes[node_id].get("line") or 0)
+                if line_no <= 0 or line_no > len(lines):
+                    continue
+                line = lines[line_no - 1]
+                if "if " in line and " is None" in line:
+                    continue
+                if _RE_PY_OPTIONAL_DEREF.search(line) and "None" not in line:
+                    out.append([scope_node_id, node_id])
+    return out
+
+
+def _collect_node_facts(graph: nx.DiGraph, nodes: set[str]) -> dict[str, BundleNodeFact]:
+    out: dict[str, BundleNodeFact] = {}
+    for node_id in sorted(nodes):
+        if not graph.has_node(node_id):
+            continue
+        attrs = graph.nodes[node_id]
+        in_relations = sorted(
+            {
+                str(data.get("relation") or data.get("label") or "")
+                for _, _, data in graph.in_edges(node_id, data=True)
+                if str(data.get("relation") or data.get("label") or "")
+            }
+        )
+        out_relations = sorted(
+            {
+                str(data.get("relation") or data.get("label") or "")
+                for _, _, data in graph.out_edges(node_id, data=True)
+                if str(data.get("relation") or data.get("label") or "")
+            }
+        )
+        out[node_id] = BundleNodeFact(
+            node_id=node_id,
+            node_kind=str(attrs.get("node_kind") or attrs.get("kind") or attrs.get("entity_kind") or ""),
+            universe=_node_universe(attrs),
+            defined=bool(attrs.get("defined", False)),
+            incoming_relations=in_relations,
+            outgoing_relations=out_relations,
+        )
+    return out
+
+
+def _collect_edge_facts(graph: nx.DiGraph, nodes: set[str]) -> list[BundleEdgeFact]:
+    out: list[BundleEdgeFact] = []
+    for u, v, data in graph.edges(data=True):
+        if u not in nodes and v not in nodes:
+            continue
+        source_attrs = graph.nodes[u] if graph.has_node(u) else {}
+        target_attrs = graph.nodes[v] if graph.has_node(v) else {}
+        out.append(
+                BundleEdgeFact(
+                    edge_id=str(data.get("edge_id") or f"{u}->{v}"),
+                    source=str(u),
+                    target=str(v),
+                    relation=str(data.get("relation") or data.get("label") or ""),
+                    inferred=bool(data.get("inferred", False)),
+                    confidence=_edge_confidence(data.get("confidence", 1.0)),
+                    source_universe=str(data.get("source_system") or _node_universe(source_attrs)),
+                    target_universe=str(data.get("target_system") or _node_universe(target_attrs)),
+                    payload_missing_fields=[str(x) for x in data.get("payload_missing_fields", [])],
+                    payload_extra_fields=[str(x) for x in data.get("payload_extra_fields", [])],
+                )
+            )
+    return out
+
+
+def _edge_confidence(raw: object) -> float:
+    try:
+        return float(raw)
+    except (TypeError, ValueError):
+        label = str(raw or "").strip().lower()
+        return {
+            "extracted": 1.0,
+            "synthetic": 0.9,
+            "inferred": 0.7,
+        }.get(label, 1.0)
 
 
 def _compute_evidence(bundle: ContextBundle) -> BundleEvidence:
@@ -453,6 +779,7 @@ def build_bundle(
     config: IntelligenceConfig,
     source_roots: Optional[list[Path]] = None,
     path_aliases: Optional[dict[str, str]] = None,
+    run_context: Optional["RunContext"] = None,
 ) -> ContextBundle:
     estimator, est_name = _get_estimator(config)
     hops = config.candidates.max_hop_count
@@ -465,10 +792,15 @@ def build_bundle(
     anchor_ids = set(candidate.diff_anchors)
     # If this is an interface_surface seed with seam edges, recover endpoints.
     for seam in candidate.seam_edges:
-        parts = seam.split("|")
-        if len(parts) >= 2:
-            anchor_ids.add(parts[0])
-            anchor_ids.add(parts[1])
+        key = seam.edge_id if hasattr(seam, "edge_id") else str(seam)
+        if getattr(seam, "source", None) and getattr(seam, "target", None):
+            anchor_ids.add(str(seam.source))
+            anchor_ids.add(str(seam.target))
+            continue
+        end = _endpoints_from_canonical_edge_id(str(key))
+        if end:
+            anchor_ids.add(end[0])
+            anchor_ids.add(end[1])
     if not anchor_ids and candidate.scope_id.startswith("node:"):
         anchor_ids.add(candidate.scope_id[5:])
 
@@ -483,10 +815,30 @@ def build_bundle(
     for entry in call_chain_in + call_chain_out:
         neighborhood.add(entry["node_id"])
 
+    scope_node_id = ""
+    if candidate.scope_id.startswith("node:"):
+        scope_node_id = candidate.scope_id[5:]
+    elif candidate.diff_anchors:
+        scope_node_id = str(candidate.diff_anchors[0])
+    cfg_ok = dfg_ok = taint_ok = False
+    if run_context is not None and scope_node_id:
+        cfg_ok = bool(run_context.cfg_available.get(scope_node_id, False))
+        dfg_ok = bool(run_context.dfg_available.get(scope_node_id, False))
+        taint_ok = bool(run_context.taint_edges_available.get(scope_node_id, False))
+    gm = run_context.graph_metrics_or_raise() if run_context is not None and run_context.graph_metrics is not None else None
+
     reads, writes = _collect_data_reads_writes(graph, neighborhood)
     seams = _collect_seams(graph, neighborhood)
+    taint_edges = _collect_taint_edges(graph, neighborhood)
     rls = _collect_rls(graph, neighborhood)
     migration_state = _collect_migration_state(graph)
+    scope_attrs = graph.nodes[scope_node_id] if scope_node_id and graph.has_node(scope_node_id) else {}
+    pagerank = gm.node_pagerank if gm is not None else {}
+    callers = []
+    callees = []
+    if scope_node_id and graph.has_node(scope_node_id):
+        callers = _direct_callers(graph, scope_node_id, pagerank)
+        callees = _direct_callees(graph, scope_node_id, pagerank)
 
     snippets: list[CodeSnippet] = []
     for nid in anchor_ids:
@@ -500,6 +852,89 @@ def build_bundle(
         )
         if snip is not None:
             snippets.append(snip)
+    scope_snippet = (
+        _snippet_for_node(
+            graph,
+            scope_node_id,
+            source_roots=roots,
+            path_aliases=aliases,
+            min_snippet_chars=min_chars,
+        )
+        if scope_node_id
+        else None
+    )
+    scope_text = scope_snippet.text if scope_snippet is not None else _fallback_node_text(scope_attrs)
+    scope_language = _node_language(scope_attrs)
+    caller_texts = {
+        node_id: _text_for_node(
+            graph,
+            node_id,
+            source_roots=roots,
+            path_aliases=aliases,
+            min_snippet_chars=min_chars,
+        )
+        for node_id in callers
+    }
+    callee_texts = {
+        node_id: _text_for_node(
+            graph,
+            node_id,
+            source_roots=roots,
+            path_aliases=aliases,
+            min_snippet_chars=min_chars,
+        )
+        for node_id in callees
+    }
+    seam_neighbor_ids: list[str] = []
+    for seam in seams:
+        if seam.source == scope_node_id:
+            seam_neighbor_ids.append(str(seam.target))
+        elif seam.target == scope_node_id:
+            seam_neighbor_ids.append(str(seam.source))
+        else:
+            if seam.source in neighborhood and seam.target not in neighborhood:
+                seam_neighbor_ids.append(str(seam.target))
+            elif seam.target in neighborhood and seam.source not in neighborhood:
+                seam_neighbor_ids.append(str(seam.source))
+            else:
+                seam_neighbor_ids.extend([str(seam.source), str(seam.target)])
+    seam_neighbor_ids = _sort_by_pagerank(seam_neighbor_ids, pagerank)
+    bundle_nodes = set(neighborhood)
+    if scope_node_id:
+        bundle_nodes.add(scope_node_id)
+    bundle_nodes.update(callers)
+    bundle_nodes.update(callees)
+    bundle_nodes.update(seam_neighbor_ids)
+    node_facts = _collect_node_facts(graph, bundle_nodes)
+    edge_facts = _collect_edge_facts(graph, bundle_nodes)
+    seam_neighbor_texts = {
+        node_id: _text_for_node(
+            graph,
+            node_id,
+            source_roots=roots,
+            path_aliases=aliases,
+            min_snippet_chars=min_chars,
+        )
+        for node_id in seam_neighbor_ids
+    }
+    is_articulation_point = bool(gm is not None and scope_node_id in set(gm.articulation_points))
+    on_cross_lang_cycle = bool(
+        gm is not None and any(scope_node_id in cycle for cycle in gm.cross_lang_cycles)
+    )
+    pagerank_percentile = float(pagerank.get(scope_node_id, 0.0)) if scope_node_id else 0.0
+    scc_size = int(gm.scc_size_by_node.get(scope_node_id, 1)) if gm is not None and scope_node_id else 1
+    graph_distance_to_diff = _graph_distance_to_diff(graph, scope_node_id, list(candidate.diff_anchors))
+    cfg_summary = _cfg_summary(graph, scope_node_id) if cfg_ok and scope_node_id else None
+    null_paths = (
+        _null_paths_for_scope(
+            graph,
+            scope_node_id,
+            language=scope_language,
+            scope_text=scope_text,
+        )
+        if cfg_ok and scope_node_id
+        else None
+    )
 
     manifest_id = _bundle_id(candidate)
     pack_manifest = PackManifest(
@@ -507,15 +942,40 @@ def build_bundle(
         token_estimator=est_name,
         included=[s.node_id for s in snippets],
     )
+    score = candidate.score
     bundle = ContextBundle(
         bundle_id=manifest_id,
         candidate_id=candidate.candidate_id,
         scope_id=candidate.scope_id,
+        scope_node_id=scope_node_id,
+        scope_text=scope_text,
+        scope_language=scope_language,
+        score_composite=float(score.composite),
+        candidate_score=score.model_dump(mode="json"),
+        cfg_available=cfg_ok,
+        dfg_available=dfg_ok,
+        taint_edges_available=taint_ok,
+        callers=callers,
+        callees=callees,
+        caller_texts=caller_texts,
+        callee_texts=callee_texts,
         call_chain_in=call_chain_in,
         call_chain_out=call_chain_out,
+        node_facts=node_facts,
+        edge_facts=edge_facts,
         data_reads=reads,
         data_writes=writes,
+        seam_edges=seams,
         cross_language_seams=seams,
+        seam_neighbor_texts=seam_neighbor_texts,
+        is_articulation_point=is_articulation_point,
+        pagerank_percentile=pagerank_percentile,
+        scc_size=scc_size,
+        on_cross_lang_cycle=on_cross_lang_cycle,
+        taint_edges=taint_edges,
+        graph_distance_to_diff=graph_distance_to_diff,
+        cfg_summary=cfg_summary,
+        null_paths=null_paths,
         diff_anchors=[{"node_id": a} for a in candidate.diff_anchors],
         rls_coverage=rls,
         migration_state=migration_state,

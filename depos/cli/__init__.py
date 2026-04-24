@@ -6,6 +6,7 @@
 - ``diff``      diff-aware analysis
 - ``replay``    replay a persisted ``reasoner_queue.jsonl``
 - ``coverage``  print the StitcherCoverageReport only (no reasoning)
+- ``gate``      CI policy on ``violations.json`` (CONFIRMED + high/critical)
 """
 from __future__ import annotations
 
@@ -24,6 +25,30 @@ def _build_parser() -> argparse.ArgumentParser:
 
     detectors = sub.add_parser("detectors", help="Inspect the detector registry.")
     d_sub = detectors.add_subparsers(dest="detectors_command", required=True)
+
+    gate = sub.add_parser(
+        "gate",
+        help="CI gate: exit non-zero when any finding is CONFIRMED with high or critical severity.",
+    )
+    gate.add_argument(
+        "--violations",
+        required=True,
+        type=Path,
+        help="Path to violations.json produced by a depOS run.",
+    )
+    gate.add_argument(
+        "--allowlist",
+        default=Path(".depOS/allowlist.json"),
+        type=Path,
+        help="Path to the depOS allowlist JSON file. Defaults to .depOS/allowlist.json.",
+    )
+    gate.add_argument(
+        "--allow-finding-id",
+        action="append",
+        default=[],
+        metavar="ID",
+        help="Deprecated alias for temporarily excluding a finding ID from the gate (repeatable).",
+    )
 
     repo = a_sub.add_parser("repo", help="Full-repo scan (no diff required).")
     repo.add_argument("--path", required=True)
@@ -52,16 +77,32 @@ def _build_parser() -> argparse.ArgumentParser:
     replay.add_argument("--queue", required=True)
     replay.add_argument("--output")
     replay.add_argument("--provider", default=None)
+    replay.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root for cached prompts (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Run artifact subdirectory under data-dir, e.g. ".canonical" for dataset-pipeline (default: intelligence).',
+    )
 
-    score_bundles = a_sub.add_parser("score-bundles", help="Score context bundles with GraphCodeBERT.")
+    score_bundles = a_sub.add_parser(
+        "score-bundles",
+        help="Report-only sidecar: write stub bundle score rows from canonical bundles.json.",
+    )
     score_bundles.add_argument("--bundles-json", required=True)
     score_bundles.add_argument("--output")
-    score_bundles.add_argument("--model-name", default="microsoft/graphcodebert-base")
+    score_bundles.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     score_bundles.add_argument("--cache-dir")
     score_bundles.add_argument("--device")
     score_bundles.add_argument("--local-files-only", action="store_true")
 
-    bundle_pipeline = a_sub.add_parser("bundle-pipeline", help="Run GraphCodeBERT -> Gemma -> verifier on bundles.")
+    bundle_pipeline = a_sub.add_parser(
+        "bundle-pipeline",
+        help="Deprecated shim. Use dataset-pipeline, repo, or diff for canonical analysis.",
+    )
     bundle_pipeline.add_argument("--bundles-json", required=True)
     bundle_pipeline.add_argument("--scores-json")
     bundle_pipeline.add_argument("--graph-json")
@@ -69,7 +110,7 @@ def _build_parser() -> argparse.ArgumentParser:
     bundle_pipeline.add_argument("--top-n", type=int, default=20)
     bundle_pipeline.add_argument("--min-score", type=float, default=None)
     bundle_pipeline.add_argument("--provider", default=None)
-    bundle_pipeline.add_argument("--model-name", default="microsoft/graphcodebert-base")
+    bundle_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     bundle_pipeline.add_argument("--cache-dir")
     bundle_pipeline.add_argument("--device")
     bundle_pipeline.add_argument("--local-files-only", action="store_true")
@@ -132,7 +173,10 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Optional override for the dataset/<repo_name>/ directory name.",
     )
 
-    dataset_pipeline = a_sub.add_parser("dataset-pipeline", help="Run raw dataset AST files through normalize -> bundles -> GraphCodeBERT -> Gemma -> verifier.")
+    dataset_pipeline = a_sub.add_parser(
+        "dataset-pipeline",
+        help="Run raw dataset AST files through normalize -> canonical Stage 1-11 pipeline.",
+    )
     dataset_pipeline.add_argument("--dataset-dir", required=True)
     dataset_pipeline.add_argument("--output-dir", required=True)
     dataset_pipeline.add_argument("--repo-root", default=".")
@@ -141,7 +185,7 @@ def _build_parser() -> argparse.ArgumentParser:
     dataset_pipeline.add_argument("--max-bundles", type=int, default=None)
     dataset_pipeline.add_argument("--min-score", type=float, default=None)
     dataset_pipeline.add_argument("--write-extraction", action="store_true")
-    dataset_pipeline.add_argument("--model-name", default="microsoft/graphcodebert-base")
+    dataset_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     dataset_pipeline.add_argument("--cache-dir")
     dataset_pipeline.add_argument("--device")
     dataset_pipeline.add_argument("--local-files-only", action="store_true")
@@ -188,6 +232,16 @@ def _build_parser() -> argparse.ArgumentParser:
     replay_cmd.add_argument("--mode", choices=["A", "B", "C"], default=None)
     replay_cmd.add_argument("--max", type=int, default=None)
     replay_cmd.add_argument("--provider", default=None)
+    replay_cmd.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root containing the run folder (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay_cmd.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Subdirectory under data-dir for run_id, e.g. ".canonical" for dataset-pipeline output.',
+    )
 
     return p
 
@@ -237,6 +291,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             return run_dataset_pipeline(args)
         parser.error(f"unknown analyze subcommand: {args.analyze_command}")
         return 2
+    if args.command == "gate":
+        from depos.cli.gate import run_gate
+
+        return run_gate(args)
     if args.command == "detectors":
         if args.detectors_command == "list":
             from depos.cli.analyze import run_detectors_list
