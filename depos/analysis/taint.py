@@ -131,21 +131,8 @@ def _seam_schemas_for_ids(
     out: list[SeamEdge] = []
     for eid in edge_ids:
         rec: Any = seam_edge_index.get(eid)
-        if isinstance(rec, SeamsDTE):
-            out.append(
-                SeamEdge(
-                    edge_id=rec.edge_id,
-                    source=rec.u,
-                    target=rec.v,
-                    relation=rec.relation,
-                    source_language=rec.source_language,
-                    target_language=rec.target_language,
-                    pattern=rec.pattern,
-                    contract_defined=rec.contract_defined,
-                    contract_verified=rec.contract_verified,
-                    metadata=SemanticEdgeMetadata(),
-                )
-            )
+        if isinstance(rec, SeamEdge):
+            out.append(rec)
             continue
         found = _find_edge_by_eid(graph, eid)
         if not found:
