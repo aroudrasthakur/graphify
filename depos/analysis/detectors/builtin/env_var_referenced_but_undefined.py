@@ -1,8 +1,15 @@
 from __future__ import annotations
 
 from depos.analysis.detectors import register
-from depos.analysis.detectors.builtin.common import incoming_by_relation, iter_nodes_by_kind, make_candidate, simple_spec
-from depos.analysis.schemas import SeedType, Universe
+from depos.analysis.detectors.builtin.common import simple_spec
+from depos.analysis.detectors.pattern_matcher import (
+    PatternSourceCache,
+    collect_pattern_scopes,
+    pattern_match_to_candidate,
+    run_pattern_rule,
+)
+from depos.analysis.detectors.pattern_registry import ENV_VAR_REFERENCED_BUT_UNDEFINED
+from depos.analysis.schemas import Universe
 
 
 SPEC = simple_spec(
@@ -15,24 +22,35 @@ SPEC = simple_spec(
 
 
 def run(graph, manifest, mode, config, ctx):
-    out = []
-    for node_id, attrs in iter_nodes_by_kind(graph, "env_var"):
-        if attrs.get("defined"):
-            continue
-        readers = incoming_by_relation(graph, node_id, "READS_ENV_VAR")
-        if not readers:
-            continue
-        out.append(
-            make_candidate(
-                scope_id=f"env:undefined:{attrs.get('name') or node_id}",
-                seed_type=SeedType.graph_anomaly,
-                detector_confidence=0.82,
-                analysis_mode=mode,
-                diff_anchors=[node_id] + [source for source, _ in readers],
-                extra={"env_var": attrs.get("name"), "readers": [source for source, _ in readers]},
+    rule = ENV_VAR_REFERENCED_BUT_UNDEFINED
+    rctx = ctx.get("run_context")
+    scopes = collect_pattern_scopes(graph, rule)
+    source_cache = PatternSourceCache(repo_root=getattr(rctx, "repo_root", None))
+    candidates = []
+    for match in run_pattern_rule(graph, source_cache, rule, scopes, ctx):
+        env_name = match.metavars.get("ENV") or (
+            graph.nodes[match.scope.node_id].get("name")
+            if match.scope.node_id and graph.has_node(match.scope.node_id)
+            else match.scope.scope_id
+        )
+        readers = [node_id for node_id in match.node_ids if node_id != match.scope.node_id]
+        candidates.append(
+            pattern_match_to_candidate(
+                match.model_copy(update={"confidence": 0.82}),
+                rule,
+                mode=mode,
+                config=config,
+                graph=graph,
+                run_context=rctx,
+                extra={
+                    "env_var": env_name,
+                    "readers": readers,
+                    "missing_evidence": [],
+                    "required_universe_pairs": [("code", "env")],
+                },
             )
         )
-    return out
+    return candidates
 
 
 register(SPEC, run)

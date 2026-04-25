@@ -2,25 +2,28 @@
 from __future__ import annotations
 
 import re
-from pathlib import Path
 from typing import Any
 
 import networkx as nx
 
 from depos.analysis.detectors import register
+from depos.analysis.detectors.pattern_matcher import (
+    PatternSourceCache,
+    collect_pattern_scopes,
+    pattern_match_to_candidate,
+    run_pattern_rule,
+)
+from depos.analysis.detectors.pattern_registry import INFINITE_LOOP, TS_NON_NULL_ASSERTION
 from depos.analysis.detectors.policy import iter_eligible_scopes
 from depos.analysis.detectors.builtin.common import make_candidate, simple_spec, read_source_text_safely
 from depos.analysis.schemas import SeedType, Universe
 
-RE_INF = re.compile(r"while\s*\(\s*true\s*\)\s*;|while\s*\(\s*true\s*\)|while\s+True\s*:", re.I)
 RE_UNREACH = re.compile(r"if\s*\(\s*false\s*\)|if\s*\(\s*0\s*\)|\bif\s+False\s*:", re.I)
 RE_OFFBY = re.compile(r"<=\s*\w+\s*\.\s*length|len\s*\(\s*\w+\s*\)\s*[-+]\s*1|for\s*\([^)]*<=[^;]*length", re.I)
 RE_EMPTY_CATCH = re.compile(
     r"catch\s*\(\s*[^)]*\s*\)\s*\{\s*(?:/\*[^*]*\*+(?:[^/*][^*]*\*+)*/\s*)?\}",
     re.M,
 )
-# TypeScript / JS non-null assertion before member access: `x!.y` — often a smell.
-RE_TS_NON_NULL = re.compile(r"\b\w+!\s*\.\s*\w+")
 RE_DBL_NEG = re.compile(r"if\s*\(\s*!\s*!\s*", re.M)
 
 
@@ -111,18 +114,24 @@ SPEC = [
 
 
 def _run_infinite_loop(graph, manifest, mode, config, ctx) -> list:
-    out = []
     spec = ctx["detector"]
-    repo = ctx.get("run_context")
-    root = repo.repo_root if repo is not None else None
-    for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
-        if not has_cfg:
-            continue
-        src = read_source_text_safely(root, str(a.get("source_file") or ""))
-        if not src or not RE_INF.search(src):
-            continue
-        out.append(_make("infinite-loop", sid, mode, config, {"pattern": "while_true"}, 0.8))
-    return out
+    rctx = ctx.get("run_context")
+    root = rctx.repo_root if rctx is not None else None
+    eligible = [sid for sid, _, has_cfg in _iter_cfg_scopes(graph, ctx, spec) if has_cfg]
+    source_cache = PatternSourceCache(repo_root=root)
+    scopes = collect_pattern_scopes(graph, INFINITE_LOOP, scope_ids=eligible)
+    return [
+        pattern_match_to_candidate(
+            match,
+            INFINITE_LOOP,
+            mode=mode,
+            config=config,
+            graph=graph,
+            run_context=rctx,
+            extra={"group": "B", "detector": "infinite-loop", "pattern": "while_true"},
+        )
+        for match in run_pattern_rule(graph, source_cache, INFINITE_LOOP, scopes, ctx)
+    ]
 
 
 def _run_unreachable(graph, manifest, mode, config, ctx) -> list:
@@ -156,23 +165,32 @@ def _run_offby(graph, manifest, mode, config, ctx) -> list:
 
 
 def _run_null_deref(graph, manifest, mode, config, ctx) -> list:
-    out = []
     spec = ctx["detector"]
     rctx = ctx.get("run_context")
     root = rctx.repo_root if rctx is not None else None
+    eligible = []
     for sid, a, has_cfg in _iter_cfg_scopes(graph, ctx, spec):
-        if not has_cfg:
-            continue
         rel = str(a.get("source_file") or "")
-        if not rel.endswith((".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs")):
-            continue
-        src = read_source_text_safely(root, rel)
-        if not src or not RE_TS_NON_NULL.search(src):
-            continue
-        out.append(
-            _make("null-dereference-approx", sid, mode, config, {"pattern": "ts_non_null_assertion"}, 0.66)
+        if has_cfg and rel.endswith((".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs")):
+            eligible.append(sid)
+    source_cache = PatternSourceCache(repo_root=root)
+    scopes = collect_pattern_scopes(graph, TS_NON_NULL_ASSERTION, scope_ids=eligible)
+    return [
+        pattern_match_to_candidate(
+            match,
+            TS_NON_NULL_ASSERTION,
+            mode=mode,
+            config=config,
+            graph=graph,
+            run_context=rctx,
+            extra={
+                "group": "B",
+                "detector": "null-dereference-approx",
+                "pattern": "ts_non_null_assertion",
+            },
         )
-    return out
+        for match in run_pattern_rule(graph, source_cache, TS_NON_NULL_ASSERTION, scopes, ctx)
+    ]
 
 
 def _run_unhandled(graph, manifest, mode, config, ctx) -> list:

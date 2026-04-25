@@ -1119,4 +1119,4 @@ def _source_stage_results(
     return results
 
 
-__all__ = ["verify", "verify_all"]
+__all__ = ["verify", "verify_all", "verify_staged", "SourceSnippetCache"]

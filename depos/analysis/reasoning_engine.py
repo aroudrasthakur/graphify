@@ -1762,14 +1762,10 @@ def replay_one(
 
 
 def _infer_run_id(row: dict[str, Any]) -> str:
-    # Best-effort: the row itself may not include run_id; the canonical
-    # location is the parent directory of the queue file. If the caller
-    # passes a row with explicit ``run_id``, honor it.
+    # The row carries run_id directly when queued by the pipeline.
+    # If absent there is no other reliable source without the queue file path.
     if row.get("run_id"):
         return str(row["run_id"])
-    queued_at = row.get("queued_at")
-    if not queued_at:
-        return ""
     return ""
 
 

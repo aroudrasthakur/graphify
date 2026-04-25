@@ -344,7 +344,11 @@ and recommend GRAY-ZONE pending that analysis.
         "scope_node_id": bundle.scope_node_id,
         "mode": mode.value,
         "score_composite": bundle.score_composite,
-        "candidate_score": bundle.candidate_score,
+        "candidate_score": (
+            bundle.candidate_score.model_dump(mode="json")
+            if hasattr(bundle.candidate_score, "model_dump")
+            else bundle.candidate_score
+        ),
         "semantic_layers": {
             "cfg_available": bundle.cfg_available,
             "dfg_available": bundle.dfg_available,
