@@ -52,7 +52,7 @@ class BundleBudget(BaseModel):
 
 
 class ReasonerProviderConfig(BaseModel):
-    provider: str = "gemma"  # gemma | openai | ollama | stub
+    provider: str = "gemma"  # gemma | openai | ollama | anthropic | stub
     max_retries: int = 2
     gemma_api_url: Optional[str] = None
     gemma_model: str = "gemma-4"
@@ -60,6 +60,8 @@ class ReasonerProviderConfig(BaseModel):
     openai_model: str = "gpt-4o-mini"
     ollama_host: Optional[str] = None
     ollama_model: str = "gemma:2b"
+    anthropic_api_key: Optional[str] = None
+    anthropic_model: str = "claude-sonnet-4-6"
     default_max_tokens: int = 1000
     # JSON path expressions used to extract the model's text reply from the
     # provider response. Override per-deployment (e.g. Vertex AI Gemma vs
@@ -76,6 +78,20 @@ class ReasonerProviderConfig(BaseModel):
     ollama_preflight_timeout: float = 30.0
     ollama_first_call_timeout: float = 300.0
     ollama_subsequent_timeout: float = 120.0
+    # Concurrency: how many modes (A/B/C) may run in parallel per candidate.
+    max_concurrent_reasoner_modes: int = 3
+    # Optional system prompt override; when set, replaces the built-in prompt
+    # head so operators can tune instructions per-provider without a code change.
+    reasoner_system_prompt: Optional[str] = None
+    # Per-mode provider/model overrides — take precedence over `provider`.
+    # Useful for routing lightweight Mode A to a cheaper model and Mode C to
+    # a stronger one. Leave None to use the global `provider` for that mode.
+    mode_a_provider: Optional[str] = None
+    mode_b_provider: Optional[str] = None
+    mode_c_provider: Optional[str] = None
+    mode_a_model: Optional[str] = None
+    mode_b_model: Optional[str] = None
+    mode_c_model: Optional[str] = None
 
 
 class ReasonerPolicyConfig(BaseModel):
@@ -178,7 +194,15 @@ class IntelligenceConfig(BaseModel):
 
     def resolved_llm_model_label(self) -> str:
         r = self.llm
-        return str(r.gemma_model or r.openai_model or r.ollama_model or "gemma-4")
+        provider = (r.provider or "gemma").lower()
+        model_map: dict[str, str] = {
+            "openai": r.openai_model,
+            "anthropic": r.anthropic_model,
+            "ollama": r.ollama_model,
+            "gemma": r.gemma_model,
+        }
+        model = model_map.get(provider, r.gemma_model) or provider
+        return f"{provider}/{model}"
 
 
 def load_config_from_env() -> IntelligenceConfig:
@@ -202,6 +226,8 @@ def load_config_from_env() -> IntelligenceConfig:
     )
     cfg.llm.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.llm.openai_api_key)
     cfg.llm.openai_model = os.environ.get("OPENAI_MODEL", cfg.llm.openai_model)
+    cfg.llm.anthropic_api_key = os.environ.get("ANTHROPIC_API_KEY", cfg.llm.anthropic_api_key)
+    cfg.llm.anthropic_model = os.environ.get("ANTHROPIC_MODEL", cfg.llm.anthropic_model)
     cfg.llm.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.llm.gemma_api_url)
     cfg.llm.gemma_model = os.environ.get("GEMMA_MODEL", cfg.llm.gemma_model)
     cfg.llm.gemma_response_path = os.environ.get(

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import logging
+from dataclasses import dataclass
 from typing import Any, Iterable, Optional
 
 from depos.analysis.config import BundleBudget, IntelligenceConfig
@@ -10,7 +11,7 @@ from depos.analysis.schemas import GraphContextBundle, ReasonerMode
 
 logger = logging.getLogger(__name__)
 
-_PROMPT_HEAD = """You are a software reasoning engine. Output ONLY JSON that matches the schema for the requested mode.
+_DEFAULT_PROMPT_HEAD = """You are a software reasoning engine. Output ONLY JSON that matches the schema for the requested mode.
 
 Mode A: pattern-based bugs (null ref, off-by-one, missing error handling).
 Mode B: semantic mismatches (client contract vs server behavior).
@@ -43,6 +44,23 @@ _RESPONSE_CONTRACTS = {
 }
 
 _DEFAULT_BUNDLE_BUDGET = BundleBudget()
+
+
+@dataclass
+class PromptParts:
+    """Split prompt representation for providers that support distinct roles.
+
+    - ``system``: prompt head + response contract — goes into the system role
+      for chat-API providers (OpenAI, Anthropic).
+    - ``user``: citation requirements + evidence JSON — goes into the user role.
+    - ``full``: ``system`` + ``\\n`` + ``user`` concatenated — used by raw-
+      completion providers (Ollama generate endpoint, Gemma REST) that accept
+      a single prompt string.
+    """
+
+    system: str
+    user: str
+    full: str
 
 
 def _bundle_budget(config: IntelligenceConfig | None) -> BundleBudget:
@@ -121,8 +139,8 @@ def _body_json(body: dict[str, Any]) -> str:
     return json.dumps(body, separators=(",", ":"), ensure_ascii=False)
 
 
-def _render_prompt_text(citation_block: str, body: dict[str, Any]) -> str:
-    return f"{_PROMPT_HEAD}\n{citation_block}\n```json\n{_body_json(body)}\n```"
+def _render_prompt_text(system: str, user: str) -> str:
+    return f"{system}\n{user}"
 
 
 def _pop_last_mapping_entry(
@@ -157,96 +175,103 @@ def _shrink_largest_snippet(snippets: list[dict[str, Any]]) -> bool:
 
 
 def _enforce_prompt_budget(
+    system: str,
+    user_body: dict[str, Any],
     citation_block: str,
-    body: dict[str, Any],
     *,
     max_prompt_tokens: int,
-) -> str:
-    prompt = _render_prompt_text(citation_block, body)
+) -> tuple[str, str]:
+    """Trim ``user_body`` in-place until ``system + user`` fits the token budget.
+
+    Returns the final ``(system, user)`` strings after truncation.
+    """
+    def _make_user(body: dict[str, Any]) -> str:
+        return f"{citation_block}\n```json\n{_body_json(body)}\n```"
+
+    user = _make_user(user_body)
     if max_prompt_tokens <= 0:
-        return prompt
-    
-    original_tokens = _estimate_tokens(prompt)
+        return system, user
+
+    original_tokens = _estimate_tokens(system + "\n" + user)
     truncation_order_applied: list[str] = []
-    
-    while _estimate_tokens(prompt) > max_prompt_tokens:
-        if _pop_last_mapping_entry(body["seam_neighbor_texts"]):
+
+    while _estimate_tokens(system + "\n" + user) > max_prompt_tokens:
+        if _pop_last_mapping_entry(user_body["seam_neighbor_texts"]):
             truncation_order_applied.append("seam_neighbor_texts")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if _pop_last_mapping_entry(body["callee_texts"], body["callees"]):
+        if _pop_last_mapping_entry(user_body["callee_texts"], user_body["callees"]):
             truncation_order_applied.append("callee_texts")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["callees"]:
-            body["callees"].pop()
+        if user_body["callees"]:
+            user_body["callees"].pop()
             truncation_order_applied.append("callees")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if _pop_last_mapping_entry(body["caller_texts"], body["callers"]):
+        if _pop_last_mapping_entry(user_body["caller_texts"], user_body["callers"]):
             truncation_order_applied.append("caller_texts")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["callers"]:
-            body["callers"].pop()
+        if user_body["callers"]:
+            user_body["callers"].pop()
             truncation_order_applied.append("callers")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if _shrink_largest_snippet(body["code_snippets"]):
+        if _shrink_largest_snippet(user_body["code_snippets"]):
             truncation_order_applied.append("code_snippets")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["code_snippets"]:
-            body["code_snippets"].pop()
+        if user_body["code_snippets"]:
+            user_body["code_snippets"].pop()
             truncation_order_applied.append("code_snippets")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["call_chain_out"]:
-            body["call_chain_out"].pop()
+        if user_body["call_chain_out"]:
+            user_body["call_chain_out"].pop()
             truncation_order_applied.append("call_chain_out")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["call_chain_in"]:
-            body["call_chain_in"].pop()
+        if user_body["call_chain_in"]:
+            user_body["call_chain_in"].pop()
             truncation_order_applied.append("call_chain_in")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body.get("null_paths"):
-            body["null_paths"] = None
+        if user_body.get("null_paths"):
+            user_body["null_paths"] = None
             truncation_order_applied.append("null_paths")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body.get("cfg_summary"):
-            body["cfg_summary"] = None
+        if user_body.get("cfg_summary"):
+            user_body["cfg_summary"] = None
             truncation_order_applied.append("cfg_summary")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["taint_edges"]:
-            body["taint_edges"].pop()
+        if user_body["taint_edges"]:
+            user_body["taint_edges"].pop()
             truncation_order_applied.append("taint_edges")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
-        if body["cross_language_seams"]:
-            body["cross_language_seams"].pop()
+        if user_body["cross_language_seams"]:
+            user_body["cross_language_seams"].pop()
             truncation_order_applied.append("cross_language_seams")
-            prompt = _render_prompt_text(citation_block, body)
+            user = _make_user(user_body)
             continue
         break
-    
-    final_tokens = _estimate_tokens(prompt)
+
     if truncation_order_applied:
         logger.info(
             "Prompt budget enforcement applied",
             extra={
                 "original_tokens": original_tokens,
-                "final_tokens": final_tokens,
+                "final_tokens": _estimate_tokens(system + "\n" + user),
                 "truncation_order_applied": truncation_order_applied,
                 "max_prompt_tokens": max_prompt_tokens,
-                "candidate_id": body.get("candidate_id"),
+                "candidate_id": user_body.get("candidate_id"),
             },
         )
-    
-    return prompt
+
+    return system, user
 
 
 def render_bundle_prompt(
@@ -255,10 +280,29 @@ def render_bundle_prompt(
     *,
     rank_metadata: Optional[dict[str, Any]] = None,
     config: IntelligenceConfig | None = None,
-) -> str:
-    """Build the JSON-in-fenced prompt body. Keeps graph structure out of ``reasoning_engine``."""
+) -> PromptParts:
+    """Build the structured prompt for this mode and bundle.
+
+    Returns a :class:`PromptParts` with separate ``system`` and ``user``
+    sections so chat-API providers (OpenAI, Anthropic) can place them in the
+    correct roles, while raw-completion providers (Ollama, Gemma) use
+    ``parts.full``.
+    """
     budget = _bundle_budget(config)
     response_contract = _RESPONSE_CONTRACTS[mode]
+
+    # System section: instructions + response contract.
+    # Configurable per deployment so operators can tune for specific models
+    # without changing code (e.g. XML tags for Claude, terse directives for
+    # small local models).
+    custom_head = (
+        config.llm.reasoner_system_prompt
+        if config is not None and config.llm.reasoner_system_prompt
+        else None
+    )
+    prompt_head = custom_head if custom_head is not None else _DEFAULT_PROMPT_HEAD
+    system_section = f"{prompt_head}\n{response_contract}"
+
     citation_block = f"""CITATION REQUIREMENT:
 Every claim you make must cite at least one of the following from the evidence bundle:
 - A node_id from: scope_node, callers, callees, or seam neighbor nodes
@@ -273,9 +317,8 @@ Semantic layers available for this candidate:
 - Pre-computed taint edges: {bundle.taint_edges_available}
 If a finding requires a layer that is not available, state this explicitly
 and recommend GRAY-ZONE pending that analysis.
-
-{response_contract}
 """
+
     callers = _limit_node_ids(bundle.callers, max_entries=budget.max_caller_texts)
     callees = _limit_node_ids(bundle.callees, max_entries=budget.max_callee_texts)
     caller_texts = _truncate_texts(
@@ -326,11 +369,19 @@ and recommend GRAY-ZONE pending that analysis.
     }
     if rank_metadata:
         body["rank_metadata"] = rank_metadata
-    return _enforce_prompt_budget(
-        citation_block,
+
+    system_section, user_section = _enforce_prompt_budget(
+        system_section,
         body,
+        citation_block,
         max_prompt_tokens=budget.max_prompt_tokens,
     )
 
+    return PromptParts(
+        system=system_section,
+        user=user_section,
+        full=f"{system_section}\n{user_section}",
+    )
 
-__all__ = ["render_bundle_prompt"]
+
+__all__ = ["PromptParts", "render_bundle_prompt"]

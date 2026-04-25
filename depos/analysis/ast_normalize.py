@@ -517,11 +517,6 @@ def normalize_raw_ast_files(
                     }
                 )
                 import_targets[entity_id] = import_target
-            elif kind in _CALL_KINDS:
-                callee_name = _call_target_from_label(label)
-                if not callee_name:
-                    continue
-                continue
 
         for import_entity_id, import_target in import_targets.items():
             resolved_target = _resolve_import_target(import_target, source_file=raw.source_file, known_files=known_files)

@@ -18,9 +18,12 @@ the budget calculation.
 from __future__ import annotations
 
 import hashlib
+import logging
 import re
 from pathlib import Path
 from typing import TYPE_CHECKING, Optional
+
+logger = logging.getLogger(__name__)
 
 import networkx as nx
 
@@ -71,6 +74,7 @@ def _get_estimator(config: IntelligenceConfig):
 
             return _tt, "tiktoken-cl100k"
         except Exception:  # noqa: BLE001
+            logger.warning("tiktoken_unavailable_falling_back_to_chars4")
             return _chars4, "chars4"
     return _chars4, "chars4"
 
