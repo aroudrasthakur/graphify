@@ -3,6 +3,14 @@
 Handles findings that the verifier left in an ambiguous state. After
 Stage 6 closure the evaluator consumes finding, audit, and bundle data
 only; it never reads the graph directly.
+
+Each panel role (A/B/C) calls the configured LLM with a role-specific prompt
+when the resolved provider is not :class:`StubProvider`. Provider resolution
+uses :data:`GrayZoneConfig.model_*_provider` when set; otherwise it inherits
+``IntelligenceConfig.llm.provider`` so a run configured for Ollama does not
+default the panel to ``gemma`` (which becomes a stub when ``GEMMA_API_URL`` is
+unset). On LLM failure or non-JSON replies, votes fall back to
+:func:`_heuristic_panel_vote`.
 """
 from __future__ import annotations
 
@@ -301,6 +309,11 @@ def _reconcile(
     return GrayZoneVoteOutcome.hold_for_review, "ambiguous_panel"
 
 
+def _gray_panel_provider(config: IntelligenceConfig, configured: str | None) -> str:
+    """Resolve A/B/C panel backend; None means inherit global ``llm.provider``."""
+    return (configured or config.llm.provider or "stub").strip().lower()
+
+
 def evaluate(
     triples: Iterable[tuple[Finding, VerifierAuditEntry, ContextBundle]],
     *,
@@ -325,7 +338,7 @@ def evaluate(
 
         vote_a, conf_a, reason_a, _, _ = _panel_vote(
             "A",
-            config.gray_zone.model_a_provider,
+            _gray_panel_provider(config, config.gray_zone.model_a_provider),
             finding=finding,
             audit=audit,
             bundle=bundle,
@@ -333,7 +346,7 @@ def evaluate(
         )
         vote_b, _conf_b, reason_b, _, _ = _panel_vote(
             "B",
-            config.gray_zone.model_b_provider,
+            _gray_panel_provider(config, config.gray_zone.model_b_provider),
             finding=finding,
             audit=audit,
             bundle=bundle,
@@ -341,7 +354,7 @@ def evaluate(
         )
         vote_c, _conf_c, reason_c, questions_c, answers_c = _panel_vote(
             "C",
-            config.gray_zone.model_c_provider,
+            _gray_panel_provider(config, config.gray_zone.model_c_provider),
             finding=finding,
             audit=audit,
             bundle=bundle,

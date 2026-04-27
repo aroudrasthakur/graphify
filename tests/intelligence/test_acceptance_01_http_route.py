@@ -6,9 +6,9 @@ tiny source files that the HTTP probes re-read to lift route metadata.
 """
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
+import networkx as nx
 import pytest
 
 from depos.analysis.config import IntelligenceConfig
@@ -92,3 +92,23 @@ def test_http_calls_route_edge_emitted(repo_root: Path) -> None:
     assert coverage.linked_routes == 1
     assert coverage.coverage_ratio == 1.0
     assert coverage.low_coverage is False
+
+
+def test_enrich_graph_wave_b_parallel_matches_serial(repo_root: Path) -> None:
+    """Phase 6b: Wave B with n_jobs>1 must match serial merge (deterministic reducer)."""
+    template: nx.DiGraph = pytest.G
+    config = IntelligenceConfig()
+
+    g1 = template.copy()
+    out1, cov1 = enrich_graph(g1, config=config, repo_root=repo_root, n_jobs=1)
+
+    g2 = template.copy()
+    out2, cov2 = enrich_graph(g2, config=config, repo_root=repo_root, n_jobs=4)
+
+    assert out1.number_of_nodes() == out2.number_of_nodes()
+    assert out1.number_of_edges() == out2.number_of_edges()
+    for n in sorted(out1.nodes()):
+        assert dict(out1.nodes[n]) == dict(out2.nodes[n]), f"node {n!r} attrs differ"
+    for u, v in sorted(out1.edges()):
+        assert dict(out1.edges[u, v]) == dict(out2.edges[u, v]), f"edge {u!r}->{v!r} attrs differ"
+    assert cov1.model_dump() == cov2.model_dump()

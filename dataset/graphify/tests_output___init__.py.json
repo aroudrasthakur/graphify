@@ -1,0 +1,65 @@
+{
+  "analysis_timestamp": "2026-04-27T08:36:04+00:00",
+  "branch": "v4",
+  "commit_sha": "25bab04a53550fec7d625eca669c1646dcbe58df",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:49:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:48:comment:0",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:49:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:48:comment",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:49:module",
+      "kind": "module",
+      "label": "# Tests for depos.output renderers and CI gate.\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 2,
+          "column": 0,
+          "byte": 49
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:48:comment"
+      ],
+      "text_digest": "f60ec5b037dd3855cb17190ccc91cf9c1d28a155f2e84ede31f7adbfa1225feb"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/output/__init__.py:0:48:comment",
+      "kind": "comment",
+      "label": "# Tests for depos.output renderers and CI gate.\r",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 48,
+          "byte": 48
+        }
+      },
+      "children_ids": [],
+      "text_digest": "132321af1c489fb539a48577e226700f2dca668aedf297b625a2ff7350c1e599"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "tests/output/__init__.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

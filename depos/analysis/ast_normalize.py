@@ -17,9 +17,10 @@ The resulting extraction dict can be passed to
 """
 from __future__ import annotations
 
-import json
 import re
 from collections import defaultdict
+
+from depos._jsonio import loads as _jloads
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Optional
@@ -109,14 +110,14 @@ def _source_excerpt(source_text: str, start_line: int, end_line: int, *, max_lin
 
 
 def _load_raw_ast_file(path: Path) -> RawAstFile:
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = _jloads(path.read_bytes())
     if isinstance(data.get("parts"), list) and data.get("relative_path"):
         merged_nodes: list[dict[str, Any]] = []
         merged_edges: list[dict[str, Any]] = []
         commit_sha = str(data.get("commit_sha") or "")
         for part_name in data.get("parts", []):
             part_path = path.parent / str(part_name)
-            part = json.loads(part_path.read_text(encoding="utf-8"))
+            part = _jloads(part_path.read_bytes())
             merged_nodes.extend(list(part.get("nodes", [])))
             merged_edges.extend(list(part.get("edges", [])))
             commit_sha = commit_sha or str(part.get("commit_sha") or "")
@@ -656,8 +657,8 @@ def normalize_dataset_dir(
     referenced_parts: set[str] = set()
     for path in paths:
         try:
-            data = json.loads(path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
+            data = _jloads(path.read_bytes())
+        except (OSError, ValueError):
             continue
         for part_name in data.get("parts", []) or []:
             referenced_parts.add(str(part_name))

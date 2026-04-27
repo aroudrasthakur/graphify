@@ -12,6 +12,7 @@ layer is responsible for:
 """
 from __future__ import annotations
 
+from contextlib import nullcontext
 import json
 import os
 import shutil
@@ -165,6 +166,43 @@ def _apply_evidence_overrides(config: IntelligenceConfig, args) -> None:
         config.bundles.min_evidence_quality_for_reasoner = min_evidence
 
 
+def _apply_cache_overrides(
+    config: IntelligenceConfig,
+    args: Any,
+    progress: Callable[[str], None] | None = None,
+) -> None:
+    if getattr(args, "no_cache", False):
+        config.cache.enabled = False
+    cache_dir = getattr(args, "cache_dir", None)
+    if cache_dir:
+        config.cache.cache_dir = Path(cache_dir)
+    if config.cache.enabled and config.cache.cache_dir is None:
+        from depos.cache import resolve_cache_root
+
+        config.cache.cache_dir = resolve_cache_root(config)
+    if getattr(args, "cache_clear", False):
+        config.cache.clear = True
+
+    if not config.cache.clear:
+        return
+    if not config.cache.enabled:
+        if progress is not None:
+            progress("Cache clear requested but cache is disabled; skipping depOS cache clear.")
+        return
+
+    from depos.cache import FragmentCache, resolve_cache_root
+
+    cache_root = resolve_cache_root(config)
+    try:
+        cache = FragmentCache(cache_root, enabled=True)
+        cache.clear()
+        cache.close()
+    except RuntimeError as exc:
+        raise SystemExit(str(exc)) from exc
+    if progress is not None:
+        progress(f"Cleared depOS fragment cache at {cache_root}.")
+
+
 def _build_source_roots(args, config: IntelligenceConfig) -> list[Path]:
     roots: list[Path] = []
     seen: set[Path] = set()
@@ -260,12 +298,55 @@ def _make_progress_reporter(prefix: str = "depos-intel") -> Callable[[str], None
     return report
 
 
+def _profile_context(args: Any, progress: Callable[[str], None] | None = None):
+    profile_path = getattr(args, "profile", None)
+    if not profile_path:
+        return nullcontext()
+    if progress is not None:
+        progress(f"Profiling enabled; writing pyinstrument report to {profile_path}.")
+    from depos._perf import pyinstrument_session
+
+    return pyinstrument_session(Path(profile_path))
+
+
 def _source_repo_root(source: GraphSource) -> Path | None:
     meta = source.get_source_metadata()
     repo_path = meta.get("repo_path")
     if repo_path:
         return Path(repo_path)
     return None
+
+
+def _new_run_id() -> str:
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%d-%H%M%S")
+    return f"{stamp}-{uuid.uuid4().hex[:6]}"
+
+
+def _enrichment_n_jobs_from_args(args: Any) -> int:
+    if getattr(args, "no_parallel", False):
+        return 1
+    return max(1, int(getattr(args, "n_jobs", 1) or 1))
+
+
+def _perf_config_from_args(args: Any) -> Any:
+    from depos.analysis.config import load_perf_config_from_env
+
+    p = load_perf_config_from_env()
+    if getattr(args, "no_parallel", False):
+        p = p.model_copy(
+            update={"taint_n_jobs": 1, "bundle_n_jobs": 1, "cfg_dfg_n_jobs": 1}
+        )
+    if getattr(args, "taint_n_jobs", None) is not None:
+        p = p.model_copy(update={"taint_n_jobs": max(1, int(args.taint_n_jobs))})
+    if getattr(args, "bundle_n_jobs", None) is not None:
+        p = p.model_copy(update={"bundle_n_jobs": max(1, int(args.bundle_n_jobs))})
+    if getattr(args, "cfg_dfg_n_jobs", None) is not None:
+        p = p.model_copy(update={"cfg_dfg_n_jobs": max(1, int(args.cfg_dfg_n_jobs))})
+    if getattr(args, "no_expensive_metrics", False):
+        p = p.model_copy(update={"graph_metrics_expensive": False})
+    if getattr(args, "metrics_backend", None):
+        p = p.model_copy(update={"metrics_backend": args.metrics_backend})
+    return p
 
 
 # ---------------------------------------------------------------------------
@@ -287,7 +368,12 @@ def run_coverage(args) -> int:
     if enrich_graph is None:
         report = StitcherCoverageReport()
     else:
-        _, report = enrich_graph(graph, config=config, repo_root=_source_repo_root(source))
+        _, report = enrich_graph(
+            graph,
+            config=config,
+            repo_root=_source_repo_root(source),
+            n_jobs=_enrichment_n_jobs_from_args(args),
+        )
 
     # Emit as structured JSON so scripts can consume it.
     print(json.dumps(report.model_dump(), indent=2, default=str))
@@ -305,7 +391,7 @@ def _new_run_metadata(
     mode: AnalysisMode,
 ) -> RunMetadata:
     return RunMetadata(
-        run_id=uuid.uuid4().hex,
+        run_id=_new_run_id(),
         analysis_mode=mode,
         provider=config.llm.provider,
         token_estimator=config.bundles.token_estimator,
@@ -384,6 +470,7 @@ def _attach_run_caveats(findings: list[Finding], run_meta: RunMetadata) -> None:
 def run_repo(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
+    _apply_cache_overrides(config, args, progress)
     _apply_provider_override(config, args)
     progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
@@ -392,13 +479,16 @@ def run_repo(args) -> int:
     out_dir = _run_output_dir(config, run_meta.run_id)
     progress(f"Run {run_meta.run_id}: output directory {out_dir}.")
 
-    result = _run_pipeline(
-        source,
-        config,
-        run_meta,
-        detector_policy=_detector_policy_from_args(args),
-        progress=progress,
-    )
+    with _profile_context(args, progress):
+        result = _run_pipeline(
+            source,
+            config,
+            run_meta,
+            detector_policy=_detector_policy_from_args(args),
+            n_jobs=_enrichment_n_jobs_from_args(args),
+            perf=_perf_config_from_args(args),
+            progress=progress,
+        )
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
@@ -416,6 +506,7 @@ def run_repo(args) -> int:
 def run_diff(args) -> int:
     config = load_config_from_env()
     progress = _make_progress_reporter()
+    _apply_cache_overrides(config, args, progress)
     _apply_provider_override(config, args)
     progress(f"Config loaded. provider={config.llm.provider} llm={config.resolved_llm_model_label()}.")
     source = _build_graph_source(args)
@@ -428,14 +519,17 @@ def run_diff(args) -> int:
     if diff_path:
         run_meta.head_ref = Path(diff_path).stem
 
-    result = _run_pipeline(
-        source,
-        config,
-        run_meta,
-        diff_path=diff_path,
-        detector_policy=_detector_policy_from_args(args),
-        progress=progress,
-    )
+    with _profile_context(args, progress):
+        result = _run_pipeline(
+            source,
+            config,
+            run_meta,
+            diff_path=diff_path,
+            detector_policy=_detector_policy_from_args(args),
+            n_jobs=_enrichment_n_jobs_from_args(args),
+            perf=_perf_config_from_args(args),
+            progress=progress,
+        )
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
@@ -826,10 +920,11 @@ def run_bundle_pipeline(args) -> int:
 
 def run_dataset_pipeline(args) -> int:
     config = load_config_from_env()
+    progress = _make_progress_reporter()
+    _apply_cache_overrides(config, args, progress)
     if getattr(args, "provider", None):
         config.llm.provider = args.provider
     _apply_evidence_overrides(config, args)
-    progress = _make_progress_reporter()
     progress(f"Dataset pipeline: config loaded. provider={config.llm.provider}.")
 
     dataset_dir = Path(args.dataset_dir)
@@ -923,16 +1018,19 @@ def run_dataset_pipeline(args) -> int:
     run_meta.dataset_path_resolution = resolution_summary
     internal_run_dir = _run_output_dir(run_config, run_meta.run_id)
 
-    result = _run_pipeline(
-        source,
-        run_config,
-        run_meta,
-        repo_root=repo_root,
-        bundle_limit=bundle_limit,
-        selected_limit=selected_limit,
-        min_score=args.min_score,
-        progress=progress,
-    )
+    with _profile_context(args, progress):
+        result = _run_pipeline(
+            source,
+            run_config,
+            run_meta,
+            repo_root=repo_root,
+            bundle_limit=bundle_limit,
+            selected_limit=selected_limit,
+            min_score=args.min_score,
+            n_jobs=_enrichment_n_jobs_from_args(args),
+            perf=_perf_config_from_args(args),
+            progress=progress,
+        )
     result.run_metadata.dataset_path_resolution = resolution_summary
     _attach_run_caveats(result.findings, result.run_metadata)
 
@@ -1008,6 +1106,8 @@ def _run_pipeline(
     bundle_limit: int | None = None,
     selected_limit: int | None = None,
     min_score: float | None = None,
+    n_jobs: int = 1,
+    perf: Any = None,
     progress: Callable[[str], None] | None = None,
 ) -> RunResult:
     if progress is not None:
@@ -1025,7 +1125,7 @@ def _run_pipeline(
         resolved_repo_root = repo_root if repo_root is not None else _source_repo_root(source)
         if progress is not None:
             progress("Module 1: running enrichment and cross-universe stitching.")
-        graph, coverage = enrich_graph(graph, config=config, repo_root=resolved_repo_root)
+        graph, coverage = enrich_graph(graph, config=config, repo_root=resolved_repo_root, n_jobs=n_jobs)
         run_meta.stitcher_coverage = coverage
         run_meta.low_stitcher_coverage = coverage.low_coverage
         if progress is not None:
@@ -1055,6 +1155,7 @@ def _run_pipeline(
         selected_limit=selected_limit,
         min_score=min_score,
         progress=progress,
+        perf=perf,
     )
 
 

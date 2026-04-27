@@ -21,6 +21,13 @@ from typing import Iterable, Optional
 
 import networkx as nx
 
+from depos.analysis.fragments import (
+    FragmentEdge,
+    FragmentNode,
+    GraphFragment,
+    NodeAttrUpdate,
+    make_fragment,
+)
 from depos.analysis.schemas import (
     ContractKind,
     RLSCoverage,
@@ -149,29 +156,35 @@ def _iter_route_table_pairs(graph: nx.DiGraph, repo_root: Optional[Path] = None)
             yield nid, t
 
 
-def emit_rls_edges(graph: nx.DiGraph, *, repo_root: Optional[Path] = None) -> int:
+def emit_rls_edges(graph: nx.DiGraph, *, repo_root: Optional[Path] = None) -> GraphFragment:
     migration_files = _find_migration_files(graph, repo_root=repo_root)
     tables = build_table_model(migration_files)
 
-    graph.graph.setdefault("run_metadata", {})
+    # Communicate run-level flag via diagnostics so the main thread can write it.
+    diagnostics: list[dict] = []
     if not migration_files:
-        graph.graph["run_metadata"]["needs_manual_rls_config"] = True
+        diagnostics.append({"flag": "needs_manual_rls_config", "value": True})
 
-    added = 0
+    new_nodes: list[FragmentNode] = []
+    node_attr_updates: list[NodeAttrUpdate] = []
+    edges: list[FragmentEdge] = []
+    seen_nodes: set[str] = set()
+    # Accumulate rls_coverage_per_table per handler before issuing NodeAttrUpdates.
+    per_handler_coverage: dict[str, dict[str, str]] = {}
+
     for handler_id, table_name in _iter_route_table_pairs(graph, repo_root=repo_root):
         coverage = classify(tables.get(table_name))
-        attrs = graph.nodes[handler_id]
-        per_table = attrs.setdefault("rls_coverage_per_table", {})
-        per_table[table_name] = coverage.value if coverage else "unknown"
+        per_handler_coverage.setdefault(handler_id, {})[table_name] = (
+            coverage.value if coverage else "unknown"
+        )
 
         table_node_id = f"sql:table:{table_name}"
-        if not graph.has_node(table_node_id):
-            graph.add_node(
-                table_node_id,
-                label=table_name,
-                file_type="sql_table",
-                synthetic=True,
-            )
+        if table_node_id not in seen_nodes and not graph.has_node(table_node_id):
+            seen_nodes.add(table_node_id)
+            new_nodes.append(FragmentNode(
+                node_id=table_node_id,
+                attrs={"label": table_name, "file_type": "sql_table", "synthetic": True},
+            ))
 
         inferred = coverage is None
         metadata = SemanticEdgeMetadata(
@@ -183,15 +196,25 @@ def emit_rls_edges(graph: nx.DiGraph, *, repo_root: Optional[Path] = None) -> in
             table_name=table_name,
             rls_coverage=coverage,
         )
-        graph.add_edge(
-            handler_id,
-            table_node_id,
+        edges.append(FragmentEdge(
+            u=handler_id,
+            v=table_node_id,
             key=f"rls:{table_name}",
-            relation=ROUTE_GUARDED_BY_RLS,
-            **metadata.model_dump(mode="json"),
+            attrs={"relation": ROUTE_GUARDED_BY_RLS, **metadata.model_dump(mode="json")},
+        ))
+
+    for handler_id, per_table in per_handler_coverage.items():
+        node_attr_updates.append(
+            NodeAttrUpdate(node_id=handler_id, key="rls_coverage_per_table", value=per_table)
         )
-        added += 1
-    return added
+
+    return make_fragment(
+        "enrich_rls",
+        nodes=new_nodes,
+        edges=edges,
+        node_attr_updates=node_attr_updates,
+        diagnostics=diagnostics,
+    )
 
 
 __all__ = ["emit_rls_edges", "build_table_model", "classify"]

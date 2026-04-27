@@ -10,7 +10,7 @@ from __future__ import annotations
 import os
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 
 import warnings
 
@@ -75,7 +75,9 @@ class ReasonerProviderConfig(BaseModel):
     # like Ollama loading weights on the first call.
     connect_timeout_seconds: float = 5.0
     read_timeout_seconds: float = 60.0
-    ollama_preflight_timeout: float = 30.0
+    # Preflight uses /api/generate with a tiny prompt; first call still loads
+    # the full model locally, so defaults must exceed typical cold-start latency.
+    ollama_preflight_timeout: float = 120.0
     ollama_first_call_timeout: float = 300.0
     ollama_subsequent_timeout: float = 120.0
     # Concurrency: how many modes (A/B/C) may run in parallel per candidate.
@@ -102,9 +104,11 @@ class ReasonerPolicyConfig(BaseModel):
 
 class GrayZoneConfig(BaseModel):
     enabled: bool = True
-    model_a_provider: str = "gemma"
-    model_b_provider: str = "gemma"
-    model_c_provider: str = "gemma"
+    # When None, Module 7 uses the same backend as ``IntelligenceConfig.llm.provider``
+    # (so Ollama/OpenAI runs do not silently fall back to Gemma-without-URL → stub).
+    model_a_provider: Optional[str] = None
+    model_b_provider: Optional[str] = None
+    model_c_provider: Optional[str] = None
     unconfirmed_confidence_threshold: float = 0.75
 
 
@@ -132,6 +136,56 @@ class DetectorHeuristicsConfig(BaseModel):
     """Detector-specific allowlists and heuristics."""
 
     env_var_safe_names: list[str] = Field(default_factory=list)
+
+
+class CacheConfig(BaseModel):
+    enabled: bool = True
+    cache_dir: Optional[Path] = None
+    clear: bool = False
+
+
+class PerfConfig(BaseModel):
+    """Pipeline performance tuning (``DEPOS_PERF_*`` environment variables)."""
+
+    taint_n_jobs: int = 1
+    cfg_dfg_n_jobs: int = 1
+    bundle_n_jobs: int = 1
+    graph_metrics_expensive: bool = True
+    metrics_backend: Literal["networkx", "rustworkx"] = "networkx"
+
+
+def load_perf_config_from_env() -> PerfConfig:
+    """Load :class:`PerfConfig` from ``DEPOS_PERF_*`` when set."""
+    p = PerfConfig()
+    raw_taint = os.environ.get("DEPOS_PERF_TAINT_N_JOBS")
+    if raw_taint:
+        try:
+            p.taint_n_jobs = max(1, int(raw_taint.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_TAINT_N_JOBS=%r", raw_taint)
+    raw_bundle = os.environ.get("DEPOS_PERF_BUNDLE_N_JOBS")
+    if raw_bundle:
+        try:
+            p.bundle_n_jobs = max(1, int(raw_bundle.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_BUNDLE_N_JOBS=%r", raw_bundle)
+    raw_cfg_dfg = os.environ.get("DEPOS_PERF_CFG_DFG_N_JOBS")
+    if raw_cfg_dfg:
+        try:
+            p.cfg_dfg_n_jobs = max(1, int(raw_cfg_dfg.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_CFG_DFG_N_JOBS=%r", raw_cfg_dfg)
+    v = os.environ.get("DEPOS_PERF_GRAPH_METRICS_EXPENSIVE", "").strip().lower()
+    if v in {"0", "false", "no", "off"}:
+        p.graph_metrics_expensive = False
+    elif v in {"1", "true", "yes", "on"}:
+        p.graph_metrics_expensive = True
+    mb = os.environ.get("DEPOS_PERF_METRICS_BACKEND", "").strip().lower()
+    if mb == "rustworkx":
+        p = p.model_copy(update={"metrics_backend": "rustworkx"})
+    elif mb == "networkx":
+        p = p.model_copy(update={"metrics_backend": "networkx"})
+    return p
 
 
 class IntelligenceConfig(BaseModel):
@@ -182,6 +236,7 @@ class IntelligenceConfig(BaseModel):
     gray_zone: GrayZoneConfig = Field(default_factory=GrayZoneConfig)
     ranker: RankerConfig = Field(default_factory=RankerConfig)
     scoring: ScoringConfig = Field(default_factory=ScoringConfig)
+    cache: CacheConfig = Field(default_factory=CacheConfig)
 
     @property
     def reasoner(self) -> ReasonerProviderConfig:  # noqa: ANN201 - public compat
@@ -209,7 +264,28 @@ def load_config_from_env() -> IntelligenceConfig:
     """Build a config from DEPOS_INTEL_* env vars where present. Unknown
     vars are ignored; everything falls back to the defaults above."""
     cfg = IntelligenceConfig()
+    cache_enabled = os.environ.get("DEPOS_CACHE_ENABLED")
+    if cache_enabled is not None:
+        cfg.cache.enabled = cache_enabled.strip().lower() not in {"0", "false", "no", "off"}
+    if os.environ.get("DEPOS_NO_CACHE", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.cache.enabled = False
+    cache_dir = os.environ.get("DEPOS_CACHE_DIR")
+    if cache_dir:
+        cfg.cache.cache_dir = Path(cache_dir)
+    if os.environ.get("DEPOS_CACHE_CLEAR", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.cache.clear = True
     cfg.llm.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.llm.provider)
+    if os.environ.get("DEPOS_GRAY_ZONE_ENABLED", "").strip().lower() in {"0", "false", "no", "off"}:
+        cfg.gray_zone.enabled = False
+    gz_a = os.environ.get("DEPOS_GRAY_ZONE_MODEL_A_PROVIDER", "").strip()
+    if gz_a:
+        cfg.gray_zone.model_a_provider = gz_a
+    gz_b = os.environ.get("DEPOS_GRAY_ZONE_MODEL_B_PROVIDER", "").strip()
+    if gz_b:
+        cfg.gray_zone.model_b_provider = gz_b
+    gz_c = os.environ.get("DEPOS_GRAY_ZONE_MODEL_C_PROVIDER", "").strip()
+    if gz_c:
+        cfg.gray_zone.model_c_provider = gz_c
     cfg.reasoner_policy.disabled_detectors = _parse_detector_set(
         os.environ.get("DEPOS_REASONER_DISABLED_DETECTORS", "")
     )

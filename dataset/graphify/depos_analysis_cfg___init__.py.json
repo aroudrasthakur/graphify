@@ -1,0 +1,478 @@
+{
+  "analysis_timestamp": "2026-04-27T08:35:44+00:00",
+  "branch": "v4",
+  "commit_sha": "25bab04a53550fec7d625eca669c1646dcbe58df",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement:15",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment:14",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list:13",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string:12",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:117:118:string_end:11",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:117:118:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:107:117:string_content:10",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:107:117:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:107:string_start:9",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:107:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:102:identifier:8",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:102:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement:7",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:identifier:5",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement:4",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string:3",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:52:55:string_end:2",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:52:55:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:3:52:string_content:1",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:3:52:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:3:string_start:0",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:3:string_start",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:121:module",
+      "kind": "module",
+      "label": "\"\"\"Intra-procedural control-flow (CFG) per language.\"\"\"\r\nfrom __future__ import annotations\r\n\r\n__all__ = [\"python_cfg\"]\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 0,
+          "byte": 121
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement"
+      ],
+      "text_digest": "7026c43c86a12a5ee6c07458ea48290bf19115c0843b296d13bd4e0a1422a584"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:expression_statement",
+      "kind": "expression_statement",
+      "label": "__all__ = [\"python_cfg\"]",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 95
+        },
+        "end": {
+          "line": 4,
+          "column": 24,
+          "byte": 119
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment"
+      ],
+      "text_digest": "31929c22226f32760ddc7367b3af028bdb4f851b406e7845cbbf0f82f5cb7f2a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:119:assignment",
+      "kind": "assignment",
+      "label": "__all__ = [\"python_cfg\"]",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 95
+        },
+        "end": {
+          "line": 4,
+          "column": 24,
+          "byte": 119
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:102:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list"
+      ],
+      "text_digest": "31929c22226f32760ddc7367b3af028bdb4f851b406e7845cbbf0f82f5cb7f2a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:105:119:list",
+      "kind": "list",
+      "label": "[\"python_cfg\"]",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 10,
+          "byte": 105
+        },
+        "end": {
+          "line": 4,
+          "column": 24,
+          "byte": 119
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string"
+      ],
+      "text_digest": "22a37a772a4daf886fe9d6ab6c94af5a30d448b0808462095ffb284e9c8c14e5"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:118:string",
+      "kind": "string",
+      "label": "\"python_cfg\"",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 11,
+          "byte": 106
+        },
+        "end": {
+          "line": 4,
+          "column": 23,
+          "byte": 118
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:107:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:107:117:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:117:118:string_end"
+      ],
+      "text_digest": "7099431a1a6505b569cd5d43b07ebfae162e90835b982f1230fdb56cb5e811b6"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:117:118:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 22,
+          "byte": 117
+        },
+        "end": {
+          "line": 4,
+          "column": 23,
+          "byte": 118
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:107:117:string_content",
+      "kind": "string_content",
+      "label": "python_cfg",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 12,
+          "byte": 107
+        },
+        "end": {
+          "line": 4,
+          "column": 22,
+          "byte": 117
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f4e3632b322968c2005f489e56843f963dc3b09c9eda37778ee6aefbf1db462e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:106:107:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 11,
+          "byte": 106
+        },
+        "end": {
+          "line": 4,
+          "column": 12,
+          "byte": 107
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:95:102:identifier",
+      "kind": "identifier",
+      "label": "__all__",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 95
+        },
+        "end": {
+          "line": 4,
+          "column": 7,
+          "byte": 102
+        }
+      },
+      "children_ids": [],
+      "text_digest": "051af376199dec216b4807623fae755a2c013911d8219aa607787b17e3ed9cd7"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:57:91:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 57
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 91
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 80
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 91
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:80:91:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 80
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 91
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Intra-procedural control-flow (CFG) per language.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 55,
+          "byte": 55
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string"
+      ],
+      "text_digest": "697409b9bbaa2bb14d20227f9e24efdad46cb42bac333ed00bdaa0153fd842b1"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:55:string",
+      "kind": "string",
+      "label": "\"\"\"Intra-procedural control-flow (CFG) per language.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 55,
+          "byte": 55
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:3:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:3:52:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:52:55:string_end"
+      ],
+      "text_digest": "697409b9bbaa2bb14d20227f9e24efdad46cb42bac333ed00bdaa0153fd842b1"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:52:55:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 52,
+          "byte": 52
+        },
+        "end": {
+          "line": 1,
+          "column": 55,
+          "byte": 55
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:3:52:string_content",
+      "kind": "string_content",
+      "label": "Intra-procedural control-flow (CFG) per language.",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        },
+        "end": {
+          "line": 1,
+          "column": 52,
+          "byte": 52
+        }
+      },
+      "children_ids": [],
+      "text_digest": "88dffbd4f68be8980d9f91ce63fd8e7d175c5bfea8dca938597f0992e6a3f6e8"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/cfg/__init__.py:0:3:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "depos/analysis/cfg/__init__.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

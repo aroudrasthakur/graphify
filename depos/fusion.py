@@ -16,13 +16,14 @@ def attach_diagnostics(
     *,
     repo_root: Path | None = None,
     extra: list[DiagnosticRef] | None = None,
+    indexes: Any = None,
 ) -> nx.Graph:
     """Mutate G: set node attrs errors, error_count, max_severity; edge fault flags."""
     diagnostics: list[DiagnosticRef] = list(extra or [])
     if sarif:
         diagnostics.extend(parse_sarif(sarif))
     root = repo_root
-    mapping = map_diagnostics_to_nodes(G, diagnostics, repo_root=root)
+    mapping = map_diagnostics_to_nodes(G, diagnostics, repo_root=root, indexes=indexes)
 
     for nid, diags in mapping.items():
         if nid not in G:

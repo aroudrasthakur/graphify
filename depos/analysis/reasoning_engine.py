@@ -130,9 +130,11 @@ def _preflight_ollama(base_url: str, model: str, timeout: float = 30.0) -> None:
     except httpx.ReadTimeout:
         raise RuntimeError(
             f"Ollama model '{model}' did not respond within {timeout}s. "
-            f"Run: ollama list - confirm the tag exists. "
-            f"Run: ollama pull {model} - if it is missing. "
-            f"Or set DEPOS_INTEL_PROVIDER=stub to skip LLM reasoning."
+            "Large models often need longer on first inference (load weights into RAM/VRAM). "
+            "Try: set environment variable DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT=180 (or higher), "
+            f"and/or run `ollama run {model}` once to warm up. "
+            f"Confirm the tag with: ollama list; pull if missing: ollama pull {model}. "
+            "To run the pipeline without an LLM: DEPOS_INTEL_PROVIDER=stub."
         ) from None
     except httpx.ConnectError:
         raise RuntimeError(f"Cannot reach Ollama at {base_url}. Is it running?") from None

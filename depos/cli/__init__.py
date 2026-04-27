@@ -20,6 +20,62 @@ def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="depos-intel", description="depOS AI intelligence CLI.")
     sub = p.add_subparsers(dest="command", required=True)
 
+    def _add_cache_args(parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--no-cache",
+            action="store_true",
+            help="Disable the depOS fragment cache for this run.",
+        )
+        parser.add_argument(
+            "--cache-dir",
+            default=None,
+            help="Override the depOS fragment cache root (default: <DEPOS_DATA>/cache).",
+        )
+        parser.add_argument(
+            "--cache-clear",
+            action="store_true",
+            help="Clear the depOS fragment cache before running.",
+        )
+
+    def _add_perf_args(parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--no-parallel",
+            action="store_true",
+            help="Serial-only: Wave B enrichers, semantic taint, and bundle build use one worker.",
+        )
+        parser.add_argument(
+            "--taint-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_TAINT_N_JOBS (per-scope taint thread pool).",
+        )
+        parser.add_argument(
+            "--cfg-dfg-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_CFG_DFG_N_JOBS (per-scope CFG/DFG fragment compute pool).",
+        )
+        parser.add_argument(
+            "--bundle-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_BUNDLE_N_JOBS (parallel context bundles).",
+        )
+        parser.add_argument(
+            "--no-expensive-metrics",
+            action="store_true",
+            help="Skip betweenness, articulation points, and cross-language cycle mining.",
+        )
+        parser.add_argument(
+            "--metrics-backend",
+            choices=("networkx", "rustworkx"),
+            default=None,
+            help="Expensive centrality backend (default: networkx or DEPOS_PERF_METRICS_BACKEND).",
+        )
+
     analyze = sub.add_parser("analyze", help="Run or inspect intelligence analyses.")
     a_sub = analyze.add_subparsers(dest="analyze_command", required=True)
 
@@ -60,6 +116,21 @@ def _build_parser() -> argparse.ArgumentParser:
     repo.add_argument("--detectors", action="append", default=[])
     repo.add_argument("--no-reasoner", action="store_true")
     repo.add_argument("--print-detector-stats", action="store_true")
+    repo.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    _add_perf_args(repo)
+    _add_cache_args(repo)
+    repo.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
 
     diff = a_sub.add_parser("diff", help="Diff-aware scan using a change manifest.")
     diff.add_argument("--cpg-path")
@@ -72,6 +143,21 @@ def _build_parser() -> argparse.ArgumentParser:
     diff.add_argument("--detectors", action="append", default=[])
     diff.add_argument("--no-reasoner", action="store_true")
     diff.add_argument("--print-detector-stats", action="store_true")
+    diff.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    _add_perf_args(diff)
+    _add_cache_args(diff)
+    diff.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
 
     replay = a_sub.add_parser("replay", help="Replay a reasoner queue.")
     replay.add_argument("--queue", required=True)
@@ -185,8 +271,15 @@ def _build_parser() -> argparse.ArgumentParser:
     dataset_pipeline.add_argument("--max-bundles", type=int, default=None)
     dataset_pipeline.add_argument("--min-score", type=float, default=None)
     dataset_pipeline.add_argument("--write-extraction", action="store_true")
+    dataset_pipeline.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
+    _add_perf_args(dataset_pipeline)
     dataset_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
-    dataset_pipeline.add_argument("--cache-dir")
+    _add_cache_args(dataset_pipeline)
     dataset_pipeline.add_argument("--device")
     dataset_pipeline.add_argument("--local-files-only", action="store_true")
     dataset_pipeline.add_argument(
@@ -212,10 +305,29 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Exit non-zero when reasoner_run_health is degraded/failed or when path resolution is poor.",
     )
+    dataset_pipeline.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
 
     coverage = a_sub.add_parser("coverage", help="Print StitcherCoverageReport only.")
     coverage.add_argument("--path")
     coverage.add_argument("--graph-json")
+    coverage.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    coverage.add_argument(
+        "--no-parallel",
+        action="store_true",
+        help="Same as --n-jobs 1 for Wave B enrichers.",
+    )
 
     list_cmd = d_sub.add_parser("list", help="List built-in detectors.")
     list_cmd.add_argument("--json", action="store_true")

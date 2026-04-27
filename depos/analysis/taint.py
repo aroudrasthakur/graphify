@@ -4,6 +4,7 @@ from __future__ import annotations
 import ast
 import re
 from collections import deque
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
 
@@ -96,8 +97,8 @@ def _interprocedural_taint_path(
     return [source_node, *best, sink_node]
 
 
-def _annotate_scope_seam_edge_ids(graph: nx.DiGraph, scope_id: str, attrs: dict[str, Any]) -> None:
-    """Set ``seam_edge_ids`` on the scope node from incident seam edges' ``edge_id`` attributes."""
+def seam_edge_ids_for_scope(graph: nx.DiGraph, scope_id: str) -> list[str]:
+    """Incident seam edge ids for *scope_id* (read-only)."""
     ids: list[str] = []
     seen: set[str] = set()
     for u, v, data in graph.edges(data=True):
@@ -112,7 +113,128 @@ def _annotate_scope_seam_edge_ids(graph: nx.DiGraph, scope_id: str, attrs: dict[
         if eid not in seen:
             seen.add(eid)
             ids.append(eid)
-    attrs["seam_edge_ids"] = ids
+    return ids
+
+
+@dataclass
+class TaintScopeWork:
+    """Deferred taint mutations for one scope (Phase 8: compute in parallel, apply serially)."""
+
+    scope_id: str
+    seam_edge_ids: list[str]
+    new_nodes: list[tuple[str, dict[str, Any]]] = field(default_factory=list)
+    new_edges: list[tuple[str, str, dict[str, Any]]] = field(default_factory=list)
+    typed: list[TaintEdge] = field(default_factory=list)
+    row_extras: list[dict[str, Any] | None] | None = None
+
+
+def apply_taint_scope_work(graph: nx.DiGraph, work: TaintScopeWork) -> list[dict[str, Any]]:
+    """Apply deferred taint nodes/edges and ``taint_edges`` rows (main thread only)."""
+    if work.scope_id in graph:
+        graph.nodes[work.scope_id]["seam_edge_ids"] = work.seam_edge_ids
+    for nid, nattr in work.new_nodes:
+        if nid not in graph:
+            graph.add_node(nid, **nattr)
+    for u, v, ed in work.new_edges:
+        if not graph.has_edge(u, v):
+            graph.add_edge(u, v, **ed)
+    if not work.typed:
+        return []
+    return _append_taint_graph_outputs(
+        graph, work.typed, row_extras=work.row_extras or [None] * len(work.typed)
+    )
+
+
+def compute_python_taint_work(
+    graph: nx.DiGraph,
+    scope_id: str,
+    attrs: dict[str, Any],
+    *,
+    run_context: RunContext,
+    repo_root: Optional[Path] = None,
+) -> TaintScopeWork:
+    """Compute taint for one Python scope without mutating *graph*."""
+    seam_ids = seam_edge_ids_for_scope(graph, scope_id)
+    attrs_eff = {**attrs, "seam_edge_ids": seam_ids}
+    seam_index = run_context.seam_edge_index
+    out_typed: list[TaintEdge] = []
+    new_nodes: list[tuple[str, dict[str, Any]]] = []
+    new_edges: list[tuple[str, str, dict[str, Any]]] = []
+
+    rel = str(attrs_eff.get("source_file") or "")
+    start = int(
+        (attrs_eff.get("span") or {}).get("start", {}).get("line")
+        or attrs_eff.get("start_line")
+        or attrs_eff.get("lineno")
+        or 0
+    )
+    if not rel or not start:
+        return TaintScopeWork(scope_id, seam_ids)
+
+    qn = str(attrs_eff.get("qualname") or attrs_eff.get("name") or "")
+    source_hints: list[str] = [h for h in (qn, rel) if h]
+    src = _cfg._read_source(repo_root, rel)  # noqa: SLF001
+    if not src:
+        return TaintScopeWork(scope_id, seam_ids)
+    try:
+        tree = ast.parse(src, filename=rel)
+    except SyntaxError:
+        return TaintScopeWork(scope_id, seam_ids)
+    if not isinstance(tree, ast.Module):
+        return TaintScopeWork(scope_id, seam_ids)
+    fn = _cfg._find_function(  # noqa: SLF001
+        tree, qualname=qn, start_line=start, end_line=int(attrs_eff.get("end_line") or start)
+    ) or _cfg._fallback_by_line(  # noqa: SLF001
+        tree, start, int(attrs_eff.get("end_line") or start + 500)
+    )
+    if not fn or not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        return TaintScopeWork(scope_id, seam_ids)
+
+    eids: list[str] = list(seam_ids)
+    seam_list = _seam_schemas_for_ids(graph, eids, seam_index)
+    has_http = bool(attrs_eff.get("http_call_sites"))
+    for node in fn.body:
+        chunk = ast.get_source_segment(src, node) or ""
+        m = _TAINT_SINKS.search(chunk)
+        if not m:
+            continue
+        line = int(getattr(node, "lineno", 0) or 0)
+        u, v = f"taint:src:{scope_id}", f"taint:sink:{scope_id}:L{line}"
+        new_nodes.append((u, {"type": "taint_endpoint", "label": "taint_source"}))
+        new_nodes.append((v, {"type": "taint_endpoint", "label": "taint_sink"}))
+        te = TaintEdge(
+            source_node=u,
+            sink_node=v,
+            intermediate_path=_interprocedural_taint_path(graph, scope_id, u, v),
+            crosses_seam=has_http or bool(seam_list),
+            seam_edges_crossed=seam_list,
+            source_chain=f"{rel}:{line}",
+            sink_pattern=m.group(0).strip()[:64],
+            source_hints=source_hints,
+            scope=scope_id,
+            line=line,
+        )
+        out_typed.append(te)
+        new_edges.append(
+            (
+                u,
+                v,
+                {
+                    "type": "TAINT",
+                    "taint_line": line,
+                    "sink_pattern": te.sink_pattern,
+                    "path": f"{rel}:{line}",
+                },
+            )
+        )
+    return TaintScopeWork(
+        scope_id,
+        seam_ids,
+        new_nodes=new_nodes,
+        new_edges=new_edges,
+        typed=out_typed,
+        row_extras=None,
+    )
 
 
 def _find_edge_by_eid(
@@ -198,76 +320,10 @@ def taint_for_python_scope(
 
     Emits :class:`TaintEdge` into ``graph.graph["taint_edges"]``.
     """
-    _annotate_scope_seam_edge_ids(graph, scope_id, attrs)
-    seam_index = run_context.seam_edge_index
-    out_typed: list[TaintEdge] = []
-
-    rel = str(attrs.get("source_file") or "")
-    start = int(
-        (attrs.get("span") or {}).get("start", {}).get("line")
-        or attrs.get("start_line")
-        or attrs.get("lineno")
-        or 0
+    work = compute_python_taint_work(
+        graph, scope_id, attrs, run_context=run_context, repo_root=repo_root
     )
-    if not rel or not start:
-        return []
-    qn = str(attrs.get("qualname") or attrs.get("name") or "")
-    source_hints: list[str] = [h for h in (qn, rel) if h]
-    src = _cfg._read_source(repo_root, rel)  # noqa: SLF001
-    if not src:
-        return []
-    try:
-        tree = ast.parse(src, filename=rel)
-    except SyntaxError:
-        return []
-    if not isinstance(tree, ast.Module):
-        return []
-    fn = _cfg._find_function(  # noqa: SLF001
-        tree, qualname=qn, start_line=start, end_line=int(attrs.get("end_line") or start)
-    ) or _cfg._fallback_by_line(  # noqa: SLF001
-        tree, start, int(attrs.get("end_line") or start + 500)
-    )
-    if not fn or not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
-        return []
-
-    eids: list[str] = list(attrs.get("seam_edge_ids", []) or [])
-    seam_list = _seam_schemas_for_ids(graph, eids, seam_index)
-    has_http = bool(attrs.get("http_call_sites"))
-    for node in fn.body:
-        chunk = ast.get_source_segment(src, node) or ""
-        m = _TAINT_SINKS.search(chunk)
-        if not m:
-            continue
-        line = int(getattr(node, "lineno", 0) or 0)
-        u, v = f"taint:src:{scope_id}", f"taint:sink:{scope_id}:L{line}"
-        if u not in graph:
-            graph.add_node(u, type="taint_endpoint", label="taint_source")
-        if v not in graph:
-            graph.add_node(v, type="taint_endpoint", label="taint_sink")
-        te = TaintEdge(
-            source_node=u,
-            sink_node=v,
-            intermediate_path=_interprocedural_taint_path(graph, scope_id, u, v),
-            crosses_seam=has_http or bool(seam_list),
-            seam_edges_crossed=seam_list,
-            source_chain=f"{rel}:{line}",
-            sink_pattern=m.group(0).strip()[:64],
-            source_hints=source_hints,
-            scope=scope_id,
-            line=line,
-        )
-        out_typed.append(te)
-        graph.add_edge(
-            u,
-            v,
-            type="TAINT",
-            taint_line=line,
-            sink_pattern=te.sink_pattern,
-            path=f"{rel}:{line}",
-        )
-    if not out_typed:
-        return []
-    return _append_taint_graph_outputs(graph, out_typed)
+    return apply_taint_scope_work(graph, work)
 
 
 _JSTS_TAINT_SINKS = re.compile(
@@ -280,15 +336,15 @@ _JSTS_TAINT_SRC = re.compile(
 )
 
 
-def taint_for_jsts_scope(
+def compute_jsts_taint_work(
     graph: nx.DiGraph,
     scope_id: str,
     attrs: dict[str, Any],
     *,
     run_context: RunContext,
     repo_root: Optional[Path] = None,
-) -> list[dict[str, Any]]:
-    """Heuristic taint for JS/TS: known sources + known sinks in function text (Phase 1b)."""
+) -> TaintScopeWork:
+    """Compute JS/TS taint for one scope without mutating *graph*."""
     from tree_sitter import Parser
 
     from depos.analysis.cfg.jsts import (
@@ -298,49 +354,44 @@ def taint_for_jsts_scope(
         read_source_bytes,
     )
 
-    _annotate_scope_seam_edge_ids(graph, scope_id, attrs)
+    seam_ids = seam_edge_ids_for_scope(graph, scope_id)
+    attrs_eff = {**attrs, "seam_edge_ids": seam_ids}
     seam_index = run_context.seam_edge_index
-    eids: list[str] = list(attrs.get("seam_edge_ids", []) or [])
-    seam_list = _seam_schemas_for_ids(graph, eids, seam_index)
-    has_http = bool(attrs.get("http_call_sites"))
+    seam_list = _seam_schemas_for_ids(graph, seam_ids, seam_index)
+    has_http = bool(attrs_eff.get("http_call_sites"))
 
-    out_typed: list[TaintEdge] = []
-    rel = str(attrs.get("source_file") or "")
+    rel = str(attrs_eff.get("source_file") or "")
     start = int(
-        (attrs.get("span") or {}).get("start", {}).get("line")
-        or attrs.get("start_line")
-        or attrs.get("lineno")
+        (attrs_eff.get("span") or {}).get("start", {}).get("line")
+        or attrs_eff.get("start_line")
+        or attrs_eff.get("lineno")
         or 0
     )
     if not rel or not start:
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     raw = read_source_bytes(repo_root, rel)
     if not raw:
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     try:
         lang = _load_language_for_path(rel)
         tree = Parser(lang).parse(raw)
     except Exception as e:  # noqa: BLE001
         import logging
         logging.getLogger(__name__).warning("Failed to parse JS/TS scope %s: %s", rel, e)
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     fn = _find_innermost_function(tree.root_node, start)
     if fn is None:
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     body = _get_function_body(fn)
     if body is None:
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     text = raw[int(body.start_byte) : int(body.end_byte)].decode("utf-8", errors="replace")
     sink_m = _JSTS_TAINT_SINKS.search(text)
     js_sources = [x.group(0) for x in _JSTS_TAINT_SRC.finditer(text)]
     if not sink_m and not js_sources:
-        return []
+        return TaintScopeWork(scope_id, seam_ids)
     line = int(body.start_point[0]) + 1
     u, v = f"taint:src:{scope_id}", f"taint:sink:{scope_id}:L{line}"
-    if u not in graph:
-        graph.add_node(u, type="taint_endpoint", label="taint_source")
-    if v not in graph:
-        graph.add_node(v, type="taint_endpoint", label="taint_sink")
     te = TaintEdge(
         source_node=u,
         sink_node=v,
@@ -353,10 +404,40 @@ def taint_for_jsts_scope(
         scope=scope_id,
         line=line,
     )
-    out_typed.append(te)
-    graph.add_edge(
-        u, v, type="TAINT", taint_line=line, sink_pattern=te.sink_pattern, path=f"{rel}:{line}"
+    return TaintScopeWork(
+        scope_id,
+        seam_ids,
+        new_nodes=[
+            (u, {"type": "taint_endpoint", "label": "taint_source"}),
+            (v, {"type": "taint_endpoint", "label": "taint_sink"}),
+        ],
+        new_edges=[
+            (
+                u,
+                v,
+                {
+                    "type": "TAINT",
+                    "taint_line": line,
+                    "sink_pattern": te.sink_pattern,
+                    "path": f"{rel}:{line}",
+                },
+            )
+        ],
+        typed=[te],
+        row_extras=[{"js_sources": js_sources}],
     )
-    return _append_taint_graph_outputs(
-        graph, out_typed, row_extras=[{"js_sources": js_sources}]
+
+
+def taint_for_jsts_scope(
+    graph: nx.DiGraph,
+    scope_id: str,
+    attrs: dict[str, Any],
+    *,
+    run_context: RunContext,
+    repo_root: Optional[Path] = None,
+) -> list[dict[str, Any]]:
+    """Heuristic taint for JS/TS: known sources + known sinks in function text (Phase 1b)."""
+    work = compute_jsts_taint_work(
+        graph, scope_id, attrs, run_context=run_context, repo_root=repo_root
     )
+    return apply_taint_scope_work(graph, work)

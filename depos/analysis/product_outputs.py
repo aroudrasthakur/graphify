@@ -79,9 +79,11 @@ def write_product_outputs(
     result: RunResult,
     mode: RunMode,
     config: IntelligenceConfig,
+    *,
+    generated_at: str | None = None,
 ) -> dict[str, str]:
     out_dir.mkdir(parents=True, exist_ok=True)
-    generated_at = datetime.now(timezone.utc).isoformat()
+    ts = generated_at if generated_at is not None else datetime.now(timezone.utc).isoformat()
     run_id = result.run_metadata.run_id
     findings = build_product_findings(result)
     impact_paths = [finding.impact_path for finding in findings if finding.impact_path is not None]
@@ -95,15 +97,15 @@ def write_product_outputs(
         graph_reliability=_run_graph_reliability(result),
     )
     docs: dict[str, dict[str, Any]] = {
-        "findings": _artifact_base(run_id, mode, generated_at)
+        "findings": _artifact_base(run_id, mode, ts)
         | {"findings": [finding.model_dump(mode="json") for finding in findings]},
-        "impact_paths": _artifact_base(run_id, mode, generated_at)
+        "impact_paths": _artifact_base(run_id, mode, ts)
         | {"impact_paths": [path.model_dump(mode="json") for path in impact_paths]},
-        "triage_backlog": _artifact_base(run_id, mode, generated_at)
+        "triage_backlog": _artifact_base(run_id, mode, ts)
         | _triage_backlog(result, findings),
-        "mcp_context": _artifact_base(run_id, mode, generated_at)
+        "mcp_context": _artifact_base(run_id, mode, ts)
         | {"contexts": [context.model_dump(mode="json") for context in build_mcp_contexts(findings)]},
-        "product_summary": _artifact_base(run_id, mode, generated_at)
+        "product_summary": _artifact_base(run_id, mode, ts)
         | {
             "summary": summary.model_dump(mode="json"),
             "ci_decision": ci_decision.model_dump(mode="json"),

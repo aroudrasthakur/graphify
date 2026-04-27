@@ -8,13 +8,14 @@ observability JSONL).
 """
 from __future__ import annotations
 
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Callable, Optional
 
 import networkx as nx
 
 from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
-from depos.analysis.config import IntelligenceConfig
+from depos.analysis.config import IntelligenceConfig, PerfConfig
 from depos.analysis.run_context import build_run_context
 from depos.analysis.context_bundle import build_bundle
 from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin
@@ -303,6 +304,7 @@ def run_modules_2_through_7(
     selected_limit: int | None = None,
     min_score: float | None = None,
     progress: Callable[[str], None] | None = None,
+    perf: Optional[PerfConfig] = None,
 ) -> RunResult:
     mode = run_meta.analysis_mode
     _emit_progress(progress, f"Pipeline: preparing run metadata for {mode.value} mode.")
@@ -323,7 +325,12 @@ def run_modules_2_through_7(
     _emit_progress(progress, "Module 2: running detectors.")
     with timed_stage(config, run_meta.run_id, "detector_run"):
         run_context = build_run_context(
-            graph, manifest, repo_root=repo_root, config=config
+            graph,
+            manifest,
+            run_id=run_meta.run_id,
+            repo_root=repo_root,
+            config=config,
+            perf=perf,
         )
         if (config.llm.provider or "stub").lower() == "ollama":
             base_url = resolve_ollama_base_url(config.llm.ollama_host)
@@ -429,11 +436,28 @@ def run_modules_2_through_7(
     bundles = {}
     built_bundles = []
     _emit_progress(progress, f"Module 3: building {len(bundle_candidates)} context bundles.")
+    perf = getattr(run_context, "perf", None)
+    bundle_n_jobs = (
+        max(1, int(getattr(perf, "bundle_n_jobs", 1) or 1)) if perf is not None else 1
+    )
     with timed_stage(config, run_meta.run_id, "bundle_build", candidates=len(bundle_candidates)):
-        for candidate in bundle_candidates:
-            bundle = build_bundle(graph, candidate, config=config, run_context=run_context)
-            bundles[candidate.candidate_id] = bundle
-            built_bundles.append(bundle)
+        if bundle_n_jobs <= 1 or len(bundle_candidates) <= 1:
+            for candidate in bundle_candidates:
+                bundle = build_bundle(
+                    graph, candidate, config=config, run_context=run_context
+                )
+                bundles[candidate.candidate_id] = bundle
+                built_bundles.append(bundle)
+        else:
+            max_workers = min(bundle_n_jobs, len(bundle_candidates))
+
+            def _one(cand: Any) -> Any:
+                return build_bundle(graph, cand, config=config, run_context=run_context)
+
+            with ThreadPoolExecutor(max_workers=max_workers) as ex:
+                built_bundles = list(ex.map(_one, bundle_candidates))
+            for candidate, bundle in zip(bundle_candidates, built_bundles, strict=True):
+                bundles[candidate.candidate_id] = bundle
             quality = _dominant_quality(bundle.evidence)
             evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
     _emit_progress(progress, f"Module 3: built {len(built_bundles)} bundles.")

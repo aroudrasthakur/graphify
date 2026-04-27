@@ -5,9 +5,6 @@ adds:
 
 - ``TASK_ENQUEUES`` edges from producers (call sites using ``.delay()`` or
   ``.apply_async()``) to the task function.
-- ``TASK_CONSUMES`` edges (synthetic) from the task function to itself as
-  the consumer role \u2014 kept explicit so verifier rules about queue
-  contracts have a single target.
 - ``PRODUCES_PAYLOAD`` / ``CONSUMES_PAYLOAD`` edges whose metadata
   enumerates overlap / missing / extra keyword-argument field names so
   the verifier can check payload drift without re-reading source.
@@ -15,6 +12,11 @@ adds:
 Inference is regex-based (same posture as the HTTP probes): works well
 for typical codebases, reports ``inferred=True`` when the call site's
 kwargs cannot be statically determined.
+
+Note on edge merging: DiGraph allows one edge per (u, v) pair. For each
+caller→task pair we emit PRODUCES_PAYLOAD (the surviving relation after
+the prior overwrite behaviour). For the task self-loop we emit TASK_CONSUMES
+merged with CONSUMES_PAYLOAD attrs.
 """
 from __future__ import annotations
 
@@ -25,6 +27,7 @@ from typing import Iterable, Optional
 
 import networkx as nx
 
+from depos.analysis.fragments import FragmentEdge, FragmentNode, GraphFragment, make_fragment
 from depos.graph_relations import CONSUMES_PAYLOAD
 from depos.graph_relations import PRODUCES_PAYLOAD
 from depos.graph_relations import TASK_CONSUMES
@@ -62,11 +65,13 @@ def _extract_kwargs(signature: str) -> list[str]:
     return kwargs
 
 
-def _find_task_defs(graph: nx.DiGraph, repo_root: Path | None = None) -> dict[str, _TaskDef]:
-    """Find Celery task definitions by scanning source files referenced by
-    graph nodes. Returns a map keyed by function name to task def.
-    """
+def _find_task_defs(
+    graph: nx.DiGraph, repo_root: Path | None = None
+) -> tuple[dict[str, _TaskDef], list[FragmentNode]]:
+    """Find Celery task definitions. Returns the task map and any synthetic
+    FragmentNodes needed for tasks not already in the graph."""
     out: dict[str, _TaskDef] = {}
+    synthetic_nodes: list[FragmentNode] = []
     seen_files: set[str] = set()
     for nid, attrs in graph.nodes(data=True):
         sf = attrs.get("source_file")
@@ -83,7 +88,6 @@ def _find_task_defs(graph: nx.DiGraph, repo_root: Path | None = None) -> dict[st
         for m in _TASK_DEF_RE.finditer(text):
             name = m.group("name")
             kw = _extract_kwargs(m.group("args"))
-            # Try to locate the graph node id for this function def.
             node_id = None
             suffix = f"{name}()"
             for cand_id, cand_attrs in graph.nodes(data=True):
@@ -94,17 +98,18 @@ def _find_task_defs(graph: nx.DiGraph, repo_root: Path | None = None) -> dict[st
                     node_id = cand_id
                     break
             if node_id is None:
-                # Synthesize a node so the matcher has something to connect.
                 node_id = f"py:task:{sf}:{name}"
-                graph.add_node(
-                    node_id,
-                    label=suffix,
-                    file_type="code",
-                    source_file=sf,
-                    synthetic=True,
-                )
+                synthetic_nodes.append(FragmentNode(
+                    node_id=node_id,
+                    attrs={
+                        "label": suffix,
+                        "file_type": "code",
+                        "source_file": sf,
+                        "synthetic": True,
+                    },
+                ))
             out[name] = _TaskDef(node_id=node_id, source_file=sf, name=name, expected_kwargs=kw)
-    return out
+    return out, synthetic_nodes
 
 
 def _find_enqueue_sites(
@@ -140,8 +145,6 @@ def _find_enqueue_sites(
                 i += 1
             call_args = text[start : i - 1]
             kw_names = [km.group("kw") for km in _KW_RE.finditer(call_args)]
-            # Prefer a different anchor in the same file so producer and
-            # consumer edges do not collapse onto the same DiGraph self-loop.
             caller_id = nid
             for cand_id, cand_attrs in graph.nodes(data=True):
                 if cand_id == tasks[name].node_id:
@@ -153,12 +156,13 @@ def _find_enqueue_sites(
     return sites
 
 
-def emit_celery_payload_edges(graph: nx.DiGraph, *, repo_root: Path | None = None) -> int:
-    tasks = _find_task_defs(graph, repo_root=repo_root)
+def emit_celery_payload_edges(graph: nx.DiGraph, *, repo_root: Path | None = None) -> GraphFragment:
+    tasks, synthetic_nodes = _find_task_defs(graph, repo_root=repo_root)
     if not tasks:
-        return 0
+        return make_fragment("enrich_celery")
     sites = _find_enqueue_sites(graph, tasks, repo_root=repo_root)
-    added = 0
+    edges: list[FragmentEdge] = []
+    seen_caller_task: set[tuple[str, str]] = set()
     for caller_id, task_name, provided_kwargs in sites:
         task = tasks[task_name]
         expected = set(task.expected_kwargs)
@@ -176,49 +180,41 @@ def emit_celery_payload_edges(graph: nx.DiGraph, *, repo_root: Path | None = Non
             task_name=task_name,
             payload_fields=overlap,
         )
-        # Attach missing/extra through the BaseModel extras field via dict merge.
         dumped = metadata.model_dump(mode="json")
         dumped["payload_missing_fields"] = missing
         dumped["payload_extra_fields"] = extra
 
-        graph.add_edge(
-            caller_id,
-            task.node_id,
-            key=f"enqueue:{task_name}",
-            relation=TASK_ENQUEUES,
-            **dumped,
-        )
-        graph.add_edge(
-            caller_id,
-            task.node_id,
-            key=f"producer:{task_name}",
-            relation=PRODUCES_PAYLOAD,
-            **dumped,
-        )
-        # Synthetic consumer self-edge: producer sent these fields, consumer
-        # expects ``expected``; keep a separate node-less edge for the
-        # verifier by adding a self-loop on the task node with CONSUMES.
-        graph.add_edge(
-            task.node_id,
-            task.node_id,
-            key=f"consumes:{task_name}",
-            relation=CONSUMES_PAYLOAD,
-            task_name=task_name,
-            payload_fields=sorted(expected),
-            inferred=False,
-            source_system="celery",
-            target_system="python",
-            contract_kind=ContractKind.queue.value,
-        )
-        graph.add_edge(
-            task.node_id,
-            task.node_id,
-            key=f"task_consumes:{task_name}",
-            relation=TASK_CONSUMES,
-            task_name=task_name,
-        )
-        added += 1
-    return added
+        # Emit PRODUCES_PAYLOAD for caller→task (matches effective DiGraph overwrite behaviour).
+        caller_pair = (caller_id, task.node_id)
+        if caller_pair not in seen_caller_task:
+            seen_caller_task.add(caller_pair)
+            edges.append(FragmentEdge(
+                u=caller_id,
+                v=task.node_id,
+                key=f"producer:{task_name}",
+                attrs={"relation": PRODUCES_PAYLOAD, **dumped},
+            ))
+
+        # Emit TASK_CONSUMES self-loop merged with CONSUMES_PAYLOAD attrs.
+        self_loop = (task.node_id, task.node_id)
+        if self_loop not in seen_caller_task:
+            seen_caller_task.add(self_loop)
+            edges.append(FragmentEdge(
+                u=task.node_id,
+                v=task.node_id,
+                key=f"task_consumes:{task_name}",
+                attrs={
+                    "relation": TASK_CONSUMES,
+                    "task_name": task_name,
+                    "payload_fields": sorted(expected),
+                    "inferred": False,
+                    "source_system": "celery",
+                    "target_system": "python",
+                    "contract_kind": ContractKind.queue.value,
+                },
+            ))
+
+    return make_fragment("enrich_celery", nodes=synthetic_nodes, edges=edges)
 
 
 __all__ = ["emit_celery_payload_edges"]

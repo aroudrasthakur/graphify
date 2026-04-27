@@ -25,6 +25,8 @@ from typing import Iterable, Optional
 
 import networkx as nx
 
+from depos.analysis.fragments import GraphFragment, NodeAttrUpdate, make_fragment
+
 # ---------------------------------------------------------------------------
 # FastAPI route decorator lifter (Python)
 # ---------------------------------------------------------------------------
@@ -39,6 +41,51 @@ _FASTAPI_DECORATOR = re.compile(
 # decorators. We look at the raw source below each decorator for a function
 # definition.
 _FUNCDEF = re.compile(r"^\s*(?:async\s+)?def\s+(?P<name>[A-Za-z_][A-Za-z0-9_]*)\s*\(", re.MULTILINE)
+
+
+def _python_hash_comment_before(source: str, pos: int) -> bool:
+    """True if ``pos`` lies in a Python ``# ...`` comment (whole-line or inline).
+
+    The FastAPI decorator regex runs over raw source; examples in comments
+    (e.g. ``# Matches @router.get("/x")``) must not pair with the next ``def``.
+    """
+    line_start = source.rfind("\n", 0, pos) + 1
+    line_end = source.find("\n", pos)
+    if line_end == -1:
+        line_end = len(source)
+    line = source[line_start:line_end]
+    if line.strip().startswith("#"):
+        return True
+    before = source[line_start:pos]
+    # Inline comment: first '#' outside a string starts the comment.
+    in_single = in_double = False
+    i = 0
+    while i < len(before):
+        c = before[i]
+        if in_single:
+            if c == "\\" and i + 1 < len(before):
+                i += 2
+                continue
+            if c == "'":
+                in_single = False
+            i += 1
+            continue
+        if in_double:
+            if c == "\\" and i + 1 < len(before):
+                i += 2
+                continue
+            if c == '"':
+                in_double = False
+            i += 1
+            continue
+        if c == "'":
+            in_single = True
+        elif c == '"':
+            in_double = True
+        elif c == "#":
+            return True
+        i += 1
+    return False
 
 
 @dataclass
@@ -57,9 +104,10 @@ def scan_fastapi_routes(source: str, *, file: str) -> list[RouteDecoration]:
     Each decoration is paired with the *next* function definition in the file.
     """
     out: list[RouteDecoration] = []
-    lines = source.splitlines()
     for m in _FASTAPI_DECORATOR.finditer(source):
         start = m.start()
+        if _python_hash_comment_before(source, start):
+            continue
         line_no = source[:start].count("\n") + 1
         # Walk forward to find the next function definition.
         rest = source[m.end():]
@@ -241,14 +289,12 @@ def _read_text_safely(path: Path) -> Optional[str]:
         return None
 
 
-def annotate_fastapi_routes(graph: nx.DiGraph, repo_root: Optional[Path] = None) -> list[str]:
+def annotate_fastapi_routes(graph: nx.DiGraph, repo_root: Optional[Path] = None) -> GraphFragment:
     """Walk every distinct Python source file referenced by nodes, parse
-    route decorations, and annotate the matching function-definition node
-    with ``route_pattern`` / ``http_method`` / ``decorator``.
-
-    Returns the list of annotated node IDs.
+    route decorations, and return a GraphFragment with NodeAttrUpdates for
+    ``route_pattern`` / ``http_method`` / ``decorator`` / ``is_fastapi_route``.
     """
-    annotated: list[str] = []
+    updates: list[NodeAttrUpdate] = []
     for p in _unique_source_files(graph, _PY_EXTS):
         full = p if p.is_absolute() else ((repo_root / p) if repo_root else p)
         text = _read_text_safely(full)
@@ -258,24 +304,23 @@ def annotate_fastapi_routes(graph: nx.DiGraph, repo_root: Optional[Path] = None)
             nid = _node_for_file_and_name(graph, source_file=p.as_posix(), name_hint=dec.handler_name)
             if nid is None:
                 continue
-            attrs = graph.nodes[nid]
-            attrs["route_pattern"] = dec.route_pattern
-            attrs["http_method"] = dec.http_method
-            attrs["decorator"] = f"@{dec.decorator_object}.{dec.http_method.lower()}"
-            attrs["is_fastapi_route"] = True
-            annotated.append(nid)
-    return annotated
+            updates.append(NodeAttrUpdate(node_id=nid, key="route_pattern", value=dec.route_pattern))
+            updates.append(NodeAttrUpdate(node_id=nid, key="http_method", value=dec.http_method))
+            updates.append(NodeAttrUpdate(
+                node_id=nid,
+                key="decorator",
+                value=f"@{dec.decorator_object}.{dec.http_method.lower()}",
+            ))
+            updates.append(NodeAttrUpdate(node_id=nid, key="is_fastapi_route", value=True))
+    return make_fragment("enrich_annotate_fastapi", node_attr_updates=updates)
 
 
-def annotate_ts_http_calls(graph: nx.DiGraph, repo_root: Optional[Path] = None) -> list[dict]:
-    """Walk TS source files, find fetch/axios call sites, and attach a
-    ``http_call_sites`` list attribute on one representative node per file.
-
-    Returns the raw call site dicts (file + line + url + method + dynamic flag)
-    so the caller can emit :data:`HTTP_CALLS_ROUTE` edges without having to
-    rescan.
+def annotate_ts_http_calls(graph: nx.DiGraph, repo_root: Optional[Path] = None) -> GraphFragment:
+    """Walk TS source files, find fetch/axios call sites, and return a
+    GraphFragment with a NodeAttrUpdate setting ``http_call_sites`` on one
+    representative node per file.
     """
-    collected: list[dict] = []
+    updates: list[NodeAttrUpdate] = []
     for p in _unique_source_files(graph, _TS_EXTS):
         full = p if p.is_absolute() else ((repo_root / p) if repo_root else p)
         text = _read_text_safely(full)
@@ -301,11 +346,10 @@ def annotate_ts_http_calls(graph: nx.DiGraph, repo_root: Optional[Path] = None) 
             }
             for s in sites
         ]
-        # Annotate the first file-level node; Module 1's edge emitter matches
-        # on ``http_call_sites`` without caring which node specifically.
-        graph.nodes[file_nodes[0]]["http_call_sites"] = call_site_dicts
-        collected.extend(call_site_dicts)
-    return collected
+        updates.append(
+            NodeAttrUpdate(node_id=file_nodes[0], key="http_call_sites", value=call_site_dicts)
+        )
+    return make_fragment("enrich_annotate_ts", node_attr_updates=updates)
 
 
 def iter_fastapi_route_nodes(graph: nx.DiGraph) -> Iterable[tuple[str, dict]]:

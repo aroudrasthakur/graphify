@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-product",
+  "mode": "full_repo",
+  "generated_at": "2026-01-15T12:00:00+00:00",
+  "findings": [
+    {
+      "finding_id": "cand-1:finding",
+      "legacy_finding_id": "cand-1:finding",
+      "title": "api_contract_change",
+      "description": "Route contract changed with incomplete route coverage.",
+      "risk_category": "schema",
+      "status": "verified",
+      "severity": "critical",
+      "finding_confidence": "medium",
+      "impact_confidence": "low",
+      "graph_reliability": "low",
+      "recommended_action": "request_review",
+      "affected_surfaces": [],
+      "evidence": [
+        {
+          "kind": "finding_text",
+          "node_id": "",
+          "source_file": "",
+          "start_line": 0,
+          "end_line": 0,
+          "text": "token=[REDACTED]",
+          "redacted": true,
+          "quality": ""
+        },
+        {
+          "kind": "snippet",
+          "node_id": "node:a",
+          "source_file": "app.py",
+          "start_line": 1,
+          "end_line": 2,
+          "text": "API_TOKEN=[REDACTED]",
+          "redacted": true,
+          "quality": "full"
+        }
+      ],
+      "impact_path": {
+        "finding_id": "cand-1:finding",
+        "nodes": [
+          {
+            "node_id": "node:a",
+            "label": "",
+            "kind": ""
+          },
+          {
+            "node_id": "node:b",
+            "label": "",
+            "kind": ""
+          }
+        ],
+        "edges": [],
+        "graph_reliability": "low"
+      },
+      "caveats": [
+        "Graph coverage is incomplete for this coverage-sensitive impact claim."
+      ],
+      "review_only": true,
+      "advisory_validity": "needs_review"
+    }
+  ]
+}

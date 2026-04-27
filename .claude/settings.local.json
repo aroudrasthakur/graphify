@@ -1,7 +1,9 @@
 {
   "permissions": {
     "allow": [
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(python -m pytest tests/intelligence/test_graph_fragments.py -v)",
+      "Bash(uv run *)"
     ]
   }
 }
