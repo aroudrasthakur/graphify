@@ -195,6 +195,19 @@ class ReasoningProvider:
         return self.complete(parts.full, max_tokens=max_tokens)
 
 
+def _call_provider(
+    provider: Any,
+    parts: PromptParts,
+    *,
+    max_tokens: int,
+) -> Tuple[str, dict[str, Any]]:
+    """Invoke ``complete_parts`` when available; else single-string ``complete``."""
+    fn = getattr(provider, "complete_parts", None)
+    if callable(fn):
+        return fn(parts, max_tokens=max_tokens)
+    return provider.complete(parts.full, max_tokens=max_tokens)
+
+
 class StubProvider(ReasoningProvider):
     """Returns a minimal, valid JSON doc for each mode. Used in tests and
     when no external service is reachable. Keeps the pipeline runnable
@@ -1338,7 +1351,11 @@ def run_reasoner(
         attempt_elapsed_ms: float | None = None
         attempt_model = provider_model or str(getattr(provider, "model", "") or "") or None
         try:
-            raw, meta = provider.complete_parts(parts, max_tokens=config.llm.default_max_tokens)
+            raw, meta = _call_provider(
+                provider,
+                parts,
+                max_tokens=config.llm.default_max_tokens,
+            )
             attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             current_raw_excerpt = _clip(raw, 2048)
             provider_model = str(meta.get("model", ""))

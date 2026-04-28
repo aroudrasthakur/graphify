@@ -476,10 +476,6 @@ def load_config_from_env() -> IntelligenceConfig:
         )
     except ValueError:
         pass
-    cfg.ranker.use_graphcodebert = os.environ.get("DEPOS_INTEL_USE_GRAPHCODEBERT", "").strip().lower() in {"1", "true", "yes", "on"}
-    cfg.ranker.graphcodebert_cache_dir = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_CACHE", cfg.ranker.graphcodebert_cache_dir)
-    cfg.ranker.graphcodebert_device = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_DEVICE", cfg.ranker.graphcodebert_device)
-    cfg.ranker.graphcodebert_local_files_only = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_LOCAL_ONLY", "").strip().lower() in {"1", "true", "yes", "on"}
     intent_mode = os.environ.get("DEPOS_INTEL_INTENT_LLM", "").strip().lower()
     if intent_mode in {"auto", "rules", "llm"}:
         cfg.intent_context.llm_mode = intent_mode

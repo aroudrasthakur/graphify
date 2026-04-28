@@ -366,8 +366,14 @@ def detect(root: Path, *, follow_symlinks: bool = False) -> dict:
             real_dir = os.path.realpath(dirpath)
             if real_dir in seen_dirs:
                 dirnames.clear()
-                continue
-            seen_dirs.add(real_dir)
+                if not follow_symlinks:
+                    continue
+                # follow_symlinks: same real directory may be reached via a
+                # second logical path (e.g. symlink); still collect files here
+                # so paths can include the symlink prefix, but do not descend
+                # again (avoids duplicate subtrees / cycles).
+            else:
+                seen_dirs.add(real_dir)
             dp = Path(dirpath)
             if not in_memory_tree:
                 # Prune noise dirs in-place so os.walk never descends into them

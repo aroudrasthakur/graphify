@@ -12,11 +12,12 @@ SPEC = simple_spec(
     verifier_checks=["graph_path_exists"],
     requires_reasoner=True,
     severity="low",
+    semantic_requirement=None,
 )
 
 
 def run(graph, manifest, mode, config, ctx):
-    return _ai_driven_candidates(graph, config, mode)
+    return _ai_driven_candidates(graph, config, mode, ctx=ctx)
 
 
 register(SPEC, run)

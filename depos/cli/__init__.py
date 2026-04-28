@@ -98,6 +98,7 @@ def _build_parser() -> argparse.ArgumentParser:
         choices=("auto", "rules", "llm"),
         default=None,
         help="Override DEPOS_INTEL_INTENT_LLM (auto uses OPENAI_API_KEY when set).",
+    )
     gate = sub.add_parser(
         "gate",
         help="CI gate: exit non-zero when any finding is CONFIRMED with high or critical severity.",

@@ -62,6 +62,35 @@ class PromptParts:
     user: str
     full: str
 
+    def __str__(self) -> str:
+        return self.full
+
+    def __len__(self) -> int:
+        return len(self.full)
+
+    def __getitem__(self, key: int | slice) -> str:
+        return self.full[key]
+
+    def __contains__(self, item: object) -> bool:
+        if not isinstance(item, str):
+            return False
+        return item in self.full
+
+    def find(self, sub: str, start: int = 0, end: int | None = None) -> int:
+        if end is None:
+            end = len(self.full)
+        return self.full.find(sub, start, end)
+
+    def index(self, sub: str, start: int = 0, end: int | None = None) -> int:
+        if end is None:
+            end = len(self.full)
+        return self.full.index(sub, start, end)
+
+    def rindex(self, sub: str, start: int = 0, end: int | None = None) -> int:
+        if end is None:
+            end = len(self.full)
+        return self.full.rindex(sub, start, end)
+
 
 def _bundle_budget(config: IntelligenceConfig | None) -> BundleBudget:
     return config.bundles if config is not None else _DEFAULT_BUNDLE_BUDGET
@@ -255,6 +284,36 @@ def _enforce_prompt_budget(
         if user_body["cross_language_seams"]:
             user_body["cross_language_seams"].pop()
             truncation_order_applied.append("cross_language_seams")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("data_reads"):
+            user_body["data_reads"] = {}
+            truncation_order_applied.append("data_reads")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("data_writes"):
+            user_body["data_writes"] = {}
+            truncation_order_applied.append("data_writes")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("rls_coverage"):
+            user_body["rls_coverage"] = {}
+            truncation_order_applied.append("rls_coverage")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("migration_state"):
+            user_body["migration_state"] = {}
+            truncation_order_applied.append("migration_state")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("rank_metadata"):
+            user_body.pop("rank_metadata", None)
+            truncation_order_applied.append("rank_metadata")
+            user = _make_user(user_body)
+            continue
+        if user_body.get("candidate_score") is not None:
+            user_body["candidate_score"] = None
+            truncation_order_applied.append("candidate_score")
             user = _make_user(user_body)
             continue
         break
