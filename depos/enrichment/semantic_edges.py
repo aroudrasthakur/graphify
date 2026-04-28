@@ -166,7 +166,7 @@ def emit_http_calls_route(graph: nx.DiGraph) -> GraphFragment:
 
             pair = (caller_node_id, handler_id)
             prev = best_by_pair.get(pair)
-            if prev is None or result.score > prev[1].confidence:
+            if prev is None or result.score > prev[0].confidence:
                 best_by_pair[pair] = (metadata, result)
 
     edges: list[FragmentEdge] = []

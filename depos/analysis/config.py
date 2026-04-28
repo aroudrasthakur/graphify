@@ -19,6 +19,47 @@ from pydantic import AliasChoices, BaseModel, Field
 logger = logging.getLogger(__name__)
 
 
+class IntentContextConfig(BaseModel):
+    """Intent Context Layer: doc discovery, chunking, rules + optional OpenAI."""
+
+    llm_mode: str = "auto"  # auto | rules | llm
+    max_tokens_per_call: int = 4096
+    max_input_bytes_per_repo: int = 5_000_000
+    max_chunks_per_run: int = 500
+    max_bytes_per_file: int = 512_000
+    chunk_max_chars: int = 8000
+    chunk_overlap_chars: int = 400
+    intent_openai_model: Optional[str] = Field(
+        default=None,
+        description="If set, overrides OPENAI_MODEL for intent extraction and summaries only.",
+    )
+    fenced_code_policy: str = "strip"  # strip | annotate
+    enable_tag_scan: bool = True
+    tag_scan_globs: list[str] = Field(
+        default_factory=lambda: [
+            "**/*.py",
+            "**/*.go",
+            "**/*.rs",
+            "**/*.java",
+            "**/*.ts",
+            "**/*.tsx",
+            "**/*.js",
+            "**/*.jsx",
+            "**/*.c",
+            "**/*.h",
+            "**/*.cpp",
+            "**/*.cs",
+            "**/*.sql",
+            "**/*.sh",
+        ],
+    )
+    #: When enabled, populate ``IntentManifestFile.doc_signals`` from ``git log -1``.
+    enable_doc_git_signals: bool = True
+    #: When set (``P0``/``P1``/``P2``), overrides YAML ``default_tier`` without editing the file.
+    default_intent_tier: Optional[str] = Field(default=None)
+
+
+
 class VerifierPolicy(BaseModel):
     min_edge_confidence_for_confirmed: float = 0.8
     min_edge_confidence_for_partially_confirmed: float = 0.6
@@ -122,6 +163,7 @@ class RankerConfig(BaseModel):
             "removed_entity_references": 0.12,
             "missing_guard_signals": 0.1,
             "candidate_score_composite": 0.13,
+            "graphcodebert_score": 0.05,
         }
     )
 
@@ -237,6 +279,7 @@ class IntelligenceConfig(BaseModel):
     ranker: RankerConfig = Field(default_factory=RankerConfig)
     scoring: ScoringConfig = Field(default_factory=ScoringConfig)
     cache: CacheConfig = Field(default_factory=CacheConfig)
+    intent_context: IntentContextConfig = Field(default_factory=IntentContextConfig)
 
     @property
     def reasoner(self) -> ReasonerProviderConfig:  # noqa: ANN201 - public compat
@@ -433,6 +476,38 @@ def load_config_from_env() -> IntelligenceConfig:
         )
     except ValueError:
         pass
+    intent_mode = os.environ.get("DEPOS_INTEL_INTENT_LLM", "").strip().lower()
+    if intent_mode in {"auto", "rules", "llm"}:
+        cfg.intent_context.llm_mode = intent_mode
+    cfg.intent_context.intent_openai_model = os.environ.get(
+        "DEPOS_INTEL_INTENT_MODEL", cfg.intent_context.intent_openai_model
+    )
+    for key, attr in (
+        ("DEPOS_INTEL_INTENT_MAX_TOKENS", "max_tokens_per_call"),
+        ("DEPOS_INTEL_INTENT_MAX_REPO_BYTES", "max_input_bytes_per_repo"),
+        ("DEPOS_INTEL_INTENT_MAX_CHUNKS", "max_chunks_per_run"),
+        ("DEPOS_INTEL_INTENT_MAX_FILE_BYTES", "max_bytes_per_file"),
+        ("DEPOS_INTEL_INTENT_CHUNK_CHARS", "chunk_max_chars"),
+        ("DEPOS_INTEL_INTENT_CHUNK_OVERLAP", "chunk_overlap_chars"),
+    ):
+        raw = os.environ.get(key)
+        if raw:
+            try:
+                setattr(cfg.intent_context, attr, int(raw))
+            except ValueError:
+                pass
+    fenced = os.environ.get("DEPOS_INTEL_INTENT_FENCED", "").strip().lower()
+    if fenced in {"strip", "annotate"}:
+        cfg.intent_context.fenced_code_policy = fenced
+    cfg.intent_context.enable_tag_scan = os.environ.get(
+        "DEPOS_INTEL_INTENT_TAG_SCAN", "1"
+    ).strip().lower() not in {"0", "false", "off", "no"}
+    cfg.intent_context.enable_doc_git_signals = os.environ.get(
+        "DEPOS_INTEL_INTENT_GIT_SIGNALS", "1"
+    ).strip().lower() not in {"0", "false", "off", "no"}
+    tier_env = os.environ.get("DEPOS_INTEL_INTENT_DEFAULT_TIER", "").strip().upper()
+    if tier_env in {"P0", "P1", "P2"}:
+        cfg.intent_context.default_intent_tier = tier_env
     return cfg
 
 

@@ -525,6 +525,53 @@ def _graph_anomaly_candidates(graph: nx.DiGraph, mode: AnalysisMode) -> list[Can
     return out
 
 
+def _ai_driven_candidates(
+    graph: nx.DiGraph,
+    config: IntelligenceConfig,
+    mode: AnalysisMode,
+    *,
+    ctx: dict[str, Any] | None = None,
+) -> list[Candidate]:
+    """Lightweight LLM-triage seeds when :attr:`IntelligenceConfig.enable_ai_driven_seeds` is on.
+
+    Emits a single low-confidence :class:`SeedType.ai_driven` candidate for the
+    first node that carries a ``source_file`` so the pipeline can attach an
+    optional reasoner pass without a full static signal.
+    """
+    if not config.enable_ai_driven_seeds:
+        return []
+    from depos.analysis.detectors.builtin.common import make_candidate
+
+    run_context = (ctx or {}).get("run_context")
+    pool = [
+        nid
+        for nid in graph.nodes
+        if graph.nodes[nid].get("source_file") and not str(nid).startswith("leaf:")
+    ]
+    if not pool:
+        pool = [nid for nid in graph.nodes if graph.nodes[nid].get("source_file")]
+    for nid in pool:
+        attrs = graph.nodes[nid]
+        extra: dict[str, Any] = {
+            "lexical_seed": True,
+            "source_file": str(attrs.get("source_file", "")),
+        }
+        return [
+            make_candidate(
+                scope_id="scope:lexical",
+                seed_type=SeedType.ai_driven,
+                detector_confidence=0.15,
+                analysis_mode=mode,
+                diff_anchors=[str(nid)],
+                extra=extra,
+                config=config,
+                graph=graph,
+                run_context=run_context,
+            )
+        ]
+    return []
+
+
 # ---------------------------------------------------------------------------
 # Deduplication + prioritization
 # ---------------------------------------------------------------------------
