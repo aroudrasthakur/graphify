@@ -1,0 +1,3388 @@
+{
+  "analysis_timestamp": "2026-04-27T08:35:56+00:00",
+  "branch": "v4",
+  "commit_sha": "25bab04a53550fec7d625eca669c1646dcbe58df",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition:121",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block:120",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement:119",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block:118",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement:117",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block:116",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement:115",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block:114",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement:113",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string:112",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:828:829:string_end:111",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:828:829:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:789:828:string_content:110",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:789:828:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation:109",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute:108",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:782:788:identifier:107",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:782:788:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:781:identifier:106",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:781:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:775:776:string_content:105",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:775:776:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation:104",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:766:774:identifier:103",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:766:774:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:765:string_start:102",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:765:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator:101",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set:100",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string:99",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:740:741:string_end:98",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:740:741:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:731:740:string_content:97",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:731:740:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:731:string_start:96",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:731:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string:95",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:706:707:string_end:94",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:706:707:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:696:706:string_content:93",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:696:706:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:696:string_start:92",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:696:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string:91",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:671:672:string_end:90",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:671:672:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:662:671:string_content:89",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:662:671:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:662:string_start:88",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:662:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string:87",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:637:638:string_end:86",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:637:638:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:625:637:string_content:85",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:625:637:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:625:string_start:84",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:625:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string:83",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:600:601:string_end:82",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:600:601:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:590:600:string_content:81",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:590:600:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:590:string_start:80",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:590:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string:79",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:565:566:string_end:78",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:565:566:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:560:565:string_content:77",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:560:565:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:560:string_start:76",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:560:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string:75",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:535:536:string_end:74",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:535:536:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:530:535:string_content:73",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:530:535:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:530:string_start:72",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:530:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute:71",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:494:498:identifier:70",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:494:498:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:493:identifier:69",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:493:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call:68",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list:67",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute:66",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:453:462:identifier:65",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:453:462:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:452:identifier:64",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:452:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:443:447:identifier:63",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:443:447:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:442:identifier:62",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:442:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call:61",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list:60",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:409:413:identifier:59",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:409:413:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute:58",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:404:408:identifier:57",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:404:408:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:403:identifier:56",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:403:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:392:396:identifier:55",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:392:396:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement:54",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment:53",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call:52",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list:51",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:371:377:identifier:50",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:371:377:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute:49",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:365:370:identifier:48",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:365:370:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:364:identifier:47",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:364:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:358:identifier:46",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:358:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement:45",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment:44",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call:43",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list:42",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument:41",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string:40",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:342:343:string_end:39",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:342:343:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:337:342:string_content:38",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:337:342:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:337:string_start:37",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:337:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:335:identifier:36",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:335:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute:35",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:317:326:identifier:34",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:317:326:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call:33",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list:32",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:307:315:identifier:31",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:307:315:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute:30",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:302:306:identifier:29",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:302:306:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:301:identifier:28",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:301:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:291:identifier:27",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:291:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:254:274:identifier:26",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:254:274:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:242:250:identifier:25",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:242:250:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type:24",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:none:23",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:221:223:parameters:22",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:221:223:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:188:221:identifier:21",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:188:221:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement:20",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment:19",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list:18",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string:17",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:173:174:string_end:16",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:173:174:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:136:173:string_content:15",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:136:173:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:136:string_start:14",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:136:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string:13",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:127:128:string_end:12",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:127:128:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:101:127:string_content:11",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:101:127:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:101:string_start:10",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:101:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:90:identifier:9",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:90:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement:8",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name:7",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:identifier:6",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement:5",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name:4",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:identifier:3",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement:2",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name:1",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:identifier:0",
+      "role": "child",
+      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name",
+      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:identifier",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:831:module",
+      "kind": "module",
+      "label": "from __future__ import annotations\r\n\r\nimport ast\r\nimport pathlib\r\n\r\n\r\nCLOSED_AFTER_STAGE_6 = [\r\n    \"depos/analysis/verifier.py\",\r\n    \"depos/analysis/gray_zone_evaluator.py\",\r\n]\r\n\r\n\r\ndef test_no_graph_access_after_bundle() -> None:\r\n    for rel_path in CLOSED_AFTER_STAGE_6:\r\n        source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")\r\n        tree = ast.parse(source)\r\n        for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 28,
+          "column": 0,
+          "byte": 831
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition"
+      ],
+      "text_digest": "e68bd497457f574d3b9b38c81b6fcc9bff27dbc756281475d1eed5f113a2dbd7"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:184:829:function_definition",
+      "kind": "function_definition",
+      "label": "def test_no_graph_access_after_bundle() -> None:\r\n    for rel_path in CLOSED_AFTER_STAGE_6:\r\n        source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")\r\n        tree = ast.parse(source)\r\n        for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 0,
+          "byte": 184
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:188:221:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:221:223:parameters",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block"
+      ],
+      "text_digest": "1d24537a52311343b63ba4b26bbe74ebb52dad8b41a935008923199c4dd00a56"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:block",
+      "kind": "block",
+      "label": "for rel_path in CLOSED_AFTER_STAGE_6:\r\n        source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")\r\n        tree = ast.parse(source)\r\n        for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 238
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement"
+      ],
+      "text_digest": "5e0bedcbbe6565de2ccf38bcb46950f0d17c633e4a5ef4a975ebbafe5088fbf9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:238:829:for_statement",
+      "kind": "for_statement",
+      "label": "for rel_path in CLOSED_AFTER_STAGE_6:\r\n        source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")\r\n        tree = ast.parse(source)\r\n        for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 238
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:242:250:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:254:274:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block"
+      ],
+      "text_digest": "5e0bedcbbe6565de2ccf38bcb46950f0d17c633e4a5ef4a975ebbafe5088fbf9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:829:block",
+      "kind": "block",
+      "label": "source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")\r\n        tree = ast.parse(source)\r\n        for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 8,
+          "byte": 285
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement"
+      ],
+      "text_digest": "0fb0364967765c298d5c187882ba219f604b3b5769a74b2d74b87f668a2e9d0e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:388:829:for_statement",
+      "kind": "for_statement",
+      "label": "for node in ast.walk(tree):\r\n            if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 8,
+          "byte": 388
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:392:396:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block"
+      ],
+      "text_digest": "a90a6d073c9bc2fcdef330ed0fa242abb586b3f98256b4f1f6d9f72f9eff763a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:block",
+      "kind": "block",
+      "label": "if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 12,
+          "byte": 429
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement"
+      ],
+      "text_digest": "087dff58cc45132a3004d6374e86557e30fafb3db7d930a698c50e566d91f8e5"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:429:829:if_statement",
+      "kind": "if_statement",
+      "label": "if isinstance(node, ast.Attribute):\r\n                assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 12,
+          "byte": 429
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block"
+      ],
+      "text_digest": "087dff58cc45132a3004d6374e86557e30fafb3db7d930a698c50e566d91f8e5"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:block",
+      "kind": "block",
+      "label": "assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 16,
+          "byte": 482
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement"
+      ],
+      "text_digest": "cc14868d6b911ee8f7ef61b90886d2aa19b78b1cb37716b33d60ea781d8180e9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:482:829:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }, f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 16,
+          "byte": 482
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string"
+      ],
+      "text_digest": "cc14868d6b911ee8f7ef61b90886d2aa19b78b1cb37716b33d60ea781d8180e9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:829:string",
+      "kind": "string",
+      "label": "f\"{rel_path}:{node.lineno} \u2014 graph access after Stage 6 closure\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 19,
+          "byte": 763
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:765:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:775:776:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:789:828:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:828:829:string_end"
+      ],
+      "text_digest": "4e189177e34d7163e07dcec7bce74c1aaa1ddfccff13021544a34e44e579e494"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:828:829:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 84,
+          "byte": 828
+        },
+        "end": {
+          "line": 27,
+          "column": 85,
+          "byte": 829
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:789:828:string_content",
+      "kind": "string_content",
+      "label": " \u2014 graph access after Stage 6 closure",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 45,
+          "byte": 789
+        },
+        "end": {
+          "line": 27,
+          "column": 84,
+          "byte": 828
+        }
+      },
+      "children_ids": [],
+      "text_digest": "1c8c01ab73c7ef6edfabb69d00d3720271ed764d1eb00b82f22c1a0fce2f1609"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:776:789:interpolation",
+      "kind": "interpolation",
+      "label": "{node.lineno}",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 32,
+          "byte": 776
+        },
+        "end": {
+          "line": 27,
+          "column": 45,
+          "byte": 789
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute"
+      ],
+      "text_digest": "2354d15ba044595a473b7e3698bde277673dd67978c7c16035ac49d339b5aa26"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:788:attribute",
+      "kind": "attribute",
+      "label": "node.lineno",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 33,
+          "byte": 777
+        },
+        "end": {
+          "line": 27,
+          "column": 44,
+          "byte": 788
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:781:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:782:788:identifier"
+      ],
+      "text_digest": "5e29d5caa7e6be03daa62358b02f58c3fe6990678e2917e8662e48c96acbbe78"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:782:788:identifier",
+      "kind": "identifier",
+      "label": "lineno",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 38,
+          "byte": 782
+        },
+        "end": {
+          "line": 27,
+          "column": 44,
+          "byte": 788
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ad4af9cdd17f438a7a58953562c3c804a95da56c812af0705ee779ba079133d1"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:777:781:identifier",
+      "kind": "identifier",
+      "label": "node",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 33,
+          "byte": 777
+        },
+        "end": {
+          "line": 27,
+          "column": 37,
+          "byte": 781
+        }
+      },
+      "children_ids": [],
+      "text_digest": "545ea538461003efdc8c81c244531b003f6f26cfccf6c0073b3239fdedf49446"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:775:776:string_content",
+      "kind": "string_content",
+      "label": ":",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 31,
+          "byte": 775
+        },
+        "end": {
+          "line": 27,
+          "column": 32,
+          "byte": 776
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e7ac0786668e0ff0f02b62bd04f45ff636fd82db63b1104601c975dc005f3a67"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:765:775:interpolation",
+      "kind": "interpolation",
+      "label": "{rel_path}",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 21,
+          "byte": 765
+        },
+        "end": {
+          "line": 27,
+          "column": 31,
+          "byte": 775
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:766:774:identifier"
+      ],
+      "text_digest": "03ae65e904ab10c14971b2085064182d4fdad77039ec42d30399ea5dd48d0ad7"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:766:774:identifier",
+      "kind": "identifier",
+      "label": "rel_path",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 22,
+          "byte": 766
+        },
+        "end": {
+          "line": 27,
+          "column": 30,
+          "byte": 774
+        }
+      },
+      "children_ids": [],
+      "text_digest": "caccd7daf75b5aa607a54083e7cae5d58a80c03f9f15bb996cacf2fbbfcfca73"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:763:765:string_start",
+      "kind": "string_start",
+      "label": "f\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 19,
+          "byte": 763
+        },
+        "end": {
+          "line": 27,
+          "column": 21,
+          "byte": 765
+        }
+      },
+      "children_ids": [],
+      "text_digest": "018407f59bfcd1c06f884efe470427502b922387bd4ea372c77d479c06379bb9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:761:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "node.attr not in {\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 23,
+          "byte": 489
+        },
+        "end": {
+          "line": 27,
+          "column": 17,
+          "byte": 761
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set"
+      ],
+      "text_digest": "01d6666161378a13189c0c2f17268ec55e10aa75c6ca3b5325c683e30c194685"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:506:761:set",
+      "kind": "set",
+      "label": "{\r\n                    \"nodes\",\r\n                    \"edges\",\r\n                    \"successors\",\r\n                    \"predecessors\",\r\n                    \"in_degree\",\r\n                    \"out_degree\",\r\n                    \"neighbors\",\r\n                }",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 40,
+          "byte": 506
+        },
+        "end": {
+          "line": 27,
+          "column": 17,
+          "byte": 761
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string"
+      ],
+      "text_digest": "59934a3c1571e8c41be137f098702a1c7d04580bf6cd4abd77c44a1fe493dbe4"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:741:string",
+      "kind": "string",
+      "label": "\"neighbors\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 20,
+          "byte": 730
+        },
+        "end": {
+          "line": 26,
+          "column": 31,
+          "byte": 741
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:731:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:731:740:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:740:741:string_end"
+      ],
+      "text_digest": "095c6dd2c895bd999a93e3b909d7ad4903d689f208e7441612d385e2bd8657f4"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:740:741:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 30,
+          "byte": 740
+        },
+        "end": {
+          "line": 26,
+          "column": 31,
+          "byte": 741
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:731:740:string_content",
+      "kind": "string_content",
+      "label": "neighbors",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 21,
+          "byte": 731
+        },
+        "end": {
+          "line": 26,
+          "column": 30,
+          "byte": 740
+        }
+      },
+      "children_ids": [],
+      "text_digest": "27520c70d7dfbef9691f5bd7463b8d0bcc350b7eabb2b79cf3c74293012a55a9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:730:731:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 20,
+          "byte": 730
+        },
+        "end": {
+          "line": 26,
+          "column": 21,
+          "byte": 731
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:707:string",
+      "kind": "string",
+      "label": "\"out_degree\"",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 20,
+          "byte": 695
+        },
+        "end": {
+          "line": 25,
+          "column": 32,
+          "byte": 707
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:696:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:696:706:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:706:707:string_end"
+      ],
+      "text_digest": "80e64e79b3d3624ace3fe8b38ce05f79e35493f2e47269d0207026d3dc3e15b9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:706:707:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 31,
+          "byte": 706
+        },
+        "end": {
+          "line": 25,
+          "column": 32,
+          "byte": 707
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:696:706:string_content",
+      "kind": "string_content",
+      "label": "out_degree",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 21,
+          "byte": 696
+        },
+        "end": {
+          "line": 25,
+          "column": 31,
+          "byte": 706
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a5aa2c62cb47c9acec1b0954a0c8f59a9e428e74447ba02ecf797a215e78b007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:695:696:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 20,
+          "byte": 695
+        },
+        "end": {
+          "line": 25,
+          "column": 21,
+          "byte": 696
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:672:string",
+      "kind": "string",
+      "label": "\"in_degree\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 20,
+          "byte": 661
+        },
+        "end": {
+          "line": 24,
+          "column": 31,
+          "byte": 672
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:662:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:662:671:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:671:672:string_end"
+      ],
+      "text_digest": "959cf051c259ed1d30d4d6132e9b8d87fb3594a5ebc392ee430f9c19f40baebd"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:671:672:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 30,
+          "byte": 671
+        },
+        "end": {
+          "line": 24,
+          "column": 31,
+          "byte": 672
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:662:671:string_content",
+      "kind": "string_content",
+      "label": "in_degree",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 21,
+          "byte": 662
+        },
+        "end": {
+          "line": 24,
+          "column": 30,
+          "byte": 671
+        }
+      },
+      "children_ids": [],
+      "text_digest": "63a24e22c3128dcc3d49b89b6bc51db6257a9d3cee83cfb21d7476a2be2897f8"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:661:662:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 20,
+          "byte": 661
+        },
+        "end": {
+          "line": 24,
+          "column": 21,
+          "byte": 662
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:638:string",
+      "kind": "string",
+      "label": "\"predecessors\"",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 20,
+          "byte": 624
+        },
+        "end": {
+          "line": 23,
+          "column": 34,
+          "byte": 638
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:625:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:625:637:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:637:638:string_end"
+      ],
+      "text_digest": "c16d196edadfecbb63909152b5078b8b47043b808d447105f17362b765242caf"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:637:638:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 33,
+          "byte": 637
+        },
+        "end": {
+          "line": 23,
+          "column": 34,
+          "byte": 638
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:625:637:string_content",
+      "kind": "string_content",
+      "label": "predecessors",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 21,
+          "byte": 625
+        },
+        "end": {
+          "line": 23,
+          "column": 33,
+          "byte": 637
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f121d6af244c9d20198e142a2ca413eac5ca1d150d3aeedc5649fb61b2b931de"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:624:625:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 20,
+          "byte": 624
+        },
+        "end": {
+          "line": 23,
+          "column": 21,
+          "byte": 625
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:601:string",
+      "kind": "string",
+      "label": "\"successors\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 20,
+          "byte": 589
+        },
+        "end": {
+          "line": 22,
+          "column": 32,
+          "byte": 601
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:590:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:590:600:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:600:601:string_end"
+      ],
+      "text_digest": "015e15aa0b37ba98776ec491582332650d770a7aedaa14e2c1ac4abceeb4ee00"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:600:601:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 31,
+          "byte": 600
+        },
+        "end": {
+          "line": 22,
+          "column": 32,
+          "byte": 601
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:590:600:string_content",
+      "kind": "string_content",
+      "label": "successors",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 21,
+          "byte": 590
+        },
+        "end": {
+          "line": 22,
+          "column": 31,
+          "byte": 600
+        }
+      },
+      "children_ids": [],
+      "text_digest": "826dcd5de529edc247de1ede265d7d83eaa5c0c5565230b4aad93b1bc042f921"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:589:590:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 20,
+          "byte": 589
+        },
+        "end": {
+          "line": 22,
+          "column": 21,
+          "byte": 590
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:566:string",
+      "kind": "string",
+      "label": "\"edges\"",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 20,
+          "byte": 559
+        },
+        "end": {
+          "line": 21,
+          "column": 27,
+          "byte": 566
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:560:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:560:565:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:565:566:string_end"
+      ],
+      "text_digest": "9038fe2efd24823606c72ae75a7af57041b47936d23006887b3761a6e5bd7587"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:565:566:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 26,
+          "byte": 565
+        },
+        "end": {
+          "line": 21,
+          "column": 27,
+          "byte": 566
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:560:565:string_content",
+      "kind": "string_content",
+      "label": "edges",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 21,
+          "byte": 560
+        },
+        "end": {
+          "line": 21,
+          "column": 26,
+          "byte": 565
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f394aa7979e5cc5d490493628d72a3847b31a79c38a81db1da7df4ef1cf8be23"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:559:560:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 20,
+          "byte": 559
+        },
+        "end": {
+          "line": 21,
+          "column": 21,
+          "byte": 560
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:536:string",
+      "kind": "string",
+      "label": "\"nodes\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 20,
+          "byte": 529
+        },
+        "end": {
+          "line": 20,
+          "column": 27,
+          "byte": 536
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:530:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:530:535:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:535:536:string_end"
+      ],
+      "text_digest": "bbef1c19933039e17b86c861eac2bc37e24adee1503595cc2ec8f6afd1ae3adb"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:535:536:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 26,
+          "byte": 535
+        },
+        "end": {
+          "line": 20,
+          "column": 27,
+          "byte": 536
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:530:535:string_content",
+      "kind": "string_content",
+      "label": "nodes",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 21,
+          "byte": 530
+        },
+        "end": {
+          "line": 20,
+          "column": 26,
+          "byte": 535
+        }
+      },
+      "children_ids": [],
+      "text_digest": "45978ecb2996bf78f07eed5be1b452a1dd2f2a93eda3aedb66f39ee36ccb2a79"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:529:530:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 20,
+          "byte": 529
+        },
+        "end": {
+          "line": 20,
+          "column": 21,
+          "byte": 530
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:498:attribute",
+      "kind": "attribute",
+      "label": "node.attr",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 23,
+          "byte": 489
+        },
+        "end": {
+          "line": 19,
+          "column": 32,
+          "byte": 498
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:493:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:494:498:identifier"
+      ],
+      "text_digest": "2d6ef25f3ffd45f3b0c4fd161f7a5d734d52a9271065468c432950d6b9fdb59c"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:494:498:identifier",
+      "kind": "identifier",
+      "label": "attr",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 28,
+          "byte": 494
+        },
+        "end": {
+          "line": 19,
+          "column": 32,
+          "byte": 498
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2148952c2c47033e44ec61fa83f01d8688db767553a0d2b6260428373d938fb8"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:489:493:identifier",
+      "kind": "identifier",
+      "label": "node",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 23,
+          "byte": 489
+        },
+        "end": {
+          "line": 19,
+          "column": 27,
+          "byte": 493
+        }
+      },
+      "children_ids": [],
+      "text_digest": "545ea538461003efdc8c81c244531b003f6f26cfccf6c0073b3239fdedf49446"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:463:call",
+      "kind": "call",
+      "label": "isinstance(node, ast.Attribute)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 15,
+          "byte": 432
+        },
+        "end": {
+          "line": 18,
+          "column": 46,
+          "byte": 463
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:442:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list"
+      ],
+      "text_digest": "b2778bb79de8b130b580eca666a840fb6ea4e786cf71ee2d30dcceab320ffb74"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:442:463:argument_list",
+      "kind": "argument_list",
+      "label": "(node, ast.Attribute)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 25,
+          "byte": 442
+        },
+        "end": {
+          "line": 18,
+          "column": 46,
+          "byte": 463
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:443:447:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute"
+      ],
+      "text_digest": "057422d754979491998e662dae216ab36a018cc452758d519cf23a76c514ab90"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:462:attribute",
+      "kind": "attribute",
+      "label": "ast.Attribute",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 32,
+          "byte": 449
+        },
+        "end": {
+          "line": 18,
+          "column": 45,
+          "byte": 462
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:452:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:453:462:identifier"
+      ],
+      "text_digest": "addce3473e4fedba94af98eb77bfd3cdee8536414148488a28097f497d491198"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:453:462:identifier",
+      "kind": "identifier",
+      "label": "Attribute",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 36,
+          "byte": 453
+        },
+        "end": {
+          "line": 18,
+          "column": 45,
+          "byte": 462
+        }
+      },
+      "children_ids": [],
+      "text_digest": "1d289028b79437ae34b23d1191aded02f2c2ce0cb0a0cc7a6b368e3ba357fe68"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:449:452:identifier",
+      "kind": "identifier",
+      "label": "ast",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 32,
+          "byte": 449
+        },
+        "end": {
+          "line": 18,
+          "column": 35,
+          "byte": 452
+        }
+      },
+      "children_ids": [],
+      "text_digest": "bdab28c8c51a75db1f28f6ef2e80e5f1468cec99ec1556764000b9480d34118a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:443:447:identifier",
+      "kind": "identifier",
+      "label": "node",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 26,
+          "byte": 443
+        },
+        "end": {
+          "line": 18,
+          "column": 30,
+          "byte": 447
+        }
+      },
+      "children_ids": [],
+      "text_digest": "545ea538461003efdc8c81c244531b003f6f26cfccf6c0073b3239fdedf49446"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:432:442:identifier",
+      "kind": "identifier",
+      "label": "isinstance",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 15,
+          "byte": 432
+        },
+        "end": {
+          "line": 18,
+          "column": 25,
+          "byte": 442
+        }
+      },
+      "children_ids": [],
+      "text_digest": "4a11dbf5131539804348ceb5bfb555e7fdc3d12c939c495ab0982e76e3cde627"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:414:call",
+      "kind": "call",
+      "label": "ast.walk(tree)",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 20,
+          "byte": 400
+        },
+        "end": {
+          "line": 17,
+          "column": 34,
+          "byte": 414
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list"
+      ],
+      "text_digest": "8efbb7e5d51e9ec70475e88145bc0abe995686741d71d30c910fd4ce3ba7a15e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:408:414:argument_list",
+      "kind": "argument_list",
+      "label": "(tree)",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 28,
+          "byte": 408
+        },
+        "end": {
+          "line": 17,
+          "column": 34,
+          "byte": 414
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:409:413:identifier"
+      ],
+      "text_digest": "3549f6a17cfac4592997ffc992616d6968dca4a07461a2e9fe265f8a6493b356"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:409:413:identifier",
+      "kind": "identifier",
+      "label": "tree",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 29,
+          "byte": 409
+        },
+        "end": {
+          "line": 17,
+          "column": 33,
+          "byte": 413
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc9c5edb8b2d479e697b4b0b8ab874f32b325138598ce9e7b759eb8292110622"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:408:attribute",
+      "kind": "attribute",
+      "label": "ast.walk",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 20,
+          "byte": 400
+        },
+        "end": {
+          "line": 17,
+          "column": 28,
+          "byte": 408
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:403:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:404:408:identifier"
+      ],
+      "text_digest": "ec3a2ca0ce5d1384db9ba2eb44c3ce14792bbd696b55348f1cae3ffa546b1fff"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:404:408:identifier",
+      "kind": "identifier",
+      "label": "walk",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 24,
+          "byte": 404
+        },
+        "end": {
+          "line": 17,
+          "column": 28,
+          "byte": 408
+        }
+      },
+      "children_ids": [],
+      "text_digest": "7a6c4fac6c5cd7209ee2eecd9d6ad3673c55315117de1d8daa5aeb3f71bbd7c7"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:400:403:identifier",
+      "kind": "identifier",
+      "label": "ast",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 20,
+          "byte": 400
+        },
+        "end": {
+          "line": 17,
+          "column": 23,
+          "byte": 403
+        }
+      },
+      "children_ids": [],
+      "text_digest": "bdab28c8c51a75db1f28f6ef2e80e5f1468cec99ec1556764000b9480d34118a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:392:396:identifier",
+      "kind": "identifier",
+      "label": "node",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 12,
+          "byte": 392
+        },
+        "end": {
+          "line": 17,
+          "column": 16,
+          "byte": 396
+        }
+      },
+      "children_ids": [],
+      "text_digest": "545ea538461003efdc8c81c244531b003f6f26cfccf6c0073b3239fdedf49446"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:expression_statement",
+      "kind": "expression_statement",
+      "label": "tree = ast.parse(source)",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 8,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 32,
+          "byte": 378
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment"
+      ],
+      "text_digest": "fb9c27b01f94062652505cff1eca51586468fd6774a0e4f4988f89ecb462d3a8"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:378:assignment",
+      "kind": "assignment",
+      "label": "tree = ast.parse(source)",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 8,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 32,
+          "byte": 378
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:358:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call"
+      ],
+      "text_digest": "fb9c27b01f94062652505cff1eca51586468fd6774a0e4f4988f89ecb462d3a8"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:378:call",
+      "kind": "call",
+      "label": "ast.parse(source)",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 15,
+          "byte": 361
+        },
+        "end": {
+          "line": 16,
+          "column": 32,
+          "byte": 378
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list"
+      ],
+      "text_digest": "9e47940683e57880b25a717caa505b308e8d8d8bbb9fffed161162d059bb3410"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:370:378:argument_list",
+      "kind": "argument_list",
+      "label": "(source)",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 24,
+          "byte": 370
+        },
+        "end": {
+          "line": 16,
+          "column": 32,
+          "byte": 378
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:371:377:identifier"
+      ],
+      "text_digest": "4264c649bb52c23d9c04c188f58ec2bcdb71b33f5a3766cb4318f2a15b880737"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:371:377:identifier",
+      "kind": "identifier",
+      "label": "source",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 25,
+          "byte": 371
+        },
+        "end": {
+          "line": 16,
+          "column": 31,
+          "byte": 377
+        }
+      },
+      "children_ids": [],
+      "text_digest": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:370:attribute",
+      "kind": "attribute",
+      "label": "ast.parse",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 15,
+          "byte": 361
+        },
+        "end": {
+          "line": 16,
+          "column": 24,
+          "byte": 370
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:364:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:365:370:identifier"
+      ],
+      "text_digest": "f45be958e1ef8898b278f737b4b7590a310fb783c53e2de2cbb0805f25982f96"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:365:370:identifier",
+      "kind": "identifier",
+      "label": "parse",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 19,
+          "byte": 365
+        },
+        "end": {
+          "line": 16,
+          "column": 24,
+          "byte": 370
+        }
+      },
+      "children_ids": [],
+      "text_digest": "30c471f6aafbca7085640653eeef555e85eb0df1602c98a662814c27767d1188"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:361:364:identifier",
+      "kind": "identifier",
+      "label": "ast",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 15,
+          "byte": 361
+        },
+        "end": {
+          "line": 16,
+          "column": 18,
+          "byte": 364
+        }
+      },
+      "children_ids": [],
+      "text_digest": "bdab28c8c51a75db1f28f6ef2e80e5f1468cec99ec1556764000b9480d34118a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:354:358:identifier",
+      "kind": "identifier",
+      "label": "tree",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 8,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 12,
+          "byte": 358
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc9c5edb8b2d479e697b4b0b8ab874f32b325138598ce9e7b759eb8292110622"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:expression_statement",
+      "kind": "expression_statement",
+      "label": "source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 8,
+          "byte": 285
+        },
+        "end": {
+          "line": 15,
+          "column": 67,
+          "byte": 344
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment"
+      ],
+      "text_digest": "067c95063b6f7e38764226c952318222be79bdb6a676a26787733f383cdf5464"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:344:assignment",
+      "kind": "assignment",
+      "label": "source = pathlib.Path(rel_path).read_text(encoding=\"utf-8\")",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 8,
+          "byte": 285
+        },
+        "end": {
+          "line": 15,
+          "column": 67,
+          "byte": 344
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:291:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call"
+      ],
+      "text_digest": "067c95063b6f7e38764226c952318222be79bdb6a676a26787733f383cdf5464"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:344:call",
+      "kind": "call",
+      "label": "pathlib.Path(rel_path).read_text(encoding=\"utf-8\")",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 294
+        },
+        "end": {
+          "line": 15,
+          "column": 67,
+          "byte": 344
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list"
+      ],
+      "text_digest": "d9e14be685ff83d9c4aeafe8945f8a601e8b522c73dfbe7632f3a9c14f8a6e23"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:326:344:argument_list",
+      "kind": "argument_list",
+      "label": "(encoding=\"utf-8\")",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 49,
+          "byte": 326
+        },
+        "end": {
+          "line": 15,
+          "column": 67,
+          "byte": 344
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument"
+      ],
+      "text_digest": "8d57b2c8bf1011228ee4c22fc4ae3151c49cfb0cb5e5c52afb178793c6fdd518"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:343:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "encoding=\"utf-8\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 50,
+          "byte": 327
+        },
+        "end": {
+          "line": 15,
+          "column": 66,
+          "byte": 343
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:335:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string"
+      ],
+      "text_digest": "79a411528d27669ec8aafbfc12fc7e0b854d837f7c2d362612dd6e386d9865c0"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:343:string",
+      "kind": "string",
+      "label": "\"utf-8\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 59,
+          "byte": 336
+        },
+        "end": {
+          "line": 15,
+          "column": 66,
+          "byte": 343
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:337:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:337:342:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:342:343:string_end"
+      ],
+      "text_digest": "d98383a6cb0943d0f3b771d8bf29de73aac12e12bdcea69140c3cdc493f55b30"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:342:343:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 65,
+          "byte": 342
+        },
+        "end": {
+          "line": 15,
+          "column": 66,
+          "byte": 343
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:337:342:string_content",
+      "kind": "string_content",
+      "label": "utf-8",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 60,
+          "byte": 337
+        },
+        "end": {
+          "line": 15,
+          "column": 65,
+          "byte": 342
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5cf1fa8d836a5e82ead36fb0854a6a68a4b8f7542038a346357d2424ddb60f5e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:336:337:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 59,
+          "byte": 336
+        },
+        "end": {
+          "line": 15,
+          "column": 60,
+          "byte": 337
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:327:335:identifier",
+      "kind": "identifier",
+      "label": "encoding",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 50,
+          "byte": 327
+        },
+        "end": {
+          "line": 15,
+          "column": 58,
+          "byte": 335
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e8424ea5339b85a750ab5f4c63bde5d5c62975792a3bed6ccb37c045207c6771"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:326:attribute",
+      "kind": "attribute",
+      "label": "pathlib.Path(rel_path).read_text",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 294
+        },
+        "end": {
+          "line": 15,
+          "column": 49,
+          "byte": 326
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:317:326:identifier"
+      ],
+      "text_digest": "d6a8f5b9eaf7fb75b545380b15e79784a20f3854f65a76d7e54768d0ffd01a3b"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:317:326:identifier",
+      "kind": "identifier",
+      "label": "read_text",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 40,
+          "byte": 317
+        },
+        "end": {
+          "line": 15,
+          "column": 49,
+          "byte": 326
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0422b4c9fb1313d50c39705549a46fc78f40cb6d1b641139c6da3bd4a54a6ce9"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:316:call",
+      "kind": "call",
+      "label": "pathlib.Path(rel_path)",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 294
+        },
+        "end": {
+          "line": 15,
+          "column": 39,
+          "byte": 316
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list"
+      ],
+      "text_digest": "980095119b5dcb680a32b541fa29ad086bb48efb6f922d843c57922b8fb304e5"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:306:316:argument_list",
+      "kind": "argument_list",
+      "label": "(rel_path)",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 29,
+          "byte": 306
+        },
+        "end": {
+          "line": 15,
+          "column": 39,
+          "byte": 316
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:307:315:identifier"
+      ],
+      "text_digest": "52e0c488ae96dd1498e08cb2aa2d123bf3ffd2b885ecfe90e6de5067b1788934"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:307:315:identifier",
+      "kind": "identifier",
+      "label": "rel_path",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 30,
+          "byte": 307
+        },
+        "end": {
+          "line": 15,
+          "column": 38,
+          "byte": 315
+        }
+      },
+      "children_ids": [],
+      "text_digest": "caccd7daf75b5aa607a54083e7cae5d58a80c03f9f15bb996cacf2fbbfcfca73"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:306:attribute",
+      "kind": "attribute",
+      "label": "pathlib.Path",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 294
+        },
+        "end": {
+          "line": 15,
+          "column": 29,
+          "byte": 306
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:301:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:302:306:identifier"
+      ],
+      "text_digest": "ad212966bb9b793053a5d91f7d78b9ec11aa24298bac2e23aedee6adf1335c46"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:302:306:identifier",
+      "kind": "identifier",
+      "label": "Path",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 25,
+          "byte": 302
+        },
+        "end": {
+          "line": 15,
+          "column": 29,
+          "byte": 306
+        }
+      },
+      "children_ids": [],
+      "text_digest": "62fa5a5b0d3c318835a213e22a4b335c42515443d598741d0413e8c47f9ecf67"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:294:301:identifier",
+      "kind": "identifier",
+      "label": "pathlib",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 294
+        },
+        "end": {
+          "line": 15,
+          "column": 24,
+          "byte": 301
+        }
+      },
+      "children_ids": [],
+      "text_digest": "40320bd2bc0657126e54d29e92edd83007cb28a432a643d407c9bafc01f10381"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:285:291:identifier",
+      "kind": "identifier",
+      "label": "source",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 8,
+          "byte": 285
+        },
+        "end": {
+          "line": 15,
+          "column": 14,
+          "byte": 291
+        }
+      },
+      "children_ids": [],
+      "text_digest": "41cf6794ba4200b839c53531555f0f3998df4cbb01a4d5cb0b94e3ca5e23947d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:254:274:identifier",
+      "kind": "identifier",
+      "label": "CLOSED_AFTER_STAGE_6",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 20,
+          "byte": 254
+        },
+        "end": {
+          "line": 14,
+          "column": 40,
+          "byte": 274
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ea726e10cc0f3fc190262de727fb663b6ccebc22754109f04dfa12f27c055170"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:242:250:identifier",
+      "kind": "identifier",
+      "label": "rel_path",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 8,
+          "byte": 242
+        },
+        "end": {
+          "line": 14,
+          "column": 16,
+          "byte": 250
+        }
+      },
+      "children_ids": [],
+      "text_digest": "caccd7daf75b5aa607a54083e7cae5d58a80c03f9f15bb996cacf2fbbfcfca73"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 43,
+          "byte": 227
+        },
+        "end": {
+          "line": 13,
+          "column": 47,
+          "byte": 231
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:227:231:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 43,
+          "byte": 227
+        },
+        "end": {
+          "line": 13,
+          "column": 47,
+          "byte": 231
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:221:223:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 37,
+          "byte": 221
+        },
+        "end": {
+          "line": 13,
+          "column": 39,
+          "byte": 223
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:188:221:identifier",
+      "kind": "identifier",
+      "label": "test_no_graph_access_after_bundle",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 188
+        },
+        "end": {
+          "line": 13,
+          "column": 37,
+          "byte": 221
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ac954cf89d3d099b12d2b76b87a58df8ee0891c2174120501f84046cdbdd114a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:expression_statement",
+      "kind": "expression_statement",
+      "label": "CLOSED_AFTER_STAGE_6 = [\r\n    \"depos/analysis/verifier.py\",\r\n    \"depos/analysis/gray_zone_evaluator.py\",\r\n]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 70
+        },
+        "end": {
+          "line": 10,
+          "column": 1,
+          "byte": 178
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment"
+      ],
+      "text_digest": "1f684ebb31260a8b7754cc87ddca160e30d4926ea2eef72fb7072f2661c56d6d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:178:assignment",
+      "kind": "assignment",
+      "label": "CLOSED_AFTER_STAGE_6 = [\r\n    \"depos/analysis/verifier.py\",\r\n    \"depos/analysis/gray_zone_evaluator.py\",\r\n]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 70
+        },
+        "end": {
+          "line": 10,
+          "column": 1,
+          "byte": 178
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:90:identifier",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list"
+      ],
+      "text_digest": "1f684ebb31260a8b7754cc87ddca160e30d4926ea2eef72fb7072f2661c56d6d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:93:178:list",
+      "kind": "list",
+      "label": "[\r\n    \"depos/analysis/verifier.py\",\r\n    \"depos/analysis/gray_zone_evaluator.py\",\r\n]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 23,
+          "byte": 93
+        },
+        "end": {
+          "line": 10,
+          "column": 1,
+          "byte": 178
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string"
+      ],
+      "text_digest": "f76340bd00738680bf3541183df7239476ee8cabca01f75c8a10cc0da2b0fe3e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:174:string",
+      "kind": "string",
+      "label": "\"depos/analysis/gray_zone_evaluator.py\"",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 4,
+          "byte": 135
+        },
+        "end": {
+          "line": 9,
+          "column": 43,
+          "byte": 174
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:136:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:136:173:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:173:174:string_end"
+      ],
+      "text_digest": "7c81e323fe45e6720c7633dc19160043aee71ae3989127fdad24ee5c5fc03b0d"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:173:174:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 42,
+          "byte": 173
+        },
+        "end": {
+          "line": 9,
+          "column": 43,
+          "byte": 174
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:136:173:string_content",
+      "kind": "string_content",
+      "label": "depos/analysis/gray_zone_evaluator.py",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 5,
+          "byte": 136
+        },
+        "end": {
+          "line": 9,
+          "column": 42,
+          "byte": 173
+        }
+      },
+      "children_ids": [],
+      "text_digest": "150d2241bbbfeb078c57a4014eeff1309b7d9320eabb74c4e2dd4e482a43144e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:135:136:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 4,
+          "byte": 135
+        },
+        "end": {
+          "line": 9,
+          "column": 5,
+          "byte": 136
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:128:string",
+      "kind": "string",
+      "label": "\"depos/analysis/verifier.py\"",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 4,
+          "byte": 100
+        },
+        "end": {
+          "line": 8,
+          "column": 32,
+          "byte": 128
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:101:string_start",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:101:127:string_content",
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:127:128:string_end"
+      ],
+      "text_digest": "66660dfc767d2451036b0828b173024819e6789b05001b987035e6e687b7f54e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:127:128:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 31,
+          "byte": 127
+        },
+        "end": {
+          "line": 8,
+          "column": 32,
+          "byte": 128
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:101:127:string_content",
+      "kind": "string_content",
+      "label": "depos/analysis/verifier.py",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 5,
+          "byte": 101
+        },
+        "end": {
+          "line": 8,
+          "column": 31,
+          "byte": 127
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5f3a0f13cd1b6f6c9a06812d7294fc4cf6ca24a0f2498c617b04249173163ddf"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:100:101:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 4,
+          "byte": 100
+        },
+        "end": {
+          "line": 8,
+          "column": 5,
+          "byte": 101
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:70:90:identifier",
+      "kind": "identifier",
+      "label": "CLOSED_AFTER_STAGE_6",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 70
+        },
+        "end": {
+          "line": 7,
+          "column": 20,
+          "byte": 90
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ea726e10cc0f3fc190262de727fb663b6ccebc22754109f04dfa12f27c055170"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:50:64:import_statement",
+      "kind": "import_statement",
+      "label": "import pathlib",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 50
+        },
+        "end": {
+          "line": 4,
+          "column": 14,
+          "byte": 64
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name"
+      ],
+      "text_digest": "7c98fe3c8cc939938242455ca28b7d61e313653024a6c7f889d3eba1ef72533e"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:dotted_name",
+      "kind": "dotted_name",
+      "label": "pathlib",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 57
+        },
+        "end": {
+          "line": 4,
+          "column": 14,
+          "byte": 64
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:identifier"
+      ],
+      "text_digest": "40320bd2bc0657126e54d29e92edd83007cb28a432a643d407c9bafc01f10381"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:57:64:identifier",
+      "kind": "identifier",
+      "label": "pathlib",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 57
+        },
+        "end": {
+          "line": 4,
+          "column": 14,
+          "byte": 64
+        }
+      },
+      "children_ids": [],
+      "text_digest": "40320bd2bc0657126e54d29e92edd83007cb28a432a643d407c9bafc01f10381"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:38:48:import_statement",
+      "kind": "import_statement",
+      "label": "import ast",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 0,
+          "byte": 38
+        },
+        "end": {
+          "line": 3,
+          "column": 10,
+          "byte": 48
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name"
+      ],
+      "text_digest": "7e2b36d7ff4507ef86d0c699f545ffe596952685e8abbad9cb744f1f2d669372"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:dotted_name",
+      "kind": "dotted_name",
+      "label": "ast",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 7,
+          "byte": 45
+        },
+        "end": {
+          "line": 3,
+          "column": 10,
+          "byte": 48
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:identifier"
+      ],
+      "text_digest": "bdab28c8c51a75db1f28f6ef2e80e5f1468cec99ec1556764000b9480d34118a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:45:48:identifier",
+      "kind": "identifier",
+      "label": "ast",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 7,
+          "byte": 45
+        },
+        "end": {
+          "line": 3,
+          "column": 10,
+          "byte": 48
+        }
+      },
+      "children_ids": [],
+      "text_digest": "bdab28c8c51a75db1f28f6ef2e80e5f1468cec99ec1556764000b9480d34118a"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:0:34:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 23,
+          "byte": 23
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [
+        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:tests/test_graph_closure.py:23:34:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 23,
+          "byte": 23
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "tests/test_graph_closure.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

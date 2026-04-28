@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-product",
+  "mode": "full_repo",
+  "generated_at": "2026-01-15T12:00:00+00:00",
+  "impact_paths": [
+    {
+      "finding_id": "cand-1:finding",
+      "nodes": [
+        {
+          "node_id": "node:a",
+          "label": "",
+          "kind": ""
+        },
+        {
+          "node_id": "node:b",
+          "label": "",
+          "kind": ""
+        }
+      ],
+      "edges": [],
+      "graph_reliability": "low"
+    }
+  ]
+}

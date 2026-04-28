@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-product",
+  "mode": "full_repo",
+  "generated_at": "2026-01-15T12:00:00+00:00",
+  "summary": {
+    "run_id": "run-product",
+    "mode": "full_repo",
+    "findings_total": 1,
+    "verified_total": 1,
+    "review_total": 1,
+    "graph_reliability": "low",
+    "output_paths": {}
+  },
+  "ci_decision": {
+    "should_block": true,
+    "blocking_finding_ids": [
+      "cand-1:finding"
+    ],
+    "policy_snapshot": {
+      "block_on_critical_verified": true,
+      "block_on_high_verified": false,
+      "block_on_gray_zone": false,
+      "max_allowed_critical": 0,
+      "max_allowed_high": null
+    },
+    "reason": "blocking_product_findings"
+  }
+}

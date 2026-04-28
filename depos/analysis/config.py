@@ -8,10 +8,15 @@ from here.
 from __future__ import annotations
 
 import os
+import logging
 from pathlib import Path
-from typing import Optional
+from typing import Literal, Optional
 
-from pydantic import BaseModel, Field
+import warnings
+
+from pydantic import AliasChoices, BaseModel, Field
+
+logger = logging.getLogger(__name__)
 
 
 class IntentContextConfig(BaseModel):
@@ -54,6 +59,7 @@ class IntentContextConfig(BaseModel):
     default_intent_tier: Optional[str] = Field(default=None)
 
 
+
 class VerifierPolicy(BaseModel):
     min_edge_confidence_for_confirmed: float = 0.8
     min_edge_confidence_for_partially_confirmed: float = 0.6
@@ -77,12 +83,17 @@ class BundleBudget(BaseModel):
     extra_source_roots: list[str] = Field(default_factory=list)
     path_aliases: dict[str, str] = Field(default_factory=dict)
     min_snippet_chars: int = 80
+    max_caller_texts: int = 3
+    max_callee_texts: int = 3
+    max_seam_neighbor_texts: int = 3
+    max_snippet_chars: int = 400
+    max_prompt_tokens: int = 2048
     min_evidence_quality_for_reasoner: str = "embedded"  # full | embedded | label_only
     min_evidence_score_for_reasoner: float = 0.00
 
 
 class ReasonerProviderConfig(BaseModel):
-    provider: str = "gemma"  # gemma | openai | ollama | stub
+    provider: str = "gemma"  # gemma | openai | ollama | anthropic | stub
     max_retries: int = 2
     gemma_api_url: Optional[str] = None
     gemma_model: str = "gemma-4"
@@ -90,6 +101,8 @@ class ReasonerProviderConfig(BaseModel):
     openai_model: str = "gpt-4o-mini"
     ollama_host: Optional[str] = None
     ollama_model: str = "gemma:2b"
+    anthropic_api_key: Optional[str] = None
+    anthropic_model: str = "claude-sonnet-4-6"
     default_max_tokens: int = 1000
     # JSON path expressions used to extract the model's text reply from the
     # provider response. Override per-deployment (e.g. Vertex AI Gemma vs
@@ -98,13 +111,45 @@ class ReasonerProviderConfig(BaseModel):
     gemma_response_path: str = "response"
     openai_response_path: str = "choices[0].message.content"
     ollama_response_path: str = "response"
+    # HTTP timeouts (seconds). Keep connect small so unreachable providers
+    # fail fast; read needs to cover first-token latency for local models
+    # like Ollama loading weights on the first call.
+    connect_timeout_seconds: float = 5.0
+    read_timeout_seconds: float = 60.0
+    # Preflight uses /api/generate with a tiny prompt; first call still loads
+    # the full model locally, so defaults must exceed typical cold-start latency.
+    ollama_preflight_timeout: float = 120.0
+    ollama_first_call_timeout: float = 300.0
+    ollama_subsequent_timeout: float = 120.0
+    # Concurrency: how many modes (A/B/C) may run in parallel per candidate.
+    max_concurrent_reasoner_modes: int = 3
+    # Optional system prompt override; when set, replaces the built-in prompt
+    # head so operators can tune instructions per-provider without a code change.
+    reasoner_system_prompt: Optional[str] = None
+    # Per-mode provider/model overrides — take precedence over `provider`.
+    # Useful for routing lightweight Mode A to a cheaper model and Mode C to
+    # a stronger one. Leave None to use the global `provider` for that mode.
+    mode_a_provider: Optional[str] = None
+    mode_b_provider: Optional[str] = None
+    mode_c_provider: Optional[str] = None
+    mode_a_model: Optional[str] = None
+    mode_b_model: Optional[str] = None
+    mode_c_model: Optional[str] = None
+
+
+class ReasonerPolicyConfig(BaseModel):
+    disabled_detectors: set[str] = Field(default_factory=set)
+    min_evidence_by_detector: dict[str, float] = Field(default_factory=dict)
+    max_candidates_by_detector: dict[str, int] = Field(default_factory=dict)
 
 
 class GrayZoneConfig(BaseModel):
     enabled: bool = True
-    model_a_provider: str = "gemma"
-    model_b_provider: str = "gemma"
-    model_c_provider: str = "gemma"
+    # When None, Module 7 uses the same backend as ``IntelligenceConfig.llm.provider``
+    # (so Ollama/OpenAI runs do not silently fall back to Gemma-without-URL → stub).
+    model_a_provider: Optional[str] = None
+    model_b_provider: Optional[str] = None
+    model_c_provider: Optional[str] = None
     unconfirmed_confidence_threshold: float = 0.75
 
 
@@ -117,14 +162,77 @@ class RankerConfig(BaseModel):
     graphcodebert_local_files_only: bool = False
     phase_0_weights: dict[str, float] = Field(
         default_factory=lambda: {
-            "cross_language_seam_count": 0.3,
-            "changed_node_density": 0.25,
-            "unresolved_symbol_count": 0.2,
-            "removed_entity_references": 0.15,
+            "cross_language_seam_count": 0.25,
+            "changed_node_density": 0.22,
+            "unresolved_symbol_count": 0.18,
+            "removed_entity_references": 0.12,
             "missing_guard_signals": 0.1,
+            "candidate_score_composite": 0.13,
             "graphcodebert_score": 0.05,
         }
     )
+
+
+class ScoringConfig(BaseModel):
+    """Weights per analysis mode for :class:`CandidateScore` composite."""
+
+    weights: dict[str, dict[str, float]] = Field(default_factory=dict)
+
+
+class DetectorHeuristicsConfig(BaseModel):
+    """Detector-specific allowlists and heuristics."""
+
+    env_var_safe_names: list[str] = Field(default_factory=list)
+
+
+class CacheConfig(BaseModel):
+    enabled: bool = True
+    cache_dir: Optional[Path] = None
+    clear: bool = False
+
+
+class PerfConfig(BaseModel):
+    """Pipeline performance tuning (``DEPOS_PERF_*`` environment variables)."""
+
+    taint_n_jobs: int = 1
+    cfg_dfg_n_jobs: int = 1
+    bundle_n_jobs: int = 1
+    graph_metrics_expensive: bool = True
+    metrics_backend: Literal["networkx", "rustworkx"] = "networkx"
+
+
+def load_perf_config_from_env() -> PerfConfig:
+    """Load :class:`PerfConfig` from ``DEPOS_PERF_*`` when set."""
+    p = PerfConfig()
+    raw_taint = os.environ.get("DEPOS_PERF_TAINT_N_JOBS")
+    if raw_taint:
+        try:
+            p.taint_n_jobs = max(1, int(raw_taint.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_TAINT_N_JOBS=%r", raw_taint)
+    raw_bundle = os.environ.get("DEPOS_PERF_BUNDLE_N_JOBS")
+    if raw_bundle:
+        try:
+            p.bundle_n_jobs = max(1, int(raw_bundle.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_BUNDLE_N_JOBS=%r", raw_bundle)
+    raw_cfg_dfg = os.environ.get("DEPOS_PERF_CFG_DFG_N_JOBS")
+    if raw_cfg_dfg:
+        try:
+            p.cfg_dfg_n_jobs = max(1, int(raw_cfg_dfg.strip()))
+        except ValueError:
+            logger.warning("Ignoring invalid DEPOS_PERF_CFG_DFG_N_JOBS=%r", raw_cfg_dfg)
+    v = os.environ.get("DEPOS_PERF_GRAPH_METRICS_EXPENSIVE", "").strip().lower()
+    if v in {"0", "false", "no", "off"}:
+        p.graph_metrics_expensive = False
+    elif v in {"1", "true", "yes", "on"}:
+        p.graph_metrics_expensive = True
+    mb = os.environ.get("DEPOS_PERF_METRICS_BACKEND", "").strip().lower()
+    if mb == "rustworkx":
+        p = p.model_copy(update={"metrics_backend": "rustworkx"})
+    elif mb == "networkx":
+        p = p.model_copy(update={"metrics_backend": "networkx"})
+    return p
 
 
 class IntelligenceConfig(BaseModel):
@@ -164,48 +272,193 @@ class IntelligenceConfig(BaseModel):
     branch_ref: Optional[str] = None
 
     verifier: VerifierPolicy = Field(default_factory=VerifierPolicy)
+    detectors: DetectorHeuristicsConfig = Field(default_factory=DetectorHeuristicsConfig)
     candidates: CandidateBudget = Field(default_factory=CandidateBudget)
     bundles: BundleBudget = Field(default_factory=BundleBudget)
-    reasoner: ReasonerProviderConfig = Field(default_factory=ReasonerProviderConfig)
+    llm: ReasonerProviderConfig = Field(
+        default_factory=ReasonerProviderConfig,
+        validation_alias=AliasChoices("llm", "reasoner"),
+    )
+    reasoner_policy: ReasonerPolicyConfig = Field(default_factory=ReasonerPolicyConfig)
     gray_zone: GrayZoneConfig = Field(default_factory=GrayZoneConfig)
     ranker: RankerConfig = Field(default_factory=RankerConfig)
+    scoring: ScoringConfig = Field(default_factory=ScoringConfig)
+    cache: CacheConfig = Field(default_factory=CacheConfig)
     intent_context: IntentContextConfig = Field(default_factory=IntentContextConfig)
+
+    @property
+    def reasoner(self) -> ReasonerProviderConfig:  # noqa: ANN201 - public compat
+        warnings.warn(
+            "IntelligenceConfig.reasoner is deprecated; use .llm",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.llm
+
+    def resolved_llm_model_label(self) -> str:
+        r = self.llm
+        provider = (r.provider or "gemma").lower()
+        model_map: dict[str, str] = {
+            "openai": r.openai_model,
+            "anthropic": r.anthropic_model,
+            "ollama": r.ollama_model,
+            "gemma": r.gemma_model,
+        }
+        model = model_map.get(provider, r.gemma_model) or provider
+        return f"{provider}/{model}"
 
 
 def load_config_from_env() -> IntelligenceConfig:
     """Build a config from DEPOS_INTEL_* env vars where present. Unknown
     vars are ignored; everything falls back to the defaults above."""
     cfg = IntelligenceConfig()
-    cfg.reasoner.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.reasoner.provider)
-    cfg.reasoner.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.reasoner.openai_api_key)
-    cfg.reasoner.openai_model = os.environ.get("OPENAI_MODEL", cfg.reasoner.openai_model)
-    cfg.reasoner.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.reasoner.gemma_api_url)
-    cfg.reasoner.gemma_model = os.environ.get("GEMMA_MODEL", cfg.reasoner.gemma_model)
-    cfg.reasoner.gemma_response_path = os.environ.get(
-        "GEMMA_RESPONSE_PATH", cfg.reasoner.gemma_response_path
+    cache_enabled = os.environ.get("DEPOS_CACHE_ENABLED")
+    if cache_enabled is not None:
+        cfg.cache.enabled = cache_enabled.strip().lower() not in {"0", "false", "no", "off"}
+    if os.environ.get("DEPOS_NO_CACHE", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.cache.enabled = False
+    cache_dir = os.environ.get("DEPOS_CACHE_DIR")
+    if cache_dir:
+        cfg.cache.cache_dir = Path(cache_dir)
+    if os.environ.get("DEPOS_CACHE_CLEAR", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.cache.clear = True
+    cfg.llm.provider = os.environ.get("DEPOS_INTEL_PROVIDER", cfg.llm.provider)
+    if os.environ.get("DEPOS_GRAY_ZONE_ENABLED", "").strip().lower() in {"0", "false", "no", "off"}:
+        cfg.gray_zone.enabled = False
+    gz_a = os.environ.get("DEPOS_GRAY_ZONE_MODEL_A_PROVIDER", "").strip()
+    if gz_a:
+        cfg.gray_zone.model_a_provider = gz_a
+    gz_b = os.environ.get("DEPOS_GRAY_ZONE_MODEL_B_PROVIDER", "").strip()
+    if gz_b:
+        cfg.gray_zone.model_b_provider = gz_b
+    gz_c = os.environ.get("DEPOS_GRAY_ZONE_MODEL_C_PROVIDER", "").strip()
+    if gz_c:
+        cfg.gray_zone.model_c_provider = gz_c
+    cfg.reasoner_policy.disabled_detectors = _parse_detector_set(
+        os.environ.get("DEPOS_REASONER_DISABLED_DETECTORS", "")
     )
-    cfg.reasoner.openai_response_path = os.environ.get(
-        "OPENAI_RESPONSE_PATH", cfg.reasoner.openai_response_path
+    cfg.reasoner_policy.min_evidence_by_detector = _parse_detector_float_map(
+        os.environ.get("DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR", ""),
+        env_name="DEPOS_REASONER_MIN_EVIDENCE_BY_DETECTOR",
+        minimum=0.0,
+        maximum=1.0,
     )
-    cfg.reasoner.ollama_response_path = os.environ.get(
-        "OLLAMA_RESPONSE_PATH", cfg.reasoner.ollama_response_path
+    cfg.reasoner_policy.max_candidates_by_detector = _parse_detector_int_map(
+        os.environ.get("DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR", ""),
+        env_name="DEPOS_REASONER_MAX_CANDIDATES_BY_DETECTOR",
+        minimum=0,
     )
-    cfg.reasoner.ollama_host = os.environ.get("OLLAMA_HOST", cfg.reasoner.ollama_host)
-    cfg.reasoner.ollama_model = os.environ.get("OLLAMA_MODEL", cfg.reasoner.ollama_model)
-    cfg.ranker.use_graphcodebert = os.environ.get("DEPOS_INTEL_USE_GRAPHCODEBERT", "").strip().lower() in {"1", "true", "yes", "on"}
-    cfg.ranker.graphcodebert_cache_dir = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_CACHE", cfg.ranker.graphcodebert_cache_dir)
-    cfg.ranker.graphcodebert_device = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_DEVICE", cfg.ranker.graphcodebert_device)
-    cfg.ranker.graphcodebert_local_files_only = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_LOCAL_ONLY", "").strip().lower() in {"1", "true", "yes", "on"}
+    cfg.llm.openai_api_key = os.environ.get("OPENAI_API_KEY", cfg.llm.openai_api_key)
+    cfg.llm.openai_model = os.environ.get("OPENAI_MODEL", cfg.llm.openai_model)
+    cfg.llm.anthropic_api_key = os.environ.get("ANTHROPIC_API_KEY", cfg.llm.anthropic_api_key)
+    cfg.llm.anthropic_model = os.environ.get("ANTHROPIC_MODEL", cfg.llm.anthropic_model)
+    cfg.llm.gemma_api_url = os.environ.get("GEMMA_API_URL", cfg.llm.gemma_api_url)
+    cfg.llm.gemma_model = os.environ.get("GEMMA_MODEL", cfg.llm.gemma_model)
+    cfg.llm.gemma_response_path = os.environ.get(
+        "GEMMA_RESPONSE_PATH", cfg.llm.gemma_response_path
+    )
+    cfg.llm.openai_response_path = os.environ.get(
+        "OPENAI_RESPONSE_PATH", cfg.llm.openai_response_path
+    )
+    cfg.llm.ollama_response_path = os.environ.get(
+        "OLLAMA_RESPONSE_PATH", cfg.llm.ollama_response_path
+    )
+    cfg.llm.ollama_host = os.environ.get("OLLAMA_HOST", cfg.llm.ollama_host)
+    cfg.llm.ollama_model = os.environ.get("OLLAMA_MODEL", cfg.llm.ollama_model)
     try:
         cfg.bundles.token_budget_default = int(os.environ.get("DEPOS_INTEL_TOKEN_BUDGET", cfg.bundles.token_budget_default))
     except ValueError:
         pass
+    try:
+        cfg.llm.connect_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_CONNECT_TIMEOUT", cfg.llm.connect_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.read_timeout_seconds = float(
+            os.environ.get("DEPOS_LLM_READ_TIMEOUT", cfg.llm.read_timeout_seconds)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_preflight_timeout = float(
+            os.environ.get(
+                "DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT",
+                cfg.llm.ollama_preflight_timeout,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.llm.ollama_first_call_timeout = float(
+            os.environ.get(
+                "DEPOS_OLLAMA_FIRST_CALL_TIMEOUT",
+                os.environ.get(
+                "DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT",
+                cfg.llm.ollama_first_call_timeout,
+                ),
+            )
+        )
+    except ValueError:
+        logger.warning("Ignoring invalid DEPOS_OLLAMA_FIRST_CALL_TIMEOUT / DEPOS_LLM_OLLAMA_FIRST_CALL_TIMEOUT")
+    try:
+        cfg.llm.ollama_subsequent_timeout = float(
+            os.environ.get(
+                "DEPOS_OLLAMA_SUBSEQUENT_TIMEOUT",
+                os.environ.get(
+                "DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT",
+                cfg.llm.ollama_subsequent_timeout,
+                ),
+            )
+        )
+    except ValueError:
+        logger.warning("Ignoring invalid DEPOS_OLLAMA_SUBSEQUENT_TIMEOUT / DEPOS_LLM_OLLAMA_SUBSEQUENT_TIMEOUT")
+    try:
+        cfg.llm.max_retries = int(
+            os.environ.get("DEPOS_REASONER_MAX_RETRIES", cfg.llm.max_retries)
+        )
+    except ValueError:
+        logger.warning("Ignoring invalid DEPOS_REASONER_MAX_RETRIES")
 
     extra_roots = os.environ.get("DEPOS_INTEL_EXTRA_SOURCE_ROOTS")
     if extra_roots:
         cfg.bundles.extra_source_roots = [
             part for part in extra_roots.split(os.pathsep) if part.strip()
         ]
+    try:
+        cfg.bundles.max_caller_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLER_TEXTS", cfg.bundles.max_caller_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_callee_texts = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_CALLEE_TEXTS", cfg.bundles.max_callee_texts)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_seam_neighbor_texts = int(
+            os.environ.get(
+                "DEPOS_BUNDLE_MAX_SEAM_NEIGHBOR_TEXTS",
+                cfg.bundles.max_seam_neighbor_texts,
+            )
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_snippet_chars = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_SNIPPET_CHARS", cfg.bundles.max_snippet_chars)
+        )
+    except ValueError:
+        pass
+    try:
+        cfg.bundles.max_prompt_tokens = int(
+            os.environ.get("DEPOS_BUNDLE_MAX_PROMPT_TOKENS", cfg.bundles.max_prompt_tokens)
+        )
+    except ValueError:
+        pass
     aliases_json = os.environ.get("DEPOS_INTEL_PATH_ALIASES_JSON")
     if aliases_json:
         try:
@@ -228,7 +481,10 @@ def load_config_from_env() -> IntelligenceConfig:
         )
     except ValueError:
         pass
-
+    cfg.ranker.use_graphcodebert = os.environ.get("DEPOS_INTEL_USE_GRAPHCODEBERT", "").strip().lower() in {"1", "true", "yes", "on"}
+    cfg.ranker.graphcodebert_cache_dir = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_CACHE", cfg.ranker.graphcodebert_cache_dir)
+    cfg.ranker.graphcodebert_device = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_DEVICE", cfg.ranker.graphcodebert_device)
+    cfg.ranker.graphcodebert_local_files_only = os.environ.get("DEPOS_INTEL_GRAPHCODEBERT_LOCAL_ONLY", "").strip().lower() in {"1", "true", "yes", "on"}
     intent_mode = os.environ.get("DEPOS_INTEL_INTENT_LLM", "").strip().lower()
     if intent_mode in {"auto", "rules", "llm"}:
         cfg.intent_context.llm_mode = intent_mode
@@ -258,7 +514,77 @@ def load_config_from_env() -> IntelligenceConfig:
     cfg.intent_context.enable_doc_git_signals = os.environ.get(
         "DEPOS_INTEL_INTENT_GIT_SIGNALS", "1"
     ).strip().lower() not in {"0", "false", "off", "no"}
-    git_typed = os.environ.get("DEPOS_INTEL_INTENT_DEFAULT_TIER", "").strip().upper()
-    if git_typed in {"P0", "P1", "P2"}:
-        cfg.intent_context.default_intent_tier = git_typed
+    tier_env = os.environ.get("DEPOS_INTEL_INTENT_DEFAULT_TIER", "").strip().upper()
+    if tier_env in {"P0", "P1", "P2"}:
+        cfg.intent_context.default_intent_tier = tier_env
     return cfg
+
+
+def _parse_detector_set(raw: str) -> set[str]:
+    return {part.strip() for part in raw.split(",") if part.strip()}
+
+
+def _parse_detector_float_map(
+    raw: str,
+    *,
+    env_name: str,
+    minimum: float,
+    maximum: float,
+) -> dict[str, float]:
+    out: dict[str, float] = {}
+    for item in (part.strip() for part in raw.split(",") if part.strip()):
+        if ":" not in item:
+            logger.warning("Ignoring malformed %s entry: %s", env_name, item)
+            continue
+        detector, value_raw = (part.strip() for part in item.split(":", 1))
+        if not detector:
+            logger.warning("Ignoring %s entry with empty detector: %s", env_name, item)
+            continue
+        try:
+            value = float(value_raw)
+        except ValueError:
+            logger.warning("Ignoring non-numeric %s entry: %s", env_name, item)
+            continue
+        if value < minimum or value > maximum:
+            logger.warning(
+                "Ignoring out-of-range %s entry: %s (expected %.1f..%.1f)",
+                env_name,
+                item,
+                minimum,
+                maximum,
+            )
+            continue
+        out[detector] = value
+    return out
+
+
+def _parse_detector_int_map(
+    raw: str,
+    *,
+    env_name: str,
+    minimum: int,
+) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for item in (part.strip() for part in raw.split(",") if part.strip()):
+        if ":" not in item:
+            logger.warning("Ignoring malformed %s entry: %s", env_name, item)
+            continue
+        detector, value_raw = (part.strip() for part in item.split(":", 1))
+        if not detector:
+            logger.warning("Ignoring %s entry with empty detector: %s", env_name, item)
+            continue
+        try:
+            value = int(value_raw)
+        except ValueError:
+            logger.warning("Ignoring non-integer %s entry: %s", env_name, item)
+            continue
+        if value < minimum:
+            logger.warning(
+                "Ignoring out-of-range %s entry: %s (expected >= %d)",
+                env_name,
+                item,
+                minimum,
+            )
+            continue
+        out[detector] = value
+    return out
