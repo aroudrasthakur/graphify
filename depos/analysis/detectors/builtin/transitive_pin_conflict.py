@@ -13,7 +13,7 @@ SPEC = simple_spec(
     verifier_checks=["version_satisfaction", "external_oracle_lookup"],
     requires_reasoner=False,
     severity="high",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -34,7 +34,7 @@ def run(graph, manifest, mode, config, ctx):
             make_candidate(
                 scope_id=f"deps:transitive-pin-conflict:{package_name}",
                 seed_type=SeedType.graph_anomaly,
-                priority_score=0.79,
+                detector_confidence=0.79,
                 analysis_mode=mode,
                 diff_anchors=anchors[package_name],
                 extra={"package_name": package_name, "versions": sorted(versions)},

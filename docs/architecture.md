@@ -57,6 +57,19 @@ flowchart LR
   verifier --> store[Store / API / artifacts]
 ```
 
+## Product output boundary
+
+The canonical pipeline still runs through `RunResult` before product artifacts
+are assembled. `write_product_outputs` is the single product writer and runs
+after candidate selection, bundle creation, reasoner calls, legacy verification,
+Module 5 ranker annotation, and gray-zone evaluation have completed.
+
+Product `graph_reliability` is derived from run metadata and stitcher coverage.
+It can lower `impact_confidence`, add caveats, and set
+`recommended_action=request_review` for coverage-sensitive findings, but it does
+not change `CandidateScore.composite`, legacy `VerifierOutcome`, gray-zone
+admission, or `depos/output/gate.py` behavior.
+
 ## Graph contract for AI consumers
 
 - Nodes may include `errors[]` with category, severity, rule id, message, and provenance.

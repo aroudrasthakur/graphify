@@ -89,18 +89,35 @@ def map_diagnostics_to_nodes(
     diagnostics: list[DiagnosticRef],
     *,
     repo_root: Path | None = None,
+    indexes: Any = None,
 ) -> dict[str, list[DiagnosticRef]]:
     """Map each diagnostic to the best-matching node id(s). Returns node_id -> list."""
     mapping: dict[str, list[DiagnosticRef]] = {}
     nodes_by_file: dict[str, list[tuple[str, int | None, str]]] = {}
-    for nid, data in G.nodes(data=True):
-        sf = data.get("source_file") or ""
-        if not sf:
-            continue
-        key = _norm_path(sf)
-        line = _parse_source_line(data.get("source_location"))
-        label = str(data.get("label") or "")
-        nodes_by_file.setdefault(key, []).append((nid, line, label))
+    if indexes is not None:
+        by_file = getattr(indexes, "nodes_by_file", None) or {}
+        node_by_id = getattr(indexes, "node_by_id", None) or {}
+        for fkey, nids in by_file.items():
+            for nid in nids:
+                data = node_by_id.get(str(nid)) or (
+                    dict(G.nodes[nid]) if nid in G else {}
+                )
+                sf = data.get("source_file") or ""
+                if not sf:
+                    continue
+                key = _norm_path(str(sf))
+                line = _parse_source_line(data.get("source_location"))
+                label = str(data.get("label") or "")
+                nodes_by_file.setdefault(key, []).append((str(nid), line, label))
+    else:
+        for nid, data in G.nodes(data=True):
+            sf = data.get("source_file") or ""
+            if not sf:
+                continue
+            key = _norm_path(sf)
+            line = _parse_source_line(data.get("source_location"))
+            label = str(data.get("label") or "")
+            nodes_by_file.setdefault(key, []).append((nid, line, label))
 
     for d in diagnostics:
         uri = d.uri

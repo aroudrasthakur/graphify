@@ -35,6 +35,18 @@ def _config_node_id(key: str, path: Path) -> str:
     return f"config::{key}@{path.as_posix()}"
 
 
+def _existing_defined_env_node_id(graph: nx.DiGraph, name: str) -> str | None:
+    """Return an env_var node id for ``name`` that is already documented (defined)."""
+    for nid, attrs in graph.nodes(data=True):
+        if attrs.get("node_kind") != "env_var":
+            continue
+        if str(attrs.get("name") or "") != name:
+            continue
+        if attrs.get("defined"):
+            return str(nid)
+    return None
+
+
 def _scan_env_file(graph: nx.DiGraph, repo_root: Path, path: Path, report: IngestReport, seen_types: dict[str, set[str]]) -> None:
     rel = path.relative_to(repo_root)
     report.files_seen += 1
@@ -123,18 +135,22 @@ def _scan_js_config(graph: nx.DiGraph, repo_root: Path, path: Path, report: Inge
     ):
         report.nodes_added += 1
     for env_name in env_refs:
-        env_id = _env_node_id(env_name, rel)
-        if upsert_node(
-            graph,
-            env_id,
-            node_kind="env_var",
-            universe="env",
-            source_file=str(path),
-            name=env_name,
-            label=env_name,
-            defined=False,
-        ):
-            report.nodes_added += 1
+        existing = _existing_defined_env_node_id(graph, env_name)
+        if existing:
+            env_id = existing
+        else:
+            env_id = _env_node_id(env_name, rel)
+            if upsert_node(
+                graph,
+                env_id,
+                node_kind="env_var",
+                universe="env",
+                source_file=str(path),
+                name=env_name,
+                label=env_name,
+                defined=False,
+            ):
+                report.nodes_added += 1
         if add_edge_once(graph, node_id, env_id, relation="READS_ENV_VAR", source_system="config", target_system="env"):
             report.edges_added += 1
 

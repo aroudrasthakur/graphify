@@ -1,36 +1,23 @@
-"""Module 6 \u2014 deterministic verifier.
+"""Module 6 — deterministic verifier.
 
-Runs six check families over every reasoner finding and returns a
-:class:`VerifierAuditEntry` summarizing what passed, what failed, and
-what could not be evaluated. The six families:
+After Stage 6 closure the verifier consumes only :class:`ContextBundle`
+facts and never reads the graph directly.
 
-1. **graph_path_exists**   \u2014 are all nodes the reasoner referenced real
-   and reachable in the enriched graph?
-2. **edge_confidence_floor** \u2014 if the finding rests on only inferred
-   edges, require a confidence floor from the verifier policy, bumped
-   for full-repo scans.
-3. **rls_awareness**       \u2014 if the finding claims an RLS gap, confirm
-   against :class:`RLSCoverage` from Module 1.
-4. **migration_branch_state** \u2014 if the finding references a table that
-   is not yet visible in the branch, mark the check invalid.
-5. **payload_contract**    \u2014 producer/consumer key overlap check using
-   Module 1's Celery payload annotations.
-6. **phantom_anchor_short_circuit** \u2014 if ``diff_anchors`` on the
-   candidate don't intersect the reasoner's witness path, short-circuit
-   to invalid_reasoning.
-
-All checks are deterministic and leave no floating-point room for
-non-reproducible outcomes.
+Reasoner-backed findings are audited through an explicit rule engine with
+global auto-grayzone conditions applied first. Mechanical detectors keep
+their direct bundle-only structural probes so existing non-reasoner
+detectors remain deterministic and testable.
 """
 from __future__ import annotations
 
-from typing import Any, Iterable
+from collections import OrderedDict
+from pathlib import Path
+from typing import Any, Callable, Iterable
 
-import networkx as nx
-
+from depos.analysis import verifier_rules
+from depos.analysis.citations import evidence_cites_bundle
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.oracles import ORACLES
-from depos.graph_relations import ROUTE_GUARDED_BY_RLS
 from depos.analysis.schemas import (
     Candidate,
     ContextBundle,
@@ -46,14 +33,49 @@ from depos.analysis.schemas import (
     VerifierAuditEntry,
     VerifierCheckResult,
     VerifierOutcome,
+    VerifierStageResult,
 )
 
-CheckName = str
+Probe = Callable[[], VerifierCheckResult]
+
+
+class SourceSnippetCache:
+    """Bounded per-run source reader for advisory verifier stages."""
+
+    def __init__(self, max_entries: int = 128) -> None:
+        self.max_entries = max_entries
+        self._cache: OrderedDict[tuple[str, int, int, int, int], str] = OrderedDict()
+        self.read_count = 0
+
+    def read(self, path: str | Path, start_line: int = 0, end_line: int = 0) -> str:
+        source_path = Path(path).resolve()
+        stat = source_path.stat()
+        key = (
+            str(source_path),
+            int(start_line),
+            int(end_line),
+            int(stat.st_mtime_ns),
+            int(stat.st_size),
+        )
+        cached = self._cache.get(key)
+        if cached is not None:
+            self._cache.move_to_end(key)
+            return cached
+        text = source_path.read_text(encoding="utf-8", errors="replace")
+        self.read_count += 1
+        if start_line > 0 or end_line > 0:
+            lines = text.splitlines()
+            start = max(start_line - 1, 0) if start_line > 0 else 0
+            end = max(end_line, start_line) if end_line > 0 else len(lines)
+            text = "\n".join(lines[start:end])
+        self._cache[key] = text
+        if len(self._cache) > self.max_entries:
+            self._cache.popitem(last=False)
+        return text
 
 
 def _detector_meta(candidate: Candidate) -> dict[str, Any]:
-    raw = candidate.extra.get("detector")
-    return dict(raw) if isinstance(raw, dict) else {}
+    return candidate.detector_payload.model_dump(mode="json")
 
 
 def _detector_name(candidate: Candidate) -> str:
@@ -68,53 +90,51 @@ def _detector_spec(candidate: Candidate):
         if name == "legacy":
             return None
         return get_detector(name)
-    except Exception:  # noqa: BLE001
+    except Exception as e:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Failed to load detector '%s': %s", _detector_name(candidate), e)
         return None
 
 
-def _safe_run(name: str, fn) -> VerifierCheckResult:
+def _safe_probe(name: str, fn: Probe) -> VerifierCheckResult:
     try:
         return fn()
     except Exception as exc:  # noqa: BLE001
+        import logging
+        logging.getLogger(__name__).warning("Probe '%s' failed unexpectedly: %s", name, exc)
         return VerifierCheckResult(name=name, result="unavailable", detail=f"exception:{exc}")
 
 
-def _node_universe(attrs: dict[str, Any]) -> str:
-    node_kind = str(attrs.get("node_kind") or attrs.get("kind") or "")
-    if node_kind in {"package_manifest", "package_dep", "lockfile_resolution"}:
-        return "deps"
-    if node_kind in {"env_var", "config_key"}:
-        return "env"
-    if node_kind == "prompt_template":
-        return "prompt"
-    if node_kind in {"openapi_operation", "openapi_schema"}:
-        return "schema"
-    if node_kind in {"next_route", "next_middleware"}:
-        return "nextjs"
-    if node_kind in {"infra_workflow", "infra_service", "dockerfile_stage"}:
-        return "infra"
-    return str(attrs.get("universe") or attrs.get("source_system") or "code")
-
-
-def _candidate_witness_path(graph: nx.DiGraph, candidate: Candidate) -> list[str]:
+def _candidate_witness_path(candidate: Candidate) -> list[str]:
     if candidate.diff_anchors:
         return list(dict.fromkeys(candidate.diff_anchors))
     nodes: list[str] = []
     for seam in candidate.seam_edges:
-        parts = seam.split("|")
-        if len(parts) >= 2:
-            nodes.extend(parts[:2])
+        if seam.source:
+            nodes.append(str(seam.source))
+        if seam.target:
+            nodes.append(str(seam.target))
     if nodes:
         return list(dict.fromkeys(nodes))
     if candidate.scope_id.startswith("node:"):
         return [candidate.scope_id[5:]]
+    if candidate.scope_id:
+        return [candidate.scope_id]
     return []
 
 
-def _check_graph_path_exists(graph: nx.DiGraph, nodes: list[str]) -> VerifierCheckResult:
-    missing = [n for n in nodes if not graph.has_node(n)]
+def _bundle_node_ids(bundle: ContextBundle) -> set[str]:
+    return set(bundle.node_facts)
+
+
+def _edge_facts_for_path(bundle: ContextBundle, source: str, target: str) -> list[Any]:
+    return [edge for edge in bundle.edge_facts if edge.source == source and edge.target == target]
+
+
+def graph_path_probe(bundle: ContextBundle, nodes: list[str]) -> VerifierCheckResult:
     if not nodes:
         return VerifierCheckResult(name="graph_path_exists", result="unavailable", detail="no nodes cited")
+    missing = [node_id for node_id in nodes if node_id not in _bundle_node_ids(bundle)]
     if missing:
         return VerifierCheckResult(
             name="graph_path_exists",
@@ -124,8 +144,8 @@ def _check_graph_path_exists(graph: nx.DiGraph, nodes: list[str]) -> VerifierChe
     return VerifierCheckResult(name="graph_path_exists", result="pass")
 
 
-def _check_edge_confidence_floor(
-    graph: nx.DiGraph,
+def edge_confidence_probe(
+    bundle: ContextBundle,
     path: list[str],
     *,
     floor: float,
@@ -135,23 +155,20 @@ def _check_edge_confidence_floor(
         return VerifierCheckResult(name="edge_confidence_floor", result="unavailable")
     min_conf = 1.0
     all_inferred = True
-    for u, v in zip(path, path[1:]):
-        if not graph.has_edge(u, v):
+    checked = 0
+    for source, target in zip(path, path[1:]):
+        facts = _edge_facts_for_path(bundle, source, target)
+        if not facts:
             continue
-        data = graph.get_edge_data(u, v) or {}
-        # DiGraph returns a flat attrs dict; MultiDiGraph returns {key: attrs}.
-        if graph.is_multigraph():
-            datas = list(data.values())
-        else:
-            datas = [data]
-        for d in datas:
-            if not isinstance(d, dict):
-                continue
-            conf = float(d.get("confidence", 1.0))
-            if not d.get("inferred"):
+        checked += 1
+        for fact in facts:
+            conf = float(fact.confidence)
+            if not fact.inferred:
                 all_inferred = False
             if conf < min_conf:
                 min_conf = conf
+    if checked == 0:
+        return VerifierCheckResult(name="edge_confidence_floor", result="unavailable")
     effective_floor = floor + (0.1 if inferred_floor_applied else 0.0)
     if all_inferred and min_conf < effective_floor:
         return VerifierCheckResult(
@@ -162,18 +179,13 @@ def _check_edge_confidence_floor(
     return VerifierCheckResult(name="edge_confidence_floor", result="pass", detail=f"min_conf={min_conf:.2f}")
 
 
-def _check_rls_awareness(graph: nx.DiGraph, bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+def rls_awareness_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
     detector_name = _detector_name(candidate)
     rls_detector = "rls" in detector_name
-    has_rls_edges = any(
-        data.get("relation") == ROUTE_GUARDED_BY_RLS
-        for _, _, data in graph.edges(data=True)
-    )
-    if not rls_detector and not has_rls_edges and not bundle.rls_coverage:
+    if not rls_detector and not bundle.rls_coverage:
         return VerifierCheckResult(name="rls_awareness", result="unavailable")
     if not bundle.rls_coverage:
         return VerifierCheckResult(name="rls_awareness", result="insufficient_static_evidence")
-    # If any cited table has ``full`` coverage, we flag the RLS claim as likely covered.
     states = list(bundle.rls_coverage.values())
     if any(cov == RLSCoverage.full for cov in states):
         return VerifierCheckResult(name="rls_awareness", result="rls_covered", detail="full_on_any_cited_table")
@@ -182,10 +194,10 @@ def _check_rls_awareness(graph: nx.DiGraph, bundle: ContextBundle, candidate: Ca
     return VerifierCheckResult(name="rls_awareness", result="pass", detail="no_coverage_claimed")
 
 
-def _check_migration_branch_state(bundle: ContextBundle, cited_tables: list[str]) -> VerifierCheckResult:
+def migration_branch_probe(bundle: ContextBundle, cited_tables: list[str]) -> VerifierCheckResult:
     if not cited_tables:
         return VerifierCheckResult(name="migration_branch_state", result="unavailable")
-    missing = [t for t in cited_tables if t not in bundle.migration_state]
+    missing = [table for table in cited_tables if table not in bundle.migration_state]
     if missing:
         return VerifierCheckResult(
             name="migration_branch_state",
@@ -195,23 +207,22 @@ def _check_migration_branch_state(bundle: ContextBundle, cited_tables: list[str]
     return VerifierCheckResult(name="migration_branch_state", result="pass")
 
 
-def _check_payload_contract(graph: nx.DiGraph, cited_nodes: list[str]) -> VerifierCheckResult:
-    for n in cited_nodes:
-        if not graph.has_node(n):
+def payload_contract_probe(bundle: ContextBundle, cited_nodes: list[str]) -> VerifierCheckResult:
+    for edge in bundle.edge_facts:
+        if edge.source not in cited_nodes:
             continue
-        for _, _, data in graph.out_edges(n, data=True):
-            missing = data.get("payload_missing_fields")
-            extra = data.get("payload_extra_fields")
-            if missing or extra:
-                return VerifierCheckResult(
-                    name="payload_contract",
-                    result="fail",
-                    detail=f"missing={missing or []} extra={extra or []}",
-                )
+        missing = list(edge.payload_missing_fields)
+        extra = list(edge.payload_extra_fields)
+        if missing or extra:
+            return VerifierCheckResult(
+                name="payload_contract",
+                result="fail",
+                detail=f"missing={missing or []} extra={extra or []}",
+            )
     return VerifierCheckResult(name="payload_contract", result="pass")
 
 
-def _check_phantom_anchor(candidate: Candidate, witness_path: list[str], *, enabled: bool) -> VerifierCheckResult:
+def phantom_anchor_probe(candidate: Candidate, witness_path: list[str], *, enabled: bool) -> VerifierCheckResult:
     if not enabled or not candidate.diff_anchors:
         return VerifierCheckResult(name="phantom_anchor_short_circuit", result="unavailable")
     if not witness_path:
@@ -225,9 +236,9 @@ def _check_phantom_anchor(candidate: Candidate, witness_path: list[str], *, enab
     )
 
 
-def _check_external_oracle_lookup(candidate: Candidate) -> VerifierCheckResult:
+def external_oracle_probe(candidate: Candidate) -> VerifierCheckResult:
     meta = _detector_meta(candidate)
-    hints = dict(meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
+    hints = dict(meta.get("oracle_hints") or candidate.detector_payload.oracle_hints or {})
     if not hints:
         return VerifierCheckResult(name="external_oracle_lookup", result="unavailable")
     oracle_name = str(hints.get("oracle") or "")
@@ -249,37 +260,23 @@ def _check_external_oracle_lookup(candidate: Candidate) -> VerifierCheckResult:
     return VerifierCheckResult(name="external_oracle_lookup", result="insufficient_static_evidence", detail=result.detail)
 
 
-def _check_cross_universe_edge_exists(graph: nx.DiGraph, witness_path: list[str], candidate: Candidate) -> VerifierCheckResult:
+def cross_universe_probe(bundle: ContextBundle, witness_path: list[str], candidate: Candidate) -> VerifierCheckResult:
     required_pairs = {
         tuple(pair)
-        for pair in candidate.extra.get("required_universe_pairs", [])
+        for pair in candidate.detector_payload.raw.get("required_universe_pairs", [])
         if isinstance(pair, (list, tuple)) and len(pair) == 2
     }
-    pairs: set[tuple[str, str]] = set()
-    nodes = list(dict.fromkeys(witness_path or _candidate_witness_path(graph, candidate)))
-    if len(nodes) >= 2:
-        for idx, source in enumerate(nodes):
-            for target in nodes[idx + 1 :]:
-                if graph.has_edge(source, target):
-                    data = graph.get_edge_data(source, target) or {}
-                    pair = (
-                        str(data.get("source_system") or _node_universe(graph.nodes[source])),
-                        str(data.get("target_system") or _node_universe(graph.nodes[target])),
-                    )
-                    pairs.add(pair)
-                if graph.has_edge(target, source):
-                    data = graph.get_edge_data(target, source) or {}
-                    pair = (
-                        str(data.get("source_system") or _node_universe(graph.nodes[target])),
-                        str(data.get("target_system") or _node_universe(graph.nodes[source])),
-                    )
-                    pairs.add(pair)
+    nodes = list(dict.fromkeys(witness_path or _candidate_witness_path(candidate)))
+    witness_node_set = set(nodes)
+    pairs = {
+        (edge.source_universe, edge.target_universe)
+        for edge in bundle.edge_facts
+        if edge.source in witness_node_set and edge.target in witness_node_set
+    }
     if not pairs and candidate.seam_edges:
         for seam in candidate.seam_edges:
-            parts = seam.split("|")
-            if len(parts) < 2 or not graph.has_node(parts[0]) or not graph.has_node(parts[1]):
-                continue
-            pairs.add((_node_universe(graph.nodes[parts[0]]), _node_universe(graph.nodes[parts[1]])))
+            if seam.metadata.source_system and seam.metadata.target_system:
+                pairs.add((str(seam.metadata.source_system), str(seam.metadata.target_system)))
     if not pairs:
         return VerifierCheckResult(name="cross_universe_edge_exists", result="unavailable")
     if not required_pairs or pairs & required_pairs:
@@ -287,29 +284,35 @@ def _check_cross_universe_edge_exists(graph: nx.DiGraph, witness_path: list[str]
     return VerifierCheckResult(name="cross_universe_edge_exists", result="fail", detail=f"pairs={sorted(pairs)}")
 
 
-def _check_negation_witness(graph: nx.DiGraph, candidate: Candidate) -> VerifierCheckResult:
+def negation_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
     detector_name = _detector_name(candidate)
-    anchors = _candidate_witness_path(graph, candidate)
+    anchors = _candidate_witness_path(candidate)
     if not anchors:
         return VerifierCheckResult(name="negation_witness", result="unavailable")
     if detector_name == "env-var-referenced-but-undefined":
         for node_id in anchors:
-            if graph.has_node(node_id) and graph.nodes[node_id].get("node_kind") == "env_var":
-                defined_edges = any(data.get("relation") == "DEFINED_BY_CONFIG" for _, _, data in graph.in_edges(node_id, data=True))
-                if not defined_edges and not graph.nodes[node_id].get("defined"):
+            node = bundle.node_facts.get(node_id)
+            if node is not None and node.node_kind == "env_var":
+                defined_edges = "DEFINED_BY_CONFIG" in node.incoming_relations
+                if not defined_edges and not node.defined:
                     return VerifierCheckResult(name="negation_witness", result="pass", detail="env_var_has_no_definition_edge")
         return VerifierCheckResult(name="negation_witness", result="fail", detail="definition_edge_present")
     if detector_name == "env-var-defined-but-unused":
         for node_id in anchors:
-            if graph.has_node(node_id) and graph.nodes[node_id].get("node_kind") == "env_var":
-                reads = any(data.get("relation") == "READS_ENV_VAR" for _, _, data in graph.in_edges(node_id, data=True))
-                return VerifierCheckResult(name="negation_witness", result="pass" if not reads else "fail", detail="no_readers" if not reads else "readers_present")
+            node = bundle.node_facts.get(node_id)
+            if node is not None and node.node_kind == "env_var":
+                reads = "READS_ENV_VAR" in node.incoming_relations
+                return VerifierCheckResult(
+                    name="negation_witness",
+                    result="pass" if not reads else "fail",
+                    detail="no_readers" if not reads else "readers_present",
+                )
     return VerifierCheckResult(name="negation_witness", result="unavailable")
 
 
-def _check_version_satisfaction(candidate: Candidate) -> VerifierCheckResult:
+def version_satisfaction_probe(candidate: Candidate) -> VerifierCheckResult:
     meta = _detector_meta(candidate)
-    hints = dict(meta.get("oracle_hints") or candidate.extra.get("oracle_hints") or {})
+    hints = dict(meta.get("oracle_hints") or candidate.detector_payload.oracle_hints or {})
     if not hints.get("declared_range") or not hints.get("resolved_version"):
         return VerifierCheckResult(name="version_satisfaction", result="unavailable")
     oracle_name = "pep440" if str(hints.get("ecosystem") or "").lower() in {"pip", "python"} else "semver"
@@ -321,15 +324,212 @@ def _check_version_satisfaction(candidate: Candidate) -> VerifierCheckResult:
     return VerifierCheckResult(name="version_satisfaction", result="insufficient_static_evidence", detail=result.detail)
 
 
-# ---------------------------------------------------------------------------
-# Outcome derivation
-# ---------------------------------------------------------------------------
+def cross_language_cycle_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    if bundle.on_cross_lang_cycle or bundle.cross_language_seams or candidate.seam_edges:
+        return VerifierCheckResult(name="cross_language_cycle_witness", result="pass")
+    return VerifierCheckResult(name="cross_language_cycle_witness", result="unavailable")
 
 
-def _derive_outcome(checks: list[VerifierCheckResult], *, mechanical: bool = False) -> VerifierOutcome:
-    executed = sum(1 for c in checks if c.result in {"pass", "fail", "invalid", "rls_covered", "rls_partial"})
-    passes = sum(1 for c in checks if c.result == "pass")
-    fails = sum(1 for c in checks if c.result in {"fail", "invalid"})
+def seam_index_probe(candidate: Candidate) -> VerifierCheckResult:
+    if candidate.seam_edges and all(edge.edge_id for edge in candidate.seam_edges):
+        return VerifierCheckResult(name="seam_index_consistency", result="pass")
+    return VerifierCheckResult(name="seam_index_consistency", result="unavailable")
+
+
+def centrality_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    if bundle.is_articulation_point or candidate.score.blast_radius_norm >= verifier_rules.ARCHITECTURE_BLAST_RADIUS_THRESHOLD:
+        return VerifierCheckResult(name="centrality_witness", result="pass")
+    if bundle.pagerank_percentile > 0.0:
+        return VerifierCheckResult(name="centrality_witness", result="pass", detail=f"pagerank={bundle.pagerank_percentile:.4f}")
+    return VerifierCheckResult(name="centrality_witness", result="unavailable")
+
+
+def in_degree_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    if bundle.callers or candidate.score.blast_radius_norm > 0.0:
+        return VerifierCheckResult(name="in_degree_witness", result="pass")
+    return VerifierCheckResult(name="in_degree_witness", result="unavailable")
+
+
+def staleness_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.callers:
+        return VerifierCheckResult(name="staleness_witness", result="fail", detail="callers_present")
+    if bundle.scope_node_id or bundle.scope_id:
+        return VerifierCheckResult(name="staleness_witness", result="pass", detail="no_callers_observed")
+    return VerifierCheckResult(name="staleness_witness", result="unavailable")
+
+
+def manifest_overlap_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.graph_distance_to_diff >= 0 or bundle.diff_anchors:
+        return VerifierCheckResult(name="manifest_overlap", result="pass")
+    return VerifierCheckResult(name="manifest_overlap", result="unavailable")
+
+
+def source_snippet_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.scope_text or any(snippet.text for snippet in bundle.code_snippets):
+        return VerifierCheckResult(name="source_snippet", result="pass")
+    return VerifierCheckResult(name="source_snippet", result="unavailable")
+
+
+def cfg_path_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if not bundle.cfg_available:
+        return VerifierCheckResult(name="cfg_path_exists", result="unavailable")
+    if bundle.cfg_summary or bundle.null_paths is not None:
+        return VerifierCheckResult(name="cfg_path_exists", result="pass")
+    return VerifierCheckResult(name="cfg_path_exists", result="fail", detail="cfg_bundle_missing_summary")
+
+
+def taint_sql_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    for edge in bundle.taint_edges:
+        blob = f"{edge.sink_pattern} {edge.source_chain}".lower()
+        if "sql" in blob or "select" in blob or "insert" in blob or "db" in blob:
+            return VerifierCheckResult(name="taint_sinks_sql", result="pass")
+    return VerifierCheckResult(name="taint_sinks_sql", result="unavailable")
+
+
+def taint_subprocess_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    for edge in bundle.taint_edges:
+        blob = f"{edge.sink_pattern} {edge.source_chain}".lower()
+        if "exec" in blob or "subprocess" in blob or "system" in blob:
+            return VerifierCheckResult(name="taint_sinks_subprocess", result="pass")
+    return VerifierCheckResult(name="taint_sinks_subprocess", result="unavailable")
+
+
+def dfg_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.dfg_available:
+        return VerifierCheckResult(name="dfg_witness", result="pass")
+    return VerifierCheckResult(name="dfg_witness", result="unavailable")
+
+
+def dfg_def_use_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.dfg_available:
+        return VerifierCheckResult(name="dfg_def_before_use", result="pass")
+    return VerifierCheckResult(name="dfg_def_before_use", result="unavailable")
+
+
+def static_pattern_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    if bundle.scope_text or candidate.detector_payload.raw:
+        return VerifierCheckResult(name="static_pattern", result="pass")
+    return VerifierCheckResult(name="static_pattern", result="unavailable")
+
+
+def router_context_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = " ".join(
+        [
+            bundle.scope_id,
+            bundle.scope_node_id,
+            bundle.scope_text,
+            str(candidate.detector_payload.raw),
+        ]
+    ).lower()
+    if any(token in blob for token in ("route", "router", "middleware", "auth")):
+        return VerifierCheckResult(name="router_context", result="pass")
+    return VerifierCheckResult(name="router_context", result="unavailable")
+
+
+def sudo_pattern_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = f"{bundle.scope_text} {candidate.detector_payload.raw}".lower()
+    if any(token in blob for token in ("sudo", "setuid", "seteuid", "chmod 4755")):
+        return VerifierCheckResult(name="sudo_pattern", result="pass")
+    return VerifierCheckResult(name="sudo_pattern", result="unavailable")
+
+
+def graph_context_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.callers or bundle.callees or bundle.cross_language_seams:
+        return VerifierCheckResult(name="graph_context", result="pass")
+    return VerifierCheckResult(name="graph_context", result="unavailable")
+
+
+def free_delete_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = f"{bundle.scope_text} {candidate.detector_payload.raw}".lower()
+    if "free(" in blob or "delete " in blob:
+        return VerifierCheckResult(name="free_delete_pattern", result="pass")
+    return VerifierCheckResult(name="free_delete_pattern", result="unavailable")
+
+
+def bitshift_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = f"{bundle.scope_text} {candidate.detector_payload.raw}".lower()
+    if "<<" in blob or "math.imul" in blob or "0x" in blob:
+        return VerifierCheckResult(name="bitshift_pattern", result="pass")
+    return VerifierCheckResult(name="bitshift_pattern", result="unavailable")
+
+
+def arithmetic_probe(bundle: ContextBundle) -> VerifierCheckResult:
+    if bundle.scope_text:
+        return VerifierCheckResult(name="arithmetic_witness", result="pass")
+    return VerifierCheckResult(name="arithmetic_witness", result="unavailable")
+
+
+def async_await_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = f"{bundle.scope_text} {candidate.detector_payload.raw}".lower()
+    if "async" in blob or "await" in blob:
+        return VerifierCheckResult(name="async_await", result="pass")
+    return VerifierCheckResult(name="async_await", result="unavailable")
+
+
+def shared_mutation_probe(bundle: ContextBundle, candidate: Candidate) -> VerifierCheckResult:
+    blob = f"{bundle.scope_text} {candidate.detector_payload.raw}"
+    if any(token in blob for token in ("+=", "-=", "++", "--", ".push(")):
+        return VerifierCheckResult(name="shared_mutation", result="pass")
+    return VerifierCheckResult(name="shared_mutation", result="unavailable")
+
+
+def _mechanical_probes(
+    *,
+    bundle: ContextBundle,
+    candidate: Candidate,
+    witness_path: list[str],
+    config: IntelligenceConfig,
+    full_repo_scan: bool,
+) -> dict[str, Probe]:
+    cited_tables = sorted(bundle.rls_coverage.keys())
+    return {
+        "graph_path_exists": lambda: graph_path_probe(bundle, witness_path),
+        "edge_confidence_floor": lambda: edge_confidence_probe(
+            bundle,
+            witness_path,
+            floor=config.verifier.min_edge_confidence_for_confirmed,
+            inferred_floor_applied=full_repo_scan,
+        ),
+        "rls_awareness": lambda: rls_awareness_probe(bundle, candidate),
+        "migration_branch_state": lambda: migration_branch_probe(bundle, cited_tables),
+        "payload_contract": lambda: payload_contract_probe(bundle, witness_path),
+        "phantom_anchor_short_circuit": lambda: phantom_anchor_probe(
+            candidate,
+            witness_path,
+            enabled=config.verifier.phantom_anchor_short_circuit,
+        ),
+        "external_oracle_lookup": lambda: external_oracle_probe(candidate),
+        "cross_universe_edge_exists": lambda: cross_universe_probe(bundle, witness_path, candidate),
+        "negation_witness": lambda: negation_probe(bundle, candidate),
+        "version_satisfaction": lambda: version_satisfaction_probe(candidate),
+        "cross_language_cycle_witness": lambda: cross_language_cycle_probe(bundle, candidate),
+        "seam_index_consistency": lambda: seam_index_probe(candidate),
+        "centrality_witness": lambda: centrality_probe(bundle, candidate),
+        "in_degree_witness": lambda: in_degree_probe(bundle, candidate),
+        "staleness_witness": lambda: staleness_probe(bundle),
+        "manifest_overlap": lambda: manifest_overlap_probe(bundle),
+        "source_snippet": lambda: source_snippet_probe(bundle),
+        "cfg_path_exists": lambda: cfg_path_probe(bundle),
+        "taint_sinks_sql": lambda: taint_sql_probe(bundle),
+        "taint_sinks_subprocess": lambda: taint_subprocess_probe(bundle),
+        "dfg_witness": lambda: dfg_probe(bundle),
+        "dfg_def_before_use": lambda: dfg_def_use_probe(bundle),
+        "static_pattern": lambda: static_pattern_probe(bundle, candidate),
+        "router_context": lambda: router_context_probe(bundle, candidate),
+        "sudo_pattern": lambda: sudo_pattern_probe(bundle, candidate),
+        "graph_context": lambda: graph_context_probe(bundle),
+        "free_delete_pattern": lambda: free_delete_probe(bundle, candidate),
+        "bitshift_pattern": lambda: bitshift_probe(bundle, candidate),
+        "arithmetic_witness": lambda: arithmetic_probe(bundle),
+        "async_await": lambda: async_await_probe(bundle, candidate),
+        "shared_mutation": lambda: shared_mutation_probe(bundle, candidate),
+    }
+
+
+def _mechanical_outcome(probe_results: list[VerifierCheckResult], *, mechanical: bool = False) -> VerifierOutcome:
+    executed = sum(1 for probe in probe_results if probe.result in {"pass", "fail", "invalid", "rls_covered", "rls_partial"})
+    passes = sum(1 for probe in probe_results if probe.result == "pass")
+    fails = sum(1 for probe in probe_results if probe.result in {"fail", "invalid"})
     if mechanical and passes >= 1 and fails == 0:
         return VerifierOutcome.confirmed
     if fails >= 2:
@@ -345,23 +545,108 @@ def _derive_outcome(checks: list[VerifierCheckResult], *, mechanical: bool = Fal
     return VerifierOutcome.unconfirmed
 
 
-# ---------------------------------------------------------------------------
-# Public API
-# ---------------------------------------------------------------------------
-
-
-def verify(
+def _rule_text_blob(
     *,
-    graph: nx.DiGraph,
+    candidate: Candidate,
+    bug_type: str,
+    description: str,
+    missing_guard: str | None,
+    witness_path: list[str],
+) -> str:
+    parts = [
+        description,
+        bug_type,
+        missing_guard or "",
+        " ".join(witness_path),
+        str(candidate.detector_payload.raw),
+        str(candidate.detector_payload.oracle_hints),
+    ]
+    return " ".join(part for part in parts if part).lower()
+
+
+def _condition_matches(
+    condition: str,
+    *,
+    uncited: bool,
+    bundle: ContextBundle,
+    narrative: str,
+) -> bool:
+    lowered = condition.strip().lower()
+    if lowered == "llm output contains no bundle node/edge citation":
+        return uncited
+    if lowered == "cfg_available is false":
+        return not bundle.cfg_available
+    if "full alias analysis" in lowered:
+        return "alias analysis" in narrative
+    if "dynamic dispatch" in lowered or "reflection" in lowered:
+        return "dynamic dispatch" in narrative or "reflection" in narrative
+    if "inter-procedural cfg" in lowered:
+        return "inter-procedural cfg" in narrative or "interprocedural cfg" in narrative
+    if "heap object identity" in lowered:
+        return "heap object identity" in narrative
+    if "unmodeled sanitizer" in lowered:
+        return "unmodeled sanitizer" in narrative or "unknown sanitizer" in narrative
+    return False
+
+
+def _score_dimension_gaps(
+    *,
+    rule: verifier_rules.VerifierRule,
+    candidate: Candidate,
+    bundle: ContextBundle,
+) -> list[str]:
+    gaps: list[str] = []
+    for key, expected in rule.required_score_dimensions.items():
+        if hasattr(candidate.score, key):
+            actual = getattr(candidate.score, key)
+        elif hasattr(bundle, key):
+            actual = getattr(bundle, key)
+        else:
+            actual = None
+        if actual != expected:
+            gaps.append(str(key))
+    return gaps
+
+
+def _bundle_evidence_gaps(
+    *,
+    rule: verifier_rules.VerifierRule,
+    candidate: Candidate,
+    bundle: ContextBundle,
+) -> list[str]:
+    gaps: list[str] = []
+    for requirement in rule.required_bundle_evidence:
+        if requirement == "taint_edges":
+            satisfied = bool(bundle.taint_edges)
+        elif requirement == "taint_sources_in_bundle":
+            satisfied = bool(bundle.taint_edges) and any(
+                edge.source_node in bundle.node_facts for edge in bundle.taint_edges
+            )
+        elif requirement == "taint_sinks_in_bundle":
+            satisfied = bool(bundle.taint_edges) and any(
+                edge.sink_node in bundle.node_facts for edge in bundle.taint_edges
+            )
+        elif requirement == "is_articulation_point_or_blast_radius_above_threshold":
+            satisfied = bundle.is_articulation_point or (
+                candidate.score.blast_radius_norm >= verifier_rules.ARCHITECTURE_BLAST_RADIUS_THRESHOLD
+            )
+        elif requirement == "cfg_summary":
+            satisfied = bool(bundle.cfg_summary or bundle.null_paths)
+        else:
+            satisfied = bool(getattr(bundle, requirement, None))
+        if not satisfied:
+            gaps.append(requirement)
+    return gaps
+
+
+def _finding_shape(
+    *,
     candidate: Candidate,
     bundle: ContextBundle,
     mode: ReasonerMode | None,
     finding: ModeAFinding | ModeBFinding | ModeCFinding | None,
-    config: IntelligenceConfig,
-    full_repo_scan: bool,
-) -> tuple[VerifierAuditEntry, Finding]:
-    spec = _detector_spec(candidate)
-    witness_path: list[str] = _candidate_witness_path(graph, candidate)
+) -> tuple[str, str, float, str | None, list[str], str, bool]:
+    witness_path: list[str] = _candidate_witness_path(candidate)
     if isinstance(finding, ModeAFinding):
         witness_path = list(finding.affected_path or []) + list(finding.graph_anchor_nodes or [])
         bug_type = finding.bug_type
@@ -381,81 +666,57 @@ def verify(
         confidence = float(finding.confidence)
         missing_guard = finding.missing_guard
     else:
-        bug_type = str(candidate.extra.get("anomaly") or candidate.extra.get("surface_type") or _detector_name(candidate))
-        description = str(candidate.extra.get("description") or bug_type.replace("_", " ").replace("-", " "))
-        confidence = 1.0 if spec is not None and not spec.requires_reasoner else 0.0
-        missing_guard = str(candidate.extra.get("missing_guard") or "") or None
+        raw = candidate.detector_payload.raw
+        bug_type = str(raw.get("anomaly") or raw.get("surface_type") or _detector_name(candidate))
+        description = str(raw.get("description") or bug_type.replace("_", " ").replace("-", " "))
+        confidence = 1.0
+        missing_guard = str(raw.get("missing_guard") or "") or None
+    evidence_text = f"{description} {bug_type} {' '.join(witness_path)} {missing_guard or ''}".strip()
+    uncited = bool(mode is not None) and (not evidence_cites_bundle(evidence_text, bundle))
+    return bug_type, description, confidence, missing_guard, witness_path, evidence_text, uncited
 
-    cited_tables = sorted(bundle.rls_coverage.keys())
 
-    requested_checks = list(spec.verifier_checks) if spec is not None else [
-        "graph_path_exists",
-        "edge_confidence_floor",
-        "rls_awareness",
-        "migration_branch_state",
-        "payload_contract",
-        "phantom_anchor_short_circuit",
-    ]
-
-    checks: list[VerifierCheckResult] = []
-    for check_name in requested_checks:
-        if check_name == "graph_path_exists":
-            checks.append(_safe_run(check_name, lambda: _check_graph_path_exists(graph, witness_path)))
-        elif check_name == "edge_confidence_floor":
-            checks.append(
-                _safe_run(
-                    check_name,
-                    lambda: _check_edge_confidence_floor(
-                        graph,
-                        witness_path,
-                        floor=config.verifier.min_edge_confidence_for_confirmed,
-                        inferred_floor_applied=full_repo_scan,
-                    ),
-                )
-            )
-        elif check_name == "rls_awareness":
-            checks.append(_safe_run(check_name, lambda: _check_rls_awareness(graph, bundle, candidate)))
-        elif check_name == "migration_branch_state":
-            checks.append(_safe_run(check_name, lambda: _check_migration_branch_state(bundle, cited_tables)))
-        elif check_name == "payload_contract":
-            checks.append(_safe_run(check_name, lambda: _check_payload_contract(graph, witness_path)))
-        elif check_name == "phantom_anchor_short_circuit":
-            checks.append(_safe_run(check_name, lambda: _check_phantom_anchor(candidate, witness_path, enabled=config.verifier.phantom_anchor_short_circuit)))
-        elif check_name == "external_oracle_lookup":
-            checks.append(_safe_run(check_name, lambda: _check_external_oracle_lookup(candidate)))
-        elif check_name == "cross_universe_edge_exists":
-            checks.append(_safe_run(check_name, lambda: _check_cross_universe_edge_exists(graph, witness_path, candidate)))
-        elif check_name == "negation_witness":
-            checks.append(_safe_run(check_name, lambda: _check_negation_witness(graph, candidate)))
-        elif check_name == "version_satisfaction":
-            checks.append(_safe_run(check_name, lambda: _check_version_satisfaction(candidate)))
-        else:
-            checks.append(VerifierCheckResult(name=check_name, result="unavailable", detail="unknown_check"))
-
-    mechanical = spec is not None and not spec.requires_reasoner and finding is None
-    outcome = _derive_outcome(checks, mechanical=mechanical)
-
+def _common_finding(
+    *,
+    candidate: Candidate,
+    bundle: ContextBundle,
+    mode: ReasonerMode | None,
+    outcome: VerifierOutcome,
+    bug_type: str,
+    description: str,
+    confidence: float,
+    missing_guard: str | None,
+    witness_path: list[str],
+    evidence_text: str,
+    uncited: bool,
+    probe_results: list[VerifierCheckResult],
+) -> tuple[VerifierAuditEntry, Finding]:
     mode_label = mode.value if mode is not None else "na"
     finding_id = f"{candidate.candidate_id}:{mode_label}:{bug_type}"[:96]
     audit = VerifierAuditEntry(
         finding_id=finding_id,
         verifier_outcome=outcome,
-        checks_run=checks,
-        inferred_edge_confidence_floor_applied=full_repo_scan,
+        checks_run=probe_results,
+        inferred_edge_confidence_floor_applied=False,
         pack_manifest_id=bundle.pack_manifest.manifest_id,
         reasoner_mode=mode,
     )
 
-    # Build the output-layer Finding. Surface RLS verdict if we have one.
     rls_verdict: RLSCoverage | None = None
     for cov in bundle.rls_coverage.values():
-        if cov in {RLSCoverage.full, RLSCoverage.partial_operation, RLSCoverage.partial_predicate, RLSCoverage.context_mismatch, RLSCoverage.none}:
+        if cov in {
+            RLSCoverage.full,
+            RLSCoverage.partial_operation,
+            RLSCoverage.partial_predicate,
+            RLSCoverage.context_mismatch,
+            RLSCoverage.none,
+        }:
             rls_verdict = cov
             break
 
     affected: list[str] = []
-    if isinstance(finding, ModeBFinding):
-        affected = [finding.component_a, finding.component_b]
+    if isinstance(mode, ReasonerMode) and mode == ReasonerMode.B:
+        affected = witness_path[:2]
     elif witness_path:
         affected = witness_path[:4]
 
@@ -471,37 +732,282 @@ def verify(
         missing_guard=missing_guard,
         reasoner_confidence=confidence,
         ranking_phase=0,
-        verifier_checks_passed=[c.name for c in checks if c.result == "pass"],
-        verifier_checks_inconclusive=[c.name for c in checks if c.result in {"unavailable", "insufficient_static_evidence", "rls_partial"}],
+        verifier_checks_passed=[probe.name for probe in probe_results if probe.result == "pass"],
+        verifier_checks_inconclusive=[
+            probe.name
+            for probe in probe_results
+            if probe.result in {"unavailable", "insufficient_static_evidence", "rls_partial"}
+        ],
         rls_verdict=rls_verdict,
         pack_manifest_id=bundle.pack_manifest.manifest_id,
         detector_name=_detector_name(candidate),
         detector_version=str(_detector_meta(candidate).get("detector_version") or "0"),
         pipeline_version=str(_detector_meta(candidate).get("pipeline_version") or "0"),
         severity=str(_detector_meta(candidate).get("severity") or "medium"),
+        uncited=uncited,
+        evidence_text=evidence_text,
     )
     if outcome == VerifierOutcome.partially_confirmed:
         out_finding.partially_confirmed_caveat = (
-            "Verifier confirmed some but not all structural checks; treat as suggestive, not proof."
+            "Verifier routed this finding to gray-zone review because deterministic evidence was incomplete."
         )
     return audit, out_finding
 
 
+def _verify_mechanical(
+    *,
+    candidate: Candidate,
+    bundle: ContextBundle,
+    config: IntelligenceConfig,
+    full_repo_scan: bool,
+) -> tuple[VerifierAuditEntry, Finding]:
+    spec = _detector_spec(candidate)
+    bug_type, description, confidence, missing_guard, witness_path, evidence_text, uncited = _finding_shape(
+        candidate=candidate,
+        bundle=bundle,
+        mode=None,
+        finding=None,
+    )
+    requested = list(spec.verifier_checks) if spec is not None else [
+        "graph_path_exists",
+        "edge_confidence_floor",
+        "rls_awareness",
+        "migration_branch_state",
+        "payload_contract",
+        "phantom_anchor_short_circuit",
+    ]
+    probes = _mechanical_probes(
+        bundle=bundle,
+        candidate=candidate,
+        witness_path=witness_path,
+        config=config,
+        full_repo_scan=full_repo_scan,
+    )
+    probe_results: list[VerifierCheckResult] = []
+    for probe_name in requested:
+        runner = probes.get(probe_name)
+        if runner is None:
+            probe_results.append(VerifierCheckResult(name=probe_name, result="unavailable", detail="unsupported_probe"))
+            continue
+        probe_results.append(_safe_probe(probe_name, runner))
+    outcome = _mechanical_outcome(
+        probe_results,
+        mechanical=bool(spec is not None and not spec.requires_reasoner),
+    )
+    audit, out_finding = _common_finding(
+        candidate=candidate,
+        bundle=bundle,
+        mode=None,
+        outcome=outcome,
+        bug_type=bug_type,
+        description=description,
+        confidence=confidence,
+        missing_guard=missing_guard,
+        witness_path=witness_path,
+        evidence_text=evidence_text,
+        uncited=uncited,
+        probe_results=probe_results,
+    )
+    audit.inferred_edge_confidence_floor_applied = full_repo_scan
+    if outcome == VerifierOutcome.partially_confirmed:
+        out_finding.partially_confirmed_caveat = (
+            "Verifier confirmed some but not all structural probes; treat as suggestive, not proof."
+        )
+    return audit, out_finding
+
+
+def _verify_reasoner_finding(
+    *,
+    candidate: Candidate,
+    bundle: ContextBundle,
+    mode: ReasonerMode,
+    finding: ModeAFinding | ModeBFinding | ModeCFinding,
+) -> tuple[VerifierAuditEntry, Finding]:
+    bug_type, description, confidence, missing_guard, witness_path, evidence_text, uncited = _finding_shape(
+        candidate=candidate,
+        bundle=bundle,
+        mode=mode,
+        finding=finding,
+    )
+    narrative = _rule_text_blob(
+        candidate=candidate,
+        bug_type=bug_type,
+        description=description,
+        missing_guard=missing_guard,
+        witness_path=witness_path,
+    )
+    detector_name = _detector_name(candidate)
+    probe_results: list[VerifierCheckResult] = []
+
+    global_hits = [
+        condition
+        for condition in verifier_rules.GLOBAL_AUTO_GRAYZONE
+        if _condition_matches(condition, uncited=uncited, bundle=bundle, narrative=narrative)
+    ]
+    probe_results.append(
+        VerifierCheckResult(
+            name="global_auto_grayzone",
+            result="fail" if global_hits else "pass",
+            detail="; ".join(global_hits),
+        )
+    )
+    if global_hits:
+        outcome = VerifierOutcome.partially_confirmed
+        audit, out_finding = _common_finding(
+            candidate=candidate,
+            bundle=bundle,
+            mode=mode,
+            outcome=outcome,
+            bug_type=bug_type,
+            description=description,
+            confidence=confidence,
+            missing_guard=missing_guard,
+            witness_path=witness_path,
+            evidence_text=evidence_text,
+            uncited=uncited,
+            probe_results=probe_results,
+        )
+        audit.failed_rule = global_hits[0]
+        return audit, out_finding
+
+    category = verifier_rules.resolve_finding_category(detector_name=detector_name, bug_type=bug_type)
+    probe_results.append(
+        VerifierCheckResult(
+            name="verifier_category",
+            result="pass" if category is not None else "fail",
+            detail=str(category or "unknown_category"),
+        )
+    )
+    if category is None:
+        outcome = VerifierOutcome.unconfirmed
+        audit, out_finding = _common_finding(
+            candidate=candidate,
+            bundle=bundle,
+            mode=mode,
+            outcome=outcome,
+            bug_type=bug_type,
+            description=description,
+            confidence=confidence,
+            missing_guard=missing_guard,
+            witness_path=witness_path,
+            evidence_text=evidence_text,
+            uncited=uncited,
+            probe_results=probe_results,
+        )
+        audit.failed_rule = "unknown_finding_category"
+        return audit, out_finding
+
+    rule = verifier_rules.VERIFIER_RULES[category]
+    rule_auto_hits = [
+        condition
+        for condition in rule.auto_grayzone_conditions
+        if _condition_matches(condition, uncited=uncited, bundle=bundle, narrative=narrative)
+    ]
+    probe_results.append(
+        VerifierCheckResult(
+            name="rule_auto_grayzone",
+            result="fail" if rule_auto_hits else "pass",
+            detail="; ".join(rule_auto_hits),
+        )
+    )
+    if rule_auto_hits:
+        outcome = VerifierOutcome.partially_confirmed
+        audit, out_finding = _common_finding(
+            candidate=candidate,
+            bundle=bundle,
+            mode=mode,
+            outcome=outcome,
+            bug_type=bug_type,
+            description=description,
+            confidence=confidence,
+            missing_guard=missing_guard,
+            witness_path=witness_path,
+            evidence_text=evidence_text,
+            uncited=uncited,
+            probe_results=probe_results,
+        )
+        audit.failed_rule = rule_auto_hits[0]
+        return audit, out_finding
+
+    score_gaps = _score_dimension_gaps(rule=rule, candidate=candidate, bundle=bundle)
+    bundle_gaps = _bundle_evidence_gaps(rule=rule, candidate=candidate, bundle=bundle)
+    probe_results.append(
+        VerifierCheckResult(
+            name="rule_score_dimensions",
+            result="fail" if score_gaps else "pass",
+            detail=", ".join(score_gaps),
+        )
+    )
+    probe_results.append(
+        VerifierCheckResult(
+            name="rule_bundle_evidence",
+            result="fail" if bundle_gaps else "pass",
+            detail=", ".join(bundle_gaps),
+        )
+    )
+
+    missing = [*score_gaps, *bundle_gaps]
+    outcome = VerifierOutcome.confirmed if not missing else VerifierOutcome.unconfirmed
+    audit, out_finding = _common_finding(
+        candidate=candidate,
+        bundle=bundle,
+        mode=mode,
+        outcome=outcome,
+        bug_type=bug_type,
+        description=description,
+        confidence=confidence,
+        missing_guard=missing_guard,
+        witness_path=witness_path,
+        evidence_text=evidence_text,
+        uncited=uncited,
+        probe_results=probe_results,
+    )
+    if missing:
+        audit.failed_rule = missing[0]
+        audit.missing_evidence = missing
+    return audit, out_finding
+
+
+def verify(
+    *,
+    candidate: Candidate,
+    bundle: ContextBundle,
+    mode: ReasonerMode | None,
+    finding: ModeAFinding | ModeBFinding | ModeCFinding | None,
+    config: IntelligenceConfig,
+    full_repo_scan: bool,
+) -> tuple[VerifierAuditEntry, Finding]:
+    if mode is None or finding is None:
+        return _verify_mechanical(
+            candidate=candidate,
+            bundle=bundle,
+            config=config,
+            full_repo_scan=full_repo_scan,
+        )
+    return _verify_reasoner_finding(
+        candidate=candidate,
+        bundle=bundle,
+        mode=mode,
+        finding=finding,
+    )
+
+
 def verify_all(
     *,
-    graph: nx.DiGraph,
     candidate: Candidate,
     bundle: ContextBundle,
     reasoner_outputs: dict[ReasonerMode, Any],
     config: IntelligenceConfig,
     full_repo_scan: bool,
+    deterministic_only: bool = False,
 ) -> tuple[list[VerifierAuditEntry], list[Finding]]:
     audits: list[VerifierAuditEntry] = []
     findings: list[Finding] = []
     spec = _detector_spec(candidate)
-    if (not reasoner_outputs) and spec is not None and not spec.requires_reasoner:
+    if (not reasoner_outputs) and spec is not None and (
+        not spec.requires_reasoner or deterministic_only
+    ):
         audit, finding = verify(
-            graph=graph,
             candidate=candidate,
             bundle=bundle,
             mode=None,
@@ -513,7 +1019,7 @@ def verify_all(
         findings.append(finding)
         return audits, findings
     for mode, output in reasoner_outputs.items():
-        raw_findings: Iterable
+        raw_findings: Iterable[Any]
         if isinstance(output, ModeAOutput):
             raw_findings = output.findings
         elif isinstance(output, ModeBOutput):
@@ -523,8 +1029,7 @@ def verify_all(
         else:
             continue
         for raw in raw_findings:
-            audit, f = verify(
-                graph=graph,
+            audit, finding = verify(
                 candidate=candidate,
                 bundle=bundle,
                 mode=mode,
@@ -533,8 +1038,85 @@ def verify_all(
                 full_repo_scan=full_repo_scan,
             )
             audits.append(audit)
-            findings.append(f)
+            findings.append(finding)
     return audits, findings
 
 
-__all__ = ["verify", "verify_all"]
+def verify_staged(
+    audits: list[VerifierAuditEntry],
+    *,
+    bundle: ContextBundle,
+    cache: SourceSnippetCache | None = None,
+) -> list[VerifierAuditEntry]:
+    """Attach advisory staged verifier metadata without changing outcomes."""
+
+    cache = cache or SourceSnippetCache()
+    source_checks = _source_stage_results(bundle, cache)
+    for audit in audits:
+        checks = list(audit.checks_run)
+        pass_count = sum(1 for check in checks if check.result in {"pass", "rls_covered"})
+        fail_count = sum(1 for check in checks if check.result in {"fail", "invalid"})
+        unavailable_count = sum(1 for check in checks if check.result in {"unavailable", "insufficient_static_evidence"})
+        stage_results = [
+            VerifierStageResult(
+                stage="legacy_rules",
+                result="fail" if fail_count else "pass" if pass_count else "unavailable",
+                detail=f"pass={pass_count} fail={fail_count} unavailable={unavailable_count}",
+            ),
+            *source_checks,
+        ]
+        audit.stage_results = stage_results
+        if fail_count:
+            audit.advisory_validity = "invalid"
+            audit.advisory_reason = "legacy verifier checks failed"
+        elif any(stage.result == "fail" for stage in source_checks):
+            audit.advisory_validity = "needs_review"
+            audit.advisory_reason = "source evidence could not be validated"
+        elif pass_count or any(stage.result == "pass" for stage in source_checks):
+            audit.advisory_validity = "valid"
+            audit.advisory_reason = "advisory stages passed"
+        else:
+            audit.advisory_validity = "unknown"
+            audit.advisory_reason = "no advisory stages were conclusive"
+    return audits
+
+
+def _source_stage_results(
+    bundle: ContextBundle,
+    cache: SourceSnippetCache,
+) -> list[VerifierStageResult]:
+    if not bundle.code_snippets:
+        return [VerifierStageResult(stage="source_snippets", result="unavailable", detail="no snippets")]
+    results: list[VerifierStageResult] = []
+    for snippet in bundle.code_snippets[:5]:
+        if not snippet.source_file:
+            results.append(
+                VerifierStageResult(
+                    stage="source_snippets",
+                    result="unavailable",
+                    detail=f"{snippet.node_id}: no source_file",
+                )
+            )
+            continue
+        try:
+            text = cache.read(snippet.source_file, snippet.start_line, snippet.end_line)
+        except OSError as exc:
+            results.append(
+                VerifierStageResult(
+                    stage="source_snippets",
+                    result="fail",
+                    detail=f"{snippet.node_id}: {exc.__class__.__name__}",
+                )
+            )
+            continue
+        results.append(
+            VerifierStageResult(
+                stage="source_snippets",
+                result="pass" if text.strip() else "unavailable",
+                detail=f"{snippet.node_id}: read {len(text)} chars",
+            )
+        )
+    return results
+
+
+__all__ = ["verify", "verify_all", "verify_staged", "SourceSnippetCache"]

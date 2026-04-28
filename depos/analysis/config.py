@@ -155,11 +155,6 @@ class GrayZoneConfig(BaseModel):
 
 class RankerConfig(BaseModel):
     ranking_phase_override: Optional[int] = None  # force a phase for tests
-    use_graphcodebert: bool = False
-    graphcodebert_model_name: str = "microsoft/graphcodebert-base"
-    graphcodebert_cache_dir: str | None = None
-    graphcodebert_device: str | None = None
-    graphcodebert_local_files_only: bool = False
     phase_0_weights: dict[str, float] = Field(
         default_factory=lambda: {
             "cross_language_seam_count": 0.25,

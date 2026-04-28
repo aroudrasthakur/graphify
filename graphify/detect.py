@@ -276,20 +276,23 @@ def _load_graphifyignore(root: Path) -> list[tuple[Path, str]]:
     """
     patterns: list[tuple[Path, str]] = []
     current = root.resolve()
-    while True:
+    climbing = True
+    while climbing:
         ignore_file = current / ".graphifyignore"
         if ignore_file.exists():
             for line in ignore_file.read_text(encoding="utf-8", errors="ignore").splitlines():
                 line = line.strip()
                 if line and not line.startswith("#"):
                     patterns.append((current, line))
-        # Stop climbing once we've processed the git repo root
+        # Stop climbing once we've processed the git repo root or hit filesystem root
         if (current / ".git").exists():
-            break
-        parent = current.parent
-        if parent == current:
-            break  # filesystem root
-        current = parent
+            climbing = False
+        else:
+            parent = current.parent
+            if parent == current:
+                climbing = False
+            else:
+                current = parent
     return patterns
 
 
@@ -355,17 +358,17 @@ def detect(root: Path, *, follow_symlinks: bool = False) -> dict:
 
     seen: set[Path] = set()
     all_files: list[Path] = []
+    seen_dirs: set[str] = set()  # real paths; prevents symlink cycles and redundant traversal
 
     for scan_root in scan_paths:
         in_memory_tree = memory_dir.exists() and str(scan_root).startswith(str(memory_dir))
         for dirpath, dirnames, filenames in os.walk(scan_root, followlinks=follow_symlinks):
+            real_dir = os.path.realpath(dirpath)
+            if real_dir in seen_dirs:
+                dirnames.clear()
+                continue
+            seen_dirs.add(real_dir)
             dp = Path(dirpath)
-            if follow_symlinks and os.path.islink(dirpath):
-                real = os.path.realpath(dirpath)
-                parent_real = os.path.realpath(os.path.dirname(dirpath))
-                if parent_real == real or parent_real.startswith(real + os.sep):
-                    dirnames.clear()
-                    continue
             if not in_memory_tree:
                 # Prune noise dirs in-place so os.walk never descends into them
                 dirnames[:] = [

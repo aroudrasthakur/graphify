@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["external_oracle_lookup"],
     requires_reasoner=False,
     severity="medium",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -23,7 +23,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"prompt:type-mismatch:{node_id}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.7,
+                    detector_confidence=0.7,
                     analysis_mode=mode,
                     diff_anchors=[node_id],
                     extra={"field_type_mismatches": mismatches, "schema_id": attrs.get("schema_id")},

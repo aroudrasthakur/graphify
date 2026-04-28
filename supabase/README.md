@@ -20,7 +20,17 @@ supabase/
     20260417120500_init_intelligence_runs.sql
     20260418120000_init_graph_snapshots.sql
     20260418120100_storage_graph_snapshots_bucket.sql
+    20260419120000_intelligence_detector_stats.sql
+    20260419120100_intelligence_findings_add_detector_columns.sql
+    20260419120200_intelligence_runs_add_pipeline_columns.sql
+    20260419120300_org_detector_policy.sql
+    20260420120000_intelligence_runs_reasoner_health.sql
 ```
+
+Authoritative columns for the intelligence tables are mirrored in
+[`depos/db.py`](../depos/db.py) (`IntelligenceRun`, `IntelligenceFinding`,
+`IntelligenceDetectorStat`). If you add ORM fields, add a matching
+`YYYYMMDDHHmmss_*.sql` migration and keep this list in sync.
 
 Migrations also create the private Storage bucket **`graph-snapshots`** (override
 name with env `DEPOS_GRAPH_BUCKET` if you change it).
@@ -77,7 +87,10 @@ key bypasses RLS and is used by the FastAPI backend for internal operations
 - `repositories` — members read, admins write
 - `audit_logs` — members read, service-role writes
 - `ci_signals` — members read (or `org_id is null` legacy rows), service-role writes
-- `intelligence_runs`, `intelligence_findings` — members read, service-role writes
+- `graph_snapshots` — members read, service-role writes
+- `intelligence_runs`, `intelligence_findings`, `intelligence_detector_stats` —
+  members read (findings/stats via join on `intelligence_runs.org_id`),
+  service-role writes
 
 ## Acceptance tests that touch Supabase
 

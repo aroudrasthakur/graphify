@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["negation_witness"],
     requires_reasoner=False,
     severity="low",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -25,7 +25,7 @@ def run(graph, manifest, mode, config, ctx):
             make_candidate(
                 scope_id=f"env:unused:{attrs.get('name') or node_id}",
                 seed_type=SeedType.graph_anomaly,
-                priority_score=0.38,
+                detector_confidence=0.38,
                 analysis_mode=mode,
                 diff_anchors=[node_id],
                 extra={"env_var": attrs.get("name")},

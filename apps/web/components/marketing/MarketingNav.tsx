@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  useMotionTemplate,
+  type MotionStyle,
+} from "framer-motion";
 import { GitBranch } from "lucide-react";
 
 const NAV_LINKS = [
@@ -12,6 +18,24 @@ const NAV_LINKS = [
 ];
 
 export function MarketingNav() {
+  const { scrollY } = useScroll();
+
+  // As the user scrolls, the pill deepens its frost — matches the sections below coming into view
+  const blurPx = useTransform(scrollY, [0, 120], [14, 24]);
+  const bgAlpha = useTransform(scrollY, [0, 120], [0.03, 0.18]);
+  const borderAlpha = useTransform(scrollY, [0, 120], [0.06, 0.12]);
+
+  const backdropFilter = useMotionTemplate`blur(${blurPx}px) saturate(160%)`;
+  const background = useMotionTemplate`rgba(14, 20, 27, ${bgAlpha})`;
+  const borderColor = useMotionTemplate`rgba(255, 255, 255, ${borderAlpha})`;
+
+  const pillStyle: MotionStyle = {
+    backdropFilter,
+    WebkitBackdropFilter: backdropFilter,
+    background,
+    borderColor,
+  };
+
   return (
     <motion.header
       initial={{ y: -16, opacity: 0 }}
@@ -20,7 +44,10 @@ export function MarketingNav() {
       className="sticky top-0 z-50 w-full"
     >
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-4">
-        <div className="glass-panel pointer-events-auto flex w-full items-center justify-between gap-6 rounded-full border border-white/[0.06] px-4 py-2.5 shadow-panel">
+        <motion.div
+          style={pillStyle}
+          className="pointer-events-auto flex w-full items-center justify-between gap-6 rounded-full border px-4 py-2.5 shadow-panel"
+        >
           <Link href="/" className="flex items-center gap-2">
             <span className="relative grid h-7 w-7 place-items-center rounded-full bg-ink-700 ring-1 ring-brand-mint/40">
               <GitBranch className="h-3.5 w-3.5 text-brand-mint" />
@@ -63,7 +90,7 @@ export function MarketingNav() {
               </span>
             </Link>
           </div>
-        </div>
+        </motion.div>
       </div>
     </motion.header>
   );

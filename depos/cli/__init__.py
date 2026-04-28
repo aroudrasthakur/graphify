@@ -6,6 +6,7 @@
 - ``diff``      diff-aware analysis
 - ``replay``    replay a persisted ``reasoner_queue.jsonl``
 - ``coverage``  print the StitcherCoverageReport only (no reasoning)
+- ``gate``      CI policy on ``violations.json`` (CONFIRMED + high/critical)
 """
 from __future__ import annotations
 
@@ -18,6 +19,62 @@ from typing import Optional, Sequence
 def _build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="depos-intel", description="depOS AI intelligence CLI.")
     sub = p.add_subparsers(dest="command", required=True)
+
+    def _add_cache_args(parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--no-cache",
+            action="store_true",
+            help="Disable the depOS fragment cache for this run.",
+        )
+        parser.add_argument(
+            "--cache-dir",
+            default=None,
+            help="Override the depOS fragment cache root (default: <DEPOS_DATA>/cache).",
+        )
+        parser.add_argument(
+            "--cache-clear",
+            action="store_true",
+            help="Clear the depOS fragment cache before running.",
+        )
+
+    def _add_perf_args(parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--no-parallel",
+            action="store_true",
+            help="Serial-only: Wave B enrichers, semantic taint, and bundle build use one worker.",
+        )
+        parser.add_argument(
+            "--taint-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_TAINT_N_JOBS (per-scope taint thread pool).",
+        )
+        parser.add_argument(
+            "--cfg-dfg-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_CFG_DFG_N_JOBS (per-scope CFG/DFG fragment compute pool).",
+        )
+        parser.add_argument(
+            "--bundle-n-jobs",
+            type=int,
+            default=None,
+            metavar="N",
+            help="Override DEPOS_PERF_BUNDLE_N_JOBS (parallel context bundles).",
+        )
+        parser.add_argument(
+            "--no-expensive-metrics",
+            action="store_true",
+            help="Skip betweenness, articulation points, and cross-language cycle mining.",
+        )
+        parser.add_argument(
+            "--metrics-backend",
+            choices=("networkx", "rustworkx"),
+            default=None,
+            help="Expensive centrality backend (default: networkx or DEPOS_PERF_METRICS_BACKEND).",
+        )
 
     analyze = sub.add_parser("analyze", help="Run or inspect intelligence analyses.")
     a_sub = analyze.add_subparsers(dest="analyze_command", required=True)
@@ -41,6 +98,28 @@ def _build_parser() -> argparse.ArgumentParser:
         choices=("auto", "rules", "llm"),
         default=None,
         help="Override DEPOS_INTEL_INTENT_LLM (auto uses OPENAI_API_KEY when set).",
+    gate = sub.add_parser(
+        "gate",
+        help="CI gate: exit non-zero when any finding is CONFIRMED with high or critical severity.",
+    )
+    gate.add_argument(
+        "--violations",
+        required=True,
+        type=Path,
+        help="Path to violations.json produced by a depOS run.",
+    )
+    gate.add_argument(
+        "--allowlist",
+        default=Path(".depOS/allowlist.json"),
+        type=Path,
+        help="Path to the depOS allowlist JSON file. Defaults to .depOS/allowlist.json.",
+    )
+    gate.add_argument(
+        "--allow-finding-id",
+        action="append",
+        default=[],
+        metavar="ID",
+        help="Deprecated alias for temporarily excluding a finding ID from the gate (repeatable).",
     )
 
     repo = a_sub.add_parser("repo", help="Full-repo scan (no diff required).")
@@ -53,6 +132,21 @@ def _build_parser() -> argparse.ArgumentParser:
     repo.add_argument("--detectors", action="append", default=[])
     repo.add_argument("--no-reasoner", action="store_true")
     repo.add_argument("--print-detector-stats", action="store_true")
+    repo.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    _add_perf_args(repo)
+    _add_cache_args(repo)
+    repo.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
 
     diff = a_sub.add_parser("diff", help="Diff-aware scan using a change manifest.")
     diff.add_argument("--cpg-path")
@@ -65,21 +159,52 @@ def _build_parser() -> argparse.ArgumentParser:
     diff.add_argument("--detectors", action="append", default=[])
     diff.add_argument("--no-reasoner", action="store_true")
     diff.add_argument("--print-detector-stats", action="store_true")
+    diff.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    _add_perf_args(diff)
+    _add_cache_args(diff)
+    diff.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
 
     replay = a_sub.add_parser("replay", help="Replay a reasoner queue.")
     replay.add_argument("--queue", required=True)
     replay.add_argument("--output")
     replay.add_argument("--provider", default=None)
+    replay.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root for cached prompts (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Run artifact subdirectory under data-dir, e.g. ".canonical" for dataset-pipeline (default: intelligence).',
+    )
 
-    score_bundles = a_sub.add_parser("score-bundles", help="Score context bundles with GraphCodeBERT.")
+    score_bundles = a_sub.add_parser(
+        "score-bundles",
+        help="Report-only sidecar: write stub bundle score rows from canonical bundles.json.",
+    )
     score_bundles.add_argument("--bundles-json", required=True)
     score_bundles.add_argument("--output")
-    score_bundles.add_argument("--model-name", default="microsoft/graphcodebert-base")
+    score_bundles.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     score_bundles.add_argument("--cache-dir")
     score_bundles.add_argument("--device")
     score_bundles.add_argument("--local-files-only", action="store_true")
 
-    bundle_pipeline = a_sub.add_parser("bundle-pipeline", help="Run GraphCodeBERT -> Gemma -> verifier on bundles.")
+    bundle_pipeline = a_sub.add_parser(
+        "bundle-pipeline",
+        help="Deprecated shim. Use dataset-pipeline, repo, or diff for canonical analysis.",
+    )
     bundle_pipeline.add_argument("--bundles-json", required=True)
     bundle_pipeline.add_argument("--scores-json")
     bundle_pipeline.add_argument("--graph-json")
@@ -87,7 +212,7 @@ def _build_parser() -> argparse.ArgumentParser:
     bundle_pipeline.add_argument("--top-n", type=int, default=20)
     bundle_pipeline.add_argument("--min-score", type=float, default=None)
     bundle_pipeline.add_argument("--provider", default=None)
-    bundle_pipeline.add_argument("--model-name", default="microsoft/graphcodebert-base")
+    bundle_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     bundle_pipeline.add_argument("--cache-dir")
     bundle_pipeline.add_argument("--device")
     bundle_pipeline.add_argument("--local-files-only", action="store_true")
@@ -150,7 +275,10 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Optional override for the dataset/<repo_name>/ directory name.",
     )
 
-    dataset_pipeline = a_sub.add_parser("dataset-pipeline", help="Run raw dataset AST files through normalize -> bundles -> GraphCodeBERT -> Gemma -> verifier.")
+    dataset_pipeline = a_sub.add_parser(
+        "dataset-pipeline",
+        help="Run raw dataset AST files through normalize -> canonical Stage 1-11 pipeline.",
+    )
     dataset_pipeline.add_argument("--dataset-dir", required=True)
     dataset_pipeline.add_argument("--output-dir", required=True)
     dataset_pipeline.add_argument("--repo-root", default=".")
@@ -159,8 +287,15 @@ def _build_parser() -> argparse.ArgumentParser:
     dataset_pipeline.add_argument("--max-bundles", type=int, default=None)
     dataset_pipeline.add_argument("--min-score", type=float, default=None)
     dataset_pipeline.add_argument("--write-extraction", action="store_true")
-    dataset_pipeline.add_argument("--model-name", default="microsoft/graphcodebert-base")
-    dataset_pipeline.add_argument("--cache-dir")
+    dataset_pipeline.add_argument(
+        "--profile",
+        metavar="PATH",
+        default=None,
+        help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
+    )
+    _add_perf_args(dataset_pipeline)
+    dataset_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
+    _add_cache_args(dataset_pipeline)
     dataset_pipeline.add_argument("--device")
     dataset_pipeline.add_argument("--local-files-only", action="store_true")
     dataset_pipeline.add_argument(
@@ -186,10 +321,29 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Exit non-zero when reasoner_run_health is degraded/failed or when path resolution is poor.",
     )
+    dataset_pipeline.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
 
     coverage = a_sub.add_parser("coverage", help="Print StitcherCoverageReport only.")
     coverage.add_argument("--path")
     coverage.add_argument("--graph-json")
+    coverage.add_argument(
+        "--n-jobs",
+        type=int,
+        default=1,
+        metavar="N",
+        help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
+    )
+    coverage.add_argument(
+        "--no-parallel",
+        action="store_true",
+        help="Same as --n-jobs 1 for Wave B enrichers.",
+    )
 
     list_cmd = d_sub.add_parser("list", help="List built-in detectors.")
     list_cmd.add_argument("--json", action="store_true")
@@ -206,6 +360,16 @@ def _build_parser() -> argparse.ArgumentParser:
     replay_cmd.add_argument("--mode", choices=["A", "B", "C"], default=None)
     replay_cmd.add_argument("--max", type=int, default=None)
     replay_cmd.add_argument("--provider", default=None)
+    replay_cmd.add_argument(
+        "--data-dir",
+        default=None,
+        help="Intelligence data root containing the run folder (default: DEPOS_DATA or DEPOS_INTEL_DATA_DIR).",
+    )
+    replay_cmd.add_argument(
+        "--run-subdir",
+        default=None,
+        help='Subdirectory under data-dir for run_id, e.g. ".canonical" for dataset-pipeline output.',
+    )
 
     return p
 
@@ -259,6 +423,10 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             return run_dataset_pipeline(args)
         parser.error(f"unknown analyze subcommand: {args.analyze_command}")
         return 2
+    if args.command == "gate":
+        from depos.cli.gate import run_gate
+
+        return run_gate(args)
     if args.command == "detectors":
         if args.detectors_command == "list":
             from depos.cli.analyze import run_detectors_list

@@ -6,9 +6,10 @@ from pathlib import Path
 from graphify.build import build_from_json
 
 from depos.analysis.ast_normalize import normalize_dataset_dir
-from depos.analysis.candidate_identifier import identify_candidates
+from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.context_bundle import build_bundle
+from depos.analysis.run_context import build_run_context
 from depos.analysis.schemas import AnalysisMode
 
 
@@ -105,12 +106,15 @@ def test_build_bundle_falls_back_to_embedded_text() -> None:
         synthetic_entity=True,
         entity_kind="function",
     )
-    config = IntelligenceConfig()
-    candidates, _ = identify_candidates(
+    cfg = IntelligenceConfig(enable_ai_driven_seeds=True)
+    m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
+    rc = build_run_context(graph, m, repo_root=None, config=cfg)
+    candidates, _, _ = identify_candidates(
         graph,
-        config=IntelligenceConfig(enable_ai_driven_seeds=True),
+        run_context=rc,
+        config=cfg,
         mode=AnalysisMode.full_repo_scan,
     )
-    bundle = build_bundle(graph, candidates[0], config=config)
+    bundle = build_bundle(graph, candidates[0], config=cfg)
     assert bundle.code_snippets
     assert "verify_token" in bundle.code_snippets[0].text

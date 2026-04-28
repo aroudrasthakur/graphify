@@ -14,6 +14,7 @@ SPEC = simple_spec(
     requires_reasoner=False,
     severity="medium",
     applies_when="node.kind == 'package_dep'",
+    semantic_requirement=None,
 )
 
 
@@ -32,7 +33,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"deps:range-drift:{package_name}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.78,
+                    detector_confidence=0.78,
                     analysis_mode=mode,
                     diff_anchors=anchors,
                     extra={

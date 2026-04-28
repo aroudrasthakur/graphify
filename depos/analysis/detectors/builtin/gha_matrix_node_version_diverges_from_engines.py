@@ -11,7 +11,7 @@ SPEC = simple_spec(
     verifier_checks=["version_satisfaction"],
     requires_reasoner=False,
     severity="medium",
-)
+    semantic_requirement=None,)
 
 
 def run(graph, manifest, mode, config, ctx):
@@ -24,7 +24,7 @@ def run(graph, manifest, mode, config, ctx):
                 make_candidate(
                     scope_id=f"infra:gha-node-version-drift:{node_id}",
                     seed_type=SeedType.graph_anomaly,
-                    priority_score=0.71,
+                    detector_confidence=0.71,
                     analysis_mode=mode,
                     diff_anchors=[node_id],
                     extra={"engine_node_range": engine, "matrix_node_versions": versions},

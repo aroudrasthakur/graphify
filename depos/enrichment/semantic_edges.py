@@ -1,17 +1,22 @@
 """Module 1 orchestrator: run all probes, emit semantic edges, compute the
 :class:`StitcherCoverageReport`.
 
-Writes back into the SAME ``nx.DiGraph`` passed in. Callers that need the
-pre-enrichment graph should copy it before calling :func:`enrich_graph`.
+All enrichers now produce :class:`~depos.analysis.fragments.GraphFragment`
+objects. :func:`enrich_graph` merges them into the graph at each wave
+boundary using :func:`~depos.analysis.fragments.merge_fragments`, keeping the
+main thread as the sole graph writer (Phase 6a).
 """
 from __future__ import annotations
 
+import logging
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Any, Callable, Optional
 
 import networkx as nx
 
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.fragments import GraphFragment, merge_fragments
 from depos.graph_relations import CONSUMES_OPENAPI_OP
 from depos.graph_relations import CONSUMES_PAYLOAD
 from depos.graph_relations import DECLARES_DEP
@@ -28,6 +33,8 @@ from depos.graph_relations import PROMPT_DECLARES_VAR
 from depos.graph_relations import PROMPT_USES_VAR
 from depos.graph_relations import READS_ENV_VAR
 from depos.graph_relations import RENDERED_BY_PROMPT
+
+logger = logging.getLogger(__name__)
 from depos.graph_relations import RESOLVES_TO
 from depos.graph_relations import ROUTE_CALLS_RPC
 from depos.graph_relations import ROUTE_GUARDED_BY_RLS
@@ -54,11 +61,17 @@ from depos.enrichment.http_probes import (
     iter_fastapi_route_nodes,
 )
 from depos.enrichment.url_normalize import normalize_route, score_match
+from depos.analysis.fragments import FragmentEdge, make_fragment
 
 
-def _edge_key(metadata: SemanticEdgeMetadata) -> str:
-    """Stable edge key suffix so the same edge is not double-emitted."""
-    return f"{metadata.contract_kind}:{metadata.api_method or ''}:{metadata.route_pattern or metadata.table_name or metadata.task_name or ''}"
+ENRICHER_SCHEMA_VERSION = "v1"
+
+
+def _edge_key(metadata: SemanticEdgeMetadata, *, source_node_id: str = "") -> str:
+    """Stable edge key attribute.  Incorporates source_node_id for HTTP_CALLS_ROUTE
+    edges so two call-site nodes mapping to the same route produce distinct keys."""
+    route = metadata.route_pattern or metadata.table_name or metadata.task_name or ""
+    return f"{metadata.contract_kind}:{metadata.api_method or ''}:{route}:{source_node_id}"
 
 
 def _safe_run(name: str, fn: Callable[[], Any], errors_out: list[dict[str, Any]]) -> Any:
@@ -71,13 +84,15 @@ def _safe_run(name: str, fn: Callable[[], Any], errors_out: list[dict[str, Any]]
     return None
 
 
-def emit_http_calls_route(graph: nx.DiGraph) -> int:
+def emit_http_calls_route(graph: nx.DiGraph) -> GraphFragment:
     """Match annotated TS fetch/axios call sites to annotated FastAPI route
-    nodes and emit :data:`HTTP_CALLS_ROUTE` edges.
+    nodes and return a :class:`~depos.analysis.fragments.GraphFragment`
+    containing :data:`HTTP_CALLS_ROUTE` edges.
 
-    Returns the number of edges added.
+    Deduplicates by ``(caller, handler)`` pair, keeping the highest-confidence
+    match, so each pair produces exactly one FragmentEdge regardless of how
+    many call sites in the same file match the same route.
     """
-    # Index FastAPI routes by normalized (method, path).
     routes: list[tuple[str, object]] = []
     for nid, attrs in iter_fastapi_route_nodes(graph):
         method = (attrs.get("http_method") or "").upper()
@@ -85,10 +100,12 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
         routes.append((nid, normalize_route(path, method=method)))
 
     if not routes:
-        return 0
+        return make_fragment("enrich_http_route")
 
-    added = 0
-    for node_id, node_attrs in list(graph.nodes(data=True)):
+    # best_by_pair: (caller_node_id, handler_id) → (metadata, result, server_nr)
+    best_by_pair: dict[tuple[str, str], tuple[SemanticEdgeMetadata, Any]] = {}
+
+    for node_id, node_attrs in graph.nodes(data=True):
         sites = node_attrs.get("http_call_sites")
         if not sites:
             continue
@@ -100,6 +117,15 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
             )
             best = None
             best_score = 0.0
+
+            logger.debug(
+                "Matching client route: %s (method=%s, is_dynamic=%s, method_inferred=%s)",
+                client.normalized,
+                client.method,
+                site.get("is_dynamic_url"),
+                site.get("method_inferred"),
+            )
+
             for (handler_id, server_nr) in routes:
                 result = score_match(
                     client,
@@ -107,12 +133,26 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
                     client_is_dynamic_url=bool(site.get("is_dynamic_url")),
                     client_method_inferred=bool(site.get("method_inferred")),
                 )
+
+                logger.debug(
+                    "  vs server route: %s (method=%s) -> score=%.2f, emit=%s, kind=%s",
+                    server_nr.normalized,
+                    server_nr.method,
+                    result.score,
+                    result.emit,
+                    result.match_kind,
+                )
+
                 if result.emit and result.score > best_score:
                     best = (handler_id, server_nr, result)
                     best_score = result.score
+
             if best is None:
+                logger.debug("  No match found (all scores below emit threshold)")
                 continue
+
             handler_id, server_nr, result = best
+            caller_node_id = site.get("node_id", node_id)
 
             metadata = SemanticEdgeMetadata(
                 confidence=result.score,
@@ -123,15 +163,31 @@ def emit_http_calls_route(graph: nx.DiGraph) -> int:
                 api_method=server_nr.method,
                 route_pattern=server_nr.normalized,
             )
-            graph.add_edge(
-                site.get("node_id", node_id),
-                handler_id,
-                key=_edge_key(metadata),
-                relation=HTTP_CALLS_ROUTE,
+
+            pair = (caller_node_id, handler_id)
+            prev = best_by_pair.get(pair)
+            if prev is None or result.score > prev[1].confidence:
+                best_by_pair[pair] = (metadata, result)
+
+    edges: list[FragmentEdge] = []
+    for (caller_node_id, handler_id), (metadata, result) in best_by_pair.items():
+        logger.debug(
+            "  EMITTING edge: caller=%s -> handler=%s (score=%.2f)",
+            caller_node_id,
+            handler_id,
+            metadata.confidence,
+        )
+        edges.append(FragmentEdge(
+            u=caller_node_id,
+            v=handler_id,
+            key=_edge_key(metadata, source_node_id=caller_node_id),
+            attrs={
+                "relation": HTTP_CALLS_ROUTE,
                 **metadata.model_dump(mode="json"),
-            )
-            added += 1
-    return added
+            },
+        ))
+
+    return make_fragment("enrich_http_route", edges=edges)
 
 
 def _discover_rls_policy_nodes(graph: nx.DiGraph) -> int:
@@ -198,9 +254,18 @@ def enrich_graph(
     *,
     config: IntelligenceConfig,
     repo_root: Optional[Path] = None,
+    n_jobs: int = 1,
 ) -> tuple[nx.DiGraph, StitcherCoverageReport]:
-    """Run all Module 1 passes in order and return the enriched graph plus
-    the :class:`StitcherCoverageReport`.
+    """Run all Module 1 passes in order, merge fragments wave-by-wave, and
+    return the enriched graph plus the :class:`StitcherCoverageReport`.
+
+    Wave ordering:
+    1. ``ingest_all`` — direct graph mutation (not yet fragment-based).
+    2. Wave A: ``annotate_fastapi_routes`` + ``annotate_ts_http_calls`` →
+       fragments merged immediately so downstream enrichers see annotations.
+    3. ``emit_http_calls_route`` — reads annotated graph, produces fragment.
+    4. Wave B: independent emitters → fragments.
+    5. ``merge_fragments`` for step 3 + 4 together.
 
     Graceful degradation: each probe catches its own errors so a bug in one
     does not prevent the others from running.
@@ -209,7 +274,7 @@ def enrich_graph(
     errors: list[dict[str, Any]] = []
     ingest_reports: list[IngestReport] = []
 
-    # Layer 0 - ingest extra universes before stitching them into code nodes.
+    # ── Layer 0: ingest (direct graph mutation; not yet fragment-based) ────
     if repo_root is not None:
         result = _safe_run(
             "ingest_all",
@@ -226,84 +291,136 @@ def enrich_graph(
                 if hasattr(report, "errors"):
                     errors.extend(list(report.errors))
 
-    # 1. HTTP probes (annotate nodes)
-    _safe_run("annotate_fastapi_routes", lambda: annotate_fastapi_routes(graph, repo_root=repo_root), errors)
-    _safe_run("annotate_ts_http_calls", lambda: annotate_ts_http_calls(graph, repo_root=repo_root), errors)
+    # ── Wave A: annotators → merge immediately so emit_http_calls_route reads them ──
+    frag_fastapi = _safe_run(
+        "annotate_fastapi_routes",
+        lambda: annotate_fastapi_routes(graph, repo_root=repo_root),
+        errors,
+    )
+    frag_ts = _safe_run(
+        "annotate_ts_http_calls",
+        lambda: annotate_ts_http_calls(graph, repo_root=repo_root),
+        errors,
+    )
+    wave_a_frags = [f for f in [frag_fastapi, frag_ts] if isinstance(f, GraphFragment)]
+    if wave_a_frags:
+        merge_fragments(graph, wave_a_frags)
 
-    # 2. Existing code-centric stitchers
-    _safe_run("emit_http_calls_route", lambda: emit_http_calls_route(graph), errors)
-    _safe_run(
-        "emit_rls_edges",
-        lambda: __import__("depos.enrichment.rls_resolver", fromlist=["emit_rls_edges"]).emit_rls_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
+    # ── Wave A cont: emit HTTP call→route edges (reads annotated graph) ────
+    frag_http = _safe_run("emit_http_calls_route", lambda: emit_http_calls_route(graph), errors)
+
+    # ── Wave B: independent emitters ────────────────────────────────────────
+    # Build a (name, callable) list. When n_jobs > 1 we wrap graph in
+    # ReadOnlyGraphView so accidental mutations surface immediately.
+    _wave_b_read_target: Any = graph
+    if n_jobs > 1:
+        from depos.enrichment.readonly_graph import ReadOnlyGraphView
+        _wave_b_read_target = ReadOnlyGraphView(graph)
+
+    _wave_b_jobs: list[tuple[str, Any]] = [
+        (
+            "emit_rls_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.rls_resolver", fromlist=["emit_rls_edges"]
+            ).emit_rls_edges(g, repo_root=repo_root),
         ),
-        errors,
-    )
-    _safe_run(
-        "emit_migration_edges",
-        lambda: __import__("depos.enrichment.migrations", fromlist=["emit_migration_edges"]).emit_migration_edges(  # noqa: WPS421
-            graph,
-            config=config,
-            repo_root=repo_root,
+        (
+            "emit_migration_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.migrations", fromlist=["emit_migration_edges"]
+            ).emit_migration_edges(g, config=config, repo_root=repo_root),
         ),
-        errors,
-    )
-    _safe_run(
-        "emit_celery_payload_edges",
-        lambda: __import__("depos.enrichment.celery_payload", fromlist=["emit_celery_payload_edges"]).emit_celery_payload_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
+        (
+            "emit_celery_payload_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.celery_payload", fromlist=["emit_celery_payload_edges"]
+            ).emit_celery_payload_edges(g, repo_root=repo_root),
         ),
-        errors,
+        (
+            "emit_dependency_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.deps_resolver", fromlist=["emit_dependency_edges"]
+            ).emit_dependency_edges(g, repo_root=repo_root),
+        ),
+        (
+            "emit_env_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.env_resolver", fromlist=["emit_env_edges"]
+            ).emit_env_edges(g, repo_root=repo_root),
+        ),
+        (
+            "emit_prompt_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.prompt_resolver", fromlist=["emit_prompt_edges"]
+            ).emit_prompt_edges(g, repo_root=repo_root),
+        ),
+        (
+            "emit_openapi_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.openapi_resolver", fromlist=["emit_openapi_edges"]
+            ).emit_openapi_edges(g, repo_root=repo_root),
+        ),
+        (
+            "emit_nextjs_edges",
+            lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
+                "depos.enrichment.nextjs_resolver", fromlist=["emit_nextjs_edges"]
+            ).emit_nextjs_edges(g, repo_root=repo_root),
+        ),
+    ]
+
+    wave_b_frags: list[GraphFragment] = []
+
+    def _run_wave_b_worker(name: str, fn: Any) -> tuple[Any, list[dict[str, Any]]]:
+        local_errors: list[dict[str, Any]] = []
+        result = _safe_run(name, fn, local_errors)
+        return result, local_errors
+
+    if n_jobs > 1:
+        tasks = list(_wave_b_jobs)
+        max_workers = max(1, min(int(n_jobs), len(tasks)))
+        paired: list[tuple[Any, list[dict[str, Any]]]]
+        try:
+            from joblib import Parallel, delayed  # type: ignore[import-untyped]
+
+            paired = Parallel(n_jobs=max_workers, backend="threading")(
+                delayed(_run_wave_b_worker)(name, fn) for name, fn in tasks
+            )
+        except ImportError:
+            logger.warning(
+                "joblib not installed; using stdlib ThreadPoolExecutor for Wave B "
+                "(pip install 'graphifyy[perf]' for joblib)"
+            )
+            with ThreadPoolExecutor(max_workers=max_workers) as pool:
+                paired = list(pool.map(lambda item: _run_wave_b_worker(item[0], item[1]), tasks))
+        for result, local_errors in paired:
+            errors.extend(local_errors)
+            if isinstance(result, GraphFragment):
+                wave_b_frags.append(result)
+    else:
+        for name, fn in _wave_b_jobs:
+            result = _safe_run(name, fn, errors)
+            if isinstance(result, GraphFragment):
+                wave_b_frags.append(result)
+
+    frag_rls = next(
+        (f for f in wave_b_frags if f.stage == "enrich_rls"),
+        None,
     )
 
-    # 3. Cross-universe resolvers
-    _safe_run(
-        "emit_dependency_edges",
-        lambda: __import__("depos.enrichment.deps_resolver", fromlist=["emit_dependency_edges"]).emit_dependency_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
-        ),
-        errors,
-    )
-    _safe_run(
-        "emit_env_edges",
-        lambda: __import__("depos.enrichment.env_resolver", fromlist=["emit_env_edges"]).emit_env_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
-        ),
-        errors,
-    )
-    _safe_run(
-        "emit_prompt_edges",
-        lambda: __import__("depos.enrichment.prompt_resolver", fromlist=["emit_prompt_edges"]).emit_prompt_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
-        ),
-        errors,
-    )
-    _safe_run(
-        "emit_openapi_edges",
-        lambda: __import__("depos.enrichment.openapi_resolver", fromlist=["emit_openapi_edges"]).emit_openapi_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
-        ),
-        errors,
-    )
-    _safe_run(
-        "emit_nextjs_edges",
-        lambda: __import__("depos.enrichment.nextjs_resolver", fromlist=["emit_nextjs_edges"]).emit_nextjs_edges(  # noqa: WPS421
-            graph,
-            repo_root=repo_root,
-        ),
-        errors,
-    )
+    # ── Merge Wave A (http_route) + all Wave B fragments ───────────────────
+    all_frags = [f for f in [frag_http] + wave_b_frags if isinstance(f, GraphFragment)]
+    if all_frags:
+        merge_fragments(graph, all_frags)
 
     coverage = compute_coverage(graph, config=config, repo_root=repo_root)
     coverage.errors.extend(errors)
     # Expose run-level metadata so downstream modules / CLI can read flags.
     graph.graph.setdefault("run_metadata", {})
+    # Propagate run-level flags from fragment diagnostics (main thread only).
+    if frag_rls is not None:
+        for diag in frag_rls.diagnostics:
+            if diag.get("flag") == "needs_manual_rls_config":
+                graph.graph["run_metadata"]["needs_manual_rls_config"] = diag["value"]
     graph.graph["run_metadata"]["low_stitcher_coverage"] = coverage.low_coverage
     graph.graph["run_metadata"]["coverage"] = coverage.model_dump(mode="json")
     graph.graph["run_metadata"]["ingest_reports"] = [report.model_dump(mode="json") for report in ingest_reports]
@@ -314,6 +431,7 @@ def enrich_graph(
 __all__ = [
     "enrich_graph",
     "compute_coverage",
+    "ENRICHER_SCHEMA_VERSION",
     "emit_http_calls_route",
     "HTTP_CALLS_ROUTE",
     "ROUTE_READS_TABLE",

@@ -1,11 +1,13 @@
 """Build a dependency graph using graphify extract → build_from_json only."""
 from __future__ import annotations
 
-import json
 import logging
 from pathlib import Path
 
 import networkx as nx
+
+from depos._jsonio import dumps as _jdumps
+from depos._jsonio import loads as _jloads
 
 from graphify.build import build_from_json
 from graphify.detect import detect
@@ -40,11 +42,11 @@ def graph_to_node_link(G: nx.Graph) -> dict:
 def persist_graph_json(G: nx.Graph, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     data = graph_to_node_link(G)
-    dest.write_text(json.dumps(data, indent=2), encoding="utf-8")
+    dest.write_bytes(_jdumps(data))
 
 
 def load_graph_json(path: Path) -> nx.Graph:
-    data = json.loads(path.read_text(encoding="utf-8"))
+    data = _jloads(path.read_bytes())
     return node_link_graph_compat(data, edges="links")
 
 

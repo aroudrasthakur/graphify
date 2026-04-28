@@ -28,13 +28,16 @@ import json
 import logging
 import re
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterable, Optional, Tuple
+from typing import Any, Callable, Iterable, Optional, Tuple
 
 from pydantic import ValidationError
 
-from depos.analysis.config import IntelligenceConfig
+from depos.analysis.bundle_prompter import PromptParts, render_bundle_prompt
+from depos.analysis.config import IntelligenceConfig, ReasonerProviderConfig
+from depos.analysis.observability import emit_event
 from depos.analysis.schemas import (
     Candidate,
     ContextBundle,
@@ -48,6 +51,98 @@ from depos.analysis.schemas import (
 
 
 logger = logging.getLogger(__name__)
+
+
+# ---------------------------------------------------------------------------
+# Ollama startup checks
+# ---------------------------------------------------------------------------
+
+
+def resolve_ollama_base_url(base_url: Optional[str]) -> str:
+    import os
+
+    return (base_url or os.environ.get("OLLAMA_HOST") or "http://localhost:11434").rstrip("/")
+
+
+def _validate_ollama_model(base_url: str, model: str) -> None:
+    """Check that the configured Ollama tag is actually available."""
+
+    try:
+        import httpx
+    except ImportError as exc:  # pragma: no cover - dev safety
+        raise RuntimeError(f"httpx unavailable: {exc}") from exc
+
+    base_url = resolve_ollama_base_url(base_url)
+    try:
+        response = httpx.get(f"{base_url}/api/tags", timeout=10.0)
+        response.raise_for_status()
+        payload = response.json()
+    except httpx.ConnectError:
+        raise RuntimeError(f"Cannot reach Ollama at {base_url}. Is it running?") from None
+    except httpx.ReadTimeout:
+        raise RuntimeError(
+            f"Ollama at {base_url} did not respond to /api/tags within 10.0s. Is it running?"
+        ) from None
+    except httpx.HTTPStatusError as exc:
+        raise RuntimeError(
+            f"Ollama returned HTTP {exc.response.status_code} while listing models at {base_url}."
+        ) from None
+    except ValueError:
+        raise RuntimeError(f"Ollama at {base_url} returned invalid JSON from /api/tags.") from None
+
+    available = [
+        str(entry.get("name"))
+        for entry in payload.get("models", [])
+        if isinstance(entry, dict) and entry.get("name")
+    ]
+    if model in available:
+        return
+
+    model_prefix = model.split(":", 1)[0]
+    close = [name for name in available if model_prefix and model_prefix in name]
+    suggestion = f" Did you mean one of: {close}?" if close else ""
+    raise RuntimeError(
+        f"Ollama model '{model}' is not pulled.{suggestion} "
+        f"Available: {available}. "
+        f"Run: ollama pull {model}"
+    )
+
+
+def _preflight_ollama(base_url: str, model: str, timeout: float = 30.0) -> None:
+    """Fire a tiny Ollama probe before sending full bundle prompts."""
+
+    try:
+        import httpx
+    except ImportError as exc:  # pragma: no cover - dev safety
+        raise RuntimeError(f"httpx unavailable: {exc}") from exc
+
+    base_url = resolve_ollama_base_url(base_url)
+    probe = {
+        "model": model,
+        "prompt": '{"ok":true}',
+        "stream": False,
+        "num_predict": 5,
+        "options": {"num_predict": 5},
+    }
+    try:
+        response = httpx.post(f"{base_url}/api/generate", json=probe, timeout=timeout)
+        response.raise_for_status()
+    except httpx.ReadTimeout:
+        raise RuntimeError(
+            f"Ollama model '{model}' did not respond within {timeout}s. "
+            "Large models often need longer on first inference (load weights into RAM/VRAM). "
+            "Try: set environment variable DEPOS_LLM_OLLAMA_PREFLIGHT_TIMEOUT=180 (or higher), "
+            f"and/or run `ollama run {model}` once to warm up. "
+            f"Confirm the tag with: ollama list; pull if missing: ollama pull {model}. "
+            "To run the pipeline without an LLM: DEPOS_INTEL_PROVIDER=stub."
+        ) from None
+    except httpx.ConnectError:
+        raise RuntimeError(f"Cannot reach Ollama at {base_url}. Is it running?") from None
+    except httpx.HTTPStatusError as exc:
+        raise RuntimeError(
+            f"Ollama returned HTTP {exc.response.status_code} for model '{model}'. "
+            f"Check: ollama list"
+        ) from None
 
 
 # ---------------------------------------------------------------------------
@@ -90,6 +185,15 @@ class ReasoningProvider:
         """
         raise NotImplementedError
 
+    def complete_parts(self, parts: PromptParts, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        """Send a structured prompt to the provider.
+
+        Default implementation concatenates to ``parts.full`` and calls
+        :meth:`complete`. Chat-API providers override this to place system
+        instructions and user content in the appropriate message roles.
+        """
+        return self.complete(parts.full, max_tokens=max_tokens)
+
 
 class StubProvider(ReasoningProvider):
     """Returns a minimal, valid JSON doc for each mode. Used in tests and
@@ -109,6 +213,35 @@ class StubProvider(ReasoningProvider):
         else:
             text = json.dumps({"mode": "C", "findings": []})
         return text, {"model": "stub", "response_path_used": "literal"}
+
+
+class ReasonerSession:
+    """Tracks per-run reasoner call state such as Ollama warmup timeouts."""
+
+    def __init__(self, config: IntelligenceConfig):
+        self.config = config
+        self.provider = (config.llm.provider or "stub").lower()
+        self.call_index = 0
+        self.last_timeout_seconds: float | None = None
+
+    def _get_timeout(self, call_index: int) -> float:
+        if self.provider != "ollama":
+            return self.config.llm.read_timeout_seconds
+        return (
+            self.config.llm.ollama_first_call_timeout
+            if call_index == 0
+            else self.config.llm.ollama_subsequent_timeout
+        )
+
+    def get_provider(self, mode: ReasonerMode) -> ReasoningProvider:
+        read_timeout = self._get_timeout(self.call_index)
+        self.last_timeout_seconds = read_timeout
+        self.call_index += 1
+        if read_timeout == self.config.llm.read_timeout_seconds:
+            return get_provider(self.config, mode)
+        provider_config = self.config.model_copy(deep=True)
+        provider_config.llm.read_timeout_seconds = read_timeout
+        return get_provider(provider_config, mode)
 
 
 # ---------------------------------------------------------------------------
@@ -173,6 +306,8 @@ class _HTTPProvider(ReasoningProvider):
         header_value: Optional[str] = None,
         response_paths: list[str],
         model: str,
+        connect_timeout: float = 5.0,
+        read_timeout: float = 60.0,
     ):
         self.url = url
         self.headers = {"Content-Type": "application/json"}
@@ -180,8 +315,11 @@ class _HTTPProvider(ReasoningProvider):
             self.headers[header_key] = header_value
         self.response_paths = response_paths
         self.model = model
+        self.connect_timeout = max(0.1, float(connect_timeout))
+        self.read_timeout = max(0.1, float(read_timeout))
 
-    def complete(self, prompt: str, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+    def _post(self, body: dict[str, Any]) -> Tuple[str, dict[str, Any]]:
+        """Execute the HTTP POST and extract text. Shared by complete() and complete_parts()."""
         if not self.url:
             raise ProviderError("transport", f"{self.name}: no URL configured")
         try:
@@ -189,10 +327,25 @@ class _HTTPProvider(ReasoningProvider):
         except ImportError as exc:  # pragma: no cover - dev safety
             raise ProviderError("transport", f"httpx unavailable: {exc}") from exc
 
-        body = self._build_body(prompt, max_tokens=max_tokens)
+        timeout = httpx.Timeout(
+            connect=self.connect_timeout,
+            read=self.read_timeout,
+            write=self.connect_timeout,
+            pool=self.connect_timeout,
+        )
         try:
-            with httpx.Client(timeout=30) as client:
+            with httpx.Client(timeout=timeout) as client:
                 resp = client.post(self.url, json=body, headers=self.headers)
+        except httpx.ConnectTimeout as exc:
+            raise ProviderError(
+                "transport",
+                f"{self.name} connect timeout after {self.connect_timeout:.1f}s to {self.url}",
+            ) from exc
+        except httpx.ReadTimeout as exc:
+            raise ProviderError(
+                "transport",
+                f"{self.name} read timeout after {self.read_timeout:.1f}s from {self.url}",
+            ) from exc
         except httpx.RequestError as exc:
             raise ProviderError("transport", f"{self.name} request failed: {exc}") from exc
 
@@ -224,8 +377,19 @@ class _HTTPProvider(ReasoningProvider):
             )
         return text, {"model": self.model, "response_path_used": path_used or ""}
 
+    def complete(self, prompt: str, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        return self._post(self._build_body(prompt, max_tokens=max_tokens))
+
+    def complete_parts(self, parts: PromptParts, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        """Use structured prompt parts. Providers that support chat roles override
+        ``_build_body_parts``; others fall back to ``_build_body(parts.full)``."""
+        return self._post(self._build_body_parts(parts, max_tokens=max_tokens))
+
     def _build_body(self, prompt: str, *, max_tokens: int) -> dict[str, Any]:
         return {"prompt": prompt, "max_tokens": max_tokens}
+
+    def _build_body_parts(self, parts: PromptParts, *, max_tokens: int) -> dict[str, Any]:
+        return self._build_body(parts.full, max_tokens=max_tokens)
 
 
 def _clip(text: str, limit: int) -> str:
@@ -234,6 +398,10 @@ def _clip(text: str, limit: int) -> str:
     if len(text) <= limit:
         return text
     return text[: limit - 3] + "..."
+
+
+def _retry_backoff_seconds(attempt_idx: int) -> float:
+    return min(0.25 * (2 ** max(0, attempt_idx - 1)), 2.0)
 
 
 # Common Gemma response shapes — tried in order if the configured path
@@ -264,9 +432,17 @@ class GemmaProvider(_HTTPProvider):
         *,
         model: str = "gemma-4",
         response_path: str = "response",
+        connect_timeout: float = 5.0,
+        read_timeout: float = 60.0,
     ):
         paths = [response_path] + [p for p in _GEMMA_FALLBACK_PATHS if p != response_path]
-        super().__init__(url, response_paths=paths, model=model)
+        super().__init__(
+            url,
+            response_paths=paths,
+            model=model,
+            connect_timeout=connect_timeout,
+            read_timeout=read_timeout,
+        )
 
     def _build_body(self, prompt: str, *, max_tokens: int) -> dict[str, Any]:
         return {
@@ -286,6 +462,8 @@ class OpenAIProvider(_HTTPProvider):
         *,
         model: str = "gpt-4o-mini",
         response_path: str = "choices[0].message.content",
+        connect_timeout: float = 5.0,
+        read_timeout: float = 60.0,
     ):
         paths = [response_path] + [p for p in _OPENAI_FALLBACK_PATHS if p != response_path]
         super().__init__(
@@ -294,12 +472,25 @@ class OpenAIProvider(_HTTPProvider):
             header_value=f"Bearer {api_key}" if api_key else None,
             response_paths=paths,
             model=model,
+            connect_timeout=connect_timeout,
+            read_timeout=read_timeout,
         )
 
     def _build_body(self, prompt: str, *, max_tokens: int) -> dict[str, Any]:
         return {
             "model": self.model,
             "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+            "response_format": {"type": "json_object"},
+        }
+
+    def _build_body_parts(self, parts: PromptParts, *, max_tokens: int) -> dict[str, Any]:
+        return {
+            "model": self.model,
+            "messages": [
+                {"role": "system", "content": parts.system},
+                {"role": "user", "content": parts.user},
+            ],
             "max_tokens": max_tokens,
             "response_format": {"type": "json_object"},
         }
@@ -314,15 +505,17 @@ class OllamaProvider(_HTTPProvider):
         *,
         model: str = "gemma:2b",
         response_path: str = "response",
+        connect_timeout: float = 5.0,
+        read_timeout: float = 60.0,
     ):
-        import os as _os
-
-        base = host or _os.environ.get("OLLAMA_HOST") or "http://localhost:11434"
+        base = resolve_ollama_base_url(host)
         paths = [response_path] + [p for p in _OLLAMA_FALLBACK_PATHS if p != response_path]
         super().__init__(
             f"{base.rstrip('/')}/api/generate",
             response_paths=paths,
             model=model,
+            connect_timeout=connect_timeout,
+            read_timeout=read_timeout,
         )
 
     def _build_body(self, prompt: str, *, max_tokens: int) -> dict[str, Any]:
@@ -335,74 +528,248 @@ class OllamaProvider(_HTTPProvider):
         }
 
 
-def get_provider(config: IntelligenceConfig, mode: ReasonerMode) -> ReasoningProvider:
-    name = (config.reasoner.provider or "stub").lower()
-    if name == "openai":
-        return OpenAIProvider(
-            config.reasoner.openai_api_key,
-            model=config.reasoner.openai_model,
-            response_path=config.reasoner.openai_response_path,
-        )
-    if name == "gemma":
-        if config.reasoner.gemma_api_url:
-            return GemmaProvider(
-                config.reasoner.gemma_api_url,
-                model=config.reasoner.gemma_model,
-                response_path=config.reasoner.gemma_response_path,
+class AnthropicProvider(ReasoningProvider):
+    """Anthropic Messages API provider (claude-* models).
+
+    Uses the Anthropic SDK when available; falls back to a direct httpx call
+    so the dependency remains optional.
+    """
+
+    name = "anthropic"
+
+    def __init__(
+        self,
+        api_key: Optional[str],
+        *,
+        model: str = "claude-sonnet-4-6",
+        connect_timeout: float = 5.0,
+        read_timeout: float = 60.0,
+    ):
+        self.api_key = api_key
+        self.model = model
+        self.connect_timeout = max(0.1, float(connect_timeout))
+        self.read_timeout = max(0.1, float(read_timeout))
+
+    def complete(self, prompt: str, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        parts = PromptParts(system="", user=prompt, full=prompt)
+        return self.complete_parts(parts, max_tokens=max_tokens)
+
+    def complete_parts(self, parts: PromptParts, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        if not self.api_key:
+            raise ProviderError("transport", "anthropic: no API key configured")
+        try:
+            import anthropic  # lazy import — optional dependency
+            client = anthropic.Anthropic(
+                api_key=self.api_key,
+                timeout=anthropic.Timeout(
+                    connect=self.connect_timeout,
+                    read=self.read_timeout,
+                    write=self.connect_timeout,
+                    pool=self.connect_timeout,
+                ),
             )
-        return StubProvider(mode)
-    if name == "ollama":
-        return OllamaProvider(
-            config.reasoner.ollama_host,
-            model=config.reasoner.ollama_model,
-            response_path=config.reasoner.ollama_response_path,
+            kwargs: dict[str, Any] = {
+                "model": self.model,
+                "max_tokens": max_tokens,
+                "messages": [{"role": "user", "content": parts.user or parts.full}],
+            }
+            if parts.system:
+                kwargs["system"] = parts.system
+            msg = client.messages.create(**kwargs)
+            text = msg.content[0].text if msg.content else ""
+            if not text:
+                raise ProviderError("empty_response", "anthropic returned empty content")
+            return text, {"model": self.model, "response_path_used": "content[0].text"}
+        except ImportError:
+            # Fall back to direct httpx call if the SDK is not installed
+            return self._complete_httpx(parts, max_tokens=max_tokens)
+        except ProviderError:
+            raise
+        except Exception as exc:
+            raise ProviderError("transport", f"anthropic error: {exc}") from exc
+
+    def _complete_httpx(self, parts: PromptParts, *, max_tokens: int) -> Tuple[str, dict[str, Any]]:
+        try:
+            import httpx
+        except ImportError as exc:
+            raise ProviderError("transport", f"httpx unavailable: {exc}") from exc
+
+        headers = {
+            "Content-Type": "application/json",
+            "x-api-key": self.api_key or "",
+            "anthropic-version": "2023-06-01",
+        }
+        body: dict[str, Any] = {
+            "model": self.model,
+            "max_tokens": max_tokens,
+            "messages": [{"role": "user", "content": parts.user or parts.full}],
+        }
+        if parts.system:
+            body["system"] = parts.system
+        timeout = httpx.Timeout(
+            connect=self.connect_timeout,
+            read=self.read_timeout,
+            write=self.connect_timeout,
+            pool=self.connect_timeout,
         )
+        try:
+            with httpx.Client(timeout=timeout) as client:
+                resp = client.post(
+                    "https://api.anthropic.com/v1/messages",
+                    json=body,
+                    headers=headers,
+                )
+        except httpx.ConnectTimeout as exc:
+            raise ProviderError(
+                "transport",
+                f"anthropic connect timeout after {self.connect_timeout:.1f}s",
+            ) from exc
+        except httpx.ReadTimeout as exc:
+            raise ProviderError(
+                "transport",
+                f"anthropic read timeout after {self.read_timeout:.1f}s",
+            ) from exc
+        except httpx.RequestError as exc:
+            raise ProviderError("transport", f"anthropic request failed: {exc}") from exc
+
+        if resp.status_code >= 400:
+            raise ProviderError(
+                "transport",
+                f"anthropic HTTP {resp.status_code}",
+                http_status=resp.status_code,
+                raw_excerpt=_clip(resp.text, 2048),
+            )
+        try:
+            data = resp.json()
+        except ValueError as exc:
+            raise ProviderError(
+                "not_json",
+                f"anthropic returned non-JSON body: {exc}",
+                http_status=resp.status_code,
+                raw_excerpt=_clip(resp.text, 2048),
+            ) from exc
+        try:
+            text = data["content"][0]["text"]
+        except (KeyError, IndexError, TypeError):
+            text = ""
+        if not text:
+            raise ProviderError(
+                "empty_response",
+                "anthropic produced no extractable text",
+                http_status=resp.status_code,
+                raw_excerpt=_clip(json.dumps(data), 2048),
+            )
+        return text, {"model": self.model, "response_path_used": "content[0].text"}
+
+
+# ---------------------------------------------------------------------------
+# Provider registry
+# ---------------------------------------------------------------------------
+
+_PROVIDER_REGISTRY: dict[str, Callable[[ReasonerProviderConfig, ReasonerMode, Optional[str]], ReasoningProvider]] = {}
+
+
+def register_provider(
+    name: str,
+    factory: Callable[[ReasonerProviderConfig, ReasonerMode, Optional[str]], ReasoningProvider],
+) -> None:
+    """Register a provider factory under ``name``.
+
+    The factory receives ``(cfg, mode, model_override)`` where
+    ``model_override`` is the per-mode model string (or ``None``).
+    """
+    _PROVIDER_REGISTRY[name.lower()] = factory
+
+
+def _make_stub(cfg: ReasonerProviderConfig, mode: ReasonerMode, model_override: Optional[str]) -> ReasoningProvider:
     return StubProvider(mode)
+
+
+def _make_openai(cfg: ReasonerProviderConfig, mode: ReasonerMode, model_override: Optional[str]) -> ReasoningProvider:
+    return OpenAIProvider(
+        cfg.openai_api_key,
+        model=model_override or cfg.openai_model,
+        response_path=cfg.openai_response_path,
+        connect_timeout=cfg.connect_timeout_seconds,
+        read_timeout=cfg.read_timeout_seconds,
+    )
+
+
+def _make_gemma(cfg: ReasonerProviderConfig, mode: ReasonerMode, model_override: Optional[str]) -> ReasoningProvider:
+    if not cfg.gemma_api_url:
+        return StubProvider(mode)
+    return GemmaProvider(
+        cfg.gemma_api_url,
+        model=model_override or cfg.gemma_model,
+        response_path=cfg.gemma_response_path,
+        connect_timeout=cfg.connect_timeout_seconds,
+        read_timeout=cfg.read_timeout_seconds,
+    )
+
+
+def _make_ollama(cfg: ReasonerProviderConfig, mode: ReasonerMode, model_override: Optional[str]) -> ReasoningProvider:
+    return OllamaProvider(
+        cfg.ollama_host,
+        model=model_override or cfg.ollama_model,
+        response_path=cfg.ollama_response_path,
+        connect_timeout=cfg.connect_timeout_seconds,
+        read_timeout=cfg.read_timeout_seconds,
+    )
+
+
+def _make_anthropic(cfg: ReasonerProviderConfig, mode: ReasonerMode, model_override: Optional[str]) -> ReasoningProvider:
+    return AnthropicProvider(
+        cfg.anthropic_api_key,
+        model=model_override or cfg.anthropic_model,
+        connect_timeout=cfg.connect_timeout_seconds,
+        read_timeout=cfg.read_timeout_seconds,
+    )
+
+
+register_provider("stub", _make_stub)
+register_provider("openai", _make_openai)
+register_provider("gemma", _make_gemma)
+register_provider("ollama", _make_ollama)
+register_provider("anthropic", _make_anthropic)
+
+
+def get_provider(config: IntelligenceConfig, mode: ReasonerMode) -> ReasoningProvider:
+    """Resolve the provider for *mode* using the registry.
+
+    Per-mode overrides (``mode_a_provider``, ``mode_b_provider``,
+    ``mode_c_provider``) take precedence over the global ``provider`` field.
+    Per-mode model overrides (``mode_a_model`` etc.) are forwarded to the
+    factory so the same provider backend can use different model weights per
+    mode without a code change.
+    """
+    mode_key = mode.value.lower()
+    provider_override = getattr(config.llm, f"mode_{mode_key}_provider", None)
+    model_override = getattr(config.llm, f"mode_{mode_key}_model", None)
+    provider_name = (provider_override or config.llm.provider or "stub").lower()
+
+    factory = _PROVIDER_REGISTRY.get(provider_name)
+    if factory is None:
+        logger.warning(
+            "unknown_provider_falling_back_to_stub",
+            extra={"provider": provider_name, "mode": mode.value},
+        )
+        factory = _PROVIDER_REGISTRY["stub"]
+    return factory(config.llm, mode, model_override)
 
 
 # ---------------------------------------------------------------------------
 # Prompts
 # ---------------------------------------------------------------------------
 
-_PROMPT_HEAD = """You are a software reasoning engine. Output ONLY JSON that matches the schema for the requested mode.
-
-Mode A: pattern-based bugs (null ref, off-by-one, missing error handling).
-Mode B: semantic mismatches (client contract vs server behavior).
-Mode C: control/data flow bugs (missing guards, payload drift).
-
-NEVER include natural language outside the JSON document.
-"""
-
 
 def _render_prompt(
     mode: ReasonerMode,
     bundle: ContextBundle,
     *,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
-) -> str:
-    header = _PROMPT_HEAD
-    body = {
-        "candidate_id": bundle.candidate_id,
-        "scope_id": bundle.scope_id,
-        "mode": mode.value,
-        "data_reads": bundle.data_reads,
-        "data_writes": bundle.data_writes,
-        "rls_coverage": {k: v.value for k, v in bundle.rls_coverage.items()},
-        "migration_state": {k: v.value for k, v in bundle.migration_state.items()},
-        "cross_language_seams": [e.model_dump(mode="json") for e in bundle.cross_language_seams],
-        "code_snippets": [
-            {
-                "node_id": s.node_id,
-                "file": s.source_file,
-                "text": s.text[:4000],
-                "evidence_quality": s.evidence_quality,
-            }
-            for s in bundle.code_snippets
-        ],
-    }
-    if graphcodebert_hint:
-        body["graphcodebert_hint"] = graphcodebert_hint
-    return f"{header}\n```json\n{json.dumps(body, indent=2)}\n```"
+    config: IntelligenceConfig,
+    rank_metadata: Optional[dict[str, Any]] = None,
+) -> PromptParts:
+    return render_bundle_prompt(mode, bundle, rank_metadata=rank_metadata, config=config)
 
 
 # ---------------------------------------------------------------------------
@@ -451,6 +818,151 @@ def _coerce_envelope(mode: ReasonerMode, data: Any) -> tuple[dict[str, Any], lis
     return data, repairs
 
 
+def _coerce_str(value: Any, default: str = "") -> str:
+    if value is None:
+        return default
+    if isinstance(value, str):
+        return value
+    return str(value)
+
+
+def _coerce_str_list(value: Any) -> list[str]:
+    if value is None:
+        return []
+    if isinstance(value, list):
+        return [_coerce_str(item) for item in value if _coerce_str(item)]
+    if isinstance(value, tuple):
+        return [_coerce_str(item) for item in value if _coerce_str(item)]
+    text = _coerce_str(value)
+    return [text] if text else []
+
+
+def _first_present(mapping: dict[str, Any], *keys: str) -> Any:
+    for key in keys:
+        if key in mapping and mapping[key] not in (None, ""):
+            return mapping[key]
+    return None
+
+
+def _normalize_graph_anchor_nodes(finding: dict[str, Any]) -> list[str]:
+    return _coerce_str_list(
+        _first_present(
+            finding,
+            "graph_anchor_nodes",
+            "affected_path",
+            "violating_path",
+            "affected_components",
+        )
+    )
+
+
+def _normalize_mode_specific_fields(
+    mode: ReasonerMode,
+    data: dict[str, Any],
+) -> tuple[dict[str, Any], list[str]]:
+    findings = data.get("findings")
+    if not isinstance(findings, list):
+        return data, []
+
+    repairs: list[str] = []
+    normalized_findings: list[Any] = []
+    for finding in findings:
+        if not isinstance(finding, dict):
+            normalized_findings.append(finding)
+            continue
+        normalized = dict(finding)
+        anchor_nodes = _normalize_graph_anchor_nodes(normalized)
+        if mode == ReasonerMode.A:
+            if "bug_type" not in normalized:
+                bug_type = _first_present(
+                    normalized, "violation_type", "flow_bug_type", "type", "category"
+                )
+                if bug_type is not None:
+                    normalized["bug_type"] = _coerce_str(bug_type)
+            if "description" not in normalized:
+                description = _first_present(normalized, "disagreement", "summary")
+                if description is not None:
+                    normalized["description"] = _coerce_str(description)
+            if "affected_path" not in normalized and anchor_nodes:
+                normalized["affected_path"] = anchor_nodes
+            if "graph_anchor_nodes" not in normalized and anchor_nodes:
+                normalized["graph_anchor_nodes"] = anchor_nodes
+        elif mode == ReasonerMode.B:
+            if "violation_type" not in normalized:
+                violation_type = _first_present(
+                    normalized, "bug_type", "flow_bug_type", "type", "category"
+                )
+                normalized["violation_type"] = _coerce_str(
+                    violation_type, default="semantic_mismatch"
+                )
+            components = _coerce_str_list(
+                _first_present(normalized, "affected_components", "graph_anchor_nodes")
+            )
+            if "component_a" not in normalized:
+                normalized["component_a"] = (
+                    components[0] if len(components) >= 1 else _coerce_str(normalized.get("source"), "unknown")
+                )
+            if "component_b" not in normalized:
+                normalized["component_b"] = (
+                    components[1] if len(components) >= 2 else _coerce_str(normalized.get("target"), "unknown")
+                )
+            if "disagreement" not in normalized:
+                disagreement = _first_present(
+                    normalized,
+                    "description",
+                    "trigger_condition",
+                    "remediation_suggestion",
+                )
+                normalized["disagreement"] = _coerce_str(
+                    disagreement,
+                    default="semantic contract mismatch",
+                )
+            if "description" not in normalized:
+                normalized["description"] = normalized["disagreement"]
+            if "graph_anchor_nodes" not in normalized and anchor_nodes:
+                normalized["graph_anchor_nodes"] = anchor_nodes
+        elif mode == ReasonerMode.C:
+            if "flow_bug_type" not in normalized:
+                flow_bug_type = _first_present(
+                    normalized, "bug_type", "violation_type", "type", "category"
+                )
+                normalized["flow_bug_type"] = _coerce_str(
+                    flow_bug_type, default="control_flow_bug"
+                )
+            if "operation" not in normalized:
+                operation = _first_present(
+                    normalized,
+                    "component_a",
+                    "source",
+                    "scope",
+                )
+                normalized["operation"] = _coerce_str(operation, default="unknown")
+            if "violating_path" not in normalized and anchor_nodes:
+                normalized["violating_path"] = anchor_nodes
+            if "missing_guard" not in normalized:
+                missing_guard = _first_present(
+                    normalized,
+                    "trigger_condition",
+                    "remediation_suggestion",
+                )
+                if missing_guard is not None:
+                    normalized["missing_guard"] = _coerce_str(missing_guard)
+            if "description" not in normalized:
+                description = _first_present(normalized, "disagreement", "summary")
+                if description is not None:
+                    normalized["description"] = _coerce_str(description)
+            if "graph_anchor_nodes" not in normalized and anchor_nodes:
+                normalized["graph_anchor_nodes"] = anchor_nodes
+
+        if normalized != finding:
+            repairs.append("normalize_mode_specific_fields")
+        normalized_findings.append(normalized)
+
+    if repairs:
+        data = {**data, "findings": normalized_findings}
+    return data, repairs
+
+
 def _parse(mode: ReasonerMode, raw: str) -> tuple[Any, list[str]]:
     """Strict-validate ``raw`` into the mode schema.
 
@@ -480,6 +992,8 @@ def _parse(mode: ReasonerMode, raw: str) -> tuple[Any, list[str]]:
 
     coerced, coercion_repairs = _coerce_envelope(mode, data)
     repairs.extend(coercion_repairs)
+    coerced, mode_repairs = _normalize_mode_specific_fields(mode, coerced)
+    repairs.extend(mode_repairs)
     return schema.model_validate(coerced), repairs
 
 
@@ -492,6 +1006,12 @@ def _queue_path(config: IntelligenceConfig, run_id: str) -> Path:
     out = config.data_dir / config.run_output_subdir / run_id
     out.mkdir(parents=True, exist_ok=True)
     return out / "reasoner_queue.jsonl"
+
+
+def _attempts_path(config: IntelligenceConfig, run_id: str) -> Path:
+    out = config.data_dir / config.run_output_subdir / run_id
+    out.mkdir(parents=True, exist_ok=True)
+    return out / "reasoner_attempts.jsonl"
 
 
 def _prompts_dir(config: IntelligenceConfig, run_id: str) -> Path:
@@ -528,8 +1048,7 @@ def _enqueue(
     prompt_hash: str,
     prompt_token_estimate: int,
     response_path_used: Optional[str],
-    graphcodebert_score: float = 0.0,
-    graphcodebert_pattern: str = "",
+    score_composite: float = 0.0,
     extra: Optional[dict[str, Any]] = None,
 ) -> None:
     row = ReasonerQueueRow(
@@ -538,8 +1057,7 @@ def _enqueue(
         mode=mode,
         evidence_pack={"data_reads": bundle.data_reads, "data_writes": bundle.data_writes},
         pack_manifest=bundle.pack_manifest,
-        graphcodebert_score=graphcodebert_score,
-        graphcodebert_pattern=graphcodebert_pattern,
+        score_composite=score_composite,
         ranking_phase=ranking_phase,
         queued_at=datetime.now(tz=timezone.utc),
         failure_reason=failure_reason,  # type: ignore[arg-type]
@@ -558,6 +1076,225 @@ def _enqueue(
         fp.write(row.model_dump_json() + "\n")
 
 
+_ATTEMPT_KEYS = (
+    "event_type",
+    "run_id",
+    "candidate_id",
+    "detector_name",
+    "mode",
+    "provider",
+    "model",
+    "attempt_idx",
+    "max_retries",
+    "timeout_seconds",
+    "prompt_chars",
+    "prompt_bytes",
+    "max_prompt_tokens",
+    "requested_output_tokens",
+    "elapsed_ms",
+    "success",
+    "failure_type",
+    "failure_message",
+    "recovered_by_retry",
+)
+
+
+def _attempt_record(
+    *,
+    run_id: str | None,
+    bundle: ContextBundle,
+    detector_name: str | None,
+    mode: ReasonerMode,
+    provider_name: str | None,
+    model: str | None,
+    attempt_idx: int | None,
+    max_retries: int | None,
+    timeout_seconds: float | None,
+    prompt: str | None,
+    max_prompt_tokens: int | None,
+    requested_output_tokens: int | None,
+    elapsed_ms: float | None,
+    success: bool,
+    failure_type: str | None,
+    failure_message: str | None,
+    recovered_by_retry: bool = False,
+) -> dict[str, Any]:
+    record = {
+        "event_type": "reasoner_attempt",
+        "run_id": run_id,
+        "candidate_id": bundle.candidate_id if bundle is not None else None,
+        "detector_name": detector_name,
+        "mode": mode.value if mode is not None else None,
+        "provider": provider_name,
+        "model": model,
+        "attempt_idx": attempt_idx,
+        "max_retries": max_retries,
+        "timeout_seconds": timeout_seconds,
+        "prompt_chars": len(prompt) if prompt is not None else None,
+        "prompt_bytes": len(prompt.encode("utf-8")) if prompt is not None else None,
+        "max_prompt_tokens": max_prompt_tokens,
+        "requested_output_tokens": requested_output_tokens,
+        "elapsed_ms": elapsed_ms,
+        "success": success,
+        "failure_type": failure_type,
+        "failure_message": _clip(failure_message or "", 500) if failure_message else None,
+        "recovered_by_retry": recovered_by_retry,
+    }
+    return {key: record.get(key) for key in _ATTEMPT_KEYS}
+
+
+def _flush_attempt_records(
+    config: IntelligenceConfig,
+    run_id: str,
+    records: list[dict[str, Any]],
+) -> None:
+    if not records:
+        return
+    path = _attempts_path(config, run_id)
+    with path.open("a", encoding="utf-8") as fp:
+        for record in records:
+            fp.write(json.dumps(record, default=str) + "\n")
+            observability_payload = dict(record)
+            observability_payload.pop("run_id", None)
+            emit_event(config, run_id, "reasoner_attempt", **observability_payload)
+
+
+def _empty_attempt_summary() -> dict[str, Any]:
+    return {
+        "provider": None,
+        "model": None,
+        "total_attempts": 0,
+        "successful_attempts": 0,
+        "failed_attempts": 0,
+        "recovered_failures": 0,
+        "total_elapsed_ms": 0,
+        "avg_attempt_ms": None,
+        "p50_attempt_ms": None,
+        "p75_attempt_ms": None,
+        "p90_attempt_ms": None,
+        "p95_attempt_ms": None,
+        "timeouts": 0,
+        "by_detector": {},
+    }
+
+
+def _percentile(values: list[float], percentile: float) -> float | None:
+    if not values:
+        return None
+    ordered = sorted(values)
+    if len(ordered) == 1:
+        return round(ordered[0], 3)
+    rank = (len(ordered) - 1) * percentile
+    lower = int(rank)
+    upper = min(lower + 1, len(ordered) - 1)
+    fraction = rank - lower
+    value = ordered[lower] + (ordered[upper] - ordered[lower]) * fraction
+    return round(value, 3)
+
+
+def _unique_or_mixed(values: list[Any]) -> str | None:
+    normalized = {str(value) for value in values if value not in (None, "")}
+    if not normalized:
+        return None
+    if len(normalized) == 1:
+        return next(iter(normalized))
+    return "mixed"
+
+
+def _is_timeout_record(record: dict[str, Any]) -> bool:
+    text = f"{record.get('failure_type') or ''} {record.get('failure_message') or ''}".lower()
+    return "timeout" in text or "timed out" in text
+
+
+def summarize_reasoner_attempts(attempts_path: Path) -> dict[str, Any]:
+    summary = _empty_attempt_summary()
+    if not attempts_path.exists():
+        return summary
+
+    records: list[dict[str, Any]] = []
+    for line in attempts_path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        try:
+            row = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(row, dict):
+            records.append(row)
+    if not records:
+        return summary
+
+    elapsed_values = [
+        float(row["elapsed_ms"])
+        for row in records
+        if isinstance(row.get("elapsed_ms"), (int, float))
+    ]
+    total_elapsed = round(sum(elapsed_values), 3)
+    total_attempts = len(records)
+    summary.update(
+        {
+            "provider": _unique_or_mixed([row.get("provider") for row in records]),
+            "model": _unique_or_mixed([row.get("model") for row in records]),
+            "total_attempts": total_attempts,
+            "successful_attempts": sum(1 for row in records if row.get("success") is True),
+            "failed_attempts": sum(1 for row in records if row.get("success") is not True),
+            "recovered_failures": sum(1 for row in records if row.get("recovered_by_retry") is True),
+            "total_elapsed_ms": total_elapsed,
+            "avg_attempt_ms": round(total_elapsed / len(elapsed_values), 3) if elapsed_values else None,
+            "p50_attempt_ms": _percentile(elapsed_values, 0.50),
+            "p75_attempt_ms": _percentile(elapsed_values, 0.75),
+            "p90_attempt_ms": _percentile(elapsed_values, 0.90),
+            "p95_attempt_ms": _percentile(elapsed_values, 0.95),
+            "timeouts": sum(1 for row in records if row.get("success") is not True and _is_timeout_record(row)),
+        }
+    )
+
+    detectors: dict[str, dict[str, Any]] = {}
+    detector_candidates: dict[str, set[str]] = {}
+    detector_elapsed: dict[str, list[float]] = {}
+    for row in records:
+        detector = str(row.get("detector_name") or "unknown")
+        bucket = detectors.setdefault(
+            detector,
+            {
+                "candidates": 0,
+                "attempts": 0,
+                "successes": 0,
+                "failures": 0,
+                "recovered_failures": 0,
+                "total_elapsed_ms": 0,
+                "avg_attempt_ms": None,
+                "p90_attempt_ms": None,
+            },
+        )
+        detector_candidates.setdefault(detector, set())
+        detector_elapsed.setdefault(detector, [])
+        candidate_id = row.get("candidate_id")
+        if candidate_id:
+            detector_candidates[detector].add(str(candidate_id))
+        bucket["attempts"] += 1
+        if row.get("success") is True:
+            bucket["successes"] += 1
+        else:
+            bucket["failures"] += 1
+        if row.get("recovered_by_retry") is True:
+            bucket["recovered_failures"] += 1
+        if isinstance(row.get("elapsed_ms"), (int, float)):
+            elapsed = float(row["elapsed_ms"])
+            bucket["total_elapsed_ms"] = round(float(bucket["total_elapsed_ms"]) + elapsed, 3)
+            detector_elapsed[detector].append(elapsed)
+
+    for detector, bucket in detectors.items():
+        values = detector_elapsed.get(detector, [])
+        bucket["candidates"] = len(detector_candidates.get(detector, set()))
+        bucket["avg_attempt_ms"] = (
+            round(float(bucket["total_elapsed_ms"]) / len(values), 3) if values else None
+        )
+        bucket["p90_attempt_ms"] = _percentile(values, 0.90)
+    summary["by_detector"] = detectors
+    return summary
+
+
 # ---------------------------------------------------------------------------
 # Reasoner runners
 # ---------------------------------------------------------------------------
@@ -570,14 +1307,18 @@ def run_reasoner(
     config: IntelligenceConfig,
     run_id: str,
     ranking_phase: int = 0,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
+    rank_metadata: Optional[dict[str, Any]] = None,
     stats: Optional[ReasonerCallStats] = None,
+    session: Optional[ReasonerSession] = None,
+    detector_name: str | None = None,
+    _provider: Optional[ReasoningProvider] = None,
 ) -> Optional[ModeAOutput | ModeBOutput | ModeCOutput]:
-    provider = get_provider(config, mode)
-    prompt = _render_prompt(mode, bundle, graphcodebert_hint=graphcodebert_hint)
-    prompt_hash = _cache_prompt(config, run_id, prompt, mode)
-    prompt_token_estimate = max(1, len(prompt) // 4)
-    attempts = max(1, config.reasoner.max_retries + 1)
+    session = session or ReasonerSession(config)
+    provider = _provider if _provider is not None else session.get_provider(mode)
+    parts = _render_prompt(mode, bundle, config=config, rank_metadata=rank_metadata)
+    prompt_hash = _cache_prompt(config, run_id, parts.full, mode)
+    prompt_token_estimate = max(1, len(parts.full) // 4)
+    attempts = max(1, config.llm.max_retries + 1)
 
     last_failure_reason = "other"
     last_http_status: Optional[int] = None
@@ -588,17 +1329,49 @@ def run_reasoner(
     last_repairs: list[str] = []
     provider_model = ""
     provider_name = getattr(provider, "name", provider.__class__.__name__)
+    current_raw_excerpt = ""
+    attempt_records: list[dict[str, Any]] = []
 
     for attempt_idx in range(1, attempts + 1):
         last_attempt = attempt_idx
+        attempt_started = time.perf_counter()
+        attempt_elapsed_ms: float | None = None
+        attempt_model = provider_model or str(getattr(provider, "model", "") or "") or None
         try:
-            raw, meta = provider.complete(prompt, max_tokens=config.reasoner.default_max_tokens)
+            raw, meta = provider.complete_parts(parts, max_tokens=config.llm.default_max_tokens)
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
+            current_raw_excerpt = _clip(raw, 2048)
             provider_model = str(meta.get("model", ""))
+            attempt_model = provider_model or attempt_model
             last_response_path = meta.get("response_path_used") or last_response_path
             parsed, repairs = _parse(mode, raw)
             last_repairs = repairs
             if stats is not None:
                 stats.record_success(mode.value)
+            for record in attempt_records:
+                if not record["success"]:
+                    record["recovered_by_retry"] = True
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=parts.full,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=True,
+                    failure_type=None,
+                    failure_message=None,
+                )
+            )
+            _flush_attempt_records(config, run_id, attempt_records)
             if repairs:
                 logger.info(
                     "reasoner_call_repaired",
@@ -611,11 +1384,22 @@ def run_reasoner(
                 )
             return parsed
         except ProviderError as exc:
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = exc.reason
             last_http_status = exc.http_status
             last_raw_excerpt = exc.raw_excerpt or str(exc)
+            if stats is not None:
+                stats.record_failure(mode.value, last_failure_reason)
             logger.warning(
-                "reasoner_call_failed",
+                "reasoner_call_failed mode=%s provider=%s reason=%s http_status=%s attempt=%d/%d candidate=%s detail=%s",
+                mode.value,
+                provider_name,
+                exc.reason,
+                exc.http_status,
+                attempt_idx,
+                attempts,
+                bundle.candidate_id,
+                _clip(str(exc), 240),
                 extra={
                     "mode": mode.value,
                     "provider": provider_name,
@@ -625,11 +1409,41 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=parts.full,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type=exc.reason,
+                    failure_message=str(exc),
+                )
+            )
         except json.JSONDecodeError as exc:
+            if attempt_elapsed_ms is None:
+                attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "not_json"
             last_raw_excerpt = _clip(getattr(exc, "doc", "") or str(exc), 2048)
+            if stats is not None:
+                stats.record_failure(mode.value, last_failure_reason)
             logger.warning(
-                "reasoner_call_failed",
+                "reasoner_call_failed mode=%s provider=%s reason=not_json attempt=%d/%d candidate=%s detail=%s",
+                mode.value,
+                provider_name,
+                attempt_idx,
+                attempts,
+                bundle.candidate_id,
+                _clip(str(exc), 240),
                 extra={
                     "mode": mode.value,
                     "provider": provider_name,
@@ -638,13 +1452,44 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=parts.full,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="not_json",
+                    failure_message=str(exc),
+                )
+            )
         except ValidationError as exc:
+            if attempt_elapsed_ms is None:
+                attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "json_but_invalid_schema"
+            last_raw_excerpt = current_raw_excerpt or last_raw_excerpt
             last_validation_errors = [
                 {k: _stringify(v) for k, v in err.items()} for err in exc.errors()
             ]
+            if stats is not None:
+                stats.record_failure(mode.value, last_failure_reason)
             logger.warning(
-                "reasoner_call_failed",
+                "reasoner_call_failed mode=%s provider=%s reason=json_but_invalid_schema errors=%d attempt=%d/%d candidate=%s",
+                mode.value,
+                provider_name,
+                len(last_validation_errors),
+                attempt_idx,
+                attempts,
+                bundle.candidate_id,
                 extra={
                     "mode": mode.value,
                     "provider": provider_name,
@@ -654,11 +1499,40 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=parts.full,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="json_but_invalid_schema",
+                    failure_message=str(exc),
+                )
+            )
         except Exception as exc:  # noqa: BLE001
+            attempt_elapsed_ms = round((time.perf_counter() - attempt_started) * 1000.0, 3)
             last_failure_reason = "other"
             last_raw_excerpt = _clip(str(exc), 2048)
+            if stats is not None:
+                stats.record_failure(mode.value, last_failure_reason)
             logger.warning(
-                "reasoner_call_failed",
+                "reasoner_call_failed mode=%s provider=%s reason=other attempt=%d/%d candidate=%s detail=%s",
+                mode.value,
+                provider_name,
+                attempt_idx,
+                attempts,
+                bundle.candidate_id,
+                _clip(str(exc), 240),
                 extra={
                     "mode": mode.value,
                     "provider": provider_name,
@@ -667,13 +1541,42 @@ def run_reasoner(
                     "candidate_id": bundle.candidate_id,
                 },
             )
-        time.sleep(0.1)
+            attempt_records.append(
+                _attempt_record(
+                    run_id=run_id,
+                    bundle=bundle,
+                    detector_name=detector_name,
+                    mode=mode,
+                    provider_name=provider_name,
+                    model=attempt_model,
+                    attempt_idx=attempt_idx,
+                    max_retries=config.llm.max_retries,
+                    timeout_seconds=session.last_timeout_seconds,
+                    prompt=parts.full,
+                    max_prompt_tokens=config.bundles.max_prompt_tokens,
+                    requested_output_tokens=config.llm.default_max_tokens,
+                    elapsed_ms=attempt_elapsed_ms,
+                    success=False,
+                    failure_type="other",
+                    failure_message=str(exc),
+                )
+            )
+        if attempt_idx < attempts:
+            time.sleep(_retry_backoff_seconds(attempt_idx))
 
-    if stats is not None:
-        stats.record_failure(mode.value, last_failure_reason)
+    logger.error(
+        "reasoner_call_exhausted mode=%s provider=%s reason=%s http_status=%s attempts=%d candidate=%s",
+        mode.value,
+        provider_name,
+        last_failure_reason,
+        last_http_status,
+        last_attempt,
+        bundle.candidate_id,
+    )
     extra_meta: dict[str, Any] = {}
     if last_repairs:
         extra_meta["repairs"] = last_repairs
+    _flush_attempt_records(config, run_id, attempt_records)
     _enqueue(
         config,
         run_id,
@@ -690,8 +1593,7 @@ def run_reasoner(
         prompt_hash=prompt_hash,
         prompt_token_estimate=prompt_token_estimate,
         response_path_used=last_response_path,
-        graphcodebert_score=float((graphcodebert_hint or {}).get("score", 0.0)),
-        graphcodebert_pattern=str((graphcodebert_hint or {}).get("pattern", "")),
+        score_composite=float(bundle.score_composite),
         extra=extra_meta,
     )
     return None
@@ -713,22 +1615,76 @@ def run_all_modes(
     config: IntelligenceConfig,
     run_id: str,
     ranking_phase: int = 0,
-    graphcodebert_hint: Optional[dict[str, Any]] = None,
+    rank_metadata: Optional[dict[str, Any]] = None,
     stats: Optional[ReasonerCallStats] = None,
+    session: Optional[ReasonerSession] = None,
+    modes: Optional[Iterable[ReasonerMode]] = None,
+    detector_name: str | None = None,
 ) -> dict[ReasonerMode, Any]:
     out: dict[ReasonerMode, Any] = {}
-    for mode in (ReasonerMode.A, ReasonerMode.B, ReasonerMode.C):
-        result = run_reasoner(
-            bundle,
-            mode=mode,
-            config=config,
-            run_id=run_id,
-            ranking_phase=ranking_phase,
-            graphcodebert_hint=graphcodebert_hint,
-            stats=stats,
-        )
-        if result is not None:
-            out[mode] = result
+    session = session or ReasonerSession(config)
+    selected_modes = tuple(dict.fromkeys(modes)) if modes is not None else (
+        ReasonerMode.A,
+        ReasonerMode.B,
+        ReasonerMode.C,
+    )
+
+    if len(selected_modes) <= 1:
+        # No threading overhead for single-mode candidates.
+        for mode in selected_modes:
+            result = run_reasoner(
+                bundle,
+                mode=mode,
+                config=config,
+                run_id=run_id,
+                ranking_phase=ranking_phase,
+                rank_metadata=rank_metadata,
+                stats=stats,
+                session=session,
+                detector_name=detector_name,
+            )
+            if result is not None:
+                out[mode] = result
+        return out
+
+    # Pre-resolve providers on the main thread to preserve call_index ordering
+    # (Ollama: call_index=0 gets the warm-up timeout, subsequent get the shorter one).
+    providers = {mode: session.get_provider(mode) for mode in selected_modes}
+    max_workers = min(len(selected_modes), config.llm.max_concurrent_reasoner_modes)
+    thread_stats: dict[ReasonerMode, ReasonerCallStats] = {}
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_mode = {
+            executor.submit(
+                run_reasoner,
+                bundle,
+                mode=mode,
+                config=config,
+                run_id=run_id,
+                ranking_phase=ranking_phase,
+                rank_metadata=rank_metadata,
+                stats=thread_stats.setdefault(mode, ReasonerCallStats()),
+                _provider=providers[mode],
+                detector_name=detector_name,
+            ): mode
+            for mode in selected_modes
+        }
+        for future in as_completed(future_to_mode):
+            mode = future_to_mode[future]
+            try:
+                result = future.result()
+                if result is not None:
+                    out[mode] = result
+            except Exception as exc:  # noqa: BLE001
+                logger.error(
+                    "reasoner_mode_thread_failed",
+                    extra={"mode": mode.value, "error": str(exc)},
+                )
+
+    if stats is not None:
+        for ts in thread_stats.values():
+            stats.merge(ts)
+
     return out
 
 
@@ -776,10 +1732,10 @@ def replay_one(
     if not prompt:
         return []
 
-    provider = get_provider(config, mode)
+    provider = ReasonerSession(config).get_provider(mode)
     prior_attempts = int(row.get("attempt_count") or 0)
     try:
-        raw, meta = provider.complete(prompt, max_tokens=config.reasoner.default_max_tokens)
+        raw, meta = provider.complete(prompt, max_tokens=config.llm.default_max_tokens)
         parsed, _ = _parse(mode, raw)
         return [parsed]
     except (ProviderError, json.JSONDecodeError, ValidationError) as exc:
@@ -808,26 +1764,27 @@ def replay_one(
 
 
 def _infer_run_id(row: dict[str, Any]) -> str:
-    # Best-effort: the row itself may not include run_id; the canonical
-    # location is the parent directory of the queue file. If the caller
-    # passes a row with explicit ``run_id``, honor it.
+    # The row carries run_id directly when queued by the pipeline.
+    # If absent there is no other reliable source without the queue file path.
     if row.get("run_id"):
         return str(row["run_id"])
-    queued_at = row.get("queued_at")
-    if not queued_at:
-        return ""
     return ""
 
 
 __all__ = [
     "ReasoningProvider",
     "StubProvider",
+    "ReasonerSession",
     "GemmaProvider",
     "OpenAIProvider",
     "OllamaProvider",
+    "AnthropicProvider",
     "ProviderError",
+    "resolve_ollama_base_url",
+    "register_provider",
     "get_provider",
     "run_reasoner",
     "run_all_modes",
+    "summarize_reasoner_attempts",
     "replay_one",
 ]

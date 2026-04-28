@@ -8,6 +8,7 @@ import networkx as nx
 
 from depos.analysis.schemas import IngestReport
 from depos.ingest.common import add_edge_once, upsert_node
+from depos.ingest.env_config import _existing_defined_env_node_id
 
 _ROUTE_SUFFIXES = ("page.tsx", "page.ts", "page.jsx", "page.js", "route.ts", "route.tsx", "route.js", "route.jsx", "layout.tsx", "layout.ts", "layout.jsx", "layout.js", "middleware.ts", "middleware.tsx", "middleware.js", "middleware.jsx")
 _ENV_REF = re.compile(r"(?:process\.env\.|process\.env\[['\"]|os\.getenv\(['\"])([A-Z0-9_]+)")
@@ -109,18 +110,22 @@ def ingest(graph: nx.DiGraph, *, repo_root: Path, config) -> IngestReport:
             if add_edge_once(graph, layout_id, node_id, relation="NEXT_ROUTE_USES_LAYOUT", source_system="nextjs", target_system="nextjs"):
                 report.edges_added += 1
         for env_name in env_refs:
-            env_id = f"env::{env_name}@{rel.as_posix()}"
-            if not graph.has_node(env_id):
-                graph.add_node(
-                    env_id,
-                    node_kind="env_var",
-                    universe="env",
-                    source_file=str(path),
-                    name=env_name,
-                    label=env_name,
-                    defined=False,
-                )
-                report.nodes_added += 1
+            existing = _existing_defined_env_node_id(graph, env_name)
+            if existing:
+                env_id = existing
+            else:
+                env_id = f"env::{env_name}@{rel.as_posix()}"
+                if not graph.has_node(env_id):
+                    graph.add_node(
+                        env_id,
+                        node_kind="env_var",
+                        universe="env",
+                        source_file=str(path),
+                        name=env_name,
+                        label=env_name,
+                        defined=False,
+                    )
+                    report.nodes_added += 1
             if add_edge_once(graph, node_id, env_id, relation="READS_ENV_VAR", source_system="nextjs", target_system="env"):
                 report.edges_added += 1
     for route_id, attrs in list(graph.nodes(data=True)):

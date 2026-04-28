@@ -3,12 +3,21 @@ from __future__ import annotations
 
 import importlib
 import time
-from typing import Any, Callable
+from pathlib import Path
+from typing import Any, Callable, Optional
 
 import networkx as nx
 
-from depos.analysis.detectors.policy import DetectorPolicy, load_policy
-from depos.analysis.schemas import Candidate, Detector, DetectorCandidateExtra, DetectorRunStats
+from depos.analysis.detectors.policy import DetectorPolicy, iter_eligible_scopes, load_policy
+from depos.analysis.run_context import RunContext
+from depos.analysis.schemas import (
+    Candidate,
+    Detector,
+    DetectorPayload,
+    DetectorRunStats,
+    TaintEdge,
+)
+from depos.analysis.scoring import apply_composite
 
 
 DetectorRunner = Callable[[nx.DiGraph, Any, Any, Any, dict[str, Any]], list[Candidate]]
@@ -20,7 +29,6 @@ _BUILTIN_MODULES = [
     "depos.analysis.detectors.builtin.diff_anchor",
     "depos.analysis.detectors.builtin.interface_surface",
     "depos.analysis.detectors.builtin.graph_anomaly",
-    "depos.analysis.detectors.builtin.lexical_keyword_seed",
     "depos.analysis.detectors.builtin.dep_version_mismatch_across_workspaces",
     "depos.analysis.detectors.builtin.lockfile_drift",
     "depos.analysis.detectors.builtin.peer_dep_unsatisfied",
@@ -53,6 +61,9 @@ _BUILTIN_MODULES = [
     "depos.analysis.detectors.builtin.gha_workflow_uses_secret_not_declared",
     "depos.analysis.detectors.builtin.gha_matrix_node_version_diverges_from_engines",
     "depos.analysis.detectors.builtin.compose_service_depends_on_service_with_different_network",
+    "depos.analysis.detectors.builtin.group_a_graph_detectors",
+    "depos.analysis.detectors.builtin.group_b_cfg_detectors",
+    "depos.analysis.detectors.builtin.group_c_taint_dfg_detectors",
 ]
 
 
@@ -80,46 +91,120 @@ def get_detector(name: str) -> Detector:
     return spec
 
 
-def _wrap_candidate(spec: Detector, candidate: Candidate, *, policy: DetectorPolicy) -> Candidate:
-    payload = DetectorCandidateExtra(
-        detector_name=spec.name,
+def _enrich_candidate_score_from_context(
+    graph: nx.DiGraph,
+    run_context: RunContext,
+    candidate: Candidate,
+    *,
+    mode: Any,
+    config: Any,
+) -> None:
+    gm = run_context.graph_metrics
+    if gm is None or not getattr(gm, "_computed", False):
+        return
+    sid = candidate.scope_id
+    candidate.score.structural_centrality = float(gm.node_pagerank.get(sid, 0.0))
+    candidate.score.blast_radius_norm = min(1.0, float(gm.fan_in.get(sid, 0)) / 50.0)
+    present = False
+    for raw in list(graph.graph.get("taint_edges", []) or []):
+        te = raw if isinstance(raw, TaintEdge) else TaintEdge.model_validate(raw)
+        if te.source_node == sid or te.sink_node == sid:
+            present = True
+            break
+    candidate.score.taint_chain_present = present
+    apply_composite(candidate.score, mode=mode, config=config)
+
+
+def _wrap_candidate(
+    spec: Detector,
+    candidate: Candidate,
+    *,
+    policy: DetectorPolicy,
+    mode: Any,
+    config: Any,
+) -> Candidate:
+    from depos.analysis.schemas import RankingMetadata, SeedType
+    
+    raw = dict(candidate.detector_payload.raw)
+    extra_oh = raw.pop("oracle_hints", None)
+    hints = dict(candidate.detector_payload.oracle_hints)
+    if isinstance(extra_oh, dict):
+        hints.update({str(k): v for k, v in extra_oh.items()})
+    severity = str(policy.severity_for(spec))
+    
+    # Fix 2: Preserve detector_name for graph-anomaly candidates from Group C detectors
+    # Group C detectors (taint-based) mark candidates with "group": "C" in raw dict
+    # Store attack pattern labels in ranking_metadata.matched_pattern instead
+    is_group_c = raw.get("group") == "C"
+    if candidate.seed_type == SeedType.graph_anomaly and is_group_c:
+        # Preserve original detector identity as "graph-anomaly"
+        detector_name = "graph-anomaly"
+        # Store the attack pattern (spec.name) in ranking_metadata
+        candidate.ranking_metadata = RankingMetadata(matched_pattern=spec.name)
+    else:
+        # Non-Group-C detectors: use spec.name as detector_name (existing behavior)
+        detector_name = spec.name
+    
+    candidate.detector_payload = DetectorPayload(
+        category=spec.name,
+        detector_name=detector_name,
         detector_version=spec.version,
         pipeline_version=PIPELINE_VERSION,
-        severity=str(policy.severity_for(spec)),
-        oracle_hints=dict(candidate.extra.get("oracle_hints", {})),
+        severity=severity,
+        oracle_hints=hints,
+        requires_cfg=candidate.detector_payload.requires_cfg,
+        requires_dfg=candidate.detector_payload.requires_dfg,
+        raw=raw,
     )
-    new_extra = dict(candidate.extra)
-    new_extra["detector"] = payload.model_dump(mode="json")
-    candidate.extra = new_extra
+    apply_composite(candidate.score, mode=mode, config=config, severity=severity)
     return candidate
 
 
 def _dedup(candidates: list[Candidate]) -> list[Candidate]:
     seen: dict[tuple[str, tuple[str, ...], tuple[str, ...]], Candidate] = {}
     for cand in candidates:
+        seam_ids = tuple(sorted(e.edge_id for e in cand.seam_edges))
         key = (
             cand.scope_id,
-            tuple(sorted(cand.seam_edges)),
+            seam_ids,
             tuple(sorted(cand.diff_anchors)),
         )
         previous = seen.get(key)
-        if previous is None or cand.priority_score > previous.priority_score:
+        if previous is None or cand.score.composite > previous.score.composite:
             seen[key] = cand
     return list(seen.values())
 
 
 def _prioritize(candidates: list[Candidate], budget: int) -> list[Candidate]:
-    ordered = sorted(candidates, key=lambda c: (-c.priority_score, c.candidate_id))
+    ordered = sorted(candidates, key=lambda c: (-c.score.composite, c.candidate_id))
     return ordered[:budget]
 
 
-def run_all(graph, manifest, mode, config, policy=None) -> tuple[list[Candidate], list[DetectorRunStats]]:
+def run_all(
+    graph,
+    manifest,
+    mode,
+    config,
+    policy=None,
+    *,
+    run_context: RunContext,
+    repo_root: Optional[Path] = None,
+) -> tuple[list[Candidate], list[DetectorRunStats]]:
+    if run_context is None:
+        raise RuntimeError(
+            "RunContext must be present in ctx before run_all is called. "
+            "Build it once in pipeline.py and pass it through."
+        )
     load_builtin()
     resolved_policy = load_policy(policy)
     pool: list[Candidate] = []
     stats: list[DetectorRunStats] = []
     for spec in sorted((row[0] for row in REGISTRY.values()), key=lambda s: s.name):
         if not resolved_policy.is_enabled(spec):
+            continue
+        if spec.semantic_requirement is not None and next(
+            iter_eligible_scopes(graph, run_context, spec), None
+        ) is None:
             continue
         _, runner = REGISTRY[spec.name]
         started = time.perf_counter()
@@ -135,13 +220,25 @@ def run_all(graph, manifest, mode, config, policy=None) -> tuple[list[Candidate]
                     "detector": spec,
                     "policy": resolved_policy,
                     "pipeline_version": PIPELINE_VERSION,
+                    "run_context": run_context,
                 },
             )
         except Exception as exc:  # noqa: BLE001
             errors.append({"kind": "detector_error", "message": str(exc)})
         elapsed_ms = (time.perf_counter() - started) * 1000.0
         for candidate in emitted:
-            pool.append(_wrap_candidate(spec, candidate, policy=resolved_policy))
+            _enrich_candidate_score_from_context(
+                graph, run_context, candidate, mode=mode, config=config
+            )
+            pool.append(
+                _wrap_candidate(
+                    spec,
+                    candidate,
+                    policy=resolved_policy,
+                    mode=mode,
+                    config=config,
+                )
+            )
         stats.append(
             DetectorRunStats(
                 run_id="",

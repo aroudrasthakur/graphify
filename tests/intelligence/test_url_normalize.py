@@ -52,14 +52,23 @@ def test_method_inferred_applies_penalty_but_still_emits():
     assert result.inferred is False
 
 
-def test_dynamic_url_construction_capped_at_0_4_does_not_emit():
+def test_dynamic_url_construction_capped_at_0_7_does_emit():
+    """BUGFIX: Dynamic URLs now emit with 0.7 confidence (was 0.4, didn't emit).
+    
+    Template literals like `/api/repos/${id}` are valid client-server matches
+    and should not be rejected. The 0.7 confidence reflects that dynamic
+    construction is slightly less certain than exact string literals (1.0)
+    but still valid enough to emit.
+    """
     client = normalize_route("/api/repos/{id}", method="GET", strip_api=True)
     server = normalize_route("/repos/{repo_id}", method="GET")
     result = score_match(client, server, client_is_dynamic_url=True)
     assert result.score == DYNAMIC_URL_MAX_CONFIDENCE
     assert result.match_kind == "dynamic_url"
-    # 0.4 < 0.6 emit threshold
-    assert result.emit is False
+    # 0.7 >= 0.6 emit threshold - dynamic URLs now emit!
+    assert result.emit is True
+    # 0.7 < 0.8 inferred threshold - marked as inferred
+    assert result.inferred is True
 
 
 def test_mismatched_methods_score_zero():
@@ -78,8 +87,19 @@ def test_mismatched_segment_counts_score_zero():
 
 
 def test_thresholds_are_consistent():
+    """Verify threshold relationships are correct.
+    
+    BUGFIX: DYNAMIC_URL_MAX_CONFIDENCE was raised from 0.4 to 0.7 to allow
+    dynamic URLs to emit. The new relationship is:
+    - MIN_EMIT_CONFIDENCE (0.6) < DYNAMIC_URL_MAX_CONFIDENCE (0.7) < INFERRED_THRESHOLD (0.8)
+    
+    This means dynamic URLs:
+    - DO emit (0.7 >= 0.6)
+    - ARE marked as inferred (0.7 < 0.8)
+    """
     assert MIN_EMIT_CONFIDENCE < INFERRED_THRESHOLD
-    assert DYNAMIC_URL_MAX_CONFIDENCE < MIN_EMIT_CONFIDENCE
+    # BUGFIX: Dynamic URLs now emit, so DYNAMIC_URL_MAX_CONFIDENCE must be >= MIN_EMIT_CONFIDENCE
+    assert MIN_EMIT_CONFIDENCE <= DYNAMIC_URL_MAX_CONFIDENCE < INFERRED_THRESHOLD
 
 
 def test_root_path_normalizes_cleanly():
