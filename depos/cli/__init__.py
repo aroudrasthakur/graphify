@@ -84,7 +84,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     intent_ctx = sub.add_parser(
         "intent-context",
-        help="Build intent IR from specs and docs (rules + optional OpenAI).",
+        help="Intent IR (build) and graphical intent ↔ graph compare (graph-compare).",
     )
     ic_sub = intent_ctx.add_subparsers(dest="intent_command", required=True)
     ic_build = ic_sub.add_parser(
@@ -98,6 +98,39 @@ def _build_parser() -> argparse.ArgumentParser:
         choices=("auto", "rules", "llm"),
         default=None,
         help="Override DEPOS_INTEL_INTENT_LLM (auto uses OPENAI_API_KEY when set).",
+    )
+    ic_compare = ic_sub.add_parser(
+        "graph-compare",
+        help="Compare intent IR to the code graph (writes intent_graph_report.json and .md).",
+    )
+    ic_compare.add_argument("--repo-root", default=".", help="Repository checkout root.")
+    ic_compare.add_argument(
+        "--intent-dir",
+        default="intent-out",
+        type=Path,
+        help="Directory containing intent_manifest.json from intent-context build.",
+    )
+    ic_compare.add_argument(
+        "--graph-json",
+        type=Path,
+        default=None,
+        help="Optional node-link JSON graph snapshot; otherwise build via graphify extract snapshot.",
+    )
+    ic_compare.add_argument(
+        "--output-dir",
+        type=Path,
+        default=None,
+        help="Where to write reports (defaults to --intent-dir).",
+    )
+    ic_compare.add_argument(
+        "--strict",
+        action="store_true",
+        help="Exit 1 when any P0 intent unit remains unresolved against the graph (tier-weighted).",
+    )
+    ic_compare.add_argument(
+        "--require-same-commit",
+        action="store_true",
+        help="Exit 1 when intent_manifest.repo_sha does not match git HEAD.",
     )
     gate = sub.add_parser(
         "gate",
