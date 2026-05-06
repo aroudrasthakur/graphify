@@ -30,10 +30,10 @@ can distinguish failure modes:
 
 | Exit code | Meaning |
 | --------- | ------- |
-| `0` | Run is healthy. `reasoner_run_health == "ok"` and path resolution is acceptable. |
-| `2` | Reasoner health is `degraded`. Some calls failed; some succeeded. |
+| `0` | Run is healthy. `reasoner_run_health == "ok"`, path resolution is acceptable, and there are no graph ingest errors recorded on the run. |
+| `2` | Reasoner health is `failed` or `degraded` (see `reasoner_health_reason` / `reasoner_call_stats` in `run_summary.json`). |
 | `3` | Path resolution is below threshold. Most `source_file` references did not resolve against any provided source root. Bundles fell back to `label_only` or `missing` snippets. |
-| `4` | Reasoner health is `failed`. Every reasoner call failed. |
+| `4` | Graph ingest errors: `run_metadata.ingest_errors` is non-empty (AST/graph load problems surfaced during the run). |
 
 Without `--strict`, the run always exits `0` and the same information is
 available in `run_summary.json` for tooling to consume.
@@ -133,3 +133,4 @@ or pass `--min-evidence label_only` to drop the gate to its floor.
   queue-row writer.
 - `depos/analysis/context_bundle.py` — evidence-quality computation.
 - `depos/analysis/ast_normalize.py` — path-resolution report writer.
+- **V1 bundle:** each run should write `gate_result.json` and `run_manifest.json` next to `violations.json`. If core pipeline modules fail to import, the CLI exits `3` instead of reporting an empty clean run (see `depos/cli/analyze.py`).

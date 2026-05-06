@@ -79,7 +79,7 @@ def test_cli_cache_flags_parse_for_pipeline_commands(tmp_path: Path) -> None:
     from depos.cli import _build_parser
 
     cache_dir = tmp_path / "cache"
-    parser = _build_parser()
+    parser = _build_parser(prog="depos-intel")
     repo = parser.parse_args(
         [
             "analyze",
@@ -224,7 +224,8 @@ def test_run_repo_profile_wraps_pipeline(monkeypatch, tmp_path: Path) -> None:
         detectors=[],
         no_reasoner=False,
         print_detector_stats=False,
-        profile=str(profile_path),
+        pyinstrument_html=str(profile_path),
+        run_profile="full",
     )
 
     assert analyze_cli.run_repo(args) == 0

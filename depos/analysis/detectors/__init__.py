@@ -206,6 +206,17 @@ def run_all(
         if spec.semantic_requirement is not None and next(
             iter_eligible_scopes(graph, run_context, spec), None
         ) is None:
+            stats.append(
+                DetectorRunStats(
+                    run_id="",
+                    detector_name=spec.name,
+                    detector_version=spec.version,
+                    candidates_emitted=0,
+                    mean_latency_ms=0.0,
+                    errors=[],
+                    skip_reason="semantic_layer_unavailable",
+                )
+            )
             continue
         _, runner = REGISTRY[spec.name]
         started = time.perf_counter()

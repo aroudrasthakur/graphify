@@ -1,10 +1,12 @@
 """SARIF 2.1.0 export for depOS (GitHub Security tab + IDEs)."""
 from __future__ import annotations
 
+import hashlib
 import json
 from typing import Any
 
 from depos.output.canonical import enrich_violations_payload
+from depos.output.redaction import redact_secrets
 
 
 def _level(status: str | None, severity: str | None) -> str:
@@ -23,16 +25,18 @@ def _level(status: str | None, severity: str | None) -> str:
 def _gray_zone_message(finding: dict[str, Any]) -> str:
     description = str(finding.get("description") or finding.get("bug_type") or "finding")
     if str(finding.get("status") or "") != "GRAY-ZONE":
-        return description
-    failed_rule = str(finding.get("failed_rule") or "").strip()
-    missing = finding.get("missing_evidence") or []
-    missing_text = ", ".join(str(item) for item in missing) if isinstance(missing, list) else str(missing)
-    parts = [description]
-    if failed_rule:
-        parts.append(f"Failed rule: {failed_rule}")
-    if missing_text:
-        parts.append(f"Missing evidence: {missing_text}")
-    return "\n".join(parts)
+        text = description
+    else:
+        failed_rule = str(finding.get("failed_rule") or "").strip()
+        missing = finding.get("missing_evidence") or []
+        missing_text = ", ".join(str(item) for item in missing) if isinstance(missing, list) else str(missing)
+        parts = [description]
+        if failed_rule:
+            parts.append(f"Failed rule: {failed_rule}")
+        if missing_text:
+            parts.append(f"Missing evidence: {missing_text}")
+        text = "\n".join(parts)
+    return redact_secrets(text)
 
 
 def violations_to_sarif_runs(
@@ -56,20 +60,40 @@ def violations_to_sarif_runs(
             continue
         fid = str(f.get("finding_id") or "")
         rule_id = str(f.get("detector_name") or "depos.finding")
-        results.append(
-            {
-                "ruleId": rule_id,
-                "message": {
-                    "text": _gray_zone_message(f)
-                },
-                "level": _level(status, str(f.get("severity"))),
-                "properties": {
-                    "depOS_finding_id": fid,
-                    "depOS_status": status,
-                    "depOS_verifier_outcome": f.get("verifier_outcome"),
-                },
-            }
-        )
+        fingerprint = hashlib.sha256(
+            json.dumps(
+                {"ruleId": rule_id, "finding_id": fid, "bug_type": str(f.get("bug_type") or "")},
+                sort_keys=True,
+            ).encode("utf-8")
+        ).hexdigest()[:32]
+        msg_text = _gray_zone_message(f)
+        result: dict[str, Any] = {
+            "ruleId": rule_id,
+            "message": {
+                "text": msg_text
+            },
+            "level": _level(status, str(f.get("severity"))),
+            "partialFingerprints": {
+                "depOSFindingId/v1": fingerprint,
+            },
+            "properties": {
+                "depOS_finding_id": fid,
+                "depOS_status": status,
+                "depOS_verifier_outcome": f.get("verifier_outcome"),
+            },
+        }
+        witness = f.get("witness_path") if isinstance(f.get("witness_path"), list) else []
+        if witness:
+            result["locations"] = [
+                {
+                    "physicalLocation": {
+                        "artifactLocation": {
+                            "uri": str(witness[0]),
+                        }
+                    }
+                }
+            ]
+        results.append(result)
     # Minimal rules array (some consumers require ruleIndex alignment)
     rules = [
         {

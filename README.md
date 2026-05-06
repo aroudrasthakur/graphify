@@ -70,9 +70,13 @@ long-lived passwords.
 
 ```bash
 pip install -e ".[depos,supabase,intelligence]"
+depos --help
 depos-intel --help
+depos analyze repo --path . --run-profile local
 depos-intel analyze coverage --path .
 ```
+
+Run bundles write `violations.json`, `gate_result.json`, and `run_manifest.json` under `$DEPOS_DATA/intelligence/<run_id>/`. See **[`docs/runbooks/local-cli-v1.md`](docs/runbooks/local-cli-v1.md)** and **[`docs/runbooks/local-viewer.md`](docs/runbooks/local-viewer.md)** for the v1 operator flow and optional API import.
 
 ### Web dashboard
 

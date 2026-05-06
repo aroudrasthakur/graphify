@@ -1,6 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import { deposJson } from "@/lib/depos/api";
-import type { IntelligenceRunDetailResponse, MeResponse } from "@/lib/depos/types";
+import type {
+  ImportLocalIntelligenceBundleResponse,
+  IntelligenceRunDetailResponse,
+  MeResponse,
+} from "@/lib/depos/types";
 
 export async function getSessionAccessToken(): Promise<string | null> {
   const supabase = createClient();
@@ -30,6 +34,29 @@ export async function fetchIntelligenceRunDetail(
   return deposJson<IntelligenceRunDetailResponse>(
     `/v1/orgs/${encodeURIComponent(orgSlug)}/intelligence/runs/${runId}`,
     accessToken,
+  );
+}
+
+export async function importLocalIntelligenceBundle(
+  accessToken: string,
+  orgSlug: string,
+  body: {
+    bundle_directory: string;
+    repo_slug: string;
+    verify_manifest_checksums?: boolean;
+  },
+): Promise<ImportLocalIntelligenceBundleResponse> {
+  return deposJson<ImportLocalIntelligenceBundleResponse>(
+    `/v1/orgs/${encodeURIComponent(orgSlug)}/intelligence/runs/import-local-bundle`,
+    accessToken,
+    {
+      method: "POST",
+      json: {
+        bundle_directory: body.bundle_directory,
+        repo_slug: body.repo_slug,
+        verify_manifest_checksums: body.verify_manifest_checksums ?? true,
+      },
+    },
   );
 }
 

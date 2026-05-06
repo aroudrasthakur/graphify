@@ -448,6 +448,8 @@ def run_modules_2_through_7(
                 )
                 bundles[candidate.candidate_id] = bundle
                 built_bundles.append(bundle)
+                quality = _dominant_quality(bundle.evidence)
+                evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
         else:
             max_workers = min(bundle_n_jobs, len(bundle_candidates))
 
@@ -458,8 +460,8 @@ def run_modules_2_through_7(
                 built_bundles = list(ex.map(_one, bundle_candidates))
             for candidate, bundle in zip(bundle_candidates, built_bundles, strict=True):
                 bundles[candidate.candidate_id] = bundle
-            quality = _dominant_quality(bundle.evidence)
-            evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
+                quality = _dominant_quality(bundle.evidence)
+                evidence_quality_counts[quality] = evidence_quality_counts.get(quality, 0) + 1
     _emit_progress(progress, f"Module 3: built {len(built_bundles)} bundles.")
 
     # Modules 3 \u2192 6 per-candidate.

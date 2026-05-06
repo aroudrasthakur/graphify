@@ -20,6 +20,9 @@
 
 - [Reasoner zero findings](runbooks/reasoner-zero-findings.md) — 30-second triage for "0 findings" runs.
 - [Reasoner performance](runbooks/reasoner-performance.md) — Performance optimization for reasoner calls.
+- [Local CLI v1](runbooks/local-cli-v1.md) — `depos` entrypoint, profiles, run bundle + gate artifacts.
+- [Local viewer / API bundle import](runbooks/local-viewer.md) — import CLI output directories via the API.
+- [Evaluation harness](runbooks/evaluation-harness.md) — metrics, fixtures, eval reports.
 
 ## Relationship to graphify
 

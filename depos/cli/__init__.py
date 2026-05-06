@@ -1,12 +1,14 @@
-"""depos-intel console script entrypoint.
+"""depos-intel / depos console script entrypoint.
 
-``main()`` is the setup.py entry target. Dispatches to subcommands:
+``main()`` is the historical ``depos-intel`` entry target. ``main_depos()`` is
+the umbrella ``depos`` alias with the same subcommands plus v1-oriented epilog.
 
-- ``repo``      full-repo scan
-- ``diff``      diff-aware analysis
-- ``replay``    replay a persisted ``reasoner_queue.jsonl``
-- ``coverage``  print the StitcherCoverageReport only (no reasoning)
-- ``gate``      CI policy on ``violations.json`` (CONFIRMED + high/critical)
+Dispatches to subcommands:
+
+- ``run`` / ``analyze`` — intelligence analyses (repo, diff, dataset-pipeline, …)
+- ``gate`` — CI policy on ``violations.json`` / ``gate_result.json``
+- ``detectors`` — registry inspect
+- ``intent-context`` — intent IR and graph compare
 """
 from __future__ import annotations
 
@@ -16,8 +18,28 @@ from pathlib import Path
 from typing import Optional, Sequence
 
 
-def _build_parser() -> argparse.ArgumentParser:
-    p = argparse.ArgumentParser(prog="depos-intel", description="depOS AI intelligence CLI.")
+def _v1_epilog(prog: str) -> str:
+    if prog != "depos":
+        return ""
+    return """
+V1 quick start (config: flags > env > run-profile preset):
+  depos analyze repo --path . --run-profile local
+  depos analyze diff --graph-json graph.json --run-profile local
+  depos gate --violations <run-dir>/violations.json
+
+Run-profiles: local (stub reasoner, gray-zone off when env unset), full (env defaults), llm (gray-zone on when unset).
+Pyinstrument: use --pyinstrument-html PATH (not --profile) for CPU profiling HTML.
+Optional viewer: run depos-api and apps/web per README.
+"""
+
+
+def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
+    p = argparse.ArgumentParser(
+        prog=prog,
+        description="depOS intelligence CLI — local-first analysis, gate, and intent context.",
+        epilog=_v1_epilog(prog),
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
     sub = p.add_subparsers(dest="command", required=True)
 
     def _add_cache_args(parser: argparse.ArgumentParser) -> None:
@@ -132,6 +154,10 @@ def _build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Exit 1 when intent_manifest.repo_sha does not match git HEAD.",
     )
+    sub.add_parser(
+        "serve",
+        help="Print how to start the local depOS API (depos-api); does not bind a port.",
+    )
     gate = sub.add_parser(
         "gate",
         help="CI gate: exit non-zero when any finding is CONFIRMED with high or critical severity.",
@@ -158,6 +184,14 @@ def _build_parser() -> argparse.ArgumentParser:
 
     repo = a_sub.add_parser("repo", help="Full-repo scan (no diff required).")
     repo.add_argument("--path", required=True)
+    repo.add_argument(
+        "--run-profile",
+        choices=("local", "full", "llm"),
+        default="full",
+        dest="run_profile",
+        metavar="PROFILE",
+        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults.",
+    )
     repo.add_argument("--output")
     repo.add_argument("--mode", default="A,B,C")
     repo.add_argument("--provider", default=None)
@@ -176,13 +210,22 @@ def _build_parser() -> argparse.ArgumentParser:
     _add_perf_args(repo)
     _add_cache_args(repo)
     repo.add_argument(
-        "--profile",
+        "--pyinstrument-html",
         metavar="PATH",
         default=None,
+        dest="pyinstrument_html",
         help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
     )
 
     diff = a_sub.add_parser("diff", help="Diff-aware scan using a change manifest.")
+    diff.add_argument(
+        "--run-profile",
+        choices=("local", "full", "llm"),
+        default="full",
+        dest="run_profile",
+        metavar="PROFILE",
+        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults.",
+    )
     diff.add_argument("--cpg-path")
     diff.add_argument("--graph-json")
     diff.add_argument("--diff-path")
@@ -203,9 +246,10 @@ def _build_parser() -> argparse.ArgumentParser:
     _add_perf_args(diff)
     _add_cache_args(diff)
     diff.add_argument(
-        "--profile",
+        "--pyinstrument-html",
         metavar="PATH",
         default=None,
+        dest="pyinstrument_html",
         help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
     )
 
@@ -322,9 +366,10 @@ def _build_parser() -> argparse.ArgumentParser:
     dataset_pipeline.add_argument("--min-score", type=float, default=None)
     dataset_pipeline.add_argument("--write-extraction", action="store_true")
     dataset_pipeline.add_argument(
-        "--profile",
+        "--pyinstrument-html",
         metavar="PATH",
         default=None,
+        dest="pyinstrument_html",
         help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
     )
     _add_perf_args(dataset_pipeline)
@@ -408,8 +453,18 @@ def _build_parser() -> argparse.ArgumentParser:
     return p
 
 
+def main_depos(argv: Optional[Sequence[str]] = None) -> int:
+    """Console entrypoint for the ``depos`` script (umbrella product name)."""
+    return _main(argv, prog="depos")
+
+
 def main(argv: Optional[Sequence[str]] = None) -> int:
-    parser = _build_parser()
+    """Console entrypoint for ``depos-intel`` (historical script name)."""
+    return _main(argv, prog="depos-intel")
+
+
+def _main(argv: Optional[Sequence[str]] = None, *, prog: str = "depos-intel") -> int:
+    parser = _build_parser(prog=prog)
     args = parser.parse_args(argv)
 
     # Lazy imports so a bare ``depos-intel --help`` works without the
@@ -418,6 +473,13 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         from depos.cli.intent_context_cmd import run_intent_context_cli
 
         return run_intent_context_cli(args)
+    if args.command == "serve":
+        print(
+            "Local API: run `depos-api` (or `python -m uvicorn depos.api_server:app --host 0.0.0.0 --port 8080`).\n"
+            "Web dashboard: `cd apps/web && npm run dev` with repo-root `.env` (see README).",
+            file=sys.stderr,
+        )
+        return 0
     if args.command == "analyze":
         if args.analyze_command == "coverage":
             from depos.cli.analyze import run_coverage

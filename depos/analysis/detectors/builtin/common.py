@@ -39,6 +39,14 @@ def read_source_text_safely(repo_root: Any, rel: str) -> str | None:
         return None
 
 
+def infer_confirmation_tier(name: str) -> Literal["formal", "approximate", "heuristic"]:
+    """Map detector id to trust tier (approximate detectors cannot be formally *confirmed*)."""
+    lowered = name.lower()
+    if "-approx" in lowered:
+        return "approximate"
+    return "formal"
+
+
 def simple_spec(
     *,
     name: str,
@@ -48,12 +56,14 @@ def simple_spec(
     severity: str = "medium",
     applies_when: str = "True",
     semantic_requirement: Optional[Literal["cfg", "dfg", "taint"]] | object = _UNSET,
+    confirmation_tier: Literal["formal", "approximate", "heuristic"] | None = None,
 ) -> Detector:
     if semantic_requirement is _UNSET:
         raise ValueError(
             f"Detector {name!r} must explicitly set semantic_requirement. "
             "Use semantic_requirement=None for Group A (graph-only) detectors."
         )
+    tier = confirmation_tier if confirmation_tier is not None else infer_confirmation_tier(name)
     return Detector(
         name=name,
         version="0.1.0",
@@ -70,6 +80,7 @@ def simple_spec(
         requires_reasoner=requires_reasoner,
         severity_default=severity,  # type: ignore[arg-type]
         semantic_requirement=semantic_requirement,
+        confirmation_tier=tier,
     )
 
 

@@ -46,6 +46,7 @@ from depos.db import (
 from depos.export_llm import build_llm_export
 from depos.federation import merge_repo_graphs
 from depos.fusion import attach_diagnostics
+from depos.intelligence_bundle_import import load_bundle_sidecars, run_bundle_dict_from_directory
 from depos.internal_auth import internal_credentials_match, require_internal
 from depos.intelligence_store import persist_intelligence_run
 from depos.ownership import cross_owner_warnings, parse_codeowners
@@ -258,6 +259,18 @@ class IntelligenceRunCreate(BaseModel):
     bundles_sent_to_reasoner: int = 0
     bundles_skipped_low_evidence: int = 0
     dataset_path_resolution: dict[str, Any] = Field(default_factory=dict)
+
+
+class LocalRunBundleImport(BaseModel):
+    """Import a CLI-written output directory that contains ``violations.json``.
+
+    The API server must be able to read ``bundle_directory`` on its filesystem
+    (typical for local operator setups, not multi-tenant uploads).
+    """
+
+    bundle_directory: str = Field(..., description="Directory with violations.json (and optional run_manifest.json)")
+    repo_slug: str
+    verify_manifest_checksums: bool = True
 
 
 class DetectorPolicyBody(BaseModel):
@@ -765,6 +778,46 @@ def create_intelligence_run(slug: str, body: IntelligenceRunCreate, user: Any = 
         run = persist_intelligence_run(session, org_id=org.id, body=body)
         session.commit()
         return {"run_id": str(run.id), "findings": len(body.findings)}
+    finally:
+        session.close()
+
+
+@app.post("/v1/orgs/{slug}/intelligence/runs/import-local-bundle")
+def import_local_intelligence_bundle(
+    slug: str,
+    body: LocalRunBundleImport,
+    user: Any = _auth_dep(),
+) -> dict[str, Any]:
+    """Validate a CLI output bundle (manifest checksums optional) and persist as a run."""
+    bundle_dir = Path(body.bundle_directory).expanduser()
+    if not bundle_dir.is_dir():
+        raise HTTPException(400, "bundle_directory is not a directory")
+
+    try:
+        payload = run_bundle_dict_from_directory(
+            bundle_dir,
+            repo_slug=body.repo_slug,
+            verify_checksums=body.verify_manifest_checksums,
+        )
+    except FileNotFoundError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
+
+    model = IntelligenceRunCreate.model_validate(payload)
+    session = get_session()
+    try:
+        org = _org_by_slug(session, slug)
+        _assert_member(session, org.id, user.user_id, admin_only=True)
+        run = persist_intelligence_run(session, org_id=org.id, body=model)
+        session.commit()
+        sidecars = load_bundle_sidecars(bundle_dir)
+        return {
+            "run_id": str(run.id),
+            "findings": len(model.findings),
+            "bundle_directory": str(bundle_dir),
+            **sidecars,
+        }
     finally:
         session.close()
 

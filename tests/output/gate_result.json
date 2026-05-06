@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "outcome": "block",
+  "exit_code": 1,
+  "blocking_finding_ids": [
+    "bad"
+  ],
+  "legacy_gate_failed": true,
+  "legacy_blocking_finding_ids": [
+    "bad"
+  ],
+  "product_ci_should_block": null,
+  "product_blocking_finding_ids": [],
+  "reasoner_run_health": "ok",
+  "reasoner_health_reason": "",
+  "precedence": "block_if_legacy_or_product_ci_else_surface_health_and_review_hints",
+  "reasons": [
+    "legacy_confirmed_high_critical"
+  ]
+}

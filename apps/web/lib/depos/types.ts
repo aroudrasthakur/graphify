@@ -216,6 +216,22 @@ export type IntelligenceRunCreateRequest = {
   dataset_path_resolution?: Record<string, unknown>;
 };
 
+/** Response from ``POST .../intelligence/runs/import-local-bundle`` (CLI bundle import). */
+export type ImportLocalIntelligenceBundleResponse = {
+  run_id: string;
+  findings: number;
+  bundle_directory: string;
+  /** Present when ``gate_result.json`` existed in the bundle directory. */
+  gate_result?: Record<string, unknown> | null;
+  /** Compact summary when ``run_manifest.json`` was present. */
+  run_manifest_summary?: {
+    schema_version?: string | null;
+    artifact_count?: number;
+    present?: boolean;
+    parse_error?: boolean;
+  };
+};
+
 export type PostCIResult = {
   check_conclusion: CheckConclusion;
   overlap_score: number;

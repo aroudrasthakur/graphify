@@ -117,8 +117,9 @@ def test_security_rule_confirms_with_taint_chain_and_bundle_evidence() -> None:
         full_repo_scan=True,
     )
 
-    assert audit.verifier_outcome == VerifierOutcome.confirmed
-    assert verified.verifier_outcome == VerifierOutcome.confirmed
+    assert audit.verifier_outcome == VerifierOutcome.partially_confirmed
+    assert verified.verifier_outcome == VerifierOutcome.partially_confirmed
+    assert verified.partially_confirmed_caveat
     assert audit.failed_rule == ""
 
 
@@ -174,8 +175,9 @@ def test_correctness_rule_confirms_with_cfg_summary() -> None:
         full_repo_scan=True,
     )
 
-    assert audit.verifier_outcome == VerifierOutcome.confirmed
-    assert verified.verifier_outcome == VerifierOutcome.confirmed
+    assert audit.verifier_outcome == VerifierOutcome.partially_confirmed
+    assert verified.verifier_outcome == VerifierOutcome.partially_confirmed
+    assert verified.partially_confirmed_caveat
 
 
 def test_correctness_rule_auto_grayzones_before_rule_when_cfg_missing() -> None:

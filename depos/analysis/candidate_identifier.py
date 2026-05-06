@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 import subprocess
 from pathlib import Path
 from typing import Any, Iterable, Optional, Sequence
@@ -42,6 +43,7 @@ from depos.analysis.schemas import (
     ChangeManifest,
     ChangeManifestEntry,
     DetectorRunStats,
+    DiffHunkSpan,
     SeedType,
 )
 
@@ -83,9 +85,109 @@ def _resolve_from_cpg_diff(graph: nx.DiGraph) -> Optional[ChangeManifest]:
     return ChangeManifest(entries=entries, resolved_via="cpg_diff") if entries else None
 
 
+def _merge_line_numbers(lines: set[int]) -> list[tuple[int, int]]:
+    if not lines:
+        return []
+    sorted_lines = sorted(lines)
+    start = prev = sorted_lines[0]
+    out: list[tuple[int, int]] = []
+    for x in sorted_lines[1:]:
+        if x == prev + 1:
+            prev = x
+        else:
+            out.append((start, prev))
+            start = prev = x
+    out.append((start, prev))
+    return out
+
+
+def _parse_unified_diff_to_manifest(text: str) -> Optional[ChangeManifest]:
+    """Parse unified diff text; return None if no hunk markers are present."""
+    if "@@" not in text:
+        return None
+    from collections import defaultdict
+
+    touched: dict[str, set[int]] = defaultdict(set)
+    lines = text.splitlines()
+    i = 0
+    n = len(lines)
+    current_path: str | None = None
+    while i < n:
+        line = lines[i]
+        if line.startswith("+++ "):
+            raw = line[4:].strip()
+            if raw.startswith("b/"):
+                current_path = raw[2:].replace("\\", "/")
+            elif raw == "/dev/null":
+                current_path = None
+            else:
+                current_path = raw.replace("\\", "/")
+            i += 1
+            continue
+        m = re.match(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@", line)
+        if m and current_path:
+            new_line = int(m.group(3))
+            i += 1
+            while i < n:
+                hline = lines[i]
+                if hline.startswith("diff --git "):
+                    break
+                if hline.startswith("--- ") and i + 1 < n and lines[i + 1].startswith("+++ "):
+                    break
+                if re.match(r"^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@", hline):
+                    break
+                if hline.startswith("\\"):
+                    i += 1
+                    continue
+                if not hline:
+                    i += 1
+                    continue
+                op = hline[0]
+                if op == "+":
+                    touched[current_path].add(new_line)
+                    new_line += 1
+                elif op == "-":
+                    pass
+                elif op == " ":
+                    new_line += 1
+                else:
+                    new_line += 1
+                i += 1
+            continue
+        i += 1
+    if not touched:
+        return None
+    entries: list[ChangeManifestEntry] = []
+    for path, linums in sorted(touched.items()):
+        hunks = [DiffHunkSpan(start_line=a, end_line=b) for a, b in _merge_line_numbers(linums)]
+        entries.append(
+            ChangeManifestEntry(
+                path=path,
+                node_ids=[],
+                high_churn_file=False,
+                migration_change=path.startswith("supabase/migrations/") or "/migrations/" in path,
+                file_change=True,
+                hunks=hunks,
+            )
+        )
+    return ChangeManifest(entries=entries, resolved_via="git_unified")
+
+
+def _name_only_paths_from_text(text: str) -> list[str]:
+    paths = [line.strip() for line in text.splitlines() if line.strip() and not line.startswith(("---", "+++"))]
+    seen: set[str] = set()
+    uniq: list[str] = []
+    for p in paths:
+        if p not in seen:
+            seen.add(p)
+            uniq.append(p)
+    return uniq
+
+
 def _resolve_from_git_diff(diff_path: Optional[str], repo_root: Optional[Path]) -> Optional[ChangeManifest]:
-    """Parse a diff either from an explicit file path or by invoking ``git diff``
-    inside ``repo_root``. Returns ``None`` if no diff is available.
+    """Resolve changed paths from a diff file or ``git diff`` (unified when invoking git).
+
+    Falls back to line-oriented name lists when the text is not a unified diff.
     """
     try:
         if diff_path:
@@ -94,27 +196,22 @@ def _resolve_from_git_diff(diff_path: Optional[str], repo_root: Optional[Path]) 
             if not repo_root:
                 return None
             result = subprocess.run(
-                ["git", "diff", "--name-only", "HEAD"],
-                cwd=str(repo_root),
+                ["git", "-C", str(repo_root), "diff", "-U0", "--no-color", "HEAD"],
                 capture_output=True,
                 text=True,
-                timeout=30,
+                timeout=120,
                 check=False,
             )
             if result.returncode != 0:
                 return None
-            text = result.stdout
+            text = result.stdout or ""
     except (OSError, subprocess.SubprocessError):
         return None
 
-    paths = [line.strip() for line in text.splitlines() if line.strip() and not line.startswith(("---", "+++"))]
-    # Deduplicate while preserving order.
-    seen: set[str] = set()
-    uniq: list[str] = []
-    for p in paths:
-        if p not in seen:
-            seen.add(p)
-            uniq.append(p)
+    unified = _parse_unified_diff_to_manifest(text)
+    if unified is not None:
+        return unified
+    paths = _name_only_paths_from_text(text)
     entries = [
         ChangeManifestEntry(
             path=p,
@@ -123,9 +220,19 @@ def _resolve_from_git_diff(diff_path: Optional[str], repo_root: Optional[Path]) 
             migration_change=p.startswith("supabase/migrations/") or "/migrations/" in p,
             file_change=True,
         )
-        for p in uniq
+        for p in paths
     ]
     return ChangeManifest(entries=entries, resolved_via="git") if entries else None
+
+
+def _line_span_overlaps(node_start: int, node_end: int, h_start: int, h_end: int) -> bool:
+    if node_start <= 0:
+        return True
+    if node_end < node_start:
+        node_end = node_start
+    if h_end < h_start:
+        h_end = h_start
+    return not (node_end < h_start or h_end < node_start)
 
 
 def _attach_graph_nodes(graph: nx.DiGraph, manifest: ChangeManifest) -> ChangeManifest:
@@ -149,6 +256,20 @@ def _attach_graph_nodes(graph: nx.DiGraph, manifest: ChangeManifest) -> ChangeMa
                 if source_path.endswith(suffix):
                     matched.extend(node_ids)
         entry.node_ids = list(dict.fromkeys(entry.node_ids + matched))
+        if entry.hunks:
+            refined: list[str] = []
+            for nid in entry.node_ids:
+                attrs = graph.nodes.get(nid) or {}
+                sl = int(attrs.get("start_line") or 0)
+                el = int(attrs.get("end_line") or sl or 0)
+                if sl <= 0:
+                    refined.append(nid)
+                    continue
+                if any(
+                    _line_span_overlaps(sl, el, h.start_line, h.end_line) for h in entry.hunks
+                ):
+                    refined.append(nid)
+            entry.node_ids = refined
     return manifest
 
 

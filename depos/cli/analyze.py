@@ -125,7 +125,14 @@ def _summarize_resolution_report(report: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _strict_exit_code(*, reasoner_health: str, resolution_summary: dict[str, Any]) -> int:
+def _strict_exit_code(
+    *,
+    reasoner_health: str,
+    resolution_summary: dict[str, Any],
+    ingest_errors: list[dict[str, Any]] | None = None,
+) -> int:
+    if ingest_errors:
+        return STRICT_EXIT_INGEST_ERROR
     if reasoner_health == "failed":
         return STRICT_EXIT_REASONER_FAILED
     total = int(resolution_summary.get("files_total", 0))
@@ -299,7 +306,7 @@ def _make_progress_reporter(prefix: str = "depos-intel") -> Callable[[str], None
 
 
 def _profile_context(args: Any, progress: Callable[[str], None] | None = None):
-    profile_path = getattr(args, "profile", None)
+    profile_path = getattr(args, "pyinstrument_html", None)
     if not profile_path:
         return nullcontext()
     if progress is not None:
@@ -431,6 +438,40 @@ def _maybe_write_product_outputs(
     return write_product_outputs(out_dir, result, run_mode, config)
 
 
+def _finalize_run_with_manifest(
+    out_dir: Path,
+    result: RunResult,
+    config: IntelligenceConfig,
+    args: Any,
+    *,
+    source: GraphSource | None,
+    product_paths: dict[str, str] | None,
+    detector_policy: dict[str, Any] | None,
+    extra_artifacts: list[str] | None = None,
+) -> None:
+    """Write ``gate_result.json`` then ``run_manifest.json``."""
+    from depos.output.gate_result import write_gate_result_for_directory
+    from depos.output.run_manifest import write_run_manifest_for_bundle
+
+    write_gate_result_for_directory(out_dir)
+    extras = ["gate_result.json"] + list(extra_artifacts or [])
+    cli_prog = Path(sys.argv[0]).stem if sys.argv else "depos-intel"
+    write_run_manifest_for_bundle(
+        out_dir=out_dir,
+        result=result,
+        config=config,
+        cli={
+            "prog": cli_prog,
+            "argv": list(sys.argv[1:]),
+            "run_profile": getattr(args, "run_profile", None),
+        },
+        repo_root=_source_repo_root(source) if source is not None else None,
+        detector_policy=detector_policy,
+        product_paths=product_paths if product_paths else None,
+        extra_artifact_relative_names=extras,
+    )
+
+
 def _detector_policy_from_args(args) -> dict[str, Any]:
     load_builtin()
     policy: dict[str, Any] = {"enabled": [], "disabled": [], "severity_overrides": {}}
@@ -468,6 +509,13 @@ def _attach_run_caveats(findings: list[Finding], run_meta: RunMetadata) -> None:
 
 
 def run_repo(args) -> int:
+    from depos.cli.v1_profile import apply_v1_profile, validate_v1_profile
+
+    try:
+        apply_v1_profile(validate_v1_profile(getattr(args, "run_profile", None)))
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_cache_overrides(config, args, progress)
@@ -480,19 +528,34 @@ def run_repo(args) -> int:
     progress(f"Run {run_meta.run_id}: output directory {out_dir}.")
 
     with _profile_context(args, progress):
-        result = _run_pipeline(
-            source,
-            config,
-            run_meta,
-            detector_policy=_detector_policy_from_args(args),
-            n_jobs=_enrichment_n_jobs_from_args(args),
-            perf=_perf_config_from_args(args),
-            progress=progress,
-        )
+        try:
+            result = _run_pipeline(
+                source,
+                config,
+                run_meta,
+                detector_policy=_detector_policy_from_args(args),
+                n_jobs=_enrichment_n_jobs_from_args(args),
+                perf=_perf_config_from_args(args),
+                progress=progress,
+            )
+        except RuntimeError as exc:
+            progress(str(exc))
+            print(str(exc), file=sys.stderr)
+            return 3
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
     product_paths = _maybe_write_product_outputs(result=result, config=config, existing_out_dir=out_dir)
+    pol = _detector_policy_from_args(args)
+    _finalize_run_with_manifest(
+        out_dir,
+        result,
+        config,
+        args,
+        source=source,
+        product_paths=product_paths or None,
+        detector_policy=pol or None,
+    )
     payload: dict[str, Any] = {"run_id": run_meta.run_id, "output_dir": str(out_dir), "findings": len(result.findings)}
     if product_paths:
         payload["product_outputs"] = product_paths
@@ -504,6 +567,13 @@ def run_repo(args) -> int:
 
 
 def run_diff(args) -> int:
+    from depos.cli.v1_profile import apply_v1_profile, validate_v1_profile
+
+    try:
+        apply_v1_profile(validate_v1_profile(getattr(args, "run_profile", None)))
+    except ValueError as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
     config = load_config_from_env()
     progress = _make_progress_reporter()
     _apply_cache_overrides(config, args, progress)
@@ -520,20 +590,35 @@ def run_diff(args) -> int:
         run_meta.head_ref = Path(diff_path).stem
 
     with _profile_context(args, progress):
-        result = _run_pipeline(
-            source,
-            config,
-            run_meta,
-            diff_path=diff_path,
-            detector_policy=_detector_policy_from_args(args),
-            n_jobs=_enrichment_n_jobs_from_args(args),
-            perf=_perf_config_from_args(args),
-            progress=progress,
-        )
+        try:
+            result = _run_pipeline(
+                source,
+                config,
+                run_meta,
+                diff_path=diff_path,
+                detector_policy=_detector_policy_from_args(args),
+                n_jobs=_enrichment_n_jobs_from_args(args),
+                perf=_perf_config_from_args(args),
+                progress=progress,
+            )
+        except RuntimeError as exc:
+            progress(str(exc))
+            print(str(exc), file=sys.stderr)
+            return 3
     _attach_run_caveats(result.findings, run_meta)
     progress(f"Writing violations.json with {len(result.findings)} findings.")
     _write_violations(out_dir, result)
     product_paths = _maybe_write_product_outputs(result=result, config=config, existing_out_dir=out_dir)
+    pol = _detector_policy_from_args(args)
+    _finalize_run_with_manifest(
+        out_dir,
+        result,
+        config,
+        args,
+        source=source,
+        product_paths=product_paths or None,
+        detector_policy=pol or None,
+    )
     payload: dict[str, Any] = {"run_id": run_meta.run_id, "output_dir": str(out_dir), "findings": len(result.findings)}
     if product_paths:
         payload["product_outputs"] = product_paths
@@ -595,6 +680,18 @@ def run_replay(args) -> int:
 
     _attach_run_caveats(findings, run_meta)
     _write_violations(out_dir, findings, run_meta)
+    replay_result = RunResult(
+        findings=findings, detector_stats=[], ingest_reports=[], run_metadata=run_meta
+    )
+    _finalize_run_with_manifest(
+        out_dir,
+        replay_result,
+        config,
+        args,
+        source=None,
+        product_paths=None,
+        detector_policy=None,
+    )
     print(json.dumps(
         {"run_id": run_meta.run_id, "output_dir": str(out_dir), "findings": len(findings), "stale_flagged": stale_count},
         indent=2,
@@ -1019,18 +1116,23 @@ def run_dataset_pipeline(args) -> int:
     internal_run_dir = _run_output_dir(run_config, run_meta.run_id)
 
     with _profile_context(args, progress):
-        result = _run_pipeline(
-            source,
-            run_config,
-            run_meta,
-            repo_root=repo_root,
-            bundle_limit=bundle_limit,
-            selected_limit=selected_limit,
-            min_score=args.min_score,
-            n_jobs=_enrichment_n_jobs_from_args(args),
-            perf=_perf_config_from_args(args),
-            progress=progress,
-        )
+        try:
+            result = _run_pipeline(
+                source,
+                run_config,
+                run_meta,
+                repo_root=repo_root,
+                bundle_limit=bundle_limit,
+                selected_limit=selected_limit,
+                min_score=args.min_score,
+                n_jobs=_enrichment_n_jobs_from_args(args),
+                perf=_perf_config_from_args(args),
+                progress=progress,
+            )
+        except RuntimeError as exc:
+            progress(str(exc))
+            print(str(exc), file=sys.stderr)
+            return 3
     result.run_metadata.dataset_path_resolution = resolution_summary
     _attach_run_caveats(result.findings, result.run_metadata)
 
@@ -1050,6 +1152,16 @@ def run_dataset_pipeline(args) -> int:
         final_run_dir / "run_summary.json",
         result=result,
         dataset_path_resolution=resolution_summary,
+    )
+    _finalize_run_with_manifest(
+        final_run_dir,
+        result,
+        run_config,
+        args,
+        source=source,
+        product_paths=product_paths or None,
+        detector_policy=None,
+        extra_artifacts=["run_summary.json", "bundle_pipeline_trace.json"],
     )
     progress("Dataset pipeline: complete.")
 
@@ -1087,6 +1199,7 @@ def run_dataset_pipeline(args) -> int:
         return _strict_exit_code(
             reasoner_health=pipeline_summary["reasoner_run_health"],
             resolution_summary=resolution_summary,
+            ingest_errors=result.run_metadata.ingest_errors,
         )
     return 0
 
@@ -1141,8 +1254,11 @@ def _run_pipeline(
 
     try:
         from depos.analysis.pipeline import run_modules_2_through_7  # type: ignore
-    except ImportError:
-        return RunResult(findings=[], detector_stats=[], ingest_reports=[], run_metadata=run_meta)
+    except ImportError as exc:
+        raise RuntimeError(
+            "depOS analysis pipeline unavailable: failed to import run_modules_2_through_7 "
+            "(install with pip install -e '.[depos]')."
+        ) from exc
 
     return run_modules_2_through_7(
         graph,

@@ -1,0 +1,6 @@
+{
+  "fixture_id": "golden-minimal",
+  "expected_detectors": ["dep-version-mismatch-across-workspaces"],
+  "positive_scope_hints": ["apps/web/app/page.tsx"],
+  "negative_detectors": []
+}

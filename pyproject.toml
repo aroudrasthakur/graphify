@@ -102,6 +102,7 @@ all = [
 graphify = "graphify.__main__:main"
 depos-api = "depos.api_server:main"
 depos-intel = "depos.cli:main"
+depos = "depos.cli:main_depos"
 
 [tool.setuptools.packages.find]
 where = ["."]

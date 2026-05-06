@@ -104,3 +104,10 @@ those five JSON files after intentional schema or fixture changes (same
 source, sink) so serial and parallel taint runs produce comparable ordering.
 Equivalence is covered by `tests/intelligence/test_graph_indexes_and_perf.py`.
 Reducer / fragment collision tests: `tests/intelligence/test_graph_fragments.py`.
+
+## Evaluation / runtime budgets
+
+`depos.eval.report` emits structured `eval_report.json` summaries; bundle-level
+parallelism is validated against evidence-quality accounting in
+`tests/intelligence/test_bundle_evidence_accounting.py`. A minimal perf smoke
+test lives under `tests/perf/test_pipeline_runtime_budget.py`.

@@ -14,6 +14,10 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field, model_validat
 NodeId = str
 EdgeId = str
 
+# Detector trust calibration: approximate/heuristic detectors must not surface as
+# formally *confirmed* solely from heuristic + probe passage (see verifier cap).
+ConfirmationTier = Literal["formal", "approximate", "heuristic"]
+
 
 # ---------------------------------------------------------------------------
 # Module 1 — semantic edges & coverage
@@ -131,6 +135,13 @@ RunStatus = Literal["running", "succeeded", "partial_reasoning", "failed"]
 ReasonerRunHealth = Literal["ok", "degraded", "failed"]
 
 
+class DiffHunkSpan(BaseModel):
+    """Inclusive 1-based line range on the **post-change** file for a git diff hunk."""
+
+    start_line: int = Field(ge=1, description="First touched line in the new file.")
+    end_line: int = Field(ge=1, description="Last touched line in the new file.")
+
+
 class ChangeManifestEntry(BaseModel):
     path: Optional[str] = None
     node_ids: list[NodeId] = Field(default_factory=list)
@@ -138,6 +149,10 @@ class ChangeManifestEntry(BaseModel):
     dropped_from_budget: list[NodeId] = Field(default_factory=list)
     migration_change: bool = False
     file_change: bool = False
+    hunks: list[DiffHunkSpan] = Field(
+        default_factory=list,
+        description="Line ranges derived from unified diffs; used to narrow graph nodes when line attrs exist.",
+    )
 
 
 class ChangeManifest(BaseModel):
@@ -171,6 +186,9 @@ class Detector(BaseModel):
     scope: Literal["graph", "per_node", "per_edge"] = "per_node"
     # None = Group A (no layer). "cfg" = B. "dfg" / "taint" = C.
     semantic_requirement: Optional[Literal["cfg", "dfg", "taint"]] = None
+    # formal: verifier may mark confirmed. approximate/heuristic: confirmed is capped
+    # to partially_confirmed with an explicit caveat (names with "-approx", etc.).
+    confirmation_tier: ConfirmationTier = "formal"
 
 
 
@@ -300,6 +318,8 @@ class DetectorRunStats(BaseModel):
     verified_invalid: int = 0
     mean_latency_ms: float = 0.0
     errors: list[dict[str, Any]] = Field(default_factory=list)
+    # When the detector did not run because CFG/DFG/taint was unavailable for all scopes.
+    skip_reason: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

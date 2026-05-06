@@ -418,3 +418,9 @@ Get-Content graphify-out\dataset-pipeline-gemma4\gemma4-run\bundle_pipeline_trac
 Get-Content graphify-out\dataset-pipeline-gemma4\gemma4-run\violations.json -TotalCount 160
 Get-Content graphify-out\dataset-pipeline-gemma4\gemma4-run\gray_zone_audit.jsonl -TotalCount 80
 ```
+
+## Evaluation harness
+
+After a pipeline run, use labeled fixtures and `depos.eval` metrics (see
+[`docs/runbooks/evaluation-harness.md`](runbooks/evaluation-harness.md)) to
+track precision/recall and recall@k on deterministic snapshots.

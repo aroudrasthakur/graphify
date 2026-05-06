@@ -96,6 +96,33 @@ def _detector_spec(candidate: Candidate):
         return None
 
 
+_CONFIRMATION_TIER_CAVEATS: dict[str, str] = {
+    "approximate": (
+        "Approximate detector: even when structural probes pass, this is review-needed signal, not formal proof."
+    ),
+    "heuristic": (
+        "Heuristic detector: treat as review-needed even when probes pass."
+    ),
+}
+
+
+def _cap_verifier_outcome_for_confirmation_tier(
+    spec: Any,
+    outcome: VerifierOutcome,
+) -> tuple[VerifierOutcome, str | None, bool]:
+    """Downgrade *confirmed* to *partially_confirmed* for non-formal detector tiers."""
+    if spec is None or outcome != VerifierOutcome.confirmed:
+        return outcome, None, False
+    tier = getattr(spec, "confirmation_tier", None) or "formal"
+    if tier == "formal":
+        return outcome, None, False
+    caveat = _CONFIRMATION_TIER_CAVEATS.get(
+        str(tier),
+        _CONFIRMATION_TIER_CAVEATS["approximate"],
+    )
+    return VerifierOutcome.partially_confirmed, caveat, True
+
+
 def _safe_probe(name: str, fn: Probe) -> VerifierCheckResult:
     try:
         return fn()
@@ -794,6 +821,7 @@ def _verify_mechanical(
         probe_results,
         mechanical=bool(spec is not None and not spec.requires_reasoner),
     )
+    outcome, tier_caveat, tier_downgrade = _cap_verifier_outcome_for_confirmation_tier(spec, outcome)
     audit, out_finding = _common_finding(
         candidate=candidate,
         bundle=bundle,
@@ -810,9 +838,12 @@ def _verify_mechanical(
     )
     audit.inferred_edge_confidence_floor_applied = full_repo_scan
     if outcome == VerifierOutcome.partially_confirmed:
-        out_finding.partially_confirmed_caveat = (
-            "Verifier confirmed some but not all structural probes; treat as suggestive, not proof."
-        )
+        if tier_downgrade and tier_caveat:
+            out_finding.partially_confirmed_caveat = tier_caveat
+        else:
+            out_finding.partially_confirmed_caveat = (
+                "Verifier confirmed some but not all structural probes; treat as suggestive, not proof."
+            )
     return audit, out_finding
 
 
@@ -948,6 +979,10 @@ def _verify_reasoner_finding(
 
     missing = [*score_gaps, *bundle_gaps]
     outcome = VerifierOutcome.confirmed if not missing else VerifierOutcome.unconfirmed
+    outcome, tier_caveat, tier_downgrade = _cap_verifier_outcome_for_confirmation_tier(
+        _detector_spec(candidate),
+        outcome,
+    )
     audit, out_finding = _common_finding(
         candidate=candidate,
         bundle=bundle,
@@ -962,6 +997,8 @@ def _verify_reasoner_finding(
         uncited=uncited,
         probe_results=probe_results,
     )
+    if tier_downgrade and tier_caveat:
+        out_finding.partially_confirmed_caveat = tier_caveat
     if missing:
         audit.failed_rule = missing[0]
         audit.missing_evidence = missing
