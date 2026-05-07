@@ -53,18 +53,52 @@ def evaluate_gate(
     findings: list[dict[str, Any]],
     *,
     allowlist: set[str],
+    auto_suppress: set[str] | None = None,
 ) -> tuple[bool, list[dict[str, Any]]]:
-    """Return (should_fail, blocking_findings)."""
+    """Return (should_fail, blocking_findings).
+
+    ``auto_suppress`` is merged with ``allowlist`` (e.g. ids from a rolling
+    invalid-reasoning digest). ``finding_id_legacy`` is honored when stable ids are enabled.
+    """
+    suppressed = set(allowlist)
+    if auto_suppress:
+        suppressed |= auto_suppress
     blocking: list[dict[str, Any]] = []
     for f in findings:
         if not isinstance(f, dict):
             continue
         fid = str(f.get("finding_id") or "")
-        if fid and fid in allowlist:
+        leg = str(f.get("finding_id_legacy") or "")
+        if fid and fid in suppressed:
+            continue
+        if leg and leg in suppressed:
             continue
         if finding_triggers_gate(f):
             blocking.append(f)
     return (len(blocking) > 0, blocking)
 
 
-__all__ = ["evaluate_gate", "finding_triggers_gate", "load_allowlist", "load_violations_path"]
+def load_auto_suppress(path: str | Path) -> set[str]:
+    """Load optional JSON array of ``finding_id`` strings to treat as allowlisted."""
+
+    p = Path(path)
+    if not p.is_file():
+        return set()
+    try:
+        raw = json.loads(p.read_text(encoding="utf-8"))
+    except (OSError, ValueError, TypeError):
+        return set()
+    if isinstance(raw, dict) and "finding_ids" in raw:
+        raw = raw["finding_ids"]
+    if not isinstance(raw, list):
+        return set()
+    return {str(x).strip() for x in raw if str(x).strip()}
+
+
+__all__ = [
+    "evaluate_gate",
+    "finding_triggers_gate",
+    "load_allowlist",
+    "load_auto_suppress",
+    "load_violations_path",
+]

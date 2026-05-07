@@ -75,3 +75,9 @@ Five critical issues in the depOS intelligence pipeline are causing systematic f
 3.7 WHEN Group C candidates have non-empty taint_edges THEN the system SHALL CONTINUE TO send them to the LLM reasoner for analysis
 
 3.8 WHEN pytest tests/ -q runs after each fix THEN the system SHALL CONTINUE TO pass all existing tests
+
+---
+
+## Follow-up: Group C detector identity (supersedes portions of 1.3 / 1.4 / 2.3 / 2.4)
+
+The ``graph-anomaly`` + ``ranking_metadata.matched_pattern`` workaround for Group C taint detectors is **removed** in favor of **``resolve_detector_spec``**: the verifier loads the emitting detector spec via ``DetectorPayload.category`` (always the spec name after wrap), so Group C ``verifier_checks`` (e.g. ``taint_sinks_sql``, ``dfg_witness``) run against the correct rule set. ``detector_payload.detector_name`` now matches the spec name end-to-end (e.g. ``command-injection-approx``). Requirements **2.3** and **2.4** in this document described the workaround; product behavior is now **native Group C names** on the payload.

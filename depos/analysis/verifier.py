@@ -10,6 +10,7 @@ detectors remain deterministic and testable.
 """
 from __future__ import annotations
 
+import hashlib
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any, Callable, Iterable
@@ -17,6 +18,7 @@ from typing import Any, Callable, Iterable
 from depos.analysis import verifier_rules
 from depos.analysis.citations import evidence_cites_bundle
 from depos.analysis.config import IntelligenceConfig
+from depos.analysis.detectors import resolve_detector_spec, resolve_detector_spec_name
 from depos.analysis.oracles import ORACLES
 from depos.analysis.schemas import (
     Candidate,
@@ -37,6 +39,24 @@ from depos.analysis.schemas import (
 )
 
 Probe = Callable[[], VerifierCheckResult]
+
+
+def _finding_id_pair(
+    candidate: Candidate,
+    mode_label: str,
+    bug_type: str,
+    *,
+    stable: bool,
+) -> tuple[str, str | None]:
+    legacy = f"{candidate.candidate_id}:{mode_label}:{bug_type}"[:96]
+    if not stable:
+        return legacy, None
+    seam = "|".join(sorted(e.edge_id for e in candidate.seam_edges))
+    anchors = "|".join(sorted(str(a) for a in candidate.diff_anchors))
+    dn = resolve_detector_spec_name(candidate)
+    blob = f"v2|{dn}|{candidate.scope_id}|{seam}|{anchors}|{mode_label}|{bug_type}"
+    digest = hashlib.sha256(blob.encode("utf-8")).hexdigest()[:32]
+    return f"fid_{digest}"[:96], legacy
 
 
 class SourceSnippetCache:
@@ -83,17 +103,7 @@ def _detector_name(candidate: Candidate) -> str:
 
 
 def _detector_spec(candidate: Candidate):
-    try:
-        from depos.analysis.detectors import get_detector
-
-        name = _detector_name(candidate)
-        if name == "legacy":
-            return None
-        return get_detector(name)
-    except Exception as e:  # noqa: BLE001
-        import logging
-        logging.getLogger(__name__).warning("Failed to load detector '%s': %s", _detector_name(candidate), e)
-        return None
+    return resolve_detector_spec(candidate)
 
 
 _CONFIRMATION_TIER_CAVEATS: dict[str, str] = {
@@ -703,6 +713,18 @@ def _finding_shape(
     return bug_type, description, confidence, missing_guard, witness_path, evidence_text, uncited
 
 
+def _dependency_package_hint(candidate: Candidate) -> str | None:
+    raw = candidate.detector_payload.raw or {}
+    pkg = raw.get("package_name")
+    if isinstance(pkg, str) and pkg.strip():
+        return pkg.strip()
+    hints = candidate.detector_payload.oracle_hints or {}
+    hinted = hints.get("package_name")
+    if isinstance(hinted, str) and hinted.strip():
+        return hinted.strip()
+    return None
+
+
 def _common_finding(
     *,
     candidate: Candidate,
@@ -717,9 +739,13 @@ def _common_finding(
     evidence_text: str,
     uncited: bool,
     probe_results: list[VerifierCheckResult],
+    config: IntelligenceConfig,
 ) -> tuple[VerifierAuditEntry, Finding]:
     mode_label = mode.value if mode is not None else "na"
-    finding_id = f"{candidate.candidate_id}:{mode_label}:{bug_type}"[:96]
+    stable = bool(config.verifier.stable_finding_ids)
+    finding_id, finding_id_legacy = _finding_id_pair(
+        candidate, mode_label, bug_type, stable=stable
+    )
     audit = VerifierAuditEntry(
         finding_id=finding_id,
         verifier_outcome=outcome,
@@ -749,6 +775,7 @@ def _common_finding(
 
     out_finding = Finding(
         finding_id=finding_id,
+        finding_id_legacy=finding_id_legacy,
         trust_level=outcome,
         mode=mode,
         verifier_outcome=outcome,
@@ -773,6 +800,7 @@ def _common_finding(
         severity=str(_detector_meta(candidate).get("severity") or "medium"),
         uncited=uncited,
         evidence_text=evidence_text,
+        dependency_package=_dependency_package_hint(candidate),
     )
     if outcome == VerifierOutcome.partially_confirmed:
         out_finding.partially_confirmed_caveat = (
@@ -835,6 +863,7 @@ def _verify_mechanical(
         evidence_text=evidence_text,
         uncited=uncited,
         probe_results=probe_results,
+        config=config,
     )
     audit.inferred_edge_confidence_floor_applied = full_repo_scan
     if outcome == VerifierOutcome.partially_confirmed:
@@ -853,6 +882,7 @@ def _verify_reasoner_finding(
     bundle: ContextBundle,
     mode: ReasonerMode,
     finding: ModeAFinding | ModeBFinding | ModeCFinding,
+    config: IntelligenceConfig,
 ) -> tuple[VerifierAuditEntry, Finding]:
     bug_type, description, confidence, missing_guard, witness_path, evidence_text, uncited = _finding_shape(
         candidate=candidate,
@@ -897,6 +927,7 @@ def _verify_reasoner_finding(
             evidence_text=evidence_text,
             uncited=uncited,
             probe_results=probe_results,
+            config=config,
         )
         audit.failed_rule = global_hits[0]
         return audit, out_finding
@@ -924,6 +955,7 @@ def _verify_reasoner_finding(
             evidence_text=evidence_text,
             uncited=uncited,
             probe_results=probe_results,
+            config=config,
         )
         audit.failed_rule = "unknown_finding_category"
         return audit, out_finding
@@ -956,6 +988,7 @@ def _verify_reasoner_finding(
             evidence_text=evidence_text,
             uncited=uncited,
             probe_results=probe_results,
+            config=config,
         )
         audit.failed_rule = rule_auto_hits[0]
         return audit, out_finding
@@ -996,6 +1029,7 @@ def _verify_reasoner_finding(
         evidence_text=evidence_text,
         uncited=uncited,
         probe_results=probe_results,
+        config=config,
     )
     if tier_downgrade and tier_caveat:
         out_finding.partially_confirmed_caveat = tier_caveat
@@ -1026,6 +1060,7 @@ def verify(
         bundle=bundle,
         mode=mode,
         finding=finding,
+        config=config,
     )
 
 

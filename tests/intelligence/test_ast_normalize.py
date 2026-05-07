@@ -10,7 +10,7 @@ from depos.analysis.candidate_identifier import identify_candidates, resolve_cha
 from depos.analysis.config import IntelligenceConfig
 from depos.analysis.context_bundle import build_bundle
 from depos.analysis.run_context import build_run_context
-from depos.analysis.schemas import AnalysisMode
+from depos.analysis.schemas import AnalysisMode, SeedType
 
 
 def _write_ast(path: Path, payload: dict) -> None:
@@ -99,14 +99,14 @@ def test_build_bundle_falls_back_to_embedded_text() -> None:
     graph.add_node(
         "entity:function:demo",
         label="verify_token()",
-        source_file="missing.py",
+        source_file="pkg/auth.py",
         start_line=10,
         end_line=12,
         embedded_text="def verify_token():\n    return True",
         synthetic_entity=True,
         entity_kind="function",
     )
-    cfg = IntelligenceConfig(enable_ai_driven_seeds=True)
+    cfg = IntelligenceConfig(enable_lexical_seeds=True)
     m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
     rc = build_run_context(graph, m, repo_root=None, config=cfg)
     candidates, _, _ = identify_candidates(
@@ -115,6 +115,12 @@ def test_build_bundle_falls_back_to_embedded_text() -> None:
         config=cfg,
         mode=AnalysisMode.full_repo_scan,
     )
-    bundle = build_bundle(graph, candidates[0], config=cfg)
+    seeded = [
+        c
+        for c in candidates
+        if c.seed_type == SeedType.lexical_keyword and "entity:function:demo" in c.diff_anchors
+    ]
+    assert seeded
+    bundle = build_bundle(graph, seeded[0], config=cfg)
     assert bundle.code_snippets
     assert "verify_token" in bundle.code_snippets[0].text

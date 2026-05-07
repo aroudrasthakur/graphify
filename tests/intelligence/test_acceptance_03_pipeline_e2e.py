@@ -71,7 +71,7 @@ def test_pipeline_end_to_end_runs(tmp_path, monkeypatch, load_fixture_graph):
     )
 
     assert isinstance(result.findings, list)
-    assert result.run_metadata.pipeline_version == "2.0.0"
+    assert result.run_metadata.pipeline_version == "2.1.0"
 
     # Artifacts we expect (ranker jsonl always emits; gray-zone emits empty).
     run_dir = config.data_dir / config.run_output_subdir / run_meta.run_id

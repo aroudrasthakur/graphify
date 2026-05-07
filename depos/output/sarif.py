@@ -110,6 +110,9 @@ def violations_to_sarif_runs(
         },
         "results": results,
     }
+    dep_summary = payload.get("dep_summary")
+    if isinstance(dep_summary, dict) and dep_summary.get("findings_included", 0):
+        run["properties"] = {"depOS_dep_summary": dep_summary}
     if payload.get("run_id"):
         run["automationDetails"] = {
             "id": f"depos/{payload.get('run_id', run_index)}"

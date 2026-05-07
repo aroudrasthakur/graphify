@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Any, Literal
 
 from depos.analysis.schemas import VerifierOutcome
+from depos.output.dep_report import build_dep_summary
 
 # Uppercase labels for IDEs and SARIF; aligned with :class:`VerifierOutcome.canonical`.
 StatusLabel = Literal[
@@ -107,6 +108,7 @@ def enrich_violations_payload(
 
     out = {**doc, "findings": findings_out}
     out["status"] = "CLEAN" if not findings_out else worst
+    out["dep_summary"] = build_dep_summary(findings_out)
     return out
 
 

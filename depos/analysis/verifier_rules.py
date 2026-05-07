@@ -82,6 +82,7 @@ DETECTOR_CATEGORY_MAP: dict[str, str] = {
     "error-swallowed-in-async-handler": "correctness",
     "gha-matrix-node-version-diverges-from-engines": "correctness",
     "gha-workflow-uses-secret-not-declared": "correctness",
+    "graph-anomaly": "architecture",
     "high-centrality-isolated": "architecture",
     "infinite-loop": "correctness",
     "integer-overflow-approx": "correctness",

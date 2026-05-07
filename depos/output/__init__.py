@@ -4,6 +4,6 @@ Import submodules explicitly, e.g. ``from depos.output.sarif import render_sarif
 """
 from __future__ import annotations
 
-from . import canonical, gate, json, pr_comment, sarif
+from . import canonical, dep_report, gate, json, pr_comment, sarif
 
-__all__ = ["canonical", "gate", "json", "pr_comment", "sarif"]
+__all__ = ["canonical", "dep_report", "gate", "json", "pr_comment", "sarif"]

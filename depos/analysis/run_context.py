@@ -6,6 +6,7 @@ availability flags for CFG / DFG / taint (populated in Phase 1a+).
 """
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Optional
@@ -16,6 +17,8 @@ from depos.analysis.config import PerfConfig
 
 if False:  # TYPE_CHECKING
     from depos.analysis.schemas import ChangeManifest
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -117,9 +120,30 @@ def build_run_context(
     from depos.analysis.semantic_python import enrich_python_semantics
 
     perf_resolved = perf or load_perf_config_from_env()
+    n_nodes = graph.number_of_nodes()
+    n_edges = graph.number_of_edges()
+    effective_expensive = bool(perf_resolved.graph_metrics_expensive)
+    threshold = int(perf_resolved.graph_metrics_expensive_max_nodes)
+    if effective_expensive and n_nodes >= threshold:
+        logger.info(
+            "Graph has %d nodes (>=%d); disabling expensive metrics (betweenness, articulation points, "
+            "cross-lang cycle scan). Set DEPOS_PERF_GRAPH_METRICS_EXPENSIVE=1 and raise "
+            "DEPOS_PERF_GRAPH_METRICS_AUTO_DOWNGRADE_AT to force the expensive path.",
+            n_nodes,
+            threshold,
+        )
+        perf_resolved = perf_resolved.model_copy(update={"graph_metrics_expensive": False})
+        effective_expensive = False
+    logger.info(
+        "RunContext: building on graph with %d nodes, %d edges (expensive_metrics=%s, backend=%s).",
+        n_nodes,
+        n_edges,
+        effective_expensive,
+        perf_resolved.metrics_backend,
+    )
     metrics = compute_graph_metrics(
         graph,
-        expensive=perf_resolved.graph_metrics_expensive,
+        expensive=effective_expensive,
         metrics_backend=perf_resolved.metrics_backend,
     )
     seam_index = build_seam_edge_index(graph)

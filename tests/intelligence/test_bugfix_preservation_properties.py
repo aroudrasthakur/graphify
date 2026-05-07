@@ -239,7 +239,7 @@ def test_preservation_group_a_candidates_process_without_taint() -> None:
             composite=0.65,
         ),
         detector_payload=DetectorPayload(
-            category="structural",
+            category="graph-anomaly",
             detector_name="graph-anomaly",
             detector_version="1.0.0",
             pipeline_version="1.0.0",

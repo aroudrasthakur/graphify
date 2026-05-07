@@ -76,8 +76,8 @@ def _run_policy_pipeline(
         ),
     )
     monkeypatch.setattr(
-        "depos.analysis.pipeline.get_detector",
-        lambda name: SimpleNamespace(requires_reasoner=True, semantic_requirement=None),
+        "depos.analysis.pipeline.resolve_detector_spec",
+        lambda candidate: SimpleNamespace(requires_reasoner=True, semantic_requirement=None),
     )
     monkeypatch.setattr(
         "depos.analysis.pipeline.run_all_modes",

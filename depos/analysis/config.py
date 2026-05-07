@@ -65,6 +65,8 @@ class VerifierPolicy(BaseModel):
     min_edge_confidence_for_partially_confirmed: float = 0.6
     phantom_anchor_short_circuit: bool = True
     full_repo_scan_confidence_delta: float = 0.1
+    #: When True, ``finding_id`` is a stable hash of scope, anchors, seams, detector, mode; legacy id in ``finding_id_legacy``.
+    stable_finding_ids: bool = False
 
 
 class CandidateBudget(BaseModel):
@@ -74,6 +76,8 @@ class CandidateBudget(BaseModel):
     max_hop_count: int = 6
     high_churn_file_threshold: int = 50
     high_churn_file_sample: int = 20
+    #: Cap for :mod:`lexical_keyword_seed` candidates (separate from ``max_seeds`` global ranking).
+    max_lexical_seeds: int = 24
 
 
 class BundleBudget(BaseModel):
@@ -178,6 +182,8 @@ class DetectorHeuristicsConfig(BaseModel):
     """Detector-specific allowlists and heuristics."""
 
     env_var_safe_names: list[str] = Field(default_factory=list)
+    #: Minimum rolling precision (0..1) before ``detector_precision_rollup`` triggers a confidence dampen in ``_wrap_candidate``.
+    confidence_floor_by_detector: dict[str, float] = Field(default_factory=dict)
 
 
 class CacheConfig(BaseModel):
@@ -194,6 +200,8 @@ class PerfConfig(BaseModel):
     bundle_n_jobs: int = 1
     graph_metrics_expensive: bool = True
     metrics_backend: Literal["networkx", "rustworkx"] = "networkx"
+    #: When the graph has at least this many nodes, expensive metrics are skipped unless already off.
+    graph_metrics_expensive_max_nodes: int = 35_000
 
 
 def load_perf_config_from_env() -> PerfConfig:
@@ -227,6 +235,16 @@ def load_perf_config_from_env() -> PerfConfig:
         p = p.model_copy(update={"metrics_backend": "rustworkx"})
     elif mb == "networkx":
         p = p.model_copy(update={"metrics_backend": "networkx"})
+    raw_mx = os.environ.get("DEPOS_PERF_GRAPH_METRICS_AUTO_DOWNGRADE_AT")
+    if raw_mx:
+        try:
+            p = p.model_copy(
+                update={"graph_metrics_expensive_max_nodes": max(500, int(raw_mx.strip()))}
+            )
+        except ValueError:
+            logger.warning(
+                "Ignoring invalid DEPOS_PERF_GRAPH_METRICS_AUTO_DOWNGRADE_AT=%r", raw_mx
+            )
     return p
 
 
@@ -259,9 +277,28 @@ class IntelligenceConfig(BaseModel):
         ]
     )
 
-    # Module 2 optional expansion: lexical/heuristic AI-style seeds until a
-    # real embedding model is wired in.
+    # Module 2 optional expansion: lexical keyword seeds (reasoner triage hooks).
+    enable_lexical_seeds: bool = False
+    #: Deprecated alias for :attr:`enable_lexical_seeds` (kept for config/env back-compat).
     enable_ai_driven_seeds: bool = False
+    #: Opt-in embedding-ranked seeds (stub provider until a model is wired).
+    enable_embedding_seeds: bool = False
+    #: Case-insensitive word-boundary matches against node labels, embedded text, and ``source_file`` path.
+    lexical_seed_keywords: list[str] = Field(
+        default_factory=lambda: [
+            "auth",
+            "token",
+            "secret",
+            "password",
+            "credential",
+            "bearer",
+            "csrf",
+            "session",
+            "privilege",
+            "openssl",
+            "crypto",
+        ]
+    )
 
     # Branch ref for migration branch-state resolution. ``None`` means "HEAD".
     branch_ref: Optional[str] = None
@@ -280,6 +317,8 @@ class IntelligenceConfig(BaseModel):
     scoring: ScoringConfig = Field(default_factory=ScoringConfig)
     cache: CacheConfig = Field(default_factory=CacheConfig)
     intent_context: IntentContextConfig = Field(default_factory=IntentContextConfig)
+    #: Rolling precision per detector (0..1), loaded from ``detector_precision_rollup.json`` under ``data_dir``.
+    detector_precision_rollup: dict[str, float] = Field(default_factory=dict)
 
     @property
     def reasoner(self) -> ReasonerProviderConfig:  # noqa: ANN201 - public compat
@@ -508,6 +547,23 @@ def load_config_from_env() -> IntelligenceConfig:
     tier_env = os.environ.get("DEPOS_INTEL_INTENT_DEFAULT_TIER", "").strip().upper()
     if tier_env in {"P0", "P1", "P2"}:
         cfg.intent_context.default_intent_tier = tier_env
+    if os.environ.get("DEPOS_INTEL_STABLE_FINDING_IDS", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.verifier = cfg.verifier.model_copy(update={"stable_finding_ids": True})
+    if os.environ.get("DEPOS_INTEL_ENABLE_LEXICAL_SEEDS", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.enable_lexical_seeds = True
+    if os.environ.get("DEPOS_INTEL_ENABLE_AI_DRIVEN_SEEDS", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.enable_ai_driven_seeds = True
+    if os.environ.get("DEPOS_INTEL_ENABLE_EMBEDDING_SEEDS", "").strip().lower() in {"1", "true", "yes", "on"}:
+        cfg.enable_embedding_seeds = True
+    kw = os.environ.get("DEPOS_INTEL_LEXICAL_SEED_KEYWORDS", "").strip()
+    if kw:
+        cfg.lexical_seed_keywords = [part.strip() for part in kw.split(",") if part.strip()]
+    try:
+        mx = int(os.environ.get("DEPOS_INTEL_MAX_LEXICAL_SEEDS", cfg.candidates.max_lexical_seeds))
+        if mx >= 0:
+            cfg.candidates = cfg.candidates.model_copy(update={"max_lexical_seeds": mx})
+    except ValueError:
+        logger.warning("Ignoring invalid DEPOS_INTEL_MAX_LEXICAL_SEEDS")
     return cfg
 
 

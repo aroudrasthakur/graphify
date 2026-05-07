@@ -59,6 +59,15 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
             help="Clear the depOS fragment cache before running.",
         )
 
+    def _add_scale_args(parser: argparse.ArgumentParser) -> None:
+        parser.add_argument(
+            "--shard-by",
+            choices=("none", "package_manifest"),
+            default="none",
+            help="Limit Module 2 detection to a subgraph: package_manifest = nodes under manifest dirs "
+            "(bundles still read the full graph).",
+        )
+
     def _add_perf_args(parser: argparse.ArgumentParser) -> None:
         parser.add_argument(
             "--no-parallel",
@@ -181,16 +190,58 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
         metavar="ID",
         help="Deprecated alias for temporarily excluding a finding ID from the gate (repeatable).",
     )
+    gate.add_argument(
+        "--auto-suppress",
+        type=Path,
+        default=None,
+        help="Optional JSON file of finding_id strings (or {\"finding_ids\": [...]}) merged into the allowlist.",
+    )
+
+    detector_stats_cmd = sub.add_parser(
+        "detector-stats",
+        help="Print detector_stats from violations.json (rolling precision / verification counts).",
+    )
+    detector_stats_cmd.add_argument(
+        "--violations",
+        required=True,
+        type=Path,
+        help="Path to violations.json from a depOS run.",
+    )
+
+    migrate_allow = sub.add_parser(
+        "migrate-allowlist",
+        help="Rewrite allowlist finding_id values using a legacy->new JSON mapping.",
+    )
+    migrate_allow.add_argument(
+        "--allowlist",
+        required=True,
+        type=Path,
+        help="Path to .depOS/allowlist.json (array of {finding_id, expires?}).",
+    )
+    migrate_allow.add_argument(
+        "--mapping",
+        required=True,
+        type=Path,
+        help="JSON object mapping old finding_id to new finding_id.",
+    )
+    migrate_allow.add_argument(
+        "--output",
+        type=Path,
+        default=None,
+        help="Output path (default: overwrite --allowlist).",
+    )
 
     repo = a_sub.add_parser("repo", help="Full-repo scan (no diff required).")
     repo.add_argument("--path", required=True)
     repo.add_argument(
         "--run-profile",
+        "--profile-preset",
         choices=("local", "full", "llm"),
         default="full",
         dest="run_profile",
         metavar="PROFILE",
-        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults.",
+        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
+        "Alias: --profile-preset.",
     )
     repo.add_argument("--output")
     repo.add_argument("--mode", default="A,B,C")
@@ -208,6 +259,7 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
         help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
     )
     _add_perf_args(repo)
+    _add_scale_args(repo)
     _add_cache_args(repo)
     repo.add_argument(
         "--pyinstrument-html",
@@ -220,11 +272,13 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
     diff = a_sub.add_parser("diff", help="Diff-aware scan using a change manifest.")
     diff.add_argument(
         "--run-profile",
+        "--profile-preset",
         choices=("local", "full", "llm"),
         default="full",
         dest="run_profile",
         metavar="PROFILE",
-        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults.",
+        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
+        "Alias: --profile-preset.",
     )
     diff.add_argument("--cpg-path")
     diff.add_argument("--graph-json")
@@ -244,6 +298,7 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
         help="Number of parallel threads for Wave B enrichers (default: 1 = serial).",
     )
     _add_perf_args(diff)
+    _add_scale_args(diff)
     _add_cache_args(diff)
     diff.add_argument(
         "--pyinstrument-html",
@@ -373,6 +428,7 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
         help="Write a pyinstrument HTML profile to PATH (requires pip install graphifyy[perf]).",
     )
     _add_perf_args(dataset_pipeline)
+    _add_scale_args(dataset_pipeline)
     dataset_pipeline.add_argument("--model-name", default="", help="Unused; reserved for a future ranker.")
     _add_cache_args(dataset_pipeline)
     dataset_pipeline.add_argument("--device")
@@ -523,6 +579,42 @@ def _main(argv: Optional[Sequence[str]] = None, *, prog: str = "depos-intel") ->
         from depos.cli.gate import run_gate
 
         return run_gate(args)
+    if args.command == "detector-stats":
+        import json
+
+        from depos.output.gate import load_violations_path
+
+        vpath = Path(args.violations)
+        if not vpath.is_file():
+            print(f"violations file not found: {vpath}", file=sys.stderr)
+            return 2
+        doc = load_violations_path(vpath)
+        stats = doc.get("detector_stats") or []
+        print(json.dumps(stats, indent=2, default=str))
+        return 0
+    if args.command == "migrate-allowlist":
+        import json
+
+        mpath = Path(args.mapping)
+        apath = Path(args.allowlist)
+        raw_map = json.loads(mpath.read_text(encoding="utf-8"))
+        if not isinstance(raw_map, dict):
+            print("mapping must be a JSON object", file=sys.stderr)
+            return 2
+        entries = json.loads(apath.read_text(encoding="utf-8"))
+        if not isinstance(entries, list):
+            print("allowlist must be a JSON array", file=sys.stderr)
+            return 2
+        out: list[dict] = []
+        for e in entries:
+            if not isinstance(e, dict):
+                continue
+            fid = str(e.get("finding_id") or "")
+            new_id = str(raw_map.get(fid, fid))
+            out.append({**e, "finding_id": new_id})
+        outp = args.output or apath
+        outp.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
+        return 0
     if args.command == "detectors":
         if args.detectors_command == "list":
             from depos.cli.analyze import run_detectors_list

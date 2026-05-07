@@ -121,6 +121,7 @@ class SeedType(str, Enum):
     diff_anchor = "diff_anchor"
     interface_surface = "interface_surface"
     graph_anomaly = "graph_anomaly"
+    lexical_keyword = "lexical_keyword"
     ai_driven = "ai_driven"
 
 
@@ -320,6 +321,8 @@ class DetectorRunStats(BaseModel):
     errors: list[dict[str, Any]] = Field(default_factory=list)
     # When the detector did not run because CFG/DFG/taint was unavailable for all scopes.
     skip_reason: Optional[str] = None
+    # Rolling precision from ``detector_precision_rollup.json`` (0..1), if available.
+    historical_precision: Optional[float] = None
 
 
 # ---------------------------------------------------------------------------
@@ -649,6 +652,8 @@ class BundleTraceEntry(BaseModel):
 
 class Finding(BaseModel):
     finding_id: str
+    #: When ``verifier.stable_finding_ids`` is enabled, the pre-v2 concatenation id for allowlist migration.
+    finding_id_legacy: Optional[str] = None
     trust_level: VerifierOutcome
     mode: Optional[ReasonerMode] = None
     verifier_outcome: VerifierOutcome
@@ -678,6 +683,8 @@ class Finding(BaseModel):
     # LLM output lacks any bundle node/edge id in the narrative (Block 11).
     uncited: bool = False
     evidence_text: str = ""
+    #: Set for dependency-related detectors when :attr:`detector_payload.raw` carries ``package_name``.
+    dependency_package: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

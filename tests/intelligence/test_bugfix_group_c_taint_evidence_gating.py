@@ -73,7 +73,7 @@ def group_c_candidate() -> Candidate:
             composite=0.55,
         ),
         detector_payload=DetectorPayload(
-            category="security",
+            category="sql-injection-approx",
             detector_name="sql-injection-approx",
             detector_version="1.0.0",
             pipeline_version="1.0.0",
@@ -301,7 +301,7 @@ def test_preservation_group_a_unaffected(
             composite=0.65,
         ),
         detector_payload=DetectorPayload(
-            category="structural",
+            category="graph-anomaly",
             detector_name="graph-anomaly",
             detector_version="1.0.0",
             pipeline_version="1.0.0",

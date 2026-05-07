@@ -33,6 +33,7 @@ from depos.analysis.product_outputs import (
 from depos.analysis.reasoning_engine import summarize_reasoner_attempts
 from depos.analysis.schemas import AnalysisMode, ContextBundle, Finding, RunResult, RunMetadata, StitcherCoverageReport
 from depos.graph_source import GraphifySource, GraphSource
+from depos.output.dep_report import build_dep_summary
 
 
 # Exit codes used under --strict (per plan §3.5).
@@ -46,6 +47,7 @@ _QUALITY_RANK = {"missing": 0, "label_only": 1, "embedded": 2, "full": 3}
 
 _LEGACY_FINDING_FIELDS = {
     "finding_id",
+    "finding_id_legacy",
     "trust_level",
     "mode",
     "verifier_outcome",
@@ -72,6 +74,7 @@ _LEGACY_FINDING_FIELDS = {
     "stale_diff_replay_caveat",
     "uncited",
     "evidence_text",
+    "dependency_package",
 }
 
 
@@ -387,6 +390,13 @@ def run_coverage(args) -> int:
     return 0
 
 
+def _shard_by_from_args(args: Any) -> str | None:
+    raw = getattr(args, "shard_by", None)
+    if raw in (None, "", "none"):
+        return None
+    return str(raw)
+
+
 # ---------------------------------------------------------------------------
 # repo / diff / replay (placeholders wired to run output-layer caveats)
 # ---------------------------------------------------------------------------
@@ -420,6 +430,9 @@ def _write_violations(
         "ingest_reports": [report.model_dump(mode="json") for report in result.ingest_reports],
         "detector_stats": [stat.model_dump(mode="json") for stat in result.detector_stats],
         "findings": [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings],
+        "dep_summary": build_dep_summary(
+            [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings]
+        ),
     }
     (out_dir / "violations.json").write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
 
@@ -537,6 +550,7 @@ def run_repo(args) -> int:
                 n_jobs=_enrichment_n_jobs_from_args(args),
                 perf=_perf_config_from_args(args),
                 progress=progress,
+                shard_by=_shard_by_from_args(args),
             )
         except RuntimeError as exc:
             progress(str(exc))
@@ -600,6 +614,7 @@ def run_diff(args) -> int:
                 n_jobs=_enrichment_n_jobs_from_args(args),
                 perf=_perf_config_from_args(args),
                 progress=progress,
+                shard_by=_shard_by_from_args(args),
             )
         except RuntimeError as exc:
             progress(str(exc))
@@ -1128,6 +1143,7 @@ def run_dataset_pipeline(args) -> int:
                 n_jobs=_enrichment_n_jobs_from_args(args),
                 perf=_perf_config_from_args(args),
                 progress=progress,
+                shard_by=_shard_by_from_args(args),
             )
         except RuntimeError as exc:
             progress(str(exc))
@@ -1222,6 +1238,7 @@ def _run_pipeline(
     n_jobs: int = 1,
     perf: Any = None,
     progress: Callable[[str], None] | None = None,
+    shard_by: str | None = None,
 ) -> RunResult:
     if progress is not None:
         progress("Loading graph source into memory.")
@@ -1272,6 +1289,7 @@ def _run_pipeline(
         min_score=min_score,
         progress=progress,
         perf=perf,
+        shard_by=shard_by,
     )
 
 

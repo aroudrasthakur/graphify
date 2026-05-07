@@ -16,9 +16,11 @@ import networkx as nx
 
 from depos.analysis.candidate_identifier import identify_candidates, resolve_change_manifest
 from depos.analysis.config import IntelligenceConfig, PerfConfig
+from depos.analysis.detector_precision import load_rollup, merge_run_precision, rollup_path, save_rollup
 from depos.analysis.run_context import build_run_context
+from depos.analysis.sharding import subgraph_for_shard_strategy
 from depos.analysis.context_bundle import build_bundle
-from depos.analysis.detectors import PIPELINE_VERSION, get_detector, list_detectors, load_builtin
+from depos.analysis.detectors import PIPELINE_VERSION, list_detectors, load_builtin, resolve_detector_spec
 from depos.analysis.gray_zone_evaluator import evaluate as evaluate_gray_zone
 from depos.analysis.gray_zone_evaluator import persist as persist_gray_zone
 from depos.analysis.observability import emit_event, timed_stage
@@ -78,15 +80,7 @@ def _reasoner_health_reason(stats: ReasonerCallStats, bundles_sent: int) -> str:
 
 
 def _detector_spec_for_candidate(candidate: Candidate):
-    detector_name = str(candidate.detector_payload.detector_name or "legacy")
-    if detector_name == "legacy":
-        return None
-    try:
-        return get_detector(detector_name)
-    except Exception as e:  # noqa: BLE001
-        import logging
-        logging.getLogger(__name__).warning("Failed to get detector '%s' for candidate: %s", detector_name, e)
-        return None
+    return resolve_detector_spec(candidate)
 
 
 def _needs_llm_reasoning(
@@ -305,8 +299,19 @@ def run_modules_2_through_7(
     min_score: float | None = None,
     progress: Callable[[str], None] | None = None,
     perf: Optional[PerfConfig] = None,
+    shard_by: str | None = None,
 ) -> RunResult:
     mode = run_meta.analysis_mode
+    precision_path = rollup_path(config.data_dir)
+    precision_prior = load_rollup(precision_path)
+    config = config.model_copy(update={"detector_precision_rollup": precision_prior})
+    detection_graph = subgraph_for_shard_strategy(graph, shard_by)
+    if detection_graph is not graph:
+        _emit_progress(
+            progress,
+            f"Pipeline: shard-by={shard_by!r} uses {detection_graph.number_of_nodes()} nodes for detection "
+            f"(full graph: {graph.number_of_nodes()}).",
+        )
     _emit_progress(progress, f"Pipeline: preparing run metadata for {mode.value} mode.")
     _prepare_run_metadata(graph, run_meta=run_meta, detector_policy=detector_policy)
     _emit_progress(
@@ -325,7 +330,7 @@ def run_modules_2_through_7(
     _emit_progress(progress, "Module 2: running detectors.")
     with timed_stage(config, run_meta.run_id, "detector_run"):
         run_context = build_run_context(
-            graph,
+            detection_graph,
             manifest,
             run_id=run_meta.run_id,
             repo_root=repo_root,
@@ -349,7 +354,7 @@ def run_modules_2_through_7(
                 timeout=config.llm.ollama_preflight_timeout,
             )
         candidates, manifest, detector_stats = identify_candidates(
-            graph,
+            detection_graph,
             run_context=run_context,
             config=config,
             mode=mode,
@@ -357,6 +362,10 @@ def run_modules_2_through_7(
             repo_root=repo_root,
             detector_policy=detector_policy,
         )
+    detector_stats = [
+        s.model_copy(update={"historical_precision": precision_prior.get(s.detector_name)})
+        for s in detector_stats
+    ]
     _emit_progress(progress, f"Module 2: detectors emitted {len(candidates)} candidates.")
     if not candidates:
         run_meta.reasoner_policy_summary = _empty_reasoner_policy_summary(config)
@@ -369,8 +378,13 @@ def run_modules_2_through_7(
             bundle_limit=bundle_limit,
             selected_limit=selected_limit,
         )
+        detector_stats = [
+            s.model_copy(update={"historical_precision": precision_prior.get(s.detector_name)})
+            for s in detector_stats
+        ]
         for stat in detector_stats:
             stat.run_id = run_meta.run_id
+        save_rollup(precision_path, merge_run_precision(precision_prior, detector_stats))
         _emit_progress(progress, "Pipeline: no candidates emitted; stopping after Module 2.")
         return RunResult(
             findings=[],
@@ -782,6 +796,9 @@ def run_modules_2_through_7(
 
     for stat in detector_stats:
         stat.run_id = run_meta.run_id
+
+    merged_precision = merge_run_precision(precision_prior, detector_stats)
+    save_rollup(precision_path, merged_precision)
 
     bundles_built = len(built_bundles)
     health = reasoner_stats.health()

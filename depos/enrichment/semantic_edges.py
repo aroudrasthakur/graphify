@@ -274,6 +274,15 @@ def enrich_graph(
     errors: list[dict[str, Any]] = []
     ingest_reports: list[IngestReport] = []
 
+    fragment_cache: Any = None
+    if config.cache.enabled:
+        try:
+            from depos.cache import FragmentCache, resolve_cache_root
+
+            fragment_cache = FragmentCache(resolve_cache_root(config), enabled=True)
+        except Exception as exc:  # noqa: BLE001
+            logger.warning("depOS fragment cache unavailable: %s", exc)
+
     # ── Layer 0: ingest (direct graph mutation; not yet fragment-based) ────
     if repo_root is not None:
         result = _safe_run(
@@ -346,7 +355,7 @@ def enrich_graph(
             "emit_env_edges",
             lambda g=_wave_b_read_target: __import__(  # noqa: WPS421
                 "depos.enrichment.env_resolver", fromlist=["emit_env_edges"]
-            ).emit_env_edges(g, repo_root=repo_root),
+            ).emit_env_edges(g, repo_root=repo_root, fragment_cache=fragment_cache),
         ),
         (
             "emit_prompt_edges",

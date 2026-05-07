@@ -71,7 +71,7 @@ def test_run_result_contains_detector_and_ingest_metadata(tmp_path: Path) -> Non
     assert "depos.ingest.env_config" in report_modules
     assert "dep-version-mismatch-across-workspaces" in stat_names
     assert "env-var-referenced-but-undefined" in stat_names
-    assert result.run_metadata.pipeline_version == "2.0.0"
+    assert result.run_metadata.pipeline_version == "2.1.0"
     assert {universe.value for universe in result.run_metadata.universes_present} >= {"code", "deps", "env"}
 
 
@@ -168,8 +168,8 @@ def test_pipeline_skips_reasoner_for_deterministic_taint_candidate(tmp_path: Pat
     )
     monkeypatch.setattr("depos.analysis.pipeline.build_bundle", lambda *args, **kwargs: bundle)
     monkeypatch.setattr(
-        "depos.analysis.pipeline.get_detector",
-        lambda name: SimpleNamespace(requires_reasoner=True, semantic_requirement=None),
+        "depos.analysis.pipeline.resolve_detector_spec",
+        lambda candidate: SimpleNamespace(requires_reasoner=True, semantic_requirement=None),
     )
     monkeypatch.setattr(
         "depos.analysis.pipeline.run_all_modes",
@@ -277,8 +277,8 @@ def test_pipeline_routes_taint_reasoner_candidates_to_mode_c_only(tmp_path: Path
     )
     monkeypatch.setattr("depos.analysis.pipeline.build_bundle", lambda *args, **kwargs: bundle)
     monkeypatch.setattr(
-        "depos.analysis.pipeline.get_detector",
-        lambda name: SimpleNamespace(requires_reasoner=True, semantic_requirement="taint"),
+        "depos.analysis.pipeline.resolve_detector_spec",
+        lambda candidate: SimpleNamespace(requires_reasoner=True, semantic_requirement="taint"),
     )
     monkeypatch.setattr(
         "depos.analysis.pipeline.run_all_modes",
@@ -346,8 +346,8 @@ def test_pipeline_marks_missing_taint_evidence_skip_reason(tmp_path: Path, monke
     )
     monkeypatch.setattr("depos.analysis.pipeline.build_bundle", lambda *args, **kwargs: bundle)
     monkeypatch.setattr(
-        "depos.analysis.pipeline.get_detector",
-        lambda name: SimpleNamespace(requires_reasoner=True, semantic_requirement="taint"),
+        "depos.analysis.pipeline.resolve_detector_spec",
+        lambda candidate: SimpleNamespace(requires_reasoner=True, semantic_requirement="taint"),
     )
     monkeypatch.setattr(
         "depos.analysis.pipeline.run_all_modes",

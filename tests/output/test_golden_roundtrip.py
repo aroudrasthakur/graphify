@@ -54,6 +54,9 @@ def test_golden_enrich_then_json_sarif_pr_share_status(sample_violations_doc) ->
     assert "blast_radius" in f0
     assert f0["recommended_action"]
 
+    assert enriched["dep_summary"]["findings_included"] == 0
+    assert enriched["dep_summary"]["packages_affected"] == 0
+
     jtxt = render_violations_document(sample_violations_doc, enrich=True)
     roundtrip = json.loads(jtxt)
     assert roundtrip["findings"][0]["status"] == "CONFIRMED"
@@ -126,3 +129,5 @@ def test_write_violations_keeps_product_fields_out_of_legacy_shape(tmp_path) -> 
 
     assert "output_paths" not in payload["run_metadata"]
     assert "legacy_finding_id" not in payload["findings"][0]
+    assert "dep_summary" in payload
+    assert payload["dep_summary"]["findings_included"] == 0

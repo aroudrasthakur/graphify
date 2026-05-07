@@ -23,7 +23,7 @@ from depos.analysis.scoring import apply_composite
 DetectorRunner = Callable[[nx.DiGraph, Any, Any, Any, dict[str, Any]], list[Candidate]]
 REGISTRY: dict[str, tuple[Detector, DetectorRunner]] = {}
 _BUILTINS_LOADED = False
-PIPELINE_VERSION = "2.0.0"
+PIPELINE_VERSION = "2.1.0"
 
 _BUILTIN_MODULES = [
     "depos.analysis.detectors.builtin.diff_anchor",
@@ -92,6 +92,39 @@ def get_detector(name: str) -> Detector:
     return spec
 
 
+def resolve_detector_spec_name(candidate: Candidate) -> str:
+    """Registry key for the detector that emitted this candidate.
+
+    Prefer :attr:`DetectorPayload.category`, which is always the emitting
+    spec's ``name`` after ``_wrap_candidate``. Fall back to
+    ``detector_name`` for legacy payloads.
+    """
+
+    raw = candidate.detector_payload
+    cat = str(getattr(raw, "category", "") or "").strip()
+    if cat and cat.lower() != "unknown":
+        return cat
+    dn = str(getattr(raw, "detector_name", "") or "").strip()
+    return dn if dn else "legacy"
+
+
+def resolve_detector_spec(candidate: Candidate) -> Optional[Detector]:
+    """Load :class:`Detector` for *candidate* (same spec as emission time)."""
+
+    name = resolve_detector_spec_name(candidate)
+    if not name or name == "legacy":
+        return None
+    try:
+        return get_detector(name)
+    except Exception:  # noqa: BLE001
+        import logging
+
+        logging.getLogger(__name__).warning(
+            "Failed to load detector %r for candidate", name, exc_info=True
+        )
+        return None
+
+
 def _enrich_candidate_score_from_context(
     graph: nx.DiGraph,
     run_context: RunContext,
@@ -124,28 +157,14 @@ def _wrap_candidate(
     mode: Any,
     config: Any,
 ) -> Candidate:
-    from depos.analysis.schemas import RankingMetadata, SeedType
-    
     raw = dict(candidate.detector_payload.raw)
     extra_oh = raw.pop("oracle_hints", None)
     hints = dict(candidate.detector_payload.oracle_hints)
     if isinstance(extra_oh, dict):
         hints.update({str(k): v for k, v in extra_oh.items()})
     severity = str(policy.severity_for(spec))
-    
-    # Fix 2: Preserve detector_name for graph-anomaly candidates from Group C detectors
-    # Group C detectors (taint-based) mark candidates with "group": "C" in raw dict
-    # Store attack pattern labels in ranking_metadata.matched_pattern instead
-    is_group_c = raw.get("group") == "C"
-    if candidate.seed_type == SeedType.graph_anomaly and is_group_c:
-        # Preserve original detector identity as "graph-anomaly"
-        detector_name = "graph-anomaly"
-        # Store the attack pattern (spec.name) in ranking_metadata
-        candidate.ranking_metadata = RankingMetadata(matched_pattern=spec.name)
-    else:
-        # Non-Group-C detectors: use spec.name as detector_name (existing behavior)
-        detector_name = spec.name
-    
+    detector_name = spec.name
+
     candidate.detector_payload = DetectorPayload(
         category=spec.name,
         detector_name=detector_name,
@@ -157,6 +176,15 @@ def _wrap_candidate(
         requires_dfg=candidate.detector_payload.requires_dfg,
         raw=raw,
     )
+    rollup = getattr(config, "detector_precision_rollup", None) or {}
+    det_heur = getattr(config, "detectors", None)
+    floors: dict[str, float] = (
+        getattr(det_heur, "confidence_floor_by_detector", None) or {} if det_heur is not None else {}
+    )
+    p = rollup.get(spec.name)
+    floor = floors.get(spec.name)
+    if p is not None and floor is not None and float(p) < float(floor):
+        candidate.score.detector_confidence = float(candidate.score.detector_confidence) * 0.85
     apply_composite(candidate.score, mode=mode, config=config, severity=severity)
     return candidate
 
@@ -272,5 +300,7 @@ __all__ = [
     "list_detectors",
     "load_builtin",
     "register",
+    "resolve_detector_spec",
+    "resolve_detector_spec_name",
     "run_all",
 ]

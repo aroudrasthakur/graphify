@@ -14,7 +14,7 @@ Detectors are the core of the depOS intelligence pipeline. Each detector is a Py
 6. Deduplicate by `(scope_id, seam_ids, diff_anchors)`, keep highest composite score.
 7. Return top `config.candidates.max_seeds` sorted by `-score.composite`.
 
-**Pipeline version:** `"2.0.0"` (hardcoded in `__init__.py`).
+**Pipeline version:** `"2.1.0"` (``PIPELINE_VERSION`` in `__init__.py`).
 
 ## Semantic gating
 
@@ -113,7 +113,7 @@ RE_AW_MUT  = re.compile(r"\+=|-=|\+\+|--|\.push\(", re.M)
 | `integer-overflow-approx` | DFG edges + `RE_OVERFLOW` on source | `<<N`, `0xN *`, `Math.imul` | 0.68 |
 | `race-condition-approx` | `AWAIT_SUSPENSION` DFG edges + `RE_AW_RACE` + `RE_AW_MUT` | async functions with shared mutations | 0.72 |
 
-**Special wrapping for Group C:** When a Group C candidate has `seed_type=graph_anomaly`, `_wrap_candidate()` in `__init__.py` preserves `detector_name="graph-anomaly"` and stores the actual detector spec name in `ranking_metadata.matched_pattern`. This keeps Group C findings compatible with the graph-anomaly verifier path while retaining attack-pattern metadata for ranking.
+Candidates are tagged `scope_id=f"sem:{detector_name}:{scope}"` using each detector's registered name (for example `command-injection-approx`). Verifier and output layers resolve findings using that same detector id.
 
 ---
 
@@ -130,7 +130,7 @@ Always enabled; emit candidates that seed the investigation before domain detect
 | `diff-anchor` | `diff_anchor.py` | Candidates anchored to changed files in the git diff |
 | `interface-surface` | `interface_surface.py` | Public API surface nodes (routes, exported functions) |
 | `graph-anomaly` | `graph_anomaly.py` | Structural anomalies from graph metrics |
-| `lexical-keyword-seed` | `lexical_keyword_seed.py` | Nodes with high-risk lexical signals (e.g. `auth`, `token`, `secret`) |
+| `lexical-keyword-seed` | `lexical_keyword_seed.py` | Word-boundary hits on ``IntelligenceConfig.lexical_seed_keywords`` in labels, embedded text, and paths (budget: ``CandidateBudget.max_lexical_seeds``). Enable via ``enable_lexical_seeds`` (``enable_ai_driven_seeds`` is a deprecated alias). Optional ``enable_embedding_seeds`` extends with :mod:`depos.analysis.embedding_seed`. |
 
 ### Dependencies — `Universe.deps`
 
@@ -138,11 +138,11 @@ Always enabled; emit candidates that seed the investigation before domain detect
 |---|---|---|
 | `vulnerable-dep` | `vulnerable_dep.py` | Iterates `lockfile_resolution` nodes; flags any with `advisory_ids` or `vulnerable=True`; emits `oracle_hints` for advisory DB lookup |
 | `lockfile-drift` | `lockfile_drift.py` | Detects divergence between declared and resolved versions |
-| `dep-version-mismatch-across-workspaces` | — | Cross-workspace version conflicts in monorepos |
-| `phantom-dep` | `phantom_dep.py` | Imported packages not declared in any manifest |
-| `unused-dep` | — | Declared packages with no import edges in the graph |
-| `peer-dep-unsatisfied` | — | Peer dependency ranges not satisfied by installed versions |
-| `transitive-pin-conflict` | — | Incompatible transitive version pins |
+| `dep-version-mismatch-across-workspaces` | `dep_version_mismatch_across_workspaces.py` | Cross-workspace version conflicts in monorepos |
+| `phantom-dep` | `phantom_dep.py` | Imported packages not declared in any manifest (synthetic `package_dep` nodes with `declared=False`) |
+| `unused-dep` | `unused_dep.py` | Declared packages with no import edges in the graph |
+| `peer-dep-unsatisfied` | `peer_dep_unsatisfied.py` | Peer dependency ranges not satisfied by installed versions |
+| `transitive-pin-conflict` | `transitive_pin_conflict.py` | Incompatible transitive version pins |
 
 ### Env and config — `Universe.env`
 

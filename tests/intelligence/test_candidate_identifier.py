@@ -30,7 +30,7 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
         source_file="depos/auth.py",
     )
 
-    config = IntelligenceConfig(enable_ai_driven_seeds=True)
+    config = IntelligenceConfig(enable_lexical_seeds=True)
     m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
     rc = build_run_context(graph, m, repo_root=None, config=config)
     candidates, manifest, _ = identify_candidates(
@@ -46,7 +46,7 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
     seed_types = {candidate.seed_type for candidate in candidates}
     assert SeedType.interface_surface in seed_types
     assert SeedType.graph_anomaly in seed_types
-    assert SeedType.ai_driven in seed_types
+    assert SeedType.lexical_keyword in seed_types
 
     route_surface = [c for c in candidates if c.detector_payload.raw.get("surface_type") == "public_route"]
     assert route_surface
@@ -59,6 +59,23 @@ def test_candidate_identifier_seeds_public_surfaces_and_anomalies() -> None:
     assert auth_surface
 
 
+def test_enable_ai_driven_seeds_still_enables_lexical_keyword_seeds() -> None:
+    graph = nx.DiGraph()
+    graph.add_node(
+        "n:auth",
+        label="verify_token()",
+        source_file="pkg/auth.py",
+    )
+    cfg = IntelligenceConfig(enable_ai_driven_seeds=True, enable_lexical_seeds=False)
+    m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
+    rc = build_run_context(graph, m, repo_root=None, config=cfg)
+    candidates, _, _ = identify_candidates(
+        graph,
+        run_context=rc,
+        config=cfg,
+        mode=AnalysisMode.full_repo_scan,
+    )
+    assert any(c.seed_type == SeedType.lexical_keyword for c in candidates)
 def test_candidate_identifier_keeps_file_only_diff_entries() -> None:
     graph = nx.DiGraph()
     config = IntelligenceConfig()
@@ -109,7 +126,7 @@ def test_candidate_identifier_prefers_synthetic_entities_over_leaf_nodes() -> No
         embedded_text="def verify_token():\n    return True",
     )
 
-    cfg = IntelligenceConfig(enable_ai_driven_seeds=True)
+    cfg = IntelligenceConfig(enable_lexical_seeds=True)
     m = resolve_change_manifest(graph, diff_path=None, manual_manifest=None, repo_root=None)
     rc = build_run_context(graph, m, repo_root=None, config=cfg)
     candidates, _, _ = identify_candidates(

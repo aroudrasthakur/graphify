@@ -8,7 +8,7 @@ from pathlib import Path
 
 
 def run_gate(args: Namespace) -> int:
-    from depos.output.gate import evaluate_gate, load_allowlist, load_violations_path
+    from depos.output.gate import evaluate_gate, load_allowlist, load_auto_suppress, load_violations_path
     from depos.output.gate_result import build_gate_result
 
     path = Path(args.violations)
@@ -24,7 +24,8 @@ def run_gate(args: Namespace) -> int:
             file=sys.stderr,
         )
         allow.update(str(x) for x in args.allow_finding_id if x)
-    fail, blocking = evaluate_gate(findings, allowlist=allow)
+    auto = load_auto_suppress(args.auto_suppress) if getattr(args, "auto_suppress", None) else set()
+    fail, blocking = evaluate_gate(findings, allowlist=allow, auto_suppress=auto or None)
     prod_block: bool | None = None
     prod_ids: list[str] = []
     summary_path = path.parent / "product_summary.json"
