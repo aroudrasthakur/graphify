@@ -1,0 +1,3631 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:12+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement:130",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call:129",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list:128",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:853:856:identifier:127",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:853:856:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:847:851:identifier:126",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:847:851:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:846:identifier:125",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:846:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition:124",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block:123",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement:122",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:827:832:identifier:121",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:827:832:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement:120",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block:119",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement:118",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call:117",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list:116",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call:115",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list:114",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument:113",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:809:812:identifier:112",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:809:812:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:808:identifier:111",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:808:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:799:803:identifier:110",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:799:803:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:791:797:identifier:109",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:791:797:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:784:789:identifier:108",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:784:789:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:783:identifier:107",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:783:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute:106",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:751:757:identifier:105",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:751:757:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:750:identifier:104",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:750:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call:103",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list:102",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:728:733:false:101",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:728:733:false",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string:100",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:725:726:string_end:99",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:725:726:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:703:725:string_content:98",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:703:725:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:703:string_start:97",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:703:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:694:700:identifier:96",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:694:700:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:693:identifier:95",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:693:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement:94",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment:93",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call:92",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list:91",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument:90",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:673:676:identifier:89",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:673:676:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:672:identifier:88",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:672:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:663:667:identifier:87",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:663:667:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:655:661:identifier:86",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:655:661:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:648:653:identifier:85",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:648:653:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:647:identifier:84",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:647:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:617:identifier:83",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:617:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters:82",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:601:604:identifier:81",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:601:604:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:593:599:identifier:80",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:593:599:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:587:591:identifier:79",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:587:591:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:577:585:identifier:78",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:577:585:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:570:575:identifier:77",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:570:575:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:566:569:identifier:76",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:566:569:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement:75",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment:74",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call:73",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list:72",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument:71",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:548:552:none:70",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:548:552:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:547:identifier:69",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:547:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument:68",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string:67",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:519:520:string_end:66",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:519:520:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:516:519:string_content:65",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:516:519:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:516:string_start:64",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:516:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:514:identifier:63",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:514:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument:62",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:495:499:true:61",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:495:499:true",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:494:identifier:60",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:494:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument:59",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list:58",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string:57",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:468:469:string_end:56",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:468:469:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:451:468:string_content:55",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:451:468:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:451:string_start:54",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:451:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:448:identifier:53",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:448:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument:52",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute:51",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:422:426:identifier:50",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:422:426:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:421:identifier:49",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:421:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:412:identifier:48",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:412:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument:47",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string:46",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:396:397:string_end:45",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:396:397:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:376:396:string_content:44",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:376:396:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:376:string_start:43",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:376:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:374:identifier:42",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:374:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:363:identifier:41",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:363:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:349:identifier:40",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:349:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement:39",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name:38",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:identifier:37",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name:36",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:316:323:identifier:35",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:316:323:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:307:315:identifier:34",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:307:315:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:306:identifier:33",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:306:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement:32",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name:31",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:identifier:30",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name:29",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:247:261:identifier:28",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:247:261:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:238:246:identifier:27",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:238:246:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:237:identifier:26",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:237:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement:25",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name:24",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:identifier:23",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name:22",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:200:206:identifier:21",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:200:206:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:192:199:identifier:20",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:192:199:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:182:191:identifier:19",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:182:191:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:173:181:identifier:18",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:173:181:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:172:identifier:17",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:172:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement:16",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name:15",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:identifier:14",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name:13",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:135:144:identifier:12",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:135:144:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:126:134:identifier:11",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:126:134:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:125:identifier:10",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:125:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement:9",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name:8",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:identifier:7",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:58:78:identifier:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:58:78:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:49:57:identifier:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:49:57:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:48:identifier:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:48:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:identifier:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:identifier",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:859:module",
+      "kind": "module",
+      "label": "from __future__ import annotations\r\n\r\nfrom depos.analysis.candidate_identifier import _lexical_keyword_candidates\r\nfrom depos.analysis.detectors import register\r\nfrom depos.analysis.detectors.builtin.common import simple_spec\r\nfrom depos.analysis.embedding_seed import embedding_seed_candidates\r\nfrom depos.analysis.schemas import Universe\r\n\r\n\r\nSPEC = simple_spec(\r\n    name=\"lexical-keyword-seed\",\r\n    universe=Universe.code,\r\n    verifier_checks=[\"graph_path_exists\"],\r\n    requires_reasoner=True,\r\n    severity=\"low\",\r\n    semantic_requirement=None,\r\n)\r\n\r\n\r\ndef run(graph, manifest, mode, config, ctx):\r\n    seeds = _lexical_keyword_candidates(graph, config, mode, ctx=ctx)\r\n    if getattr(config, \"enable_embedding_seeds\", False):\r\n        seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))\r\n    return seeds\r\n\r\n\r\nregister(SPEC, run)\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 28,
+          "column": 0,
+          "byte": 859
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement"
+      ],
+      "text_digest": "dd93646ea40947dd868abf6698b072026ff7a57f5f14bff2faf835c01d921ab8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:expression_statement",
+      "kind": "expression_statement",
+      "label": "register(SPEC, run)",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 838
+        },
+        "end": {
+          "line": 27,
+          "column": 19,
+          "byte": 857
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call"
+      ],
+      "text_digest": "99316cfb558f3ffc6a7bf5c06a664247d9774b694732d62f87fe5499c70792cd"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:857:call",
+      "kind": "call",
+      "label": "register(SPEC, run)",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 838
+        },
+        "end": {
+          "line": 27,
+          "column": 19,
+          "byte": 857
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:846:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list"
+      ],
+      "text_digest": "99316cfb558f3ffc6a7bf5c06a664247d9774b694732d62f87fe5499c70792cd"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:846:857:argument_list",
+      "kind": "argument_list",
+      "label": "(SPEC, run)",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 8,
+          "byte": 846
+        },
+        "end": {
+          "line": 27,
+          "column": 19,
+          "byte": 857
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:847:851:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:853:856:identifier"
+      ],
+      "text_digest": "730ec7b4e781b47228a491690a32eee8bef2a4898d93be6d0beeadce75459d49"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:853:856:identifier",
+      "kind": "identifier",
+      "label": "run",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 15,
+          "byte": 853
+        },
+        "end": {
+          "line": 27,
+          "column": 18,
+          "byte": 856
+        }
+      },
+      "children_ids": [],
+      "text_digest": "acba25512100f80b56fc3ccd14c65be55d94800cda77585c5f41a887e398f9be"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:847:851:identifier",
+      "kind": "identifier",
+      "label": "SPEC",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 9,
+          "byte": 847
+        },
+        "end": {
+          "line": 27,
+          "column": 13,
+          "byte": 851
+        }
+      },
+      "children_ids": [],
+      "text_digest": "662eb493ee9688b9fbb1408eb3234a60fc95d2de4f2a2bc1581c7ccb9af0502e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:838:846:identifier",
+      "kind": "identifier",
+      "label": "register",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 838
+        },
+        "end": {
+          "line": 27,
+          "column": 8,
+          "byte": 846
+        }
+      },
+      "children_ids": [],
+      "text_digest": "87780fa5de684e87cb92b279f0bc07b14f572851e73b8943a097c1770a5f38e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:562:832:function_definition",
+      "kind": "function_definition",
+      "label": "def run(graph, manifest, mode, config, ctx):\r\n    seeds = _lexical_keyword_candidates(graph, config, mode, ctx=ctx)\r\n    if getattr(config, \"enable_embedding_seeds\", False):\r\n        seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))\r\n    return seeds",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 0,
+          "byte": 562
+        },
+        "end": {
+          "line": 24,
+          "column": 16,
+          "byte": 832
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:566:569:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block"
+      ],
+      "text_digest": "32a5110a194af311194c97b207507c2efde84a84637b581764c4eb31b7383564"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:832:block",
+      "kind": "block",
+      "label": "seeds = _lexical_keyword_candidates(graph, config, mode, ctx=ctx)\r\n    if getattr(config, \"enable_embedding_seeds\", False):\r\n        seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))\r\n    return seeds",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 4,
+          "byte": 612
+        },
+        "end": {
+          "line": 24,
+          "column": 16,
+          "byte": 832
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement"
+      ],
+      "text_digest": "78e83c7b407681a3626e6aa85ac36150863478fad93e068a78c456a2e1f62560"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:820:832:return_statement",
+      "kind": "return_statement",
+      "label": "return seeds",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 820
+        },
+        "end": {
+          "line": 24,
+          "column": 16,
+          "byte": 832
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:827:832:identifier"
+      ],
+      "text_digest": "0978a95cb5fba7abd4595920bedfc0c71b1d7e42c3c30e7556187bc5e4f7d698"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:827:832:identifier",
+      "kind": "identifier",
+      "label": "seeds",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 11,
+          "byte": 827
+        },
+        "end": {
+          "line": 24,
+          "column": 16,
+          "byte": 832
+        }
+      },
+      "children_ids": [],
+      "text_digest": "449220523aecd374f3079dcf151ba784b5f29d435d2580d7d8e2af9e3150dfa1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:683:814:if_statement",
+      "kind": "if_statement",
+      "label": "if getattr(config, \"enable_embedding_seeds\", False):\r\n        seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 4,
+          "byte": 683
+        },
+        "end": {
+          "line": 23,
+          "column": 77,
+          "byte": 814
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block"
+      ],
+      "text_digest": "5c2ee37457da855d76bb71a74ffe5f69a93a76921396c41c70b0dce8f0cc6d94"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:block",
+      "kind": "block",
+      "label": "seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 745
+        },
+        "end": {
+          "line": 23,
+          "column": 77,
+          "byte": 814
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement"
+      ],
+      "text_digest": "3f6ca7f9a9dc84ec25350575a5a4961eee13105c02952f01f98ed9cff9aa393b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:expression_statement",
+      "kind": "expression_statement",
+      "label": "seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 745
+        },
+        "end": {
+          "line": 23,
+          "column": 77,
+          "byte": 814
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call"
+      ],
+      "text_digest": "3f6ca7f9a9dc84ec25350575a5a4961eee13105c02952f01f98ed9cff9aa393b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:814:call",
+      "kind": "call",
+      "label": "seeds.extend(embedding_seed_candidates(graph, config, mode, ctx=ctx))",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 745
+        },
+        "end": {
+          "line": 23,
+          "column": 77,
+          "byte": 814
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list"
+      ],
+      "text_digest": "3f6ca7f9a9dc84ec25350575a5a4961eee13105c02952f01f98ed9cff9aa393b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:757:814:argument_list",
+      "kind": "argument_list",
+      "label": "(embedding_seed_candidates(graph, config, mode, ctx=ctx))",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 20,
+          "byte": 757
+        },
+        "end": {
+          "line": 23,
+          "column": 77,
+          "byte": 814
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call"
+      ],
+      "text_digest": "e425986c5f484f64fc067b2b5cb376ec554b8464e5b192ac8533a1bba7a46657"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:813:call",
+      "kind": "call",
+      "label": "embedding_seed_candidates(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 21,
+          "byte": 758
+        },
+        "end": {
+          "line": 23,
+          "column": 76,
+          "byte": 813
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:783:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list"
+      ],
+      "text_digest": "2eadc337b1145dcc30bf23990e4343c5d856717bb19ccc9583acd25da76c90b2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:783:813:argument_list",
+      "kind": "argument_list",
+      "label": "(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 46,
+          "byte": 783
+        },
+        "end": {
+          "line": 23,
+          "column": 76,
+          "byte": 813
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:784:789:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:791:797:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:799:803:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument"
+      ],
+      "text_digest": "ae8e26579869fe104e1e20d874d8286d08139d05f7f06b5ee4f7f4de9338c443"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:812:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "ctx=ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 68,
+          "byte": 805
+        },
+        "end": {
+          "line": 23,
+          "column": 75,
+          "byte": 812
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:808:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:809:812:identifier"
+      ],
+      "text_digest": "c93667f5349e52de315e1a8d21cd01081f4a4aa89c6c2fd9712a6d63eaed6097"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:809:812:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 72,
+          "byte": 809
+        },
+        "end": {
+          "line": 23,
+          "column": 75,
+          "byte": 812
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:805:808:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 68,
+          "byte": 805
+        },
+        "end": {
+          "line": 23,
+          "column": 71,
+          "byte": 808
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:799:803:identifier",
+      "kind": "identifier",
+      "label": "mode",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 62,
+          "byte": 799
+        },
+        "end": {
+          "line": 23,
+          "column": 66,
+          "byte": 803
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e642b12901a6ee51456f654c48cd0aa6e90afd64e035afbc97cfc542209c70f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:791:797:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 54,
+          "byte": 791
+        },
+        "end": {
+          "line": 23,
+          "column": 60,
+          "byte": 797
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:784:789:identifier",
+      "kind": "identifier",
+      "label": "graph",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 47,
+          "byte": 784
+        },
+        "end": {
+          "line": 23,
+          "column": 52,
+          "byte": 789
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eef93e1d14482804277fca0172464032d1a4fdbcc338524059fa1e861454ad4d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:758:783:identifier",
+      "kind": "identifier",
+      "label": "embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 21,
+          "byte": 758
+        },
+        "end": {
+          "line": 23,
+          "column": 46,
+          "byte": 783
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e781fc054cd3c23e19b9c8547f12cb7844a8484fc9eb21e50fdf3c2b4e7226ef"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:757:attribute",
+      "kind": "attribute",
+      "label": "seeds.extend",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 745
+        },
+        "end": {
+          "line": 23,
+          "column": 20,
+          "byte": 757
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:750:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:751:757:identifier"
+      ],
+      "text_digest": "f684eeb26e0fb0c0fc435a9f6786908fcdc923232e90341f91b5d55f1a9c3ee0"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:751:757:identifier",
+      "kind": "identifier",
+      "label": "extend",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 14,
+          "byte": 751
+        },
+        "end": {
+          "line": 23,
+          "column": 20,
+          "byte": 757
+        }
+      },
+      "children_ids": [],
+      "text_digest": "bf0bb4ee60e2cd5a1a5283c4858448a1b5582e8d1a14955a6ea3df5ca66d3820"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:745:750:identifier",
+      "kind": "identifier",
+      "label": "seeds",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 745
+        },
+        "end": {
+          "line": 23,
+          "column": 13,
+          "byte": 750
+        }
+      },
+      "children_ids": [],
+      "text_digest": "449220523aecd374f3079dcf151ba784b5f29d435d2580d7d8e2af9e3150dfa1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:734:call",
+      "kind": "call",
+      "label": "getattr(config, \"enable_embedding_seeds\", False)",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 7,
+          "byte": 686
+        },
+        "end": {
+          "line": 22,
+          "column": 55,
+          "byte": 734
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:693:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list"
+      ],
+      "text_digest": "ec08f780cf650a18f6c366e668e296e757d006f5e08b0bd920bd22c5bbef9258"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:693:734:argument_list",
+      "kind": "argument_list",
+      "label": "(config, \"enable_embedding_seeds\", False)",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 14,
+          "byte": 693
+        },
+        "end": {
+          "line": 22,
+          "column": 55,
+          "byte": 734
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:694:700:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:728:733:false"
+      ],
+      "text_digest": "a4a2764d9afcda086057a43b001b9c4cd72d5e095092128406a6ab9097d1c5dd"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:728:733:false",
+      "kind": "false",
+      "label": "False",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 49,
+          "byte": 728
+        },
+        "end": {
+          "line": 22,
+          "column": 54,
+          "byte": 733
+        }
+      },
+      "children_ids": [],
+      "text_digest": "60a33e6cf5151f2d52eddae9685cfa270426aa89d8dbc7dfb854606f1d1a40fe"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:726:string",
+      "kind": "string",
+      "label": "\"enable_embedding_seeds\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 23,
+          "byte": 702
+        },
+        "end": {
+          "line": 22,
+          "column": 47,
+          "byte": 726
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:703:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:703:725:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:725:726:string_end"
+      ],
+      "text_digest": "650d86ee18be56a177b273396389ffb30c617f25ed69cd82263bce2e41f8d5ad"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:725:726:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 46,
+          "byte": 725
+        },
+        "end": {
+          "line": 22,
+          "column": 47,
+          "byte": 726
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:703:725:string_content",
+      "kind": "string_content",
+      "label": "enable_embedding_seeds",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 24,
+          "byte": 703
+        },
+        "end": {
+          "line": 22,
+          "column": 46,
+          "byte": 725
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3f587ffcd0992094ce97f5df07631c127ee4129b115c1e206345a31fc9199982"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:702:703:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 23,
+          "byte": 702
+        },
+        "end": {
+          "line": 22,
+          "column": 24,
+          "byte": 703
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:694:700:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 15,
+          "byte": 694
+        },
+        "end": {
+          "line": 22,
+          "column": 21,
+          "byte": 700
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:686:693:identifier",
+      "kind": "identifier",
+      "label": "getattr",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 7,
+          "byte": 686
+        },
+        "end": {
+          "line": 22,
+          "column": 14,
+          "byte": 693
+        }
+      },
+      "children_ids": [],
+      "text_digest": "7c40dc7dfb0d02b59c857553bd7b9c1a1a25be1b2e187b08a11b83d3ee89991f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:expression_statement",
+      "kind": "expression_statement",
+      "label": "seeds = _lexical_keyword_candidates(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 4,
+          "byte": 612
+        },
+        "end": {
+          "line": 21,
+          "column": 69,
+          "byte": 677
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment"
+      ],
+      "text_digest": "cd4f5f30511dac03b7bce68da675b5a71f7c2d76e1afff3a9a6db99749f52024"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:677:assignment",
+      "kind": "assignment",
+      "label": "seeds = _lexical_keyword_candidates(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 4,
+          "byte": 612
+        },
+        "end": {
+          "line": 21,
+          "column": 69,
+          "byte": 677
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:617:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call"
+      ],
+      "text_digest": "cd4f5f30511dac03b7bce68da675b5a71f7c2d76e1afff3a9a6db99749f52024"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:677:call",
+      "kind": "call",
+      "label": "_lexical_keyword_candidates(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 12,
+          "byte": 620
+        },
+        "end": {
+          "line": 21,
+          "column": 69,
+          "byte": 677
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:647:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list"
+      ],
+      "text_digest": "fba952fa5d70d57ec404ddcabaa5a3d656721bd82e150bab5e6a6f6a5218bab5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:647:677:argument_list",
+      "kind": "argument_list",
+      "label": "(graph, config, mode, ctx=ctx)",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 39,
+          "byte": 647
+        },
+        "end": {
+          "line": 21,
+          "column": 69,
+          "byte": 677
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:648:653:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:655:661:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:663:667:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument"
+      ],
+      "text_digest": "ae8e26579869fe104e1e20d874d8286d08139d05f7f06b5ee4f7f4de9338c443"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:676:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "ctx=ctx",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 61,
+          "byte": 669
+        },
+        "end": {
+          "line": 21,
+          "column": 68,
+          "byte": 676
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:672:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:673:676:identifier"
+      ],
+      "text_digest": "c93667f5349e52de315e1a8d21cd01081f4a4aa89c6c2fd9712a6d63eaed6097"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:673:676:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 65,
+          "byte": 673
+        },
+        "end": {
+          "line": 21,
+          "column": 68,
+          "byte": 676
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:669:672:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 61,
+          "byte": 669
+        },
+        "end": {
+          "line": 21,
+          "column": 64,
+          "byte": 672
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:663:667:identifier",
+      "kind": "identifier",
+      "label": "mode",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 55,
+          "byte": 663
+        },
+        "end": {
+          "line": 21,
+          "column": 59,
+          "byte": 667
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e642b12901a6ee51456f654c48cd0aa6e90afd64e035afbc97cfc542209c70f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:655:661:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 47,
+          "byte": 655
+        },
+        "end": {
+          "line": 21,
+          "column": 53,
+          "byte": 661
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:648:653:identifier",
+      "kind": "identifier",
+      "label": "graph",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 40,
+          "byte": 648
+        },
+        "end": {
+          "line": 21,
+          "column": 45,
+          "byte": 653
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eef93e1d14482804277fca0172464032d1a4fdbcc338524059fa1e861454ad4d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:620:647:identifier",
+      "kind": "identifier",
+      "label": "_lexical_keyword_candidates",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 12,
+          "byte": 620
+        },
+        "end": {
+          "line": 21,
+          "column": 39,
+          "byte": 647
+        }
+      },
+      "children_ids": [],
+      "text_digest": "19b02ff9dd12cd545fbf44b163a4511ff3fa5bf3c570093fa9650fbb144bc09a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:612:617:identifier",
+      "kind": "identifier",
+      "label": "seeds",
+      "span": {
+        "start": {
+          "line": 21,
+          "column": 4,
+          "byte": 612
+        },
+        "end": {
+          "line": 21,
+          "column": 9,
+          "byte": 617
+        }
+      },
+      "children_ids": [],
+      "text_digest": "449220523aecd374f3079dcf151ba784b5f29d435d2580d7d8e2af9e3150dfa1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:569:605:parameters",
+      "kind": "parameters",
+      "label": "(graph, manifest, mode, config, ctx)",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 7,
+          "byte": 569
+        },
+        "end": {
+          "line": 20,
+          "column": 43,
+          "byte": 605
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:570:575:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:577:585:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:587:591:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:593:599:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:601:604:identifier"
+      ],
+      "text_digest": "3506ead17937f003072588534157ba56cd764d784a4c4c8f29f911be18750d67"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:601:604:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 39,
+          "byte": 601
+        },
+        "end": {
+          "line": 20,
+          "column": 42,
+          "byte": 604
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:593:599:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 31,
+          "byte": 593
+        },
+        "end": {
+          "line": 20,
+          "column": 37,
+          "byte": 599
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:587:591:identifier",
+      "kind": "identifier",
+      "label": "mode",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 25,
+          "byte": 587
+        },
+        "end": {
+          "line": 20,
+          "column": 29,
+          "byte": 591
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e642b12901a6ee51456f654c48cd0aa6e90afd64e035afbc97cfc542209c70f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:577:585:identifier",
+      "kind": "identifier",
+      "label": "manifest",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 15,
+          "byte": 577
+        },
+        "end": {
+          "line": 20,
+          "column": 23,
+          "byte": 585
+        }
+      },
+      "children_ids": [],
+      "text_digest": "05b3abf2579a5eb66403cd78be557fd860633a1fe2103c7642030defe32c657f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:570:575:identifier",
+      "kind": "identifier",
+      "label": "graph",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 8,
+          "byte": 570
+        },
+        "end": {
+          "line": 20,
+          "column": 13,
+          "byte": 575
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eef93e1d14482804277fca0172464032d1a4fdbcc338524059fa1e861454ad4d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:566:569:identifier",
+      "kind": "identifier",
+      "label": "run",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 4,
+          "byte": 566
+        },
+        "end": {
+          "line": 20,
+          "column": 7,
+          "byte": 569
+        }
+      },
+      "children_ids": [],
+      "text_digest": "acba25512100f80b56fc3ccd14c65be55d94800cda77585c5f41a887e398f9be"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:expression_statement",
+      "kind": "expression_statement",
+      "label": "SPEC = simple_spec(\r\n    name=\"lexical-keyword-seed\",\r\n    universe=Universe.code,\r\n    verifier_checks=[\"graph_path_exists\"],\r\n    requires_reasoner=True,\r\n    severity=\"low\",\r\n    semantic_requirement=None,\r\n)",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 0,
+          "byte": 345
+        },
+        "end": {
+          "line": 17,
+          "column": 1,
+          "byte": 556
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment"
+      ],
+      "text_digest": "cdfaa7fcb2701bb6ccebc8ffe855d44557c525443fff2e1192c750531e776457"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:556:assignment",
+      "kind": "assignment",
+      "label": "SPEC = simple_spec(\r\n    name=\"lexical-keyword-seed\",\r\n    universe=Universe.code,\r\n    verifier_checks=[\"graph_path_exists\"],\r\n    requires_reasoner=True,\r\n    severity=\"low\",\r\n    semantic_requirement=None,\r\n)",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 0,
+          "byte": 345
+        },
+        "end": {
+          "line": 17,
+          "column": 1,
+          "byte": 556
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:349:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call"
+      ],
+      "text_digest": "cdfaa7fcb2701bb6ccebc8ffe855d44557c525443fff2e1192c750531e776457"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:556:call",
+      "kind": "call",
+      "label": "simple_spec(\r\n    name=\"lexical-keyword-seed\",\r\n    universe=Universe.code,\r\n    verifier_checks=[\"graph_path_exists\"],\r\n    requires_reasoner=True,\r\n    severity=\"low\",\r\n    semantic_requirement=None,\r\n)",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 7,
+          "byte": 352
+        },
+        "end": {
+          "line": 17,
+          "column": 1,
+          "byte": 556
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:363:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list"
+      ],
+      "text_digest": "64ad1a20590947b89112d0fb9f8a716305d2da2fcc93a84a31a51f7b90c3a29f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:363:556:argument_list",
+      "kind": "argument_list",
+      "label": "(\r\n    name=\"lexical-keyword-seed\",\r\n    universe=Universe.code,\r\n    verifier_checks=[\"graph_path_exists\"],\r\n    requires_reasoner=True,\r\n    severity=\"low\",\r\n    semantic_requirement=None,\r\n)",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 18,
+          "byte": 363
+        },
+        "end": {
+          "line": 17,
+          "column": 1,
+          "byte": 556
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument"
+      ],
+      "text_digest": "50554eca09c3b52ad423de3d78fab49629544fc9d78cec3a868fa98f3c4e7a64"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:552:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "semantic_requirement=None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 4,
+          "byte": 527
+        },
+        "end": {
+          "line": 16,
+          "column": 29,
+          "byte": 552
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:547:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:548:552:none"
+      ],
+      "text_digest": "43ee60d3f3564584e7df012d0baefc127c48c638b9287e58542894cf572ae830"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:548:552:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 25,
+          "byte": 548
+        },
+        "end": {
+          "line": 16,
+          "column": 29,
+          "byte": 552
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:527:547:identifier",
+      "kind": "identifier",
+      "label": "semantic_requirement",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 4,
+          "byte": 527
+        },
+        "end": {
+          "line": 16,
+          "column": 24,
+          "byte": 547
+        }
+      },
+      "children_ids": [],
+      "text_digest": "163e90d86e88ec7ea09c146e18374595c644cbaf7d081b22b4227d8673ba3261"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:520:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "severity=\"low\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 4,
+          "byte": 506
+        },
+        "end": {
+          "line": 15,
+          "column": 18,
+          "byte": 520
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:514:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string"
+      ],
+      "text_digest": "9972a5aa1f67ecc3b2a488a795512710ad2be49859dc0662313240a4e081136e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:520:string",
+      "kind": "string",
+      "label": "\"low\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 13,
+          "byte": 515
+        },
+        "end": {
+          "line": 15,
+          "column": 18,
+          "byte": 520
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:516:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:516:519:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:519:520:string_end"
+      ],
+      "text_digest": "364bb7082249ee9fbc5247ee49735c4246f271b82c2745a35107ddda0d7cabcc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:519:520:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 17,
+          "byte": 519
+        },
+        "end": {
+          "line": 15,
+          "column": 18,
+          "byte": 520
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:516:519:string_content",
+      "kind": "string_content",
+      "label": "low",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 14,
+          "byte": 516
+        },
+        "end": {
+          "line": 15,
+          "column": 17,
+          "byte": 519
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6c1ff09db3a73dc4a854f695d20d174a848d55f2d743bab2ee1f8fc75be454f3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:515:516:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 13,
+          "byte": 515
+        },
+        "end": {
+          "line": 15,
+          "column": 14,
+          "byte": 516
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:506:514:identifier",
+      "kind": "identifier",
+      "label": "severity",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 4,
+          "byte": 506
+        },
+        "end": {
+          "line": 15,
+          "column": 12,
+          "byte": 514
+        }
+      },
+      "children_ids": [],
+      "text_digest": "c98f54e5559a95688749d3ef00290e170ce24acae94f29671dfc0a23ba8a6840"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:499:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "requires_reasoner=True",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 477
+        },
+        "end": {
+          "line": 14,
+          "column": 26,
+          "byte": 499
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:494:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:495:499:true"
+      ],
+      "text_digest": "38545cc5377860d18bd67d090e3ffcace961296c1cb5f803932755be1515d1f6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:495:499:true",
+      "kind": "true",
+      "label": "True",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 22,
+          "byte": 495
+        },
+        "end": {
+          "line": 14,
+          "column": 26,
+          "byte": 499
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3cbc87c7681f34db4617feaa2c8801931bc5e42d8d0f560e756dd4cd92885f18"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:477:494:identifier",
+      "kind": "identifier",
+      "label": "requires_reasoner",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 477
+        },
+        "end": {
+          "line": 14,
+          "column": 21,
+          "byte": 494
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b1485d121ac69538ed12225e8120cec83fe78f8fb3a73f8b492550dbd5aeef41"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:470:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "verifier_checks=[\"graph_path_exists\"]",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 433
+        },
+        "end": {
+          "line": 13,
+          "column": 41,
+          "byte": 470
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:448:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list"
+      ],
+      "text_digest": "fbb67b2834ff486f392e6740e21e5c969d203a61519fa8c6f0b835831a8766c6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:449:470:list",
+      "kind": "list",
+      "label": "[\"graph_path_exists\"]",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 20,
+          "byte": 449
+        },
+        "end": {
+          "line": 13,
+          "column": 41,
+          "byte": 470
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string"
+      ],
+      "text_digest": "db807f40588e6ae5c8b4c61ed0a5d15a93512fa33f2fc1e902604638ded1615f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:469:string",
+      "kind": "string",
+      "label": "\"graph_path_exists\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 21,
+          "byte": 450
+        },
+        "end": {
+          "line": 13,
+          "column": 40,
+          "byte": 469
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:451:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:451:468:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:468:469:string_end"
+      ],
+      "text_digest": "d31768fdf214de79fa58605cef4b774a6490c316e383a739f9190b8ce05126fe"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:468:469:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 39,
+          "byte": 468
+        },
+        "end": {
+          "line": 13,
+          "column": 40,
+          "byte": 469
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:451:468:string_content",
+      "kind": "string_content",
+      "label": "graph_path_exists",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 22,
+          "byte": 451
+        },
+        "end": {
+          "line": 13,
+          "column": 39,
+          "byte": 468
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8646bdccce3bfc0ceaf8459b4b7056f924c0400c3b0fff92550285e1ed4ead6c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:450:451:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 21,
+          "byte": 450
+        },
+        "end": {
+          "line": 13,
+          "column": 22,
+          "byte": 451
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:433:448:identifier",
+      "kind": "identifier",
+      "label": "verifier_checks",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 433
+        },
+        "end": {
+          "line": 13,
+          "column": 19,
+          "byte": 448
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d97d3fd4b8094bd86c278398ea45abd5f1cd844e153f416f3786d70e82c9d061"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:426:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "universe=Universe.code",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 404
+        },
+        "end": {
+          "line": 12,
+          "column": 26,
+          "byte": 426
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:412:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute"
+      ],
+      "text_digest": "1633d551b8fb39875ce3dd755762b840759ea7b6cfefbbb0c0ddb7591a168889"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:426:attribute",
+      "kind": "attribute",
+      "label": "Universe.code",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 13,
+          "byte": 413
+        },
+        "end": {
+          "line": 12,
+          "column": 26,
+          "byte": 426
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:421:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:422:426:identifier"
+      ],
+      "text_digest": "b9a0f682cd73194ebdaa51225774db40ca5d6a91a001f6e07d915d505d39f888"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:422:426:identifier",
+      "kind": "identifier",
+      "label": "code",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 22,
+          "byte": 422
+        },
+        "end": {
+          "line": 12,
+          "column": 26,
+          "byte": 426
+        }
+      },
+      "children_ids": [],
+      "text_digest": "5694d08a2e53ffcae0c3103e5ad6f6076abd960eb1f8a56577040bc1028f702b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:413:421:identifier",
+      "kind": "identifier",
+      "label": "Universe",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 13,
+          "byte": 413
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 421
+        }
+      },
+      "children_ids": [],
+      "text_digest": "7572e44117a876b863567c5fda3c6208185cb7fff886cfc20f7d54e781d23018"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:404:412:identifier",
+      "kind": "identifier",
+      "label": "universe",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 404
+        },
+        "end": {
+          "line": 12,
+          "column": 12,
+          "byte": 412
+        }
+      },
+      "children_ids": [],
+      "text_digest": "327a7380d2cc7cf09ed5820e1ecdb8abe585d696b5b5526986dfebe70acec59e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:397:keyword_argument",
+      "kind": "keyword_argument",
+      "label": "name=\"lexical-keyword-seed\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 370
+        },
+        "end": {
+          "line": 11,
+          "column": 31,
+          "byte": 397
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:374:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string"
+      ],
+      "text_digest": "355176752d4e640e65f058b91fe236ead52db6bcf1be2998d1af4b50a4eb4c9a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:397:string",
+      "kind": "string",
+      "label": "\"lexical-keyword-seed\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 9,
+          "byte": 375
+        },
+        "end": {
+          "line": 11,
+          "column": 31,
+          "byte": 397
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:376:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:376:396:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:396:397:string_end"
+      ],
+      "text_digest": "7dd6e79f695b17cd51f2b5d512251389c5b26354ae51386a245d06cab9c4dc26"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:396:397:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 30,
+          "byte": 396
+        },
+        "end": {
+          "line": 11,
+          "column": 31,
+          "byte": 397
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:376:396:string_content",
+      "kind": "string_content",
+      "label": "lexical-keyword-seed",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 10,
+          "byte": 376
+        },
+        "end": {
+          "line": 11,
+          "column": 30,
+          "byte": 396
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a800c3d1beeca4ce38131f3cf898b843a32bfcc8048ea18cfe4a93b3e5025e7b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:375:376:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 9,
+          "byte": 375
+        },
+        "end": {
+          "line": 11,
+          "column": 10,
+          "byte": 376
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:370:374:identifier",
+      "kind": "identifier",
+      "label": "name",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 370
+        },
+        "end": {
+          "line": 11,
+          "column": 8,
+          "byte": 374
+        }
+      },
+      "children_ids": [],
+      "text_digest": "82a3537ff0dbce7eec35d69edc3a189ee6f17d82f353a553f9aa96cb0be3ce89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:352:363:identifier",
+      "kind": "identifier",
+      "label": "simple_spec",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 7,
+          "byte": 352
+        },
+        "end": {
+          "line": 10,
+          "column": 18,
+          "byte": 363
+        }
+      },
+      "children_ids": [],
+      "text_digest": "04aec657f173f053639decc37722ace42de1be53a9126d9e2815e050bba28248"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:345:349:identifier",
+      "kind": "identifier",
+      "label": "SPEC",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 0,
+          "byte": 345
+        },
+        "end": {
+          "line": 10,
+          "column": 4,
+          "byte": 349
+        }
+      },
+      "children_ids": [],
+      "text_digest": "662eb493ee9688b9fbb1408eb3234a60fc95d2de4f2a2bc1581c7ccb9af0502e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:296:339:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.schemas import Universe",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 296
+        },
+        "end": {
+          "line": 7,
+          "column": 43,
+          "byte": 339
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name"
+      ],
+      "text_digest": "e6b7457476bb269ed382def154b0c52428a06628ea0cce3b17fc21b2d3d36142"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:dotted_name",
+      "kind": "dotted_name",
+      "label": "Universe",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 35,
+          "byte": 331
+        },
+        "end": {
+          "line": 7,
+          "column": 43,
+          "byte": 339
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:identifier"
+      ],
+      "text_digest": "7572e44117a876b863567c5fda3c6208185cb7fff886cfc20f7d54e781d23018"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:331:339:identifier",
+      "kind": "identifier",
+      "label": "Universe",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 35,
+          "byte": 331
+        },
+        "end": {
+          "line": 7,
+          "column": 43,
+          "byte": 339
+        }
+      },
+      "children_ids": [],
+      "text_digest": "7572e44117a876b863567c5fda3c6208185cb7fff886cfc20f7d54e781d23018"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:323:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.schemas",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 5,
+          "byte": 301
+        },
+        "end": {
+          "line": 7,
+          "column": 27,
+          "byte": 323
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:306:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:307:315:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:316:323:identifier"
+      ],
+      "text_digest": "83dda8964529fcb1c0521d3e9022d7a9ca311a2bab7243860b0dc048b66f4984"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:316:323:identifier",
+      "kind": "identifier",
+      "label": "schemas",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 20,
+          "byte": 316
+        },
+        "end": {
+          "line": 7,
+          "column": 27,
+          "byte": 323
+        }
+      },
+      "children_ids": [],
+      "text_digest": "fd70ea1de98fdcb2297b4acb430bea8b510db6e8d90f629aaf1c1bbb45709c0e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:307:315:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 11,
+          "byte": 307
+        },
+        "end": {
+          "line": 7,
+          "column": 19,
+          "byte": 315
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:301:306:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 5,
+          "byte": 301
+        },
+        "end": {
+          "line": 7,
+          "column": 10,
+          "byte": 306
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:227:294:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.embedding_seed import embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 0,
+          "byte": 227
+        },
+        "end": {
+          "line": 6,
+          "column": 67,
+          "byte": 294
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name"
+      ],
+      "text_digest": "00ea7948c803c135517d5a9744825225fe91a5365fdaab7093d95ecc3b6138c5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:dotted_name",
+      "kind": "dotted_name",
+      "label": "embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 42,
+          "byte": 269
+        },
+        "end": {
+          "line": 6,
+          "column": 67,
+          "byte": 294
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:identifier"
+      ],
+      "text_digest": "e781fc054cd3c23e19b9c8547f12cb7844a8484fc9eb21e50fdf3c2b4e7226ef"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:269:294:identifier",
+      "kind": "identifier",
+      "label": "embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 42,
+          "byte": 269
+        },
+        "end": {
+          "line": 6,
+          "column": 67,
+          "byte": 294
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e781fc054cd3c23e19b9c8547f12cb7844a8484fc9eb21e50fdf3c2b4e7226ef"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:261:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.embedding_seed",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 232
+        },
+        "end": {
+          "line": 6,
+          "column": 34,
+          "byte": 261
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:237:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:238:246:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:247:261:identifier"
+      ],
+      "text_digest": "c409af672d01d9b86e51074974794f52f31197230c9242da2abbe7f164ab0af2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:247:261:identifier",
+      "kind": "identifier",
+      "label": "embedding_seed",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 20,
+          "byte": 247
+        },
+        "end": {
+          "line": 6,
+          "column": 34,
+          "byte": 261
+        }
+      },
+      "children_ids": [],
+      "text_digest": "cedbc00a85c5b1b06de1f336f8557208c1a6340d334b9b86351a5a1360e8fdac"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:238:246:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 11,
+          "byte": 238
+        },
+        "end": {
+          "line": 6,
+          "column": 19,
+          "byte": 246
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:232:237:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 232
+        },
+        "end": {
+          "line": 6,
+          "column": 10,
+          "byte": 237
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:162:225:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.detectors.builtin.common import simple_spec",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 0,
+          "byte": 162
+        },
+        "end": {
+          "line": 5,
+          "column": 63,
+          "byte": 225
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name"
+      ],
+      "text_digest": "4660958d82ff9cfecf057d341a28530734504bd7d1709f9a55e96b329ec01c21"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:dotted_name",
+      "kind": "dotted_name",
+      "label": "simple_spec",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 52,
+          "byte": 214
+        },
+        "end": {
+          "line": 5,
+          "column": 63,
+          "byte": 225
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:identifier"
+      ],
+      "text_digest": "04aec657f173f053639decc37722ace42de1be53a9126d9e2815e050bba28248"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:214:225:identifier",
+      "kind": "identifier",
+      "label": "simple_spec",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 52,
+          "byte": 214
+        },
+        "end": {
+          "line": 5,
+          "column": 63,
+          "byte": 225
+        }
+      },
+      "children_ids": [],
+      "text_digest": "04aec657f173f053639decc37722ace42de1be53a9126d9e2815e050bba28248"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:206:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.detectors.builtin.common",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 5,
+          "byte": 167
+        },
+        "end": {
+          "line": 5,
+          "column": 44,
+          "byte": 206
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:172:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:173:181:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:182:191:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:192:199:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:200:206:identifier"
+      ],
+      "text_digest": "cbb105d4892c449c0541178bcd744d435261052040ce3b3b4575ad469f38bd99"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:200:206:identifier",
+      "kind": "identifier",
+      "label": "common",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 38,
+          "byte": 200
+        },
+        "end": {
+          "line": 5,
+          "column": 44,
+          "byte": 206
+        }
+      },
+      "children_ids": [],
+      "text_digest": "92a5dc04bd6f9fb8f29f8066fed8a5c1e81bc59ad48a11283b63736867e4f2a8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:192:199:identifier",
+      "kind": "identifier",
+      "label": "builtin",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 30,
+          "byte": 192
+        },
+        "end": {
+          "line": 5,
+          "column": 37,
+          "byte": 199
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2f0177192e8bdee58fd3d5e4479c148d52b55d3f0205f5d9b17973aa261277c2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:182:191:identifier",
+      "kind": "identifier",
+      "label": "detectors",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 20,
+          "byte": 182
+        },
+        "end": {
+          "line": 5,
+          "column": 29,
+          "byte": 191
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ad57286bc3d8b36d1221ec2fd3b9c81beb7f9c8f6b40ba5dd448afc4305e78bc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:173:181:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 11,
+          "byte": 173
+        },
+        "end": {
+          "line": 5,
+          "column": 19,
+          "byte": 181
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:167:172:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 5,
+          "byte": 167
+        },
+        "end": {
+          "line": 5,
+          "column": 10,
+          "byte": 172
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:115:160:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.detectors import register",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 115
+        },
+        "end": {
+          "line": 4,
+          "column": 45,
+          "byte": 160
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name"
+      ],
+      "text_digest": "c4d95f65c0076e72013e32e78bddfa68c97f6104d1648722dce860191b53cfda"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:dotted_name",
+      "kind": "dotted_name",
+      "label": "register",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 37,
+          "byte": 152
+        },
+        "end": {
+          "line": 4,
+          "column": 45,
+          "byte": 160
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:identifier"
+      ],
+      "text_digest": "87780fa5de684e87cb92b279f0bc07b14f572851e73b8943a097c1770a5f38e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:152:160:identifier",
+      "kind": "identifier",
+      "label": "register",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 37,
+          "byte": 152
+        },
+        "end": {
+          "line": 4,
+          "column": 45,
+          "byte": 160
+        }
+      },
+      "children_ids": [],
+      "text_digest": "87780fa5de684e87cb92b279f0bc07b14f572851e73b8943a097c1770a5f38e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:144:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.detectors",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 120
+        },
+        "end": {
+          "line": 4,
+          "column": 29,
+          "byte": 144
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:125:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:126:134:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:135:144:identifier"
+      ],
+      "text_digest": "c25650054520dd26ee767714066334cb008a10410ac345cce46cfbb329f15736"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:135:144:identifier",
+      "kind": "identifier",
+      "label": "detectors",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 20,
+          "byte": 135
+        },
+        "end": {
+          "line": 4,
+          "column": 29,
+          "byte": 144
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ad57286bc3d8b36d1221ec2fd3b9c81beb7f9c8f6b40ba5dd448afc4305e78bc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:126:134:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 11,
+          "byte": 126
+        },
+        "end": {
+          "line": 4,
+          "column": 19,
+          "byte": 134
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:120:125:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 120
+        },
+        "end": {
+          "line": 4,
+          "column": 10,
+          "byte": 125
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:38:113:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.candidate_identifier import _lexical_keyword_candidates",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 0,
+          "byte": 38
+        },
+        "end": {
+          "line": 3,
+          "column": 75,
+          "byte": 113
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name"
+      ],
+      "text_digest": "296a74f63b84147eca8961d206e19eacd596558a94b016ce3e6484c694bc70d9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:dotted_name",
+      "kind": "dotted_name",
+      "label": "_lexical_keyword_candidates",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 48,
+          "byte": 86
+        },
+        "end": {
+          "line": 3,
+          "column": 75,
+          "byte": 113
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:identifier"
+      ],
+      "text_digest": "19b02ff9dd12cd545fbf44b163a4511ff3fa5bf3c570093fa9650fbb144bc09a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:86:113:identifier",
+      "kind": "identifier",
+      "label": "_lexical_keyword_candidates",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 48,
+          "byte": 86
+        },
+        "end": {
+          "line": 3,
+          "column": 75,
+          "byte": 113
+        }
+      },
+      "children_ids": [],
+      "text_digest": "19b02ff9dd12cd545fbf44b163a4511ff3fa5bf3c570093fa9650fbb144bc09a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:78:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.candidate_identifier",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 5,
+          "byte": 43
+        },
+        "end": {
+          "line": 3,
+          "column": 40,
+          "byte": 78
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:48:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:49:57:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:58:78:identifier"
+      ],
+      "text_digest": "5f171bca693cc86af80d9fa50dd8d0ab535ca0554f17fcdb7b519c51bf3b5ad8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:58:78:identifier",
+      "kind": "identifier",
+      "label": "candidate_identifier",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 20,
+          "byte": 58
+        },
+        "end": {
+          "line": 3,
+          "column": 40,
+          "byte": 78
+        }
+      },
+      "children_ids": [],
+      "text_digest": "332827a95b81300dab68e45af41fc89ad60bae83378a405baf07c3ea30915d86"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:49:57:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 11,
+          "byte": 49
+        },
+        "end": {
+          "line": 3,
+          "column": 19,
+          "byte": 57
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:43:48:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 5,
+          "byte": 43
+        },
+        "end": {
+          "line": 3,
+          "column": 10,
+          "byte": 48
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:0:34:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 23,
+          "byte": 23
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/detectors/builtin/lexical_keyword_seed.py:23:34:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 23,
+          "byte": 23
+        },
+        "end": {
+          "line": 1,
+          "column": 34,
+          "byte": 34
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "depos/analysis/detectors/builtin/lexical_keyword_seed.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

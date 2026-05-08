@@ -42,12 +42,15 @@ Repository = "https://github.com/safishamsi/graphify"
 Issues = "https://github.com/safishamsi/graphify/issues"
 
 [project.optional-dependencies]
+# depos: FastAPI stack + diskcache (required for Module 1 / Module 2 fragment cache).
+# perf: parallelism helpers, orjson/xxhash, rustworkx metrics, profilers — see docs/perf-acceleration.md
 depos = [
     "pydantic>=2.0",
     "httpx>=0.27",
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.30.0",
     "sqlalchemy>=2.0.0",
+    "diskcache>=5.6",
 ]
 supabase = [
     "supabase>=2.0",
@@ -92,6 +95,7 @@ all = [
     "fastapi>=0.115.0",
     "uvicorn[standard]>=0.30.0",
     "sqlalchemy>=2.0.0",
+    "diskcache>=5.6",
     "supabase>=2.0",
     "psycopg[binary]>=3.2",
     "python-jose[cryptography]>=3.3",

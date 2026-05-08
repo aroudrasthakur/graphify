@@ -128,9 +128,75 @@ def apply_cfg_dfg_scope_work(graph: nx.DiGraph, work: CfgDfgScopeWork) -> bool:
     return True
 
 
+def cfg_dfg_work_cache_payload(work: CfgDfgScopeWork) -> dict[str, Any]:
+    """JSON-serializable cache record for :class:`CfgDfgScopeWork`."""
+
+    payload: dict[str, Any] = {
+        "scope_id": work.scope_id,
+        "cfg_error": work.cfg_error,
+        "dfg_error": work.dfg_error,
+        "fragment": None,
+    }
+    frag = work.fragment
+    if frag is not None:
+        payload["fragment"] = {
+            "stage": frag.stage,
+            "source_file": frag.source_file,
+            "file_hash": frag.file_hash,
+            "language": frag.language,
+            "nodes": [{"id": n.node_id, "attrs": dict(n.attrs)} for n in frag.nodes],
+            "edges": [
+                {"u": e.u, "v": e.v, "key": e.key, "attrs": dict(e.attrs)} for e in frag.edges
+            ],
+        }
+    return payload
+
+
+def cfg_dfg_work_from_cache_payload(raw: dict[str, Any]) -> CfgDfgScopeWork | None:
+    """Restore :class:`CfgDfgScopeWork` from :func:`cfg_dfg_work_cache_payload` output."""
+
+    if not isinstance(raw, dict) or "scope_id" not in raw:
+        return None
+    scope_id = str(raw["scope_id"])
+    cfg_error = raw.get("cfg_error")
+    dfg_error = raw.get("dfg_error")
+    frag_in = raw.get("fragment")
+    if not frag_in:
+        return CfgDfgScopeWork(scope_id, cfg_error=cfg_error, dfg_error=dfg_error)
+    if not isinstance(frag_in, dict):
+        return None
+    try:
+        nodes = [
+            FragmentNode(str(n["id"]), dict(n["attrs"]))  # type: ignore[index]
+            for n in frag_in.get("nodes") or []
+        ]
+        edges = [
+            FragmentEdge(
+                str(e["u"]),  # type: ignore[index]
+                str(e["v"]),  # type: ignore[index]
+                e.get("key"),  # type: ignore[arg-type]
+                dict(e["attrs"]),  # type: ignore[index]
+            )
+            for e in frag_in.get("edges") or []
+        ]
+        frag = make_fragment(
+            str(frag_in.get("stage") or "semantic"),
+            source_file=frag_in.get("source_file"),
+            file_hash=frag_in.get("file_hash"),
+            language=frag_in.get("language"),
+            nodes=nodes,
+            edges=edges,
+        )
+    except (KeyError, TypeError, ValueError):
+        return None
+    return CfgDfgScopeWork(scope_id, fragment=frag, cfg_error=cfg_error, dfg_error=dfg_error)
+
+
 __all__ = [
     "CfgDfgScopeWork",
     "apply_cfg_dfg_scope_work",
+    "cfg_dfg_work_cache_payload",
+    "cfg_dfg_work_from_cache_payload",
     "compute_jsts_cfg_dfg_work",
     "compute_python_cfg_dfg_work",
     "nx_cfg_dfg_subgraph_to_fragment",

@@ -1,0 +1,1135 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:16+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement:39",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment:38",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list:37",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string:36",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:374:375:string_end:35",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:374:375:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:348:374:string_content:34",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:348:374:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:348:string_start:33",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:348:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string:32",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:344:345:string_end:31",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:344:345:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:321:344:string_content:30",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:321:344:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:321:string_start:29",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:321:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string:28",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:317:318:string_end:27",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:317:318:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:301:317:string_content:26",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:301:317:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:301:string_start:25",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:301:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:296:identifier:24",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:296:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement:23",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name:22",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:identifier:21",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name:20",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:253:261:identifier:19",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:253:261:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:238:252:identifier:18",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:238:252:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:237:identifier:17",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:237:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement:16",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name:15",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:identifier:14",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name:13",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:identifier:12",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name:11",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:151:166:identifier:10",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:151:166:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:136:150:identifier:9",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:136:150:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:135:identifier:8",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:135:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement:7",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:identifier:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:82:85:string_end:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:82:85:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:3:82:string_content:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:3:82:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:3:string_start:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:3:string_start",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:378:module",
+      "kind": "module",
+      "label": "\"\"\"Extractor entrypoints (rules_v0, oft_markdown_v0; llm_v0 in ``llm_v0`` module).\"\"\"\r\nfrom __future__ import annotations\r\n\r\nfrom depos.intent_context.oft_markdown_v0 import extract_oft_markdown_v0, oft_prompt_context_snippet\r\nfrom depos.intent_context.rules_v0 import extract_rules_v0\r\n\r\n__all__ = [\"extract_rules_v0\", \"extract_oft_markdown_v0\", \"oft_prompt_context_snippet\"]\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 8,
+          "column": 0,
+          "byte": 378
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement"
+      ],
+      "text_digest": "968c0573cacd2d1ac069e26bc5371d5ac10cb6e7994efd752b62e358b22111a4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:expression_statement",
+      "kind": "expression_statement",
+      "label": "__all__ = [\"extract_rules_v0\", \"extract_oft_markdown_v0\", \"oft_prompt_context_snippet\"]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 289
+        },
+        "end": {
+          "line": 7,
+          "column": 87,
+          "byte": 376
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment"
+      ],
+      "text_digest": "70916637c5feb5f4214c30ca4b0d8d49c41e6c32c2827dfad624021baae581fa"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:376:assignment",
+      "kind": "assignment",
+      "label": "__all__ = [\"extract_rules_v0\", \"extract_oft_markdown_v0\", \"oft_prompt_context_snippet\"]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 289
+        },
+        "end": {
+          "line": 7,
+          "column": 87,
+          "byte": 376
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:296:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list"
+      ],
+      "text_digest": "70916637c5feb5f4214c30ca4b0d8d49c41e6c32c2827dfad624021baae581fa"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:299:376:list",
+      "kind": "list",
+      "label": "[\"extract_rules_v0\", \"extract_oft_markdown_v0\", \"oft_prompt_context_snippet\"]",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 10,
+          "byte": 299
+        },
+        "end": {
+          "line": 7,
+          "column": 87,
+          "byte": 376
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string"
+      ],
+      "text_digest": "aff22398ed826f6be11ad6c0f74287de0aa7aa03e5a57dd0f2b4a47b989ec24c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:375:string",
+      "kind": "string",
+      "label": "\"oft_prompt_context_snippet\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 58,
+          "byte": 347
+        },
+        "end": {
+          "line": 7,
+          "column": 86,
+          "byte": 375
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:348:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:348:374:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:374:375:string_end"
+      ],
+      "text_digest": "bd052ac4f06c16107d2d86ab073a2135a9630463fed087ab6e83a49dbf3f3dba"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:374:375:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 85,
+          "byte": 374
+        },
+        "end": {
+          "line": 7,
+          "column": 86,
+          "byte": 375
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:348:374:string_content",
+      "kind": "string_content",
+      "label": "oft_prompt_context_snippet",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 59,
+          "byte": 348
+        },
+        "end": {
+          "line": 7,
+          "column": 85,
+          "byte": 374
+        }
+      },
+      "children_ids": [],
+      "text_digest": "aec31bffef2eb1daf7f88c43381d48c7905e7242c3b9cc4f8281d344326271f6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:347:348:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 58,
+          "byte": 347
+        },
+        "end": {
+          "line": 7,
+          "column": 59,
+          "byte": 348
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:345:string",
+      "kind": "string",
+      "label": "\"extract_oft_markdown_v0\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 31,
+          "byte": 320
+        },
+        "end": {
+          "line": 7,
+          "column": 56,
+          "byte": 345
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:321:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:321:344:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:344:345:string_end"
+      ],
+      "text_digest": "6b962fb2ccf5bf79bd71be5bedf08d33e83640c8a51051ac656c579fd1143f04"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:344:345:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 55,
+          "byte": 344
+        },
+        "end": {
+          "line": 7,
+          "column": 56,
+          "byte": 345
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:321:344:string_content",
+      "kind": "string_content",
+      "label": "extract_oft_markdown_v0",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 32,
+          "byte": 321
+        },
+        "end": {
+          "line": 7,
+          "column": 55,
+          "byte": 344
+        }
+      },
+      "children_ids": [],
+      "text_digest": "c09081e775531ec455f37bb4de305f66d80923fff3b757c22bc6b3f7981701b3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:320:321:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 31,
+          "byte": 320
+        },
+        "end": {
+          "line": 7,
+          "column": 32,
+          "byte": 321
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:318:string",
+      "kind": "string",
+      "label": "\"extract_rules_v0\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 11,
+          "byte": 300
+        },
+        "end": {
+          "line": 7,
+          "column": 29,
+          "byte": 318
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:301:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:301:317:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:317:318:string_end"
+      ],
+      "text_digest": "52a34c63ba4617df6077230e58a5c331057b669412761c96e61b82cfd023108f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:317:318:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 28,
+          "byte": 317
+        },
+        "end": {
+          "line": 7,
+          "column": 29,
+          "byte": 318
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:301:317:string_content",
+      "kind": "string_content",
+      "label": "extract_rules_v0",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 12,
+          "byte": 301
+        },
+        "end": {
+          "line": 7,
+          "column": 28,
+          "byte": 317
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a2c41343819f954c632904cf90b24e4670b2840a88cfa21fe7a63b106668ae55"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:300:301:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 11,
+          "byte": 300
+        },
+        "end": {
+          "line": 7,
+          "column": 12,
+          "byte": 301
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:289:296:identifier",
+      "kind": "identifier",
+      "label": "__all__",
+      "span": {
+        "start": {
+          "line": 7,
+          "column": 0,
+          "byte": 289
+        },
+        "end": {
+          "line": 7,
+          "column": 7,
+          "byte": 296
+        }
+      },
+      "children_ids": [],
+      "text_digest": "051af376199dec216b4807623fae755a2c013911d8219aa607787b17e3ed9cd7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:227:285:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.intent_context.rules_v0 import extract_rules_v0",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 0,
+          "byte": 227
+        },
+        "end": {
+          "line": 5,
+          "column": 58,
+          "byte": 285
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name"
+      ],
+      "text_digest": "e420f96edb81b628ddabb238fe4ba4d61b6cfe562fb5222c7915f39a2701263e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:dotted_name",
+      "kind": "dotted_name",
+      "label": "extract_rules_v0",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 42,
+          "byte": 269
+        },
+        "end": {
+          "line": 5,
+          "column": 58,
+          "byte": 285
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:identifier"
+      ],
+      "text_digest": "a2c41343819f954c632904cf90b24e4670b2840a88cfa21fe7a63b106668ae55"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:269:285:identifier",
+      "kind": "identifier",
+      "label": "extract_rules_v0",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 42,
+          "byte": 269
+        },
+        "end": {
+          "line": 5,
+          "column": 58,
+          "byte": 285
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a2c41343819f954c632904cf90b24e4670b2840a88cfa21fe7a63b106668ae55"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:261:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.intent_context.rules_v0",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 5,
+          "byte": 232
+        },
+        "end": {
+          "line": 5,
+          "column": 34,
+          "byte": 261
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:237:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:238:252:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:253:261:identifier"
+      ],
+      "text_digest": "1fc28f828bdc1a092bb825c4a141d87c30bc6f31713e1be43d646f0320cd5a36"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:253:261:identifier",
+      "kind": "identifier",
+      "label": "rules_v0",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 26,
+          "byte": 253
+        },
+        "end": {
+          "line": 5,
+          "column": 34,
+          "byte": 261
+        }
+      },
+      "children_ids": [],
+      "text_digest": "60237fced4c9c7f5de923c3519fefb02acd8f569e645b118144173f85ad668db"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:238:252:identifier",
+      "kind": "identifier",
+      "label": "intent_context",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 11,
+          "byte": 238
+        },
+        "end": {
+          "line": 5,
+          "column": 25,
+          "byte": 252
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ee2cc273f4e6b5ae70d83a3d3722e8acece99f087133d4d2bdc0e8c0f8b566fe"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:232:237:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 5,
+          "column": 5,
+          "byte": 232
+        },
+        "end": {
+          "line": 5,
+          "column": 10,
+          "byte": 237
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:125:225:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.intent_context.oft_markdown_v0 import extract_oft_markdown_v0, oft_prompt_context_snippet",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 125
+        },
+        "end": {
+          "line": 4,
+          "column": 100,
+          "byte": 225
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name"
+      ],
+      "text_digest": "b385438320a6ada39870683a9059c7c056f7a48743951102f5fdcfc17c775138"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:dotted_name",
+      "kind": "dotted_name",
+      "label": "oft_prompt_context_snippet",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 74,
+          "byte": 199
+        },
+        "end": {
+          "line": 4,
+          "column": 100,
+          "byte": 225
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:identifier"
+      ],
+      "text_digest": "aec31bffef2eb1daf7f88c43381d48c7905e7242c3b9cc4f8281d344326271f6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:199:225:identifier",
+      "kind": "identifier",
+      "label": "oft_prompt_context_snippet",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 74,
+          "byte": 199
+        },
+        "end": {
+          "line": 4,
+          "column": 100,
+          "byte": 225
+        }
+      },
+      "children_ids": [],
+      "text_digest": "aec31bffef2eb1daf7f88c43381d48c7905e7242c3b9cc4f8281d344326271f6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:dotted_name",
+      "kind": "dotted_name",
+      "label": "extract_oft_markdown_v0",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 49,
+          "byte": 174
+        },
+        "end": {
+          "line": 4,
+          "column": 72,
+          "byte": 197
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:identifier"
+      ],
+      "text_digest": "c09081e775531ec455f37bb4de305f66d80923fff3b757c22bc6b3f7981701b3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:174:197:identifier",
+      "kind": "identifier",
+      "label": "extract_oft_markdown_v0",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 49,
+          "byte": 174
+        },
+        "end": {
+          "line": 4,
+          "column": 72,
+          "byte": 197
+        }
+      },
+      "children_ids": [],
+      "text_digest": "c09081e775531ec455f37bb4de305f66d80923fff3b757c22bc6b3f7981701b3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:166:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.intent_context.oft_markdown_v0",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 130
+        },
+        "end": {
+          "line": 4,
+          "column": 41,
+          "byte": 166
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:135:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:136:150:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:151:166:identifier"
+      ],
+      "text_digest": "3a60a0a9a0f92b3857397a1001b3653b5c81b9c5732bbdd08676c94526bbb454"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:151:166:identifier",
+      "kind": "identifier",
+      "label": "oft_markdown_v0",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 26,
+          "byte": 151
+        },
+        "end": {
+          "line": 4,
+          "column": 41,
+          "byte": 166
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3a670037791de174a96b5036bd6a2ea8c3c68d2857c81410af1aceba46738d61"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:136:150:identifier",
+      "kind": "identifier",
+      "label": "intent_context",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 11,
+          "byte": 136
+        },
+        "end": {
+          "line": 4,
+          "column": 25,
+          "byte": 150
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ee2cc273f4e6b5ae70d83a3d3722e8acece99f087133d4d2bdc0e8c0f8b566fe"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:130:135:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 130
+        },
+        "end": {
+          "line": 4,
+          "column": 10,
+          "byte": 135
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:87:121:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 87
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 121
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 110
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 121
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:110:121:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 110
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 121
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Extractor entrypoints (rules_v0, oft_markdown_v0; llm_v0 in ``llm_v0`` module).\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 85,
+          "byte": 85
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string"
+      ],
+      "text_digest": "8b8af8edc6ceeed6d00a260cf73e93624f0031e28b7fcc26f81443fbc859ccc8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:85:string",
+      "kind": "string",
+      "label": "\"\"\"Extractor entrypoints (rules_v0, oft_markdown_v0; llm_v0 in ``llm_v0`` module).\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 85,
+          "byte": 85
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:3:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:3:82:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:82:85:string_end"
+      ],
+      "text_digest": "8b8af8edc6ceeed6d00a260cf73e93624f0031e28b7fcc26f81443fbc859ccc8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:82:85:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 82,
+          "byte": 82
+        },
+        "end": {
+          "line": 1,
+          "column": 85,
+          "byte": 85
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:3:82:string_content",
+      "kind": "string_content",
+      "label": "Extractor entrypoints (rules_v0, oft_markdown_v0; llm_v0 in ``llm_v0`` module).",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        },
+        "end": {
+          "line": 1,
+          "column": 82,
+          "byte": 82
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3f954dc8f3b11575bc9408596447f0678a9e570ab891c841b4d1df6c072b2a86"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/intent_context/extract.py:0:3:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "depos/intent_context/extract.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

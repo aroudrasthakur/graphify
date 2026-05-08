@@ -53,6 +53,10 @@ supabase db reset    # applies migrations + seed.sql
 
 Copy the printed anon and service-role keys into the repo-root `.env`.
 
+### Python backend (FastAPI / workers)
+
+From the repository root, install **`depos`** + **`supabase`** extras (see [docs/development.md](../docs/development.md) or `requirements-dev.txt`), then run `depos-api` or your worker entrypoint.
+
 ## Environment variables
 
 Backend (`.env`):

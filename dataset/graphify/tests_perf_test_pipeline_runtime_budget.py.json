@@ -1,0 +1,1935 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:33+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition:68",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block:67",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement:66",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string:65",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:422:423:string_end:64",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:422:423:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:387:422:string_content:63",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:387:422:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:387:string_start:62",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:387:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator:61",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:381:384:float:60",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:381:384:float",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:378:identifier:59",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:378:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement:58",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment:57",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator:56",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:356:358:identifier:55",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:356:358:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call:54",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:351:353:argument_list:53",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:351:353:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute:52",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:339:351:identifier:51",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:339:351:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:338:identifier:50",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:338:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:331:identifier:49",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:331:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement:48",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call:47",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list:46",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:316:317:identifier:45",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:316:317:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set:44",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:312:313:integer:43",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:312:313:integer",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:309:310:integer:42",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:309:310:integer",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:306:307:integer:41",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:306:307:integer",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:304:identifier:40",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:304:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement:39",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment:38",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call:37",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list:36",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call:35",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list:34",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:277:280:integer:33",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:277:280:integer",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:276:identifier:32",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:276:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:270:identifier:31",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:270:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:264:identifier:30",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:264:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement:29",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment:28",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call:27",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:255:257:argument_list:26",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:255:257:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute:25",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:243:255:identifier:24",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:243:255:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:242:identifier:23",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:242:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:235:identifier:22",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:235:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type:21",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:none:20",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:216:218:parameters:19",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:216:218:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:183:216:identifier:18",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:183:216:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement:17",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name:16",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:identifier:15",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name:14",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:142:149:identifier:13",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:142:149:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:137:141:identifier:12",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:137:141:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:136:identifier:11",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:136:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement:10",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name:9",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:identifier:8",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement:7",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:identifier:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:68:71:string_end:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:68:71:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:3:68:string_content:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:3:68:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:3:string_start:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:3:string_start",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:425:module",
+      "kind": "module",
+      "label": "\"\"\"Smoke perf gate: trivial work completes within a generous budget.\"\"\"\r\nfrom __future__ import annotations\r\n\r\nimport time\r\n\r\nfrom depos.eval.metrics import precision_recall\r\n\r\n\r\ndef test_metrics_compute_under_budget() -> None:\r\n    t0 = time.perf_counter()\r\n    s = set(range(200))\r\n    precision_recall({1, 2, 3}, s)\r\n    elapsed = time.perf_counter() - t0\r\n    assert elapsed < 1.0, \"sanity budget for in-memory metrics\"\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 15,
+          "column": 0,
+          "byte": 425
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition"
+      ],
+      "text_digest": "5233f42bf90c14d2b1d1c3367e724b2c691e2d3b55d5c74b697683715391d06f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:179:423:function_definition",
+      "kind": "function_definition",
+      "label": "def test_metrics_compute_under_budget() -> None:\r\n    t0 = time.perf_counter()\r\n    s = set(range(200))\r\n    precision_recall({1, 2, 3}, s)\r\n    elapsed = time.perf_counter() - t0\r\n    assert elapsed < 1.0, \"sanity budget for in-memory metrics\"",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 0,
+          "byte": 179
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 423
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:183:216:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:216:218:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block"
+      ],
+      "text_digest": "44c537d3df2c2bb292b61a5b4684f07248ea4b8aa682a0ea25bd50b552de0cec"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:423:block",
+      "kind": "block",
+      "label": "t0 = time.perf_counter()\r\n    s = set(range(200))\r\n    precision_recall({1, 2, 3}, s)\r\n    elapsed = time.perf_counter() - t0\r\n    assert elapsed < 1.0, \"sanity budget for in-memory metrics\"",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 233
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 423
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement"
+      ],
+      "text_digest": "5bec1e612b7c0e4912e899b8017c589ff4f3a02d58850ada7e8daf78058d3a40"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:364:423:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert elapsed < 1.0, \"sanity budget for in-memory metrics\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 364
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 423
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string"
+      ],
+      "text_digest": "ddd0c8d8da5610f537bc7d325d1a5e398c961d794d7d8f22a4cb045ccf1cb9c6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:423:string",
+      "kind": "string",
+      "label": "\"sanity budget for in-memory metrics\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 26,
+          "byte": 386
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 423
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:387:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:387:422:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:422:423:string_end"
+      ],
+      "text_digest": "ce9bd61ea6f5ffd9e8dda7d95ec2507f79b88c0ac9e7a0c071bf862703ff4c5b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:422:423:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 62,
+          "byte": 422
+        },
+        "end": {
+          "line": 14,
+          "column": 63,
+          "byte": 423
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:387:422:string_content",
+      "kind": "string_content",
+      "label": "sanity budget for in-memory metrics",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 27,
+          "byte": 387
+        },
+        "end": {
+          "line": 14,
+          "column": 62,
+          "byte": 422
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e83a3492db7f8c98121d4bf77804c462da5a719a01177b8d027d8509fb8f688c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:386:387:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 26,
+          "byte": 386
+        },
+        "end": {
+          "line": 14,
+          "column": 27,
+          "byte": 387
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:384:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "elapsed < 1.0",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 11,
+          "byte": 371
+        },
+        "end": {
+          "line": 14,
+          "column": 24,
+          "byte": 384
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:378:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:381:384:float"
+      ],
+      "text_digest": "2a2d90761887e5b46accef61a52582377673819e30fe4fdf2e2f2acb840b5402"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:381:384:float",
+      "kind": "float",
+      "label": "1.0",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 21,
+          "byte": 381
+        },
+        "end": {
+          "line": 14,
+          "column": 24,
+          "byte": 384
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d0ff5974b6aa52cf562bea5921840c032a860a91a3512f7fe8f768f6bbe005f6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:371:378:identifier",
+      "kind": "identifier",
+      "label": "elapsed",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 11,
+          "byte": 371
+        },
+        "end": {
+          "line": 14,
+          "column": 18,
+          "byte": 378
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b712cf8eee5eda321308582cb5b9171da803a46b19fbc84e64eacbe62e138c15"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:expression_statement",
+      "kind": "expression_statement",
+      "label": "elapsed = time.perf_counter() - t0",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 324
+        },
+        "end": {
+          "line": 13,
+          "column": 38,
+          "byte": 358
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment"
+      ],
+      "text_digest": "9904627547b8996eaec9f1db0152bf2b60a6f87bf483f020b2b3ee0b9e191643"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:358:assignment",
+      "kind": "assignment",
+      "label": "elapsed = time.perf_counter() - t0",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 324
+        },
+        "end": {
+          "line": 13,
+          "column": 38,
+          "byte": 358
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:331:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator"
+      ],
+      "text_digest": "9904627547b8996eaec9f1db0152bf2b60a6f87bf483f020b2b3ee0b9e191643"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:358:binary_operator",
+      "kind": "binary_operator",
+      "label": "time.perf_counter() - t0",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 14,
+          "byte": 334
+        },
+        "end": {
+          "line": 13,
+          "column": 38,
+          "byte": 358
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:356:358:identifier"
+      ],
+      "text_digest": "05f4c74ff36d43e6b24c5bbc3be2d58f4ae07021e208fbb0386de2207f597a95"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:356:358:identifier",
+      "kind": "identifier",
+      "label": "t0",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 36,
+          "byte": 356
+        },
+        "end": {
+          "line": 13,
+          "column": 38,
+          "byte": 358
+        }
+      },
+      "children_ids": [],
+      "text_digest": "512f26ada3c3d634ac3c6b12b7b33cb50bb0963c3f6d9924241619c84ec78ff2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:353:call",
+      "kind": "call",
+      "label": "time.perf_counter()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 14,
+          "byte": 334
+        },
+        "end": {
+          "line": 13,
+          "column": 33,
+          "byte": 353
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:351:353:argument_list"
+      ],
+      "text_digest": "7a7cd448ba2c2ac8c3cd39e7208a97d5302924c04f8d5b1e99754b68d0b21a53"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:351:353:argument_list",
+      "kind": "argument_list",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 31,
+          "byte": 351
+        },
+        "end": {
+          "line": 13,
+          "column": 33,
+          "byte": 353
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:351:attribute",
+      "kind": "attribute",
+      "label": "time.perf_counter",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 14,
+          "byte": 334
+        },
+        "end": {
+          "line": 13,
+          "column": 31,
+          "byte": 351
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:338:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:339:351:identifier"
+      ],
+      "text_digest": "15eb1620bba131f32f319880274934a4dc9ff22c1ee2efb9560becd2e068a120"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:339:351:identifier",
+      "kind": "identifier",
+      "label": "perf_counter",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 19,
+          "byte": 339
+        },
+        "end": {
+          "line": 13,
+          "column": 31,
+          "byte": 351
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d3fe6c03873322ab9ab744538ff2eff7412de02de3cc0c67eca91bf1a4b6807a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:334:338:identifier",
+      "kind": "identifier",
+      "label": "time",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 14,
+          "byte": 334
+        },
+        "end": {
+          "line": 13,
+          "column": 18,
+          "byte": 338
+        }
+      },
+      "children_ids": [],
+      "text_digest": "336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:324:331:identifier",
+      "kind": "identifier",
+      "label": "elapsed",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 324
+        },
+        "end": {
+          "line": 13,
+          "column": 11,
+          "byte": 331
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b712cf8eee5eda321308582cb5b9171da803a46b19fbc84e64eacbe62e138c15"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:expression_statement",
+      "kind": "expression_statement",
+      "label": "precision_recall({1, 2, 3}, s)",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 288
+        },
+        "end": {
+          "line": 12,
+          "column": 34,
+          "byte": 318
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call"
+      ],
+      "text_digest": "7334b008a6f8c20ca7833a36b4402b6d922e04750ad31c5a0bb6c79f2a826a29"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:318:call",
+      "kind": "call",
+      "label": "precision_recall({1, 2, 3}, s)",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 288
+        },
+        "end": {
+          "line": 12,
+          "column": 34,
+          "byte": 318
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:304:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list"
+      ],
+      "text_digest": "7334b008a6f8c20ca7833a36b4402b6d922e04750ad31c5a0bb6c79f2a826a29"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:304:318:argument_list",
+      "kind": "argument_list",
+      "label": "({1, 2, 3}, s)",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 20,
+          "byte": 304
+        },
+        "end": {
+          "line": 12,
+          "column": 34,
+          "byte": 318
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:316:317:identifier"
+      ],
+      "text_digest": "da57e0794f813063e2abaf894f6c3d818e7a3aa036927446a1a81c9e79c1a7b7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:316:317:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 32,
+          "byte": 316
+        },
+        "end": {
+          "line": 12,
+          "column": 33,
+          "byte": 317
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:305:314:set",
+      "kind": "set",
+      "label": "{1, 2, 3}",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 21,
+          "byte": 305
+        },
+        "end": {
+          "line": 12,
+          "column": 30,
+          "byte": 314
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:306:307:integer",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:309:310:integer",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:312:313:integer"
+      ],
+      "text_digest": "8298d0492354e620262b63e1d84fb85e1b3d9df71672a4894441a5ee30b08c0c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:312:313:integer",
+      "kind": "integer",
+      "label": "3",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 28,
+          "byte": 312
+        },
+        "end": {
+          "line": 12,
+          "column": 29,
+          "byte": 313
+        }
+      },
+      "children_ids": [],
+      "text_digest": "4e07408562bedb8b60ce05c1decfe3ad16b72230967de01f640b7e4729b49fce"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:309:310:integer",
+      "kind": "integer",
+      "label": "2",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 25,
+          "byte": 309
+        },
+        "end": {
+          "line": 12,
+          "column": 26,
+          "byte": 310
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d4735e3a265e16eee03f59718b9b5d03019c07d8b6c51f90da3a666eec13ab35"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:306:307:integer",
+      "kind": "integer",
+      "label": "1",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 22,
+          "byte": 306
+        },
+        "end": {
+          "line": 12,
+          "column": 23,
+          "byte": 307
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:288:304:identifier",
+      "kind": "identifier",
+      "label": "precision_recall",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 288
+        },
+        "end": {
+          "line": 12,
+          "column": 20,
+          "byte": 304
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b9e6a2d68b5ab854ae0ff8939d4fc22401e2a3451d0e057cd8914af659b80a8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:expression_statement",
+      "kind": "expression_statement",
+      "label": "s = set(range(200))",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 263
+        },
+        "end": {
+          "line": 11,
+          "column": 23,
+          "byte": 282
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment"
+      ],
+      "text_digest": "98470bc34fcad894735d8bc5ed9a0b3b5216f8a07b5514467ae9b10b03536493"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:282:assignment",
+      "kind": "assignment",
+      "label": "s = set(range(200))",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 263
+        },
+        "end": {
+          "line": 11,
+          "column": 23,
+          "byte": 282
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:264:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call"
+      ],
+      "text_digest": "98470bc34fcad894735d8bc5ed9a0b3b5216f8a07b5514467ae9b10b03536493"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:282:call",
+      "kind": "call",
+      "label": "set(range(200))",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 8,
+          "byte": 267
+        },
+        "end": {
+          "line": 11,
+          "column": 23,
+          "byte": 282
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:270:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list"
+      ],
+      "text_digest": "1cf0f108b40530f10c90cc52098575cb21219acb5339ee62088768101a17d630"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:270:282:argument_list",
+      "kind": "argument_list",
+      "label": "(range(200))",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 11,
+          "byte": 270
+        },
+        "end": {
+          "line": 11,
+          "column": 23,
+          "byte": 282
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call"
+      ],
+      "text_digest": "92876dee98917062984bf245334640e47b4825caaab395ecb24286693823b28f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:281:call",
+      "kind": "call",
+      "label": "range(200)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 12,
+          "byte": 271
+        },
+        "end": {
+          "line": 11,
+          "column": 22,
+          "byte": 281
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:276:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list"
+      ],
+      "text_digest": "c307df4bcb29015f72f16ced4bf67d93d15446cdcbc555137aef3fd50050cfc8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:276:281:argument_list",
+      "kind": "argument_list",
+      "label": "(200)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 17,
+          "byte": 276
+        },
+        "end": {
+          "line": 11,
+          "column": 22,
+          "byte": 281
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:277:280:integer"
+      ],
+      "text_digest": "b528538798fdfb83ec25122fef0c4d2dd130e8454ceed1772241e4b4ccced4cc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:277:280:integer",
+      "kind": "integer",
+      "label": "200",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 18,
+          "byte": 277
+        },
+        "end": {
+          "line": 11,
+          "column": 21,
+          "byte": 280
+        }
+      },
+      "children_ids": [],
+      "text_digest": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:271:276:identifier",
+      "kind": "identifier",
+      "label": "range",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 12,
+          "byte": 271
+        },
+        "end": {
+          "line": 11,
+          "column": 17,
+          "byte": 276
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2269c0be009b610cfdbb8cfe9253ad37cf95062fb3f5a7560268ff259ea9f087"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:267:270:identifier",
+      "kind": "identifier",
+      "label": "set",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 8,
+          "byte": 267
+        },
+        "end": {
+          "line": 11,
+          "column": 11,
+          "byte": 270
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6ee0eb490ff832101cf82a3d387c35f29e4230be786978f7acf9e811febf6723"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:263:264:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 263
+        },
+        "end": {
+          "line": 11,
+          "column": 5,
+          "byte": 264
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:expression_statement",
+      "kind": "expression_statement",
+      "label": "t0 = time.perf_counter()",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 233
+        },
+        "end": {
+          "line": 10,
+          "column": 28,
+          "byte": 257
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment"
+      ],
+      "text_digest": "d50303296e759c9e929b13bf38954e8e19424f21a6b95c96fefa17f78973d989"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:257:assignment",
+      "kind": "assignment",
+      "label": "t0 = time.perf_counter()",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 233
+        },
+        "end": {
+          "line": 10,
+          "column": 28,
+          "byte": 257
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:235:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call"
+      ],
+      "text_digest": "d50303296e759c9e929b13bf38954e8e19424f21a6b95c96fefa17f78973d989"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:257:call",
+      "kind": "call",
+      "label": "time.perf_counter()",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 9,
+          "byte": 238
+        },
+        "end": {
+          "line": 10,
+          "column": 28,
+          "byte": 257
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:255:257:argument_list"
+      ],
+      "text_digest": "7a7cd448ba2c2ac8c3cd39e7208a97d5302924c04f8d5b1e99754b68d0b21a53"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:255:257:argument_list",
+      "kind": "argument_list",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 26,
+          "byte": 255
+        },
+        "end": {
+          "line": 10,
+          "column": 28,
+          "byte": 257
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:255:attribute",
+      "kind": "attribute",
+      "label": "time.perf_counter",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 9,
+          "byte": 238
+        },
+        "end": {
+          "line": 10,
+          "column": 26,
+          "byte": 255
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:242:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:243:255:identifier"
+      ],
+      "text_digest": "15eb1620bba131f32f319880274934a4dc9ff22c1ee2efb9560becd2e068a120"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:243:255:identifier",
+      "kind": "identifier",
+      "label": "perf_counter",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 14,
+          "byte": 243
+        },
+        "end": {
+          "line": 10,
+          "column": 26,
+          "byte": 255
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d3fe6c03873322ab9ab744538ff2eff7412de02de3cc0c67eca91bf1a4b6807a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:238:242:identifier",
+      "kind": "identifier",
+      "label": "time",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 9,
+          "byte": 238
+        },
+        "end": {
+          "line": 10,
+          "column": 13,
+          "byte": 242
+        }
+      },
+      "children_ids": [],
+      "text_digest": "336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:233:235:identifier",
+      "kind": "identifier",
+      "label": "t0",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 233
+        },
+        "end": {
+          "line": 10,
+          "column": 6,
+          "byte": 235
+        }
+      },
+      "children_ids": [],
+      "text_digest": "512f26ada3c3d634ac3c6b12b7b33cb50bb0963c3f6d9924241619c84ec78ff2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 43,
+          "byte": 222
+        },
+        "end": {
+          "line": 9,
+          "column": 47,
+          "byte": 226
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:222:226:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 43,
+          "byte": 222
+        },
+        "end": {
+          "line": 9,
+          "column": 47,
+          "byte": 226
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:216:218:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 37,
+          "byte": 216
+        },
+        "end": {
+          "line": 9,
+          "column": 39,
+          "byte": 218
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:183:216:identifier",
+      "kind": "identifier",
+      "label": "test_metrics_compute_under_budget",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 4,
+          "byte": 183
+        },
+        "end": {
+          "line": 9,
+          "column": 37,
+          "byte": 216
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f1701047c2cfc79f87a3902f266e53bec95a76f10d8a7c6a959928cefae2c49c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:126:173:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.eval.metrics import precision_recall",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 0,
+          "byte": 126
+        },
+        "end": {
+          "line": 6,
+          "column": 47,
+          "byte": 173
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name"
+      ],
+      "text_digest": "5bc7804061bbc48b93117cc2e5e7f484ed62c5a5c1e6d040aca96e2e94673325"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:dotted_name",
+      "kind": "dotted_name",
+      "label": "precision_recall",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 31,
+          "byte": 157
+        },
+        "end": {
+          "line": 6,
+          "column": 47,
+          "byte": 173
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:identifier"
+      ],
+      "text_digest": "2b9e6a2d68b5ab854ae0ff8939d4fc22401e2a3451d0e057cd8914af659b80a8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:157:173:identifier",
+      "kind": "identifier",
+      "label": "precision_recall",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 31,
+          "byte": 157
+        },
+        "end": {
+          "line": 6,
+          "column": 47,
+          "byte": 173
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b9e6a2d68b5ab854ae0ff8939d4fc22401e2a3451d0e057cd8914af659b80a8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:149:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.eval.metrics",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 131
+        },
+        "end": {
+          "line": 6,
+          "column": 23,
+          "byte": 149
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:136:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:137:141:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:142:149:identifier"
+      ],
+      "text_digest": "d59fad06f28bfedd947ce1b605bd6fa49358d3bacbfcf1099f5bafd1049713bc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:142:149:identifier",
+      "kind": "identifier",
+      "label": "metrics",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 16,
+          "byte": 142
+        },
+        "end": {
+          "line": 6,
+          "column": 23,
+          "byte": 149
+        }
+      },
+      "children_ids": [],
+      "text_digest": "177a7ea3611fe6b138557deaf44941614b66c0ece1766308044c8b65c8ba2123"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:137:141:identifier",
+      "kind": "identifier",
+      "label": "eval",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 11,
+          "byte": 137
+        },
+        "end": {
+          "line": 6,
+          "column": 15,
+          "byte": 141
+        }
+      },
+      "children_ids": [],
+      "text_digest": "1bbd174404efbce95f1af489ef93f4aa0f4d55718f24c3504682216afa7b7fb1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:131:136:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 131
+        },
+        "end": {
+          "line": 6,
+          "column": 10,
+          "byte": 136
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:111:122:import_statement",
+      "kind": "import_statement",
+      "label": "import time",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 111
+        },
+        "end": {
+          "line": 4,
+          "column": 11,
+          "byte": 122
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name"
+      ],
+      "text_digest": "4f9b8491ba4deee622e6c29ca383c71279fa604b7aff389b0bf5ba279f4453c3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:dotted_name",
+      "kind": "dotted_name",
+      "label": "time",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 118
+        },
+        "end": {
+          "line": 4,
+          "column": 11,
+          "byte": 122
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:identifier"
+      ],
+      "text_digest": "336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:118:122:identifier",
+      "kind": "identifier",
+      "label": "time",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 118
+        },
+        "end": {
+          "line": 4,
+          "column": 11,
+          "byte": 122
+        }
+      },
+      "children_ids": [],
+      "text_digest": "336074805fc853987abe6f7fe3ad97a6a6f3077a16391fec744f671a015fbd7e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:73:107:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 73
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 107
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 96
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 107
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:96:107:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 96
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 107
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Smoke perf gate: trivial work completes within a generous budget.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 71,
+          "byte": 71
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string"
+      ],
+      "text_digest": "40aed1befe4d24e258ce31cdac9033a09c9846981102f29d5713f93b7a67f6e5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:71:string",
+      "kind": "string",
+      "label": "\"\"\"Smoke perf gate: trivial work completes within a generous budget.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 71,
+          "byte": 71
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:3:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:3:68:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:68:71:string_end"
+      ],
+      "text_digest": "40aed1befe4d24e258ce31cdac9033a09c9846981102f29d5713f93b7a67f6e5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:68:71:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 68,
+          "byte": 68
+        },
+        "end": {
+          "line": 1,
+          "column": 71,
+          "byte": 71
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:3:68:string_content",
+      "kind": "string_content",
+      "label": "Smoke perf gate: trivial work completes within a generous budget.",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        },
+        "end": {
+          "line": 1,
+          "column": 68,
+          "byte": 68
+        }
+      },
+      "children_ids": [],
+      "text_digest": "c034886a91f19cc87d2da4bc41a1b177d49b621afa161986330b4538b2053e94"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/perf/test_pipeline_runtime_budget.py:0:3:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "tests/perf/test_pipeline_runtime_budget.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

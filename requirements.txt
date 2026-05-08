@@ -1,0 +1,6 @@
+# graphifyy — minimal editable install (graphify CLI + tree-sitter extractors only).
+# For depOS (API, intelligence CLI), use requirements-dev.txt or:
+#   pip install -e ".[depos]"
+#   pip install -e ".[depos,supabase,perf]"   # full local stack + perf extras
+
+-e .

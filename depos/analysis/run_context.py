@@ -120,6 +120,16 @@ def build_run_context(
     from depos.analysis.semantic_python import enrich_python_semantics
 
     perf_resolved = perf or load_perf_config_from_env()
+    fragment_cache: Any = None
+    if config is not None:
+        cache_cfg = getattr(config, "cache", None)
+        if cache_cfg is not None and getattr(cache_cfg, "enabled", False):
+            try:
+                from depos.cache import FragmentCache, resolve_cache_root
+
+                fragment_cache = FragmentCache(resolve_cache_root(config), enabled=True)
+            except Exception as exc:  # noqa: BLE001
+                logger.warning("depOS fragment cache unavailable for semantics: %s", exc)
     n_nodes = graph.number_of_nodes()
     n_edges = graph.number_of_edges()
     effective_expensive = bool(perf_resolved.graph_metrics_expensive)
@@ -156,10 +166,17 @@ def build_run_context(
         seam_edge_index=seam_index,
         perf=perf_resolved,
     )
-    enrich_python_semantics(graph, ctx, repo_root=repo_root)
-    enrich_jsts_semantics(graph, ctx, repo_root=repo_root)
+    enrich_python_semantics(graph, ctx, repo_root=repo_root, fragment_cache=fragment_cache)
+    enrich_jsts_semantics(graph, ctx, repo_root=repo_root, fragment_cache=fragment_cache)
     _sort_taint_edges_inplace(graph)
     ctx.indexes = build_graph_indexes(graph)
+    n_taint = len(graph.graph.get("taint_edges") or [])
+    logger.info(
+        "RunContext: graph summary after semantics nodes=%d edges=%d taint_edges=%d.",
+        graph.number_of_nodes(),
+        graph.number_of_edges(),
+        n_taint,
+    )
     return ctx
 
 

@@ -338,10 +338,32 @@ def _enrichment_n_jobs_from_args(args: Any) -> int:
     return max(1, int(getattr(args, "n_jobs", 1) or 1))
 
 
+def _apply_profile_preset_to_config(config: IntelligenceConfig, args: Any) -> IntelligenceConfig:
+    """Tune :class:`IntelligenceConfig` for ``--profile-preset`` (candidate budget, etc.)."""
+    preset = getattr(args, "profile_preset", None) or "custom"
+    if preset != "pr-fast":
+        return config
+    if getattr(args, "max_seeds", None) is not None:
+        return config
+    cap = 50
+    new_budget = config.candidates.model_copy(
+        update={"max_seeds": min(config.candidates.max_seeds, cap)}
+    )
+    return config.model_copy(update={"candidates": new_budget})
+
+
 def _perf_config_from_args(args: Any) -> Any:
     from depos.analysis.config import load_perf_config_from_env
 
     p = load_perf_config_from_env()
+    preset = getattr(args, "profile_preset", None) or "custom"
+    if preset == "pr-fast" and "DEPOS_PERF_GRAPH_METRICS_EXPENSIVE" not in os.environ:
+        p = p.model_copy(update={"graph_metrics_expensive": False})
+    elif preset == "nightly-deep":
+        if "DEPOS_PERF_GRAPH_METRICS_EXPENSIVE" not in os.environ:
+            p = p.model_copy(update={"graph_metrics_expensive": True})
+        if "DEPOS_PERF_METRICS_BACKEND" not in os.environ and getattr(args, "metrics_backend", None) is None:
+            p = p.model_copy(update={"metrics_backend": "rustworkx"})
     if getattr(args, "no_parallel", False):
         p = p.model_copy(
             update={"taint_n_jobs": 1, "bundle_n_jobs": 1, "cfg_dfg_n_jobs": 1}
@@ -430,11 +452,19 @@ def _write_violations(
         "ingest_reports": [report.model_dump(mode="json") for report in result.ingest_reports],
         "detector_stats": [stat.model_dump(mode="json") for stat in result.detector_stats],
         "findings": [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings],
-        "dep_summary": build_dep_summary(
-            [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings]
-        ),
     }
-    (out_dir / "violations.json").write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
+    dep_summary = build_dep_summary(
+        [f.model_dump(mode="json", include=_LEGACY_FINDING_FIELDS) for f in result.findings]
+    )
+    payload["dep_summary"] = dep_summary
+    (out_dir / "violations.json").write_text(
+        json.dumps(payload, indent=2, default=str),
+        encoding="utf-8",
+    )
+    (out_dir / "dep_report.json").write_text(
+        json.dumps(dep_summary, indent=2, default=str),
+        encoding="utf-8",
+    )
 
 
 def _maybe_write_product_outputs(
@@ -530,6 +560,7 @@ def run_repo(args) -> int:
         print(str(exc), file=sys.stderr)
         return 2
     config = load_config_from_env()
+    config = _apply_profile_preset_to_config(config, args)
     progress = _make_progress_reporter()
     _apply_cache_overrides(config, args, progress)
     _apply_provider_override(config, args)
@@ -589,6 +620,7 @@ def run_diff(args) -> int:
         print(str(exc), file=sys.stderr)
         return 2
     config = load_config_from_env()
+    config = _apply_profile_preset_to_config(config, args)
     progress = _make_progress_reporter()
     _apply_cache_overrides(config, args, progress)
     _apply_provider_override(config, args)
@@ -1032,6 +1064,7 @@ def run_bundle_pipeline(args) -> int:
 
 def run_dataset_pipeline(args) -> int:
     config = load_config_from_env()
+    config = _apply_profile_preset_to_config(config, args)
     progress = _make_progress_reporter()
     _apply_cache_overrides(config, args, progress)
     if getattr(args, "provider", None):

@@ -2,6 +2,17 @@
 
 This doc captures **large-graph** knobs that materially change Module 1–2 runtime.
 
+## Python packages
+
+Install the **`perf`** optional extra for the pieces this doc references: `joblib` (parallel Wave B enrichers), `orjson` / `xxhash` (cache JSON + hashing), `rustworkx` (optional betweenness backend), `pyinstrument` / `scalene` (profilers).
+
+```bash
+pip install -e ".[perf]"
+# typical: pip install -e ".[depos,perf]"   or   pip install -r requirements-dev.txt
+```
+
+The **`depos`** extra includes **`diskcache`**, which is required to enable the on-disk fragment cache; without it you must pass **`--no-cache`** or you will see a warning when the cache cannot open.
+
 ## Environment knobs
 
 | Variable | Effect |
@@ -18,6 +29,10 @@ This doc captures **large-graph** knobs that materially change Module 1–2 runt
 ## Module 1: `emit_env_edges` cache
 
 When caching is enabled, per-source-file env fragments are keyed by `build_enrichment_fragment_cache_key(..., stage="emit_env_edges", enricher_logic_version="env-v1")` so repeated scans skip re-reading unchanged files.
+
+## Module 2: CFG / DFG / taint (Phase 8) cache
+
+When :attr:`IntelligenceConfig.cache.enabled` is true, `build_run_context()` opens the same on-disk `FragmentCache` as Module 1. Per-function work is keyed via `build_semantic_function_cache_key`: **CFG+DFG** rows use `version_tuple=("cfg-dfg-v1",)`; **taint** rows add `("taint-v1", <fingerprint>)` where the fingerprint mixes incident seam edge ids and direct callers so cache hits stay valid when those graph-local inputs change.
 
 ## Benchmark snapshot (informal)
 

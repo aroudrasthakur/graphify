@@ -93,7 +93,7 @@ def build_run_manifest(
     """Assemble the manifest dict (not written to disk)."""
     ts = generated_at or datetime.now(timezone.utc).isoformat()
     meta = result.run_metadata
-    names = ["violations.json"]
+    names = ["violations.json", "dep_report.json"]
     if product_paths:
         for logical, p in product_paths.items():
             try:

@@ -1,0 +1,4050 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:33+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition:145",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block:144",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement:143",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator:142",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call:141",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list:140",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:748:749:identifier:139",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:748:749:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:747:identifier:138",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:747:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string:137",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:735:736:string_end:136",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:735:736:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:728:735:string_content:135",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:728:735:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:728:string_start:134",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:728:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement:133",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment:132",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call:131",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list:130",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:712:713:identifier:129",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:712:713:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:711:identifier:128",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:711:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:698:identifier:127",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:698:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement:126",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment:125",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary:124",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair:123",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary:122",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair:121",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string:120",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:688:689:string_end:119",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:688:689:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:671:688:string_content:118",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:671:688:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:671:string_start:117",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:671:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string:116",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:667:668:string_end:115",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:667:668:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:666:667:string_content:114",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:666:667:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:666:string_start:113",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:666:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string:112",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:661:662:string_end:111",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:661:662:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:660:661:string_content:110",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:660:661:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:660:string_start:109",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:660:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:655:identifier:108",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:655:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type:107",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:none:106",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:637:639:parameters:105",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:637:639:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:615:637:identifier:104",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:615:637:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition:103",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block:102",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement:101",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator:100",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:602:605:identifier:99",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:602:605:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string:98",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:597:598:string_end:97",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:597:598:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:589:597:string_content:96",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:589:597:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:589:string_start:95",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:589:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:551:576:comment:94",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:551:576:comment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement:93",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator:92",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call:91",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list:90",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string:89",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:547:548:string_end:88",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:547:548:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:547:string_start:87",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:547:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string:86",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:543:544:string_end:85",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:543:544:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:535:543:string_content:84",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:535:543:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:535:string_start:83",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:535:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute:82",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:526:533:identifier:81",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:526:533:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:525:identifier:80",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:525:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string:79",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:513:514:string_end:78",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:513:514:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:507:513:string_content:77",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:507:513:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:507:string_start:76",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:507:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement:75",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment:74",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call:73",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list:72",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:491:492:identifier:71",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:491:492:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:490:identifier:70",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:490:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:473:identifier:69",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:473:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement:68",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment:67",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string:66",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:463:464:string_end:65",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:463:464:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:428:463:string_content:64",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:428:463:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:428:string_start:63",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:428:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:424:identifier:62",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:424:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type:61",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:none:60",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:406:408:parameters:59",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:406:408:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:379:406:identifier:58",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:379:406:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition:57",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block:56",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement:55",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator:54",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call:53",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:367:369:argument_list:52",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:367:369:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute:51",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:362:367:identifier:50",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:362:367:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:361:identifier:49",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:361:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string:48",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:353:354:string_end:47",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:353:354:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:345:353:string_content:46",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:345:353:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:345:string_start:45",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:345:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement:44",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator:43",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:328:331:identifier:42",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:328:331:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string:41",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:319:320:string_end:40",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:319:320:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:305:319:string_content:39",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:305:319:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:305:string_start:38",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:305:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement:37",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment:36",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call:35",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list:34",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:289:290:identifier:33",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:289:290:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:288:identifier:32",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:288:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:271:identifier:31",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:271:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement:30",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment:29",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string:28",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:261:262:string_end:27",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:261:262:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:230:261:string_content:26",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:230:261:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:230:string_start:25",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:230:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:226:identifier:24",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:226:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type:23",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:none:22",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:208:210:parameters:21",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:208:210:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:178:208:identifier:20",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:178:208:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement:19",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name:18",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:identifier:17",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name:16",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:identifier:15",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name:14",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:125:134:identifier:13",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:125:134:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:118:124:identifier:12",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:118:124:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:117:identifier:11",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:117:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement:10",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name:9",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:identifier:8",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement:7",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:identifier:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:47:50:string_end:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:47:50:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:3:47:string_content:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:3:47:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:3:string_start:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:3:string_start",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:752:module",
+      "kind": "module",
+      "label": "\"\"\"Redaction helpers used across SARIF/exports.\"\"\"\r\nfrom __future__ import annotations\r\n\r\nimport pytest\r\n\r\nfrom depos.output.redaction import redact_obj, redact_secrets\r\n\r\n\r\ndef test_redact_api_key_assignment() -> None:\r\n    s = 'export API_KEY=\"supersecret123\"'\r\n    out = redact_secrets(s)\r\n    assert \"supersecret123\" not in out\r\n    assert \"redacted\" in out.lower()\r\n\r\n\r\ndef test_redact_sk_openai_style() -> None:\r\n    s = \"token sk-abcdefghijklmnopqrstuvwxyz\"\r\n    out = redact_secrets(s)\r\n    assert \"sk-ant\" not in out.replace(\"redacted\", \"\")  # pattern is sk- + alnum\r\n    assert \"redacted\" in out\r\n\r\n\r\ndef test_redact_obj_nested() -> None:\r\n    d = {\"a\": {\"b\": \"password: hunter2\"}}\r\n    o = redact_obj(d)\r\n    assert \"hunter2\" not in str(o)\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 27,
+          "column": 0,
+          "byte": 752
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition"
+      ],
+      "text_digest": "582541e00a2208e9e0fa0e94561e273dd485fd50452acdeb15f61b420eea8d62"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:611:750:function_definition",
+      "kind": "function_definition",
+      "label": "def test_redact_obj_nested() -> None:\r\n    d = {\"a\": {\"b\": \"password: hunter2\"}}\r\n    o = redact_obj(d)\r\n    assert \"hunter2\" not in str(o)",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 0,
+          "byte": 611
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:615:637:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:637:639:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block"
+      ],
+      "text_digest": "2704bf0009429b477dd0660e70c589ad89dd9eb52f73ca689eaac61cb5f81360"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:750:block",
+      "kind": "block",
+      "label": "d = {\"a\": {\"b\": \"password: hunter2\"}}\r\n    o = redact_obj(d)\r\n    assert \"hunter2\" not in str(o)",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 654
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement"
+      ],
+      "text_digest": "4e4f9ed499610fb9e95c9b6db888f0bc931850107926e096a9dcd0c9ecb2795d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:720:750:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert \"hunter2\" not in str(o)",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 4,
+          "byte": 720
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator"
+      ],
+      "text_digest": "81b51abe9e97168247f238f5991878eadfe4f0b7584bde6a8957e834458368bc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:750:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "\"hunter2\" not in str(o)",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 11,
+          "byte": 727
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call"
+      ],
+      "text_digest": "e6cb2d030e76cb5b3a829437314d623aab048fb84e6e10ff3fa245e44b6e96a3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:750:call",
+      "kind": "call",
+      "label": "str(o)",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 28,
+          "byte": 744
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:747:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list"
+      ],
+      "text_digest": "6ec6eed26b21e812f0bcb440e2d6b7bf36980d726e42be3fefcddd2ce3e35431"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:747:750:argument_list",
+      "kind": "argument_list",
+      "label": "(o)",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 31,
+          "byte": 747
+        },
+        "end": {
+          "line": 26,
+          "column": 34,
+          "byte": 750
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:748:749:identifier"
+      ],
+      "text_digest": "165922eedf4bbc13e1313aa29ec5ed48d26dfc7c2d5a77e57abe0618d1633ea6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:748:749:identifier",
+      "kind": "identifier",
+      "label": "o",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 32,
+          "byte": 748
+        },
+        "end": {
+          "line": 26,
+          "column": 33,
+          "byte": 749
+        }
+      },
+      "children_ids": [],
+      "text_digest": "65c74c15a686187bb6bbf9958f494fc6b80068034a659a9ad44991b08c58f2d2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:744:747:identifier",
+      "kind": "identifier",
+      "label": "str",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 28,
+          "byte": 744
+        },
+        "end": {
+          "line": 26,
+          "column": 31,
+          "byte": 747
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8c25cb3686462e9a86d2883c5688a22fe738b0bbc85f458d2d2b5f3f667c6d5a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:736:string",
+      "kind": "string",
+      "label": "\"hunter2\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 11,
+          "byte": 727
+        },
+        "end": {
+          "line": 26,
+          "column": 20,
+          "byte": 736
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:728:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:728:735:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:735:736:string_end"
+      ],
+      "text_digest": "4ddbb67bf993867e13253c146a339ed3b33ea5b895543569278e99d5b3c2b7d5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:735:736:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 19,
+          "byte": 735
+        },
+        "end": {
+          "line": 26,
+          "column": 20,
+          "byte": 736
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:728:735:string_content",
+      "kind": "string_content",
+      "label": "hunter2",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 12,
+          "byte": 728
+        },
+        "end": {
+          "line": 26,
+          "column": 19,
+          "byte": 735
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f52fbd32b2b3b86ff88ef6c490628285f482af15ddcb29541f94bcf526a3f6c7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:727:728:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 26,
+          "column": 11,
+          "byte": 727
+        },
+        "end": {
+          "line": 26,
+          "column": 12,
+          "byte": 728
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:expression_statement",
+      "kind": "expression_statement",
+      "label": "o = redact_obj(d)",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 4,
+          "byte": 697
+        },
+        "end": {
+          "line": 25,
+          "column": 21,
+          "byte": 714
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment"
+      ],
+      "text_digest": "222af718518d67e0648ce33f4dcd98d86adf2b26b6f0f1014ff99160dec360ed"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:714:assignment",
+      "kind": "assignment",
+      "label": "o = redact_obj(d)",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 4,
+          "byte": 697
+        },
+        "end": {
+          "line": 25,
+          "column": 21,
+          "byte": 714
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:698:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call"
+      ],
+      "text_digest": "222af718518d67e0648ce33f4dcd98d86adf2b26b6f0f1014ff99160dec360ed"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:714:call",
+      "kind": "call",
+      "label": "redact_obj(d)",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 8,
+          "byte": 701
+        },
+        "end": {
+          "line": 25,
+          "column": 21,
+          "byte": 714
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:711:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list"
+      ],
+      "text_digest": "7a4d3214ccb14d1948a15e2ea12bffa9989229b38edeb24f2255b5ff18517071"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:711:714:argument_list",
+      "kind": "argument_list",
+      "label": "(d)",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 18,
+          "byte": 711
+        },
+        "end": {
+          "line": 25,
+          "column": 21,
+          "byte": 714
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:712:713:identifier"
+      ],
+      "text_digest": "77cabbc309c46f7e2566a5f5f08dcedfa929a25a035379353cd33328580f940b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:712:713:identifier",
+      "kind": "identifier",
+      "label": "d",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 19,
+          "byte": 712
+        },
+        "end": {
+          "line": 25,
+          "column": 20,
+          "byte": 713
+        }
+      },
+      "children_ids": [],
+      "text_digest": "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:701:711:identifier",
+      "kind": "identifier",
+      "label": "redact_obj",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 8,
+          "byte": 701
+        },
+        "end": {
+          "line": 25,
+          "column": 18,
+          "byte": 711
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b19a770557f5e07cf4be57d97f1b862b1e2b78cc0cc4282e15915d92148e1e2c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:697:698:identifier",
+      "kind": "identifier",
+      "label": "o",
+      "span": {
+        "start": {
+          "line": 25,
+          "column": 4,
+          "byte": 697
+        },
+        "end": {
+          "line": 25,
+          "column": 5,
+          "byte": 698
+        }
+      },
+      "children_ids": [],
+      "text_digest": "65c74c15a686187bb6bbf9958f494fc6b80068034a659a9ad44991b08c58f2d2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:expression_statement",
+      "kind": "expression_statement",
+      "label": "d = {\"a\": {\"b\": \"password: hunter2\"}}",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 654
+        },
+        "end": {
+          "line": 24,
+          "column": 41,
+          "byte": 691
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment"
+      ],
+      "text_digest": "8dd012e303eb441d19290511d9fb9eb0c35b0c31d59e976f46a0e5c186bb0e30"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:691:assignment",
+      "kind": "assignment",
+      "label": "d = {\"a\": {\"b\": \"password: hunter2\"}}",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 654
+        },
+        "end": {
+          "line": 24,
+          "column": 41,
+          "byte": 691
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:655:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary"
+      ],
+      "text_digest": "8dd012e303eb441d19290511d9fb9eb0c35b0c31d59e976f46a0e5c186bb0e30"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:658:691:dictionary",
+      "kind": "dictionary",
+      "label": "{\"a\": {\"b\": \"password: hunter2\"}}",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 8,
+          "byte": 658
+        },
+        "end": {
+          "line": 24,
+          "column": 41,
+          "byte": 691
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair"
+      ],
+      "text_digest": "4963846e5bd09f2fe6b67626d7f914903b9be6e2308ac44f9da7cfb6500fc4f8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:690:pair",
+      "kind": "pair",
+      "label": "\"a\": {\"b\": \"password: hunter2\"}",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 9,
+          "byte": 659
+        },
+        "end": {
+          "line": 24,
+          "column": 40,
+          "byte": 690
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary"
+      ],
+      "text_digest": "77307fa8f85f77c38dd7ff3c90cbe0dfda88b97b4507bf84a942cd9c09594439"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:664:690:dictionary",
+      "kind": "dictionary",
+      "label": "{\"b\": \"password: hunter2\"}",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 14,
+          "byte": 664
+        },
+        "end": {
+          "line": 24,
+          "column": 40,
+          "byte": 690
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair"
+      ],
+      "text_digest": "ccd42befcd6f8ad5f0f2d733d6659594201da7b253218cacf124077ed3809f1a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:689:pair",
+      "kind": "pair",
+      "label": "\"b\": \"password: hunter2\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 15,
+          "byte": 665
+        },
+        "end": {
+          "line": 24,
+          "column": 39,
+          "byte": 689
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string"
+      ],
+      "text_digest": "71ed0668ce983b2033ae9ba11f39918070f4b8b1e52946de325d9926a11ff4ca"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:689:string",
+      "kind": "string",
+      "label": "\"password: hunter2\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 20,
+          "byte": 670
+        },
+        "end": {
+          "line": 24,
+          "column": 39,
+          "byte": 689
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:671:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:671:688:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:688:689:string_end"
+      ],
+      "text_digest": "9a6f626fdde4109aba7f87e756de40baf0ae9624bf6144522d64a2abfda6ca2d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:688:689:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 38,
+          "byte": 688
+        },
+        "end": {
+          "line": 24,
+          "column": 39,
+          "byte": 689
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:671:688:string_content",
+      "kind": "string_content",
+      "label": "password: hunter2",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 21,
+          "byte": 671
+        },
+        "end": {
+          "line": 24,
+          "column": 38,
+          "byte": 688
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f8a178e0213a2d96850911cb2b43af702e04548f1dc8c0a210d79003f470d551"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:670:671:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 20,
+          "byte": 670
+        },
+        "end": {
+          "line": 24,
+          "column": 21,
+          "byte": 671
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:668:string",
+      "kind": "string",
+      "label": "\"b\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 15,
+          "byte": 665
+        },
+        "end": {
+          "line": 24,
+          "column": 18,
+          "byte": 668
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:666:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:666:667:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:667:668:string_end"
+      ],
+      "text_digest": "c100f95c1913f9c72fc1f4ef0847e1e723ffe0bde0b36e5f36c13f81fe8c26ed"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:667:668:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 17,
+          "byte": 667
+        },
+        "end": {
+          "line": 24,
+          "column": 18,
+          "byte": 668
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:666:667:string_content",
+      "kind": "string_content",
+      "label": "b",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 16,
+          "byte": 666
+        },
+        "end": {
+          "line": 24,
+          "column": 17,
+          "byte": 667
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3e23e8160039594a33894f6564e1b1348bbd7a0088d42c4acb73eeaed59c009d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:665:666:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 15,
+          "byte": 665
+        },
+        "end": {
+          "line": 24,
+          "column": 16,
+          "byte": 666
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:662:string",
+      "kind": "string",
+      "label": "\"a\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 9,
+          "byte": 659
+        },
+        "end": {
+          "line": 24,
+          "column": 12,
+          "byte": 662
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:660:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:660:661:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:661:662:string_end"
+      ],
+      "text_digest": "ac8d8342bbb2362d13f0a559a3621bb407011368895164b628a54f7fc33fc43c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:661:662:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 11,
+          "byte": 661
+        },
+        "end": {
+          "line": 24,
+          "column": 12,
+          "byte": 662
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:660:661:string_content",
+      "kind": "string_content",
+      "label": "a",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 10,
+          "byte": 660
+        },
+        "end": {
+          "line": 24,
+          "column": 11,
+          "byte": 661
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:659:660:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 9,
+          "byte": 659
+        },
+        "end": {
+          "line": 24,
+          "column": 10,
+          "byte": 660
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:654:655:identifier",
+      "kind": "identifier",
+      "label": "d",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 654
+        },
+        "end": {
+          "line": 24,
+          "column": 5,
+          "byte": 655
+        }
+      },
+      "children_ids": [],
+      "text_digest": "18ac3e7343f016890c510e93f935261169d9e3f565436429830faf0934f4f8e4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 32,
+          "byte": 643
+        },
+        "end": {
+          "line": 23,
+          "column": 36,
+          "byte": 647
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:643:647:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 32,
+          "byte": 643
+        },
+        "end": {
+          "line": 23,
+          "column": 36,
+          "byte": 647
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:637:639:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 26,
+          "byte": 637
+        },
+        "end": {
+          "line": 23,
+          "column": 28,
+          "byte": 639
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:615:637:identifier",
+      "kind": "identifier",
+      "label": "test_redact_obj_nested",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 4,
+          "byte": 615
+        },
+        "end": {
+          "line": 23,
+          "column": 26,
+          "byte": 637
+        }
+      },
+      "children_ids": [],
+      "text_digest": "1bccaca14ad43298bf5c33d6e7892fa75d44a0b68707388f979fd29055de227d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:375:605:function_definition",
+      "kind": "function_definition",
+      "label": "def test_redact_sk_openai_style() -> None:\r\n    s = \"token sk-abcdefghijklmnopqrstuvwxyz\"\r\n    out = redact_secrets(s)\r\n    assert \"sk-ant\" not in out.replace(\"redacted\", \"\")  # pattern is sk- + alnum\r\n    assert \"redacted\" in out",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 0,
+          "byte": 375
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "byte": 605
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:379:406:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:406:408:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block"
+      ],
+      "text_digest": "4dd79ae57bcef9bbe9320e6fc7b92b5e8f313170a95aed4acac8119d391f3e35"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:605:block",
+      "kind": "block",
+      "label": "s = \"token sk-abcdefghijklmnopqrstuvwxyz\"\r\n    out = redact_secrets(s)\r\n    assert \"sk-ant\" not in out.replace(\"redacted\", \"\")  # pattern is sk- + alnum\r\n    assert \"redacted\" in out",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 4,
+          "byte": 423
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "byte": 605
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:551:576:comment",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement"
+      ],
+      "text_digest": "891256e2feaa69815d5e621aeb7f8c927ccda691085a0c969a7d70d70b48f225"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:581:605:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert \"redacted\" in out",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 4,
+          "byte": 581
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "byte": 605
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator"
+      ],
+      "text_digest": "c38001164758b627bc58ae02a097ad8a9eac4065063d9e5b99d2033e46e2b5de"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:605:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "\"redacted\" in out",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 11,
+          "byte": 588
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "byte": 605
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:602:605:identifier"
+      ],
+      "text_digest": "8d6e16020908f4136fa5d6f9628581701a108d8e4ae6e78e352de00563a795e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:602:605:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 25,
+          "byte": 602
+        },
+        "end": {
+          "line": 20,
+          "column": 28,
+          "byte": 605
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:598:string",
+      "kind": "string",
+      "label": "\"redacted\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 11,
+          "byte": 588
+        },
+        "end": {
+          "line": 20,
+          "column": 21,
+          "byte": 598
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:589:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:589:597:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:597:598:string_end"
+      ],
+      "text_digest": "c3255bc6b2b5cd652f811a10e0c23f1221086b31e6fd92ca32285432750658c3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:597:598:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 20,
+          "byte": 597
+        },
+        "end": {
+          "line": 20,
+          "column": 21,
+          "byte": 598
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:589:597:string_content",
+      "kind": "string_content",
+      "label": "redacted",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 12,
+          "byte": 589
+        },
+        "end": {
+          "line": 20,
+          "column": 20,
+          "byte": 597
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:588:589:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 20,
+          "column": 11,
+          "byte": 588
+        },
+        "end": {
+          "line": 20,
+          "column": 12,
+          "byte": 589
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:551:576:comment",
+      "kind": "comment",
+      "label": "# pattern is sk- + alnum\r",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 56,
+          "byte": 551
+        },
+        "end": {
+          "line": 19,
+          "column": 81,
+          "byte": 576
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8daf451f8a8554f91f4a6fed9dcfdbde3386f4b3e6bafda24cc89dcd20783c9d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:499:549:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert \"sk-ant\" not in out.replace(\"redacted\", \"\")",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 4,
+          "byte": 499
+        },
+        "end": {
+          "line": 19,
+          "column": 54,
+          "byte": 549
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator"
+      ],
+      "text_digest": "baa1e52ab0313d607faf7a34e0fe947056435d12e86324c628592d0d1eb98063"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:549:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "\"sk-ant\" not in out.replace(\"redacted\", \"\")",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 11,
+          "byte": 506
+        },
+        "end": {
+          "line": 19,
+          "column": 54,
+          "byte": 549
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call"
+      ],
+      "text_digest": "7c7175b75020d444fd133e9d9b2153e22a93b9501a20887621f58c7211efd226"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:549:call",
+      "kind": "call",
+      "label": "out.replace(\"redacted\", \"\")",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 27,
+          "byte": 522
+        },
+        "end": {
+          "line": 19,
+          "column": 54,
+          "byte": 549
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list"
+      ],
+      "text_digest": "11f85a0c40d425b2b824d80f5644ccebcf2a60e8f197a35061dc79b9696a87e3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:533:549:argument_list",
+      "kind": "argument_list",
+      "label": "(\"redacted\", \"\")",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 38,
+          "byte": 533
+        },
+        "end": {
+          "line": 19,
+          "column": 54,
+          "byte": 549
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string"
+      ],
+      "text_digest": "aba56488f7441f51b547d92270ab1651fefaa9fe19219ac66fb97621986b4ee8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:548:string",
+      "kind": "string",
+      "label": "\"\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 51,
+          "byte": 546
+        },
+        "end": {
+          "line": 19,
+          "column": 53,
+          "byte": 548
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:547:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:547:548:string_end"
+      ],
+      "text_digest": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:547:548:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 52,
+          "byte": 547
+        },
+        "end": {
+          "line": 19,
+          "column": 53,
+          "byte": 548
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:546:547:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 51,
+          "byte": 546
+        },
+        "end": {
+          "line": 19,
+          "column": 52,
+          "byte": 547
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:544:string",
+      "kind": "string",
+      "label": "\"redacted\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 39,
+          "byte": 534
+        },
+        "end": {
+          "line": 19,
+          "column": 49,
+          "byte": 544
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:535:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:535:543:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:543:544:string_end"
+      ],
+      "text_digest": "c3255bc6b2b5cd652f811a10e0c23f1221086b31e6fd92ca32285432750658c3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:543:544:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 48,
+          "byte": 543
+        },
+        "end": {
+          "line": 19,
+          "column": 49,
+          "byte": 544
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:535:543:string_content",
+      "kind": "string_content",
+      "label": "redacted",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 40,
+          "byte": 535
+        },
+        "end": {
+          "line": 19,
+          "column": 48,
+          "byte": 543
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:534:535:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 39,
+          "byte": 534
+        },
+        "end": {
+          "line": 19,
+          "column": 40,
+          "byte": 535
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:533:attribute",
+      "kind": "attribute",
+      "label": "out.replace",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 27,
+          "byte": 522
+        },
+        "end": {
+          "line": 19,
+          "column": 38,
+          "byte": 533
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:525:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:526:533:identifier"
+      ],
+      "text_digest": "803c31d747b3c9d945742db7ed85da8ab09073cefc6e066759e89a5d6be97ba5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:526:533:identifier",
+      "kind": "identifier",
+      "label": "replace",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 31,
+          "byte": 526
+        },
+        "end": {
+          "line": 19,
+          "column": 38,
+          "byte": 533
+        }
+      },
+      "children_ids": [],
+      "text_digest": "7ab3778776cde4fa728a162a53ad3abcc967d1bd7361039e0942888240c4ce86"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:522:525:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 27,
+          "byte": 522
+        },
+        "end": {
+          "line": 19,
+          "column": 30,
+          "byte": 525
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:514:string",
+      "kind": "string",
+      "label": "\"sk-ant\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 11,
+          "byte": 506
+        },
+        "end": {
+          "line": 19,
+          "column": 19,
+          "byte": 514
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:507:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:507:513:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:513:514:string_end"
+      ],
+      "text_digest": "ebdd3ef3ad2e302141e65287ac1c07ced9066cb5e1d5fa202009f57e98712731"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:513:514:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 18,
+          "byte": 513
+        },
+        "end": {
+          "line": 19,
+          "column": 19,
+          "byte": 514
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:507:513:string_content",
+      "kind": "string_content",
+      "label": "sk-ant",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 12,
+          "byte": 507
+        },
+        "end": {
+          "line": 19,
+          "column": 18,
+          "byte": 513
+        }
+      },
+      "children_ids": [],
+      "text_digest": "ea83182c4b01ad677d71cd6fc69e9d5969cc5df473b930530be28bd9d299dc68"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:506:507:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 19,
+          "column": 11,
+          "byte": 506
+        },
+        "end": {
+          "line": 19,
+          "column": 12,
+          "byte": 507
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:expression_statement",
+      "kind": "expression_statement",
+      "label": "out = redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 470
+        },
+        "end": {
+          "line": 18,
+          "column": 27,
+          "byte": 493
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment"
+      ],
+      "text_digest": "2c754bb9d962f3881844019b4b75fd7c0c996349c6e48d7b56fb879bd15b8f84"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:493:assignment",
+      "kind": "assignment",
+      "label": "out = redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 470
+        },
+        "end": {
+          "line": 18,
+          "column": 27,
+          "byte": 493
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:473:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call"
+      ],
+      "text_digest": "2c754bb9d962f3881844019b4b75fd7c0c996349c6e48d7b56fb879bd15b8f84"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:493:call",
+      "kind": "call",
+      "label": "redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 10,
+          "byte": 476
+        },
+        "end": {
+          "line": 18,
+          "column": 27,
+          "byte": 493
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:490:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list"
+      ],
+      "text_digest": "a3fe9dd105678acec0d35012b6c6d4c61cabb062e24abfbe3b70301be1c663d4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:490:493:argument_list",
+      "kind": "argument_list",
+      "label": "(s)",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 24,
+          "byte": 490
+        },
+        "end": {
+          "line": 18,
+          "column": 27,
+          "byte": 493
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:491:492:identifier"
+      ],
+      "text_digest": "2215fccb38ad826cba67b0df8ca48c9ea9cb283825ba6140139e190f3453a152"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:491:492:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 25,
+          "byte": 491
+        },
+        "end": {
+          "line": 18,
+          "column": 26,
+          "byte": 492
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:476:490:identifier",
+      "kind": "identifier",
+      "label": "redact_secrets",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 10,
+          "byte": 476
+        },
+        "end": {
+          "line": 18,
+          "column": 24,
+          "byte": 490
+        }
+      },
+      "children_ids": [],
+      "text_digest": "18d31b76585a47736ba7524a6a4ed99d929d3b50d16b310a1e42ece72e3ef0d8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:470:473:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 470
+        },
+        "end": {
+          "line": 18,
+          "column": 7,
+          "byte": 473
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:expression_statement",
+      "kind": "expression_statement",
+      "label": "s = \"token sk-abcdefghijklmnopqrstuvwxyz\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 4,
+          "byte": 423
+        },
+        "end": {
+          "line": 17,
+          "column": 45,
+          "byte": 464
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment"
+      ],
+      "text_digest": "67a69d0b4151767fc991acc9a9808a1c066098cdbe6927997fe4fb5427d71266"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:464:assignment",
+      "kind": "assignment",
+      "label": "s = \"token sk-abcdefghijklmnopqrstuvwxyz\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 4,
+          "byte": 423
+        },
+        "end": {
+          "line": 17,
+          "column": 45,
+          "byte": 464
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:424:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string"
+      ],
+      "text_digest": "67a69d0b4151767fc991acc9a9808a1c066098cdbe6927997fe4fb5427d71266"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:464:string",
+      "kind": "string",
+      "label": "\"token sk-abcdefghijklmnopqrstuvwxyz\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 8,
+          "byte": 427
+        },
+        "end": {
+          "line": 17,
+          "column": 45,
+          "byte": 464
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:428:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:428:463:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:463:464:string_end"
+      ],
+      "text_digest": "941e29f3cca3d816524be1e4c70fb1171199e85ae8b83584b1128fe14e185cc2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:463:464:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 44,
+          "byte": 463
+        },
+        "end": {
+          "line": 17,
+          "column": 45,
+          "byte": 464
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:428:463:string_content",
+      "kind": "string_content",
+      "label": "token sk-abcdefghijklmnopqrstuvwxyz",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 9,
+          "byte": 428
+        },
+        "end": {
+          "line": 17,
+          "column": 44,
+          "byte": 463
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d5801fef9f29a32b5116de14e2b10528c8475601e50d0cae8c7ef8aab657c9cf"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:427:428:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 8,
+          "byte": 427
+        },
+        "end": {
+          "line": 17,
+          "column": 9,
+          "byte": 428
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:423:424:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 4,
+          "byte": 423
+        },
+        "end": {
+          "line": 17,
+          "column": 5,
+          "byte": 424
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 37,
+          "byte": 412
+        },
+        "end": {
+          "line": 16,
+          "column": 41,
+          "byte": 416
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:412:416:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 37,
+          "byte": 412
+        },
+        "end": {
+          "line": 16,
+          "column": 41,
+          "byte": 416
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:406:408:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 31,
+          "byte": 406
+        },
+        "end": {
+          "line": 16,
+          "column": 33,
+          "byte": 408
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:379:406:identifier",
+      "kind": "identifier",
+      "label": "test_redact_sk_openai_style",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 4,
+          "byte": 379
+        },
+        "end": {
+          "line": 16,
+          "column": 31,
+          "byte": 406
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0f185a2cde66699a7b6538e6050bb9ad6419158e5950241907cf8ada05715424"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:174:369:function_definition",
+      "kind": "function_definition",
+      "label": "def test_redact_api_key_assignment() -> None:\r\n    s = 'export API_KEY=\"supersecret123\"'\r\n    out = redact_secrets(s)\r\n    assert \"supersecret123\" not in out\r\n    assert \"redacted\" in out.lower()",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 0,
+          "byte": 174
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:178:208:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:208:210:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block"
+      ],
+      "text_digest": "8d246ba7b0c1032386046eab322df5039158abaadc2ff54fd910aee73f4fddab"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:369:block",
+      "kind": "block",
+      "label": "s = 'export API_KEY=\"supersecret123\"'\r\n    out = redact_secrets(s)\r\n    assert \"supersecret123\" not in out\r\n    assert \"redacted\" in out.lower()",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 225
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement"
+      ],
+      "text_digest": "0c848f54765a83410d7847de35e3b2ef04ff2b0db3367744bb8cc761046f09a3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:337:369:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert \"redacted\" in out.lower()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 337
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator"
+      ],
+      "text_digest": "5fb28c68c2fdb12b5afdbddb0751a417e3ab38194acdeba7f680df72ddc9351c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:369:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "\"redacted\" in out.lower()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 11,
+          "byte": 344
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call"
+      ],
+      "text_digest": "10648119f8fab66dce6c5af2e3c6e58a2dc3dab3bfe9e8c1e31b0c49b2d8053a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:369:call",
+      "kind": "call",
+      "label": "out.lower()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 25,
+          "byte": 358
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:367:369:argument_list"
+      ],
+      "text_digest": "80adcb677c8188d5c9d703ed17177ad1237d10c66a68d0581486fa9fcdb84970"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:367:369:argument_list",
+      "kind": "argument_list",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 34,
+          "byte": 367
+        },
+        "end": {
+          "line": 13,
+          "column": 36,
+          "byte": 369
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:367:attribute",
+      "kind": "attribute",
+      "label": "out.lower",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 25,
+          "byte": 358
+        },
+        "end": {
+          "line": 13,
+          "column": 34,
+          "byte": 367
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:361:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:362:367:identifier"
+      ],
+      "text_digest": "f8b576418904a25b9031dd6343e14cb1c44731b8977f70bb6552755a6e8dcb0e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:362:367:identifier",
+      "kind": "identifier",
+      "label": "lower",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 29,
+          "byte": 362
+        },
+        "end": {
+          "line": 13,
+          "column": 34,
+          "byte": 367
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8c6fb1e9e37a1aea1d308c785192e1a17d71cef08c7f50a68d2e0ab292b2e7f4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:358:361:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 25,
+          "byte": 358
+        },
+        "end": {
+          "line": 13,
+          "column": 28,
+          "byte": 361
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:354:string",
+      "kind": "string",
+      "label": "\"redacted\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 11,
+          "byte": 344
+        },
+        "end": {
+          "line": 13,
+          "column": 21,
+          "byte": 354
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:345:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:345:353:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:353:354:string_end"
+      ],
+      "text_digest": "c3255bc6b2b5cd652f811a10e0c23f1221086b31e6fd92ca32285432750658c3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:353:354:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 20,
+          "byte": 353
+        },
+        "end": {
+          "line": 13,
+          "column": 21,
+          "byte": 354
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:345:353:string_content",
+      "kind": "string_content",
+      "label": "redacted",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 12,
+          "byte": 345
+        },
+        "end": {
+          "line": 13,
+          "column": 20,
+          "byte": 353
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b68919aff001d8366249403a2544fba2d833084f1ad22839b6310aadacb6a138"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:344:345:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 11,
+          "byte": 344
+        },
+        "end": {
+          "line": 13,
+          "column": 12,
+          "byte": 345
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:297:331:assert_statement",
+      "kind": "assert_statement",
+      "label": "assert \"supersecret123\" not in out",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 297
+        },
+        "end": {
+          "line": 12,
+          "column": 38,
+          "byte": 331
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator"
+      ],
+      "text_digest": "ff0e30d52363f53e3d9d71d3baed26b10cb4d15603e97afb34317c2179b651f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:331:comparison_operator",
+      "kind": "comparison_operator",
+      "label": "\"supersecret123\" not in out",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 304
+        },
+        "end": {
+          "line": 12,
+          "column": 38,
+          "byte": 331
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:328:331:identifier"
+      ],
+      "text_digest": "60aa5575ae6df666a459e6e4b07251c818eae43063effed22b9f271f98a8e5d0"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:328:331:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 35,
+          "byte": 328
+        },
+        "end": {
+          "line": 12,
+          "column": 38,
+          "byte": 331
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:320:string",
+      "kind": "string",
+      "label": "\"supersecret123\"",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 304
+        },
+        "end": {
+          "line": 12,
+          "column": 27,
+          "byte": 320
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:305:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:305:319:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:319:320:string_end"
+      ],
+      "text_digest": "8c687eb8a94091c07cba74e4fa6a6d16ac44ef6737c26c56af8fa090bcd10202"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:319:320:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 26,
+          "byte": 319
+        },
+        "end": {
+          "line": 12,
+          "column": 27,
+          "byte": 320
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:305:319:string_content",
+      "kind": "string_content",
+      "label": "supersecret123",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 12,
+          "byte": 305
+        },
+        "end": {
+          "line": 12,
+          "column": 26,
+          "byte": 319
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b2563cb5a4cbbe05d50c3d8098f8a3f1f9546a2a73ce7064e5c3663f33e4a3c6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:304:305:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 304
+        },
+        "end": {
+          "line": 12,
+          "column": 12,
+          "byte": 305
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:expression_statement",
+      "kind": "expression_statement",
+      "label": "out = redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 268
+        },
+        "end": {
+          "line": 11,
+          "column": 27,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment"
+      ],
+      "text_digest": "2c754bb9d962f3881844019b4b75fd7c0c996349c6e48d7b56fb879bd15b8f84"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:291:assignment",
+      "kind": "assignment",
+      "label": "out = redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 268
+        },
+        "end": {
+          "line": 11,
+          "column": 27,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:271:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call"
+      ],
+      "text_digest": "2c754bb9d962f3881844019b4b75fd7c0c996349c6e48d7b56fb879bd15b8f84"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:291:call",
+      "kind": "call",
+      "label": "redact_secrets(s)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 10,
+          "byte": 274
+        },
+        "end": {
+          "line": 11,
+          "column": 27,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:288:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list"
+      ],
+      "text_digest": "a3fe9dd105678acec0d35012b6c6d4c61cabb062e24abfbe3b70301be1c663d4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:288:291:argument_list",
+      "kind": "argument_list",
+      "label": "(s)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 24,
+          "byte": 288
+        },
+        "end": {
+          "line": 11,
+          "column": 27,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:289:290:identifier"
+      ],
+      "text_digest": "2215fccb38ad826cba67b0df8ca48c9ea9cb283825ba6140139e190f3453a152"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:289:290:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 25,
+          "byte": 289
+        },
+        "end": {
+          "line": 11,
+          "column": 26,
+          "byte": 290
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:274:288:identifier",
+      "kind": "identifier",
+      "label": "redact_secrets",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 10,
+          "byte": 274
+        },
+        "end": {
+          "line": 11,
+          "column": 24,
+          "byte": 288
+        }
+      },
+      "children_ids": [],
+      "text_digest": "18d31b76585a47736ba7524a6a4ed99d929d3b50d16b310a1e42ece72e3ef0d8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:268:271:identifier",
+      "kind": "identifier",
+      "label": "out",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 268
+        },
+        "end": {
+          "line": 11,
+          "column": 7,
+          "byte": 271
+        }
+      },
+      "children_ids": [],
+      "text_digest": "762069bc07a6e1b5df123a5ae7bd91c10daa04694fbaa17fba0cd6a8dcce8f22"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:expression_statement",
+      "kind": "expression_statement",
+      "label": "s = 'export API_KEY=\"supersecret123\"'",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 225
+        },
+        "end": {
+          "line": 10,
+          "column": 41,
+          "byte": 262
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment"
+      ],
+      "text_digest": "57f74f0e4218bf79027f681b8bd1dd9fec84f27312f25383f8db3c7200e9b301"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:262:assignment",
+      "kind": "assignment",
+      "label": "s = 'export API_KEY=\"supersecret123\"'",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 225
+        },
+        "end": {
+          "line": 10,
+          "column": 41,
+          "byte": 262
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:226:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string"
+      ],
+      "text_digest": "57f74f0e4218bf79027f681b8bd1dd9fec84f27312f25383f8db3c7200e9b301"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:262:string",
+      "kind": "string",
+      "label": "'export API_KEY=\"supersecret123\"'",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 8,
+          "byte": 229
+        },
+        "end": {
+          "line": 10,
+          "column": 41,
+          "byte": 262
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:230:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:230:261:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:261:262:string_end"
+      ],
+      "text_digest": "85dae69571b48421838b82c48a86407dfbbe0704cacf5d6a4cdd56b467b3b2bb"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:261:262:string_end",
+      "kind": "string_end",
+      "label": "'",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 40,
+          "byte": 261
+        },
+        "end": {
+          "line": 10,
+          "column": 41,
+          "byte": 262
+        }
+      },
+      "children_ids": [],
+      "text_digest": "265fda17a34611b1533d8a281ff680dc5791b0ce0a11c25b35e11c8e75685509"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:230:261:string_content",
+      "kind": "string_content",
+      "label": "export API_KEY=\"supersecret123\"",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 9,
+          "byte": 230
+        },
+        "end": {
+          "line": 10,
+          "column": 40,
+          "byte": 261
+        }
+      },
+      "children_ids": [],
+      "text_digest": "32344072668331f312ada455c5bef97c47af4f6d3b40bd103c0aabbbb31585e4"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:229:230:string_start",
+      "kind": "string_start",
+      "label": "'",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 8,
+          "byte": 229
+        },
+        "end": {
+          "line": 10,
+          "column": 9,
+          "byte": 230
+        }
+      },
+      "children_ids": [],
+      "text_digest": "265fda17a34611b1533d8a281ff680dc5791b0ce0a11c25b35e11c8e75685509"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:225:226:identifier",
+      "kind": "identifier",
+      "label": "s",
+      "span": {
+        "start": {
+          "line": 10,
+          "column": 4,
+          "byte": 225
+        },
+        "end": {
+          "line": 10,
+          "column": 5,
+          "byte": 226
+        }
+      },
+      "children_ids": [],
+      "text_digest": "043a718774c572bd8a25adbeb1bfcd5c0256ae11cecf9f9c3f925d0e52beaf89"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 40,
+          "byte": 214
+        },
+        "end": {
+          "line": 9,
+          "column": 44,
+          "byte": 218
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:214:218:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 40,
+          "byte": 214
+        },
+        "end": {
+          "line": 9,
+          "column": 44,
+          "byte": 218
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:208:210:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 34,
+          "byte": 208
+        },
+        "end": {
+          "line": 9,
+          "column": 36,
+          "byte": 210
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:178:208:identifier",
+      "kind": "identifier",
+      "label": "test_redact_api_key_assignment",
+      "span": {
+        "start": {
+          "line": 9,
+          "column": 4,
+          "byte": 178
+        },
+        "end": {
+          "line": 9,
+          "column": 34,
+          "byte": 208
+        }
+      },
+      "children_ids": [],
+      "text_digest": "c3a89429ba60ae006602dde6ce0e2a0ff2a640f7791d7c4d260750a642b31ed6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:107:168:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.output.redaction import redact_obj, redact_secrets",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 0,
+          "byte": 107
+        },
+        "end": {
+          "line": 6,
+          "column": 61,
+          "byte": 168
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name"
+      ],
+      "text_digest": "2926ce6d18da39b01eb8f029dbd37d6a14677d4602b2a9b1445a1b9220df6de5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:dotted_name",
+      "kind": "dotted_name",
+      "label": "redact_secrets",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 47,
+          "byte": 154
+        },
+        "end": {
+          "line": 6,
+          "column": 61,
+          "byte": 168
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:identifier"
+      ],
+      "text_digest": "18d31b76585a47736ba7524a6a4ed99d929d3b50d16b310a1e42ece72e3ef0d8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:154:168:identifier",
+      "kind": "identifier",
+      "label": "redact_secrets",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 47,
+          "byte": 154
+        },
+        "end": {
+          "line": 6,
+          "column": 61,
+          "byte": 168
+        }
+      },
+      "children_ids": [],
+      "text_digest": "18d31b76585a47736ba7524a6a4ed99d929d3b50d16b310a1e42ece72e3ef0d8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:dotted_name",
+      "kind": "dotted_name",
+      "label": "redact_obj",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 35,
+          "byte": 142
+        },
+        "end": {
+          "line": 6,
+          "column": 45,
+          "byte": 152
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:identifier"
+      ],
+      "text_digest": "b19a770557f5e07cf4be57d97f1b862b1e2b78cc0cc4282e15915d92148e1e2c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:142:152:identifier",
+      "kind": "identifier",
+      "label": "redact_obj",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 35,
+          "byte": 142
+        },
+        "end": {
+          "line": 6,
+          "column": 45,
+          "byte": 152
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b19a770557f5e07cf4be57d97f1b862b1e2b78cc0cc4282e15915d92148e1e2c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:134:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.output.redaction",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 112
+        },
+        "end": {
+          "line": 6,
+          "column": 27,
+          "byte": 134
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:117:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:118:124:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:125:134:identifier"
+      ],
+      "text_digest": "198ea300d2e4e0c88d71fde618df667f227ae03aa680a15f1523b074068bb535"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:125:134:identifier",
+      "kind": "identifier",
+      "label": "redaction",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 18,
+          "byte": 125
+        },
+        "end": {
+          "line": 6,
+          "column": 27,
+          "byte": 134
+        }
+      },
+      "children_ids": [],
+      "text_digest": "fd89a2f18bdb5c049e7aaeed3c8c90ed518542701a907facbcff950abab80c18"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:118:124:identifier",
+      "kind": "identifier",
+      "label": "output",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 11,
+          "byte": 118
+        },
+        "end": {
+          "line": 6,
+          "column": 17,
+          "byte": 124
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e0ee8bb50685e05fa0f47ed04203ae953fdfd055f5bd2892ea186504254f8c3a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:112:117:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 5,
+          "byte": 112
+        },
+        "end": {
+          "line": 6,
+          "column": 10,
+          "byte": 117
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:90:103:import_statement",
+      "kind": "import_statement",
+      "label": "import pytest",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 90
+        },
+        "end": {
+          "line": 4,
+          "column": 13,
+          "byte": 103
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name"
+      ],
+      "text_digest": "db7b0741c94798db5932296122312b7b87d6e5a9e2ee29833a9949d1f774f40b"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:dotted_name",
+      "kind": "dotted_name",
+      "label": "pytest",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 97
+        },
+        "end": {
+          "line": 4,
+          "column": 13,
+          "byte": 103
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:identifier"
+      ],
+      "text_digest": "2b01214d32c382dbc73bf6b493bedb7926324af27bad3ee888f66774b9b114c8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:97:103:identifier",
+      "kind": "identifier",
+      "label": "pytest",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 7,
+          "byte": 97
+        },
+        "end": {
+          "line": 4,
+          "column": 13,
+          "byte": 103
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b01214d32c382dbc73bf6b493bedb7926324af27bad3ee888f66774b9b114c8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:52:86:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 52
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 86
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 75
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 86
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:75:86:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 75
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 86
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Redaction helpers used across SARIF/exports.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 50,
+          "byte": 50
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string"
+      ],
+      "text_digest": "1609a08613eb950d039e14b282d6c8d42b4f095eb80f2677b7b4832f780ff4d6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:50:string",
+      "kind": "string",
+      "label": "\"\"\"Redaction helpers used across SARIF/exports.\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 50,
+          "byte": 50
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:3:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:3:47:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:47:50:string_end"
+      ],
+      "text_digest": "1609a08613eb950d039e14b282d6c8d42b4f095eb80f2677b7b4832f780ff4d6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:47:50:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 47,
+          "byte": 47
+        },
+        "end": {
+          "line": 1,
+          "column": 50,
+          "byte": 50
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:3:47:string_content",
+      "kind": "string_content",
+      "label": "Redaction helpers used across SARIF/exports.",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        },
+        "end": {
+          "line": 1,
+          "column": 47,
+          "byte": 47
+        }
+      },
+      "children_ids": [],
+      "text_digest": "3870288c7840aa17f502b8fcd82b046b9da024ba0e479b72656873b620fb0377"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/output/test_redaction.py:0:3:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "tests/output/test_redaction.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

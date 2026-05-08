@@ -83,7 +83,7 @@ Those fields matter because candidates, bundles, the reasoner, and the verifier 
 
 ## Environment and install
 
-Use a virtualenv with the intelligence dependencies installed.
+Use a virtualenv with **depOS** (`depos` extra: Pydantic, pipeline, **diskcache** for fragment cache) plus **`intelligence`** if you use optional torch/ranker paths. **`perf`** is recommended for `joblib` Wave B parallelism, `orjson`/`xxhash`, and `rustworkx` graph metrics on large graphs.
 
 From the repo root:
 
@@ -91,13 +91,27 @@ From the repo root:
 py -3.11 -m venv .venv
 .venv\Scripts\Activate.ps1
 python -m pip install -U pip
-python -m pip install -e ".[intelligence]"
+python -m pip install -e ".[depos,intelligence,perf]"
 ```
+
+Minimal (no perf / rustworkx):
+
+```powershell
+python -m pip install -e ".[depos,intelligence]"
+```
+
+Equivalent contributor shortcut:
+
+```powershell
+python -m pip install -r requirements-dev.txt
+```
+
+**Note:** `intelligence` alone (without `depos`) is **not** sufficient — it only adds PyTorch/transformers. The dataset pipeline needs `depos` for config, verifier, and CLI.
 
 If PowerShell activation is blocked, use the interpreter directly:
 
 ```powershell
-.venv\Scripts\python.exe -m pip install -e ".[intelligence]"
+.venv\Scripts\python.exe -m pip install -e ".[depos,intelligence,perf]"
 ```
 
 ## Important environment variables
@@ -383,10 +397,10 @@ Use the repo virtualenv interpreter instead of a different Python launcher.
 
 ### `pytest` is missing in the venv
 
-If you want to run tests locally:
-
 ```powershell
 python -m pip install pytest
+# or reinstall contributor deps (includes pytest):
+python -m pip install -r requirements-dev.txt
 ```
 
 ### Gemma is not configured

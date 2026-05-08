@@ -16,7 +16,7 @@ Documentation lives in **[`docs/`](docs/README.md)**.
 - **License:** see [LICENSE](LICENSE) (includes graphify upstream MIT).
 - **Python package:** the installable package in this repo remains the historical `graphifyy` / `graphify` CLI until renamed in a future release.
 
-For development setup of the vendored library, see [docs/development.md](docs/development.md).
+For Python extras, fragment cache, and tests, see **[docs/development.md](docs/development.md)**. Quick installs: `pip install -r requirements.txt` (graphify only) or `pip install -r requirements-dev.txt` (depOS + Supabase + perf + pytest).
 
 ## Running locally (Supabase + depOS API + web)
 
@@ -39,7 +39,7 @@ RLS model.
 ### depOS API
 
 ```bash
-pip install -e ".[depos,supabase]"
+pip install -e ".[depos,supabase]"   # depos extra includes diskcache (fragment cache)
 depos-api
 # or: python -m uvicorn depos.api_server:app --host 0.0.0.0 --port 8080
 ```
@@ -69,14 +69,19 @@ long-lived passwords.
 ### depOS intelligence CLI
 
 ```bash
+# Minimum: depos (config, pipeline, diskcache). Add intelligence for optional torch/ranker paths.
+# Add perf for joblib wave parallelism, orjson, rustworkx metrics, pyinstrument (see docs/perf-acceleration.md).
 pip install -e ".[depos,supabase,intelligence]"
+# Recommended for faster repeats + large graphs:
+# pip install -e ".[depos,supabase,intelligence,perf]"
+
 depos --help
 depos-intel --help
 depos analyze repo --path . --run-profile local
 depos-intel analyze coverage --path .
 ```
 
-Run bundles write `violations.json`, `gate_result.json`, and `run_manifest.json` under `$DEPOS_DATA/intelligence/<run_id>/`. See **[`docs/runbooks/local-cli-v1.md`](docs/runbooks/local-cli-v1.md)** and **[`docs/runbooks/local-viewer.md`](docs/runbooks/local-viewer.md)** for the v1 operator flow and optional API import.
+Run bundles write **`violations.json`**, **`dep_report.json`** (dependency rollup), **`gate_result.json`**, and **`run_manifest.json`** under `$DEPOS_DATA/intelligence/<run_id>/`. Use **`--no-cache`** if you intentionally want to disable the on-disk fragment cache. See **[`docs/runbooks/local-cli-v1.md`](docs/runbooks/local-cli-v1.md)** and **[`docs/runbooks/local-viewer.md`](docs/runbooks/local-viewer.md)** for the v1 operator flow and optional API import.
 
 ### Web dashboard
 
@@ -92,6 +97,8 @@ The web scripts sync the repo-root **`.env`** into `apps/web/.env.local` before 
 
 | Path | Purpose |
 | --- | --- |
+| `requirements.txt` | Minimal editable install (`-e .`) — graphify CLI only |
+| `requirements-dev.txt` | Contributor install: `depos`, `supabase`, `mcp`, `perf`, `pytest` |
 | `depos/` | Product Python package (snapshot, fusion, blast, API) |
 | `graphify/` | Vendored static graph library (MIT) |
 | `apps/web/` | Next.js UI shell |

@@ -11,7 +11,7 @@
 5. **[Detector platform](detector-platform.md)** — Platform layers, detector contract, and cross-universe node kinds.
 6. **[Detectors](detectors.md)** — Full per-detector reference: Groups A/B/C, domain-specific detectors, pattern system, and how to add a detector.
 7. **[Graphify internals](graphify-internals.md)** — The vendored `graphify/` Python package: pipeline, modules, and extending extraction.
-8. **[Development](development.md)** — Local setup, tests, and packaging notes.
+8. **[Development](development.md)** — Local setup, optional extras (`depos`, `supabase`, `perf`, `intelligence`), `requirements-dev.txt`, and tests.
 9. **[Dataset pipeline](dataset-pipeline.md)** — Running the raw AST dataset through normalization and the canonical Stage 1–11 pipeline.
 10. **[Performance acceleration](perf-acceleration.md)** — Phase 5–10 cache, parallelism, graph indexes, and CFG/DFG/taint compute.
 11. **[CI / OIDC trust](ci-oidc.md)** — How GitHub Actions authenticates to the depOS API and how to wire the CI gate.
@@ -23,6 +23,8 @@
 - [Local CLI v1](runbooks/local-cli-v1.md) — `depos` entrypoint, profiles, run bundle + gate artifacts.
 - [Local viewer / API bundle import](runbooks/local-viewer.md) — import CLI output directories via the API.
 - [Evaluation harness](runbooks/evaluation-harness.md) — metrics, fixtures, eval reports.
+- [False-positive feedback loop](runbooks/fp-feedback-loop.md) — stable finding IDs, detector stats, allowlists.
+- [Pipeline tuning](runbooks/pipeline-tuning.md) — presets (`--profile-preset`), perf env, cache, sharding.
 
 ## Relationship to graphify
 

@@ -1,0 +1,2515 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:07+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement:89",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment:88",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list:87",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string:86",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:752:753:string_end:85",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:752:753:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:727:752:string_content:84",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:727:752:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:727:string_start:83",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:727:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:722:identifier:82",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:722:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition:81",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block:80",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement:79",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:707:709:list:78",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:707:709:list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement:77",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment:76",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list:75",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:691:694:identifier:74",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:691:694:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:685:689:identifier:73",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:685:689:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:677:683:identifier:72",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:677:683:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:675:identifier:71",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:675:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:667:identifier:70",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:667:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement:69",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string:68",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:657:660:string_end:67",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:657:660:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:415:657:string_content:66",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:415:657:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:415:string_start:65",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:415:string_start",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type:64",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type:63",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter:62",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type:61",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:identifier:60",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:394:identifier:59",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:394:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters:58",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter:57",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:378:382:none:56",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:378:382:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type:55",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type:54",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type:53",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:none:52",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:none",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type:51",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type:50",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter:49",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type:48",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:identifier:47",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type:46",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:identifier:45",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:358:identifier:44",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:358:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:352:identifier:43",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:352:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:341:342:keyword_separator:42",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:341:342:keyword_separator",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter:41",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type:40",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:identifier:39",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:320:identifier:38",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:320:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter:37",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type:36",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:identifier:35",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:304:identifier:34",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:304:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter:33",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type:32",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute:31",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:284:291:identifier:30",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:284:291:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:283:identifier:29",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:283:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:279:identifier:28",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:279:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:242:267:identifier:27",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:242:267:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement:26",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name:25",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:identifier:24",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name:23",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:identifier:22",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name:21",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:194:201:identifier:20",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:194:201:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:185:193:identifier:19",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:185:193:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:184:identifier:18",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:184:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement:17",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import:16",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:168:170:identifier:15",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:168:170:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name:14",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:identifier:13",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement:12",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name:11",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:identifier:10",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name:9",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:identifier:8",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement:7",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:identifier:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:80:83:string_end:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:80:83:string_end",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:3:80:string_content:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:3:80:string_content",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:3:string_start:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:3:string_start",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:756:module",
+      "kind": "module",
+      "label": "\"\"\"Opt-in embedding-ranked seed candidates (extension point for model backends).\"\"\"\r\nfrom __future__ import annotations\r\n\r\nfrom typing import Any\r\n\r\nimport networkx as nx\r\n\r\nfrom depos.analysis.schemas import AnalysisMode, Candidate\r\n\r\n\r\ndef embedding_seed_candidates(\r\n    graph: nx.DiGraph,\r\n    config: Any,\r\n    mode: AnalysisMode,\r\n    *,\r\n    ctx: dict[str, Any] | None = None,\r\n) -> list[Candidate]:\r\n    \"\"\"Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    \"\"\"\r\n    _ = graph, config, mode, ctx\r\n    return []\r\n\r\n\r\n__all__ = [\"embedding_seed_candidates\"]\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 28,
+          "column": 0,
+          "byte": 756
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement"
+      ],
+      "text_digest": "590c2bef4e5847731726d63a69a9c85bc33bb7c446b25ffe7a17dcf8ca7c9ac1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:expression_statement",
+      "kind": "expression_statement",
+      "label": "__all__ = [\"embedding_seed_candidates\"]",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 715
+        },
+        "end": {
+          "line": 27,
+          "column": 39,
+          "byte": 754
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment"
+      ],
+      "text_digest": "4714f68520b5d1ad834dd81d30fe426eeb726a3023ee29b35d7e9a004abff0dc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:754:assignment",
+      "kind": "assignment",
+      "label": "__all__ = [\"embedding_seed_candidates\"]",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 715
+        },
+        "end": {
+          "line": 27,
+          "column": 39,
+          "byte": 754
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:722:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list"
+      ],
+      "text_digest": "4714f68520b5d1ad834dd81d30fe426eeb726a3023ee29b35d7e9a004abff0dc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:725:754:list",
+      "kind": "list",
+      "label": "[\"embedding_seed_candidates\"]",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 10,
+          "byte": 725
+        },
+        "end": {
+          "line": 27,
+          "column": 39,
+          "byte": 754
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string"
+      ],
+      "text_digest": "932deef5bf0b851073b0e98b85850eab6411ce605d0afb8a8e16bff9fd913ef2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:753:string",
+      "kind": "string",
+      "label": "\"embedding_seed_candidates\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 11,
+          "byte": 726
+        },
+        "end": {
+          "line": 27,
+          "column": 38,
+          "byte": 753
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:727:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:727:752:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:752:753:string_end"
+      ],
+      "text_digest": "6b2b25568c3025a6e7cd5293425087a339af9178889e5810a838b22f480f86c9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:752:753:string_end",
+      "kind": "string_end",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 37,
+          "byte": 752
+        },
+        "end": {
+          "line": 27,
+          "column": 38,
+          "byte": 753
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:727:752:string_content",
+      "kind": "string_content",
+      "label": "embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 12,
+          "byte": 727
+        },
+        "end": {
+          "line": 27,
+          "column": 37,
+          "byte": 752
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e781fc054cd3c23e19b9c8547f12cb7844a8484fc9eb21e50fdf3c2b4e7226ef"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:726:727:string_start",
+      "kind": "string_start",
+      "label": "\"",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 11,
+          "byte": 726
+        },
+        "end": {
+          "line": 27,
+          "column": 12,
+          "byte": 727
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:715:722:identifier",
+      "kind": "identifier",
+      "label": "__all__",
+      "span": {
+        "start": {
+          "line": 27,
+          "column": 0,
+          "byte": 715
+        },
+        "end": {
+          "line": 27,
+          "column": 7,
+          "byte": 722
+        }
+      },
+      "children_ids": [],
+      "text_digest": "051af376199dec216b4807623fae755a2c013911d8219aa607787b17e3ed9cd7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:238:709:function_definition",
+      "kind": "function_definition",
+      "label": "def embedding_seed_candidates(\r\n    graph: nx.DiGraph,\r\n    config: Any,\r\n    mode: AnalysisMode,\r\n    *,\r\n    ctx: dict[str, Any] | None = None,\r\n) -> list[Candidate]:\r\n    \"\"\"Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    \"\"\"\r\n    _ = graph, config, mode, ctx\r\n    return []",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 0,
+          "byte": 238
+        },
+        "end": {
+          "line": 24,
+          "column": 13,
+          "byte": 709
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:242:267:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block"
+      ],
+      "text_digest": "0d4b6d8a7a464a903f36b6f459081b02e9842ff123d7ef18d116ab6f9601de34"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:709:block",
+      "kind": "block",
+      "label": "\"\"\"Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    \"\"\"\r\n    _ = graph, config, mode, ctx\r\n    return []",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 412
+        },
+        "end": {
+          "line": 24,
+          "column": 13,
+          "byte": 709
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement"
+      ],
+      "text_digest": "b48b62e4f892f227c54953f322315fb632318a3c377cd7252dc92c848378b38e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:700:709:return_statement",
+      "kind": "return_statement",
+      "label": "return []",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 4,
+          "byte": 700
+        },
+        "end": {
+          "line": 24,
+          "column": 13,
+          "byte": 709
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:707:709:list"
+      ],
+      "text_digest": "1b8cd1c23f6620ef971d79ee4412790d2beb7710a38161186484331d13f78c91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:707:709:list",
+      "kind": "list",
+      "label": "[]",
+      "span": {
+        "start": {
+          "line": 24,
+          "column": 11,
+          "byte": 707
+        },
+        "end": {
+          "line": 24,
+          "column": 13,
+          "byte": 709
+        }
+      },
+      "children_ids": [],
+      "text_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:expression_statement",
+      "kind": "expression_statement",
+      "label": "_ = graph, config, mode, ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 4,
+          "byte": 666
+        },
+        "end": {
+          "line": 23,
+          "column": 32,
+          "byte": 694
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment"
+      ],
+      "text_digest": "e45c33f7f8d3c9225f35b0037696fd3ccc2d7eff559cfb65ac767a180d2fdc3d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:694:assignment",
+      "kind": "assignment",
+      "label": "_ = graph, config, mode, ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 4,
+          "byte": 666
+        },
+        "end": {
+          "line": 23,
+          "column": 32,
+          "byte": 694
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:667:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list"
+      ],
+      "text_digest": "e45c33f7f8d3c9225f35b0037696fd3ccc2d7eff559cfb65ac767a180d2fdc3d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:694:expression_list",
+      "kind": "expression_list",
+      "label": "graph, config, mode, ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 670
+        },
+        "end": {
+          "line": 23,
+          "column": 32,
+          "byte": 694
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:675:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:677:683:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:685:689:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:691:694:identifier"
+      ],
+      "text_digest": "26c22c34cce4b9651f26398fd34b89e2eeb641c4f12f57f604e016bf2fa6b8bc"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:691:694:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 29,
+          "byte": 691
+        },
+        "end": {
+          "line": 23,
+          "column": 32,
+          "byte": 694
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:685:689:identifier",
+      "kind": "identifier",
+      "label": "mode",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 23,
+          "byte": 685
+        },
+        "end": {
+          "line": 23,
+          "column": 27,
+          "byte": 689
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e642b12901a6ee51456f654c48cd0aa6e90afd64e035afbc97cfc542209c70f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:677:683:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 15,
+          "byte": 677
+        },
+        "end": {
+          "line": 23,
+          "column": 21,
+          "byte": 683
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:670:675:identifier",
+      "kind": "identifier",
+      "label": "graph",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 8,
+          "byte": 670
+        },
+        "end": {
+          "line": 23,
+          "column": 13,
+          "byte": 675
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eef93e1d14482804277fca0172464032d1a4fdbcc338524059fa1e861454ad4d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:666:667:identifier",
+      "kind": "identifier",
+      "label": "_",
+      "span": {
+        "start": {
+          "line": 23,
+          "column": 4,
+          "byte": 666
+        },
+        "end": {
+          "line": 23,
+          "column": 5,
+          "byte": 667
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d2e2adf7177b7a8afddbc12d1634cf23ea1a71020f6a1308070a16400fb68fde"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    \"\"\"",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 412
+        },
+        "end": {
+          "line": 22,
+          "column": 7,
+          "byte": 660
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string"
+      ],
+      "text_digest": "0f9ca68b89158ac8bca50424e17ecf79a4425d873b56f9b536a915b4956fe42d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:660:string",
+      "kind": "string",
+      "label": "\"\"\"Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    \"\"\"",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 412
+        },
+        "end": {
+          "line": 22,
+          "column": 7,
+          "byte": 660
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:415:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:415:657:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:657:660:string_end"
+      ],
+      "text_digest": "0f9ca68b89158ac8bca50424e17ecf79a4425d873b56f9b536a915b4956fe42d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:657:660:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 22,
+          "column": 4,
+          "byte": 657
+        },
+        "end": {
+          "line": 22,
+          "column": 7,
+          "byte": 660
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:415:657:string_content",
+      "kind": "string_content",
+      "label": "Return extra candidates when :attr:`IntelligenceConfig.enable_embedding_seeds` is on.\r\n\r\n    The default implementation returns an empty list; future versions may rank\r\n    nodes with an embedding model without changing detector wiring.\r\n    ",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 7,
+          "byte": 415
+        },
+        "end": {
+          "line": 22,
+          "column": 4,
+          "byte": 657
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f0069288bf4b61591a58f6508faa7868c9c7926a01fe8c0b725306949f979e59"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:412:415:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 18,
+          "column": 4,
+          "byte": 412
+        },
+        "end": {
+          "line": 18,
+          "column": 7,
+          "byte": 415
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:type",
+      "kind": "type",
+      "label": "list[Candidate]",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 5,
+          "byte": 390
+        },
+        "end": {
+          "line": 17,
+          "column": 20,
+          "byte": 405
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type"
+      ],
+      "text_digest": "6836637e63fd417d13bb989d68fad8b66704a263fe493236f34ab4a1008361e0"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:405:generic_type",
+      "kind": "generic_type",
+      "label": "list[Candidate]",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 5,
+          "byte": 390
+        },
+        "end": {
+          "line": 17,
+          "column": 20,
+          "byte": 405
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:394:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter"
+      ],
+      "text_digest": "6836637e63fd417d13bb989d68fad8b66704a263fe493236f34ab4a1008361e0"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:394:405:type_parameter",
+      "kind": "type_parameter",
+      "label": "[Candidate]",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 9,
+          "byte": 394
+        },
+        "end": {
+          "line": 17,
+          "column": 20,
+          "byte": 405
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type"
+      ],
+      "text_digest": "1cad32c866138401ad27bcbefe06732a74a5a394a621754c561681cf5af413cd"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:type",
+      "kind": "type",
+      "label": "Candidate",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 10,
+          "byte": 395
+        },
+        "end": {
+          "line": 17,
+          "column": 19,
+          "byte": 404
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:identifier"
+      ],
+      "text_digest": "b2452d1eba32254aac41a394ae0ded977d9e5e6584313170b2a25e4b0a44db88"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:395:404:identifier",
+      "kind": "identifier",
+      "label": "Candidate",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 10,
+          "byte": 395
+        },
+        "end": {
+          "line": 17,
+          "column": 19,
+          "byte": 404
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b2452d1eba32254aac41a394ae0ded977d9e5e6584313170b2a25e4b0a44db88"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:390:394:identifier",
+      "kind": "identifier",
+      "label": "list",
+      "span": {
+        "start": {
+          "line": 17,
+          "column": 5,
+          "byte": 390
+        },
+        "end": {
+          "line": 17,
+          "column": 9,
+          "byte": 394
+        }
+      },
+      "children_ids": [],
+      "text_digest": "a330395cc0a53ad1207736546afff4735940937564bbf75ce1edad40780d9139"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:267:386:parameters",
+      "kind": "parameters",
+      "label": "(\r\n    graph: nx.DiGraph,\r\n    config: Any,\r\n    mode: AnalysisMode,\r\n    *,\r\n    ctx: dict[str, Any] | None = None,\r\n)",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 29,
+          "byte": 267
+        },
+        "end": {
+          "line": 17,
+          "column": 1,
+          "byte": 386
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:341:342:keyword_separator",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter"
+      ],
+      "text_digest": "ece72e4fb22f16b364cfd4fa1e0009b336d9975eb07d672c7b160bf142cd743e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:382:typed_default_parameter",
+      "kind": "typed_default_parameter",
+      "label": "ctx: dict[str, Any] | None = None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 4,
+          "byte": 349
+        },
+        "end": {
+          "line": 16,
+          "column": 37,
+          "byte": 382
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:352:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:378:382:none"
+      ],
+      "text_digest": "49290de9b436ca3934fac4ad5cf7f39786a379ee9a8ffbb11bf0453da8b6f1f2"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:378:382:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 33,
+          "byte": 378
+        },
+        "end": {
+          "line": 16,
+          "column": 37,
+          "byte": 382
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:type",
+      "kind": "type",
+      "label": "dict[str, Any] | None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 9,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 30,
+          "byte": 375
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type"
+      ],
+      "text_digest": "535d7e693f91f9044b3c529464064ecb6961760adf4cb423c706554fadaa42ba"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:375:union_type",
+      "kind": "union_type",
+      "label": "dict[str, Any] | None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 9,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 30,
+          "byte": 375
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type"
+      ],
+      "text_digest": "535d7e693f91f9044b3c529464064ecb6961760adf4cb423c706554fadaa42ba"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:type",
+      "kind": "type",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 26,
+          "byte": 371
+        },
+        "end": {
+          "line": 16,
+          "column": 30,
+          "byte": 375
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:none"
+      ],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:371:375:none",
+      "kind": "none",
+      "label": "None",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 26,
+          "byte": 371
+        },
+        "end": {
+          "line": 16,
+          "column": 30,
+          "byte": 375
+        }
+      },
+      "children_ids": [],
+      "text_digest": "dc937b59892604f5a86ac96936cd7ff09e25f18ae6b758e8014a24c7fa039e91"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:type",
+      "kind": "type",
+      "label": "dict[str, Any]",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 9,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 23,
+          "byte": 368
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type"
+      ],
+      "text_digest": "08a57eb07f8cc79f36f4dd907dcaaa4a8c3407f023611d1bce97db16bcb87fa9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:368:generic_type",
+      "kind": "generic_type",
+      "label": "dict[str, Any]",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 9,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 23,
+          "byte": 368
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:358:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter"
+      ],
+      "text_digest": "08a57eb07f8cc79f36f4dd907dcaaa4a8c3407f023611d1bce97db16bcb87fa9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:358:368:type_parameter",
+      "kind": "type_parameter",
+      "label": "[str, Any]",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 13,
+          "byte": 358
+        },
+        "end": {
+          "line": 16,
+          "column": 23,
+          "byte": 368
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type"
+      ],
+      "text_digest": "78febab8c8f5f3165f821d2c0fa672ade636d5ae861e253ebd402c8d86328f1e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:type",
+      "kind": "type",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 19,
+          "byte": 364
+        },
+        "end": {
+          "line": 16,
+          "column": 22,
+          "byte": 367
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:identifier"
+      ],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:364:367:identifier",
+      "kind": "identifier",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 19,
+          "byte": 364
+        },
+        "end": {
+          "line": 16,
+          "column": 22,
+          "byte": 367
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:type",
+      "kind": "type",
+      "label": "str",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 14,
+          "byte": 359
+        },
+        "end": {
+          "line": 16,
+          "column": 17,
+          "byte": 362
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:identifier"
+      ],
+      "text_digest": "8c25cb3686462e9a86d2883c5688a22fe738b0bbc85f458d2d2b5f3f667c6d5a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:359:362:identifier",
+      "kind": "identifier",
+      "label": "str",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 14,
+          "byte": 359
+        },
+        "end": {
+          "line": 16,
+          "column": 17,
+          "byte": 362
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8c25cb3686462e9a86d2883c5688a22fe738b0bbc85f458d2d2b5f3f667c6d5a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:354:358:identifier",
+      "kind": "identifier",
+      "label": "dict",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 9,
+          "byte": 354
+        },
+        "end": {
+          "line": 16,
+          "column": 13,
+          "byte": 358
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6ab47d70854a8c690a0c2035be903f3d812cbab06f9e442e9b10ad70b1acd446"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:349:352:identifier",
+      "kind": "identifier",
+      "label": "ctx",
+      "span": {
+        "start": {
+          "line": 16,
+          "column": 4,
+          "byte": 349
+        },
+        "end": {
+          "line": 16,
+          "column": 7,
+          "byte": 352
+        }
+      },
+      "children_ids": [],
+      "text_digest": "0230c6b1d833c51cc426492022677b74c60d82891931221a42db9e7bb06205e9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:341:342:keyword_separator",
+      "kind": "keyword_separator",
+      "label": "*",
+      "span": {
+        "start": {
+          "line": 15,
+          "column": 4,
+          "byte": 341
+        },
+        "end": {
+          "line": 15,
+          "column": 5,
+          "byte": 342
+        }
+      },
+      "children_ids": [],
+      "text_digest": "684888c0ebb17f374298b65ee2807526c066094c701bcc7ebbe1c1095f494fc1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:334:typed_parameter",
+      "kind": "typed_parameter",
+      "label": "mode: AnalysisMode",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 316
+        },
+        "end": {
+          "line": 14,
+          "column": 22,
+          "byte": 334
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:320:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type"
+      ],
+      "text_digest": "3ef10af0cff85d4266abd6a16553cc35ed5af6c19db0fb08bd3aff7a80bceea7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:type",
+      "kind": "type",
+      "label": "AnalysisMode",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 10,
+          "byte": 322
+        },
+        "end": {
+          "line": 14,
+          "column": 22,
+          "byte": 334
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:identifier"
+      ],
+      "text_digest": "6f533ba6c2b5b49a99a31cb0320eea0f91856e6a597aeb33321efff1f00e8da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:322:334:identifier",
+      "kind": "identifier",
+      "label": "AnalysisMode",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 10,
+          "byte": 322
+        },
+        "end": {
+          "line": 14,
+          "column": 22,
+          "byte": 334
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6f533ba6c2b5b49a99a31cb0320eea0f91856e6a597aeb33321efff1f00e8da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:316:320:identifier",
+      "kind": "identifier",
+      "label": "mode",
+      "span": {
+        "start": {
+          "line": 14,
+          "column": 4,
+          "byte": 316
+        },
+        "end": {
+          "line": 14,
+          "column": 8,
+          "byte": 320
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e642b12901a6ee51456f654c48cd0aa6e90afd64e035afbc97cfc542209c70f9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:309:typed_parameter",
+      "kind": "typed_parameter",
+      "label": "config: Any",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 298
+        },
+        "end": {
+          "line": 13,
+          "column": 15,
+          "byte": 309
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:304:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type"
+      ],
+      "text_digest": "692340b7d30478d6fab968320b377efa0f7c202fbce7d7f2ffd7ff71679f99bb"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:type",
+      "kind": "type",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 12,
+          "byte": 306
+        },
+        "end": {
+          "line": 13,
+          "column": 15,
+          "byte": 309
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:identifier"
+      ],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:306:309:identifier",
+      "kind": "identifier",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 12,
+          "byte": 306
+        },
+        "end": {
+          "line": 13,
+          "column": 15,
+          "byte": 309
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:298:304:identifier",
+      "kind": "identifier",
+      "label": "config",
+      "span": {
+        "start": {
+          "line": 13,
+          "column": 4,
+          "byte": 298
+        },
+        "end": {
+          "line": 13,
+          "column": 10,
+          "byte": 304
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:291:typed_parameter",
+      "kind": "typed_parameter",
+      "label": "graph: nx.DiGraph",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 274
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:279:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type"
+      ],
+      "text_digest": "f4150a7a5583b272f6228dca19455b448e1a7c3f76f5b01eee97f5a3b32aa0a7"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:type",
+      "kind": "type",
+      "label": "nx.DiGraph",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 281
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute"
+      ],
+      "text_digest": "4554e1680d0850a85e6fdac395173731845e7fee07949585d682b60acfd16ab5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:291:attribute",
+      "kind": "attribute",
+      "label": "nx.DiGraph",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 281
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 291
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:283:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:284:291:identifier"
+      ],
+      "text_digest": "4554e1680d0850a85e6fdac395173731845e7fee07949585d682b60acfd16ab5"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:284:291:identifier",
+      "kind": "identifier",
+      "label": "DiGraph",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 14,
+          "byte": 284
+        },
+        "end": {
+          "line": 12,
+          "column": 21,
+          "byte": 291
+        }
+      },
+      "children_ids": [],
+      "text_digest": "8bc593c433bd464fa5054fdb128af609d628c8e9090d5823d9e4eb57150acf0c"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:281:283:identifier",
+      "kind": "identifier",
+      "label": "nx",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 11,
+          "byte": 281
+        },
+        "end": {
+          "line": 12,
+          "column": 13,
+          "byte": 283
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e5b564a7a4059dccb9c20cd678603a6f30c5f3db3af9b421e7f87eb37b030337"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:274:279:identifier",
+      "kind": "identifier",
+      "label": "graph",
+      "span": {
+        "start": {
+          "line": 12,
+          "column": 4,
+          "byte": 274
+        },
+        "end": {
+          "line": 12,
+          "column": 9,
+          "byte": 279
+        }
+      },
+      "children_ids": [],
+      "text_digest": "eef93e1d14482804277fca0172464032d1a4fdbcc338524059fa1e861454ad4d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:242:267:identifier",
+      "kind": "identifier",
+      "label": "embedding_seed_candidates",
+      "span": {
+        "start": {
+          "line": 11,
+          "column": 4,
+          "byte": 242
+        },
+        "end": {
+          "line": 11,
+          "column": 29,
+          "byte": 267
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e781fc054cd3c23e19b9c8547f12cb7844a8484fc9eb21e50fdf3c2b4e7226ef"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:174:232:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from depos.analysis.schemas import AnalysisMode, Candidate",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 0,
+          "byte": 174
+        },
+        "end": {
+          "line": 8,
+          "column": 58,
+          "byte": 232
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name"
+      ],
+      "text_digest": "d1f590c63a4f321c033dc7f244ca1f8070861b9b5340a4f4d8f28afe5abfd6b3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:dotted_name",
+      "kind": "dotted_name",
+      "label": "Candidate",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 49,
+          "byte": 223
+        },
+        "end": {
+          "line": 8,
+          "column": 58,
+          "byte": 232
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:identifier"
+      ],
+      "text_digest": "b2452d1eba32254aac41a394ae0ded977d9e5e6584313170b2a25e4b0a44db88"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:223:232:identifier",
+      "kind": "identifier",
+      "label": "Candidate",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 49,
+          "byte": 223
+        },
+        "end": {
+          "line": 8,
+          "column": 58,
+          "byte": 232
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b2452d1eba32254aac41a394ae0ded977d9e5e6584313170b2a25e4b0a44db88"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:dotted_name",
+      "kind": "dotted_name",
+      "label": "AnalysisMode",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 35,
+          "byte": 209
+        },
+        "end": {
+          "line": 8,
+          "column": 47,
+          "byte": 221
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:identifier"
+      ],
+      "text_digest": "6f533ba6c2b5b49a99a31cb0320eea0f91856e6a597aeb33321efff1f00e8da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:209:221:identifier",
+      "kind": "identifier",
+      "label": "AnalysisMode",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 35,
+          "byte": 209
+        },
+        "end": {
+          "line": 8,
+          "column": 47,
+          "byte": 221
+        }
+      },
+      "children_ids": [],
+      "text_digest": "6f533ba6c2b5b49a99a31cb0320eea0f91856e6a597aeb33321efff1f00e8da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:201:dotted_name",
+      "kind": "dotted_name",
+      "label": "depos.analysis.schemas",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 5,
+          "byte": 179
+        },
+        "end": {
+          "line": 8,
+          "column": 27,
+          "byte": 201
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:184:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:185:193:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:194:201:identifier"
+      ],
+      "text_digest": "83dda8964529fcb1c0521d3e9022d7a9ca311a2bab7243860b0dc048b66f4984"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:194:201:identifier",
+      "kind": "identifier",
+      "label": "schemas",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 20,
+          "byte": 194
+        },
+        "end": {
+          "line": 8,
+          "column": 27,
+          "byte": 201
+        }
+      },
+      "children_ids": [],
+      "text_digest": "fd70ea1de98fdcb2297b4acb430bea8b510db6e8d90f629aaf1c1bbb45709c0e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:185:193:identifier",
+      "kind": "identifier",
+      "label": "analysis",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 11,
+          "byte": 185
+        },
+        "end": {
+          "line": 8,
+          "column": 19,
+          "byte": 193
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:179:184:identifier",
+      "kind": "identifier",
+      "label": "depos",
+      "span": {
+        "start": {
+          "line": 8,
+          "column": 5,
+          "byte": 179
+        },
+        "end": {
+          "line": 8,
+          "column": 10,
+          "byte": 184
+        }
+      },
+      "children_ids": [],
+      "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:149:170:import_statement",
+      "kind": "import_statement",
+      "label": "import networkx as nx",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 0,
+          "byte": 149
+        },
+        "end": {
+          "line": 6,
+          "column": 21,
+          "byte": 170
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import"
+      ],
+      "text_digest": "3f8a915d69ae6389faaf583b9cea64000372435f88f165b8297f3fa0d8fa5bb3"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:170:aliased_import",
+      "kind": "aliased_import",
+      "label": "networkx as nx",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 7,
+          "byte": 156
+        },
+        "end": {
+          "line": 6,
+          "column": 21,
+          "byte": 170
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:168:170:identifier"
+      ],
+      "text_digest": "409712ac34cc2fd35226d970cab30dd918db7fa318e877239e0608030f5f5447"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:168:170:identifier",
+      "kind": "identifier",
+      "label": "nx",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 19,
+          "byte": 168
+        },
+        "end": {
+          "line": 6,
+          "column": 21,
+          "byte": 170
+        }
+      },
+      "children_ids": [],
+      "text_digest": "e5b564a7a4059dccb9c20cd678603a6f30c5f3db3af9b421e7f87eb37b030337"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:dotted_name",
+      "kind": "dotted_name",
+      "label": "networkx",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 7,
+          "byte": 156
+        },
+        "end": {
+          "line": 6,
+          "column": 15,
+          "byte": 164
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:identifier"
+      ],
+      "text_digest": "4eb2b1fff546398cd84cf34efbb444fe9ebf82054cf81ec9cea180ea5dce49f8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:156:164:identifier",
+      "kind": "identifier",
+      "label": "networkx",
+      "span": {
+        "start": {
+          "line": 6,
+          "column": 7,
+          "byte": 156
+        },
+        "end": {
+          "line": 6,
+          "column": 15,
+          "byte": 164
+        }
+      },
+      "children_ids": [],
+      "text_digest": "4eb2b1fff546398cd84cf34efbb444fe9ebf82054cf81ec9cea180ea5dce49f8"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:123:145:import_from_statement",
+      "kind": "import_from_statement",
+      "label": "from typing import Any",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 0,
+          "byte": 123
+        },
+        "end": {
+          "line": 4,
+          "column": 22,
+          "byte": 145
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name"
+      ],
+      "text_digest": "063e3d97fbe5c7382df417aae2453be61a01861561f37741b5ce484cfd6551d0"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:dotted_name",
+      "kind": "dotted_name",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 19,
+          "byte": 142
+        },
+        "end": {
+          "line": 4,
+          "column": 22,
+          "byte": 145
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:identifier"
+      ],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:142:145:identifier",
+      "kind": "identifier",
+      "label": "Any",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 19,
+          "byte": 142
+        },
+        "end": {
+          "line": 4,
+          "column": 22,
+          "byte": 145
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2b505597daa736f13c2910c260e8deb1af3b20ffe375eb5e01a003e92f541db9"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:dotted_name",
+      "kind": "dotted_name",
+      "label": "typing",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 128
+        },
+        "end": {
+          "line": 4,
+          "column": 11,
+          "byte": 134
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:identifier"
+      ],
+      "text_digest": "f8fd8e84e5d029290a7de562095cd9d86a6e7fdfec86d76e007ceefb676c5b0a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:128:134:identifier",
+      "kind": "identifier",
+      "label": "typing",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 5,
+          "byte": 128
+        },
+        "end": {
+          "line": 4,
+          "column": 11,
+          "byte": 134
+        }
+      },
+      "children_ids": [],
+      "text_digest": "f8fd8e84e5d029290a7de562095cd9d86a6e7fdfec86d76e007ceefb676c5b0a"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:85:119:future_import_statement",
+      "kind": "future_import_statement",
+      "label": "from __future__ import annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 85
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 119
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name"
+      ],
+      "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:dotted_name",
+      "kind": "dotted_name",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 108
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 119
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:identifier"
+      ],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:108:119:identifier",
+      "kind": "identifier",
+      "label": "annotations",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 23,
+          "byte": 108
+        },
+        "end": {
+          "line": 2,
+          "column": 34,
+          "byte": 119
+        }
+      },
+      "children_ids": [],
+      "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:expression_statement",
+      "kind": "expression_statement",
+      "label": "\"\"\"Opt-in embedding-ranked seed candidates (extension point for model backends).\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 83,
+          "byte": 83
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string"
+      ],
+      "text_digest": "1a4ee89854792de37146c16b39bfdcd0aa6daa11e231ba4533b0c17bb478b31e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:83:string",
+      "kind": "string",
+      "label": "\"\"\"Opt-in embedding-ranked seed candidates (extension point for model backends).\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 83,
+          "byte": 83
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:3:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:3:80:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:80:83:string_end"
+      ],
+      "text_digest": "1a4ee89854792de37146c16b39bfdcd0aa6daa11e231ba4533b0c17bb478b31e"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:80:83:string_end",
+      "kind": "string_end",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 80,
+          "byte": 80
+        },
+        "end": {
+          "line": 1,
+          "column": 83,
+          "byte": 83
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:3:80:string_content",
+      "kind": "string_content",
+      "label": "Opt-in embedding-ranked seed candidates (extension point for model backends).",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        },
+        "end": {
+          "line": 1,
+          "column": 80,
+          "byte": 80
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2a81eb35638d3f4db64ea5cfef93c56e5289ff8478a18e6eb811c7e1abfecfc6"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/embedding_seed.py:0:3:string_start",
+      "kind": "string_start",
+      "label": "\"\"\"",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 3,
+          "byte": 3
+        }
+      },
+      "children_ids": [],
+      "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "depos/analysis/embedding_seed.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

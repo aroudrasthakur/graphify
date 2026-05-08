@@ -1,0 +1,10 @@
+# Contributor / CI-style install: depOS API, Supabase client, perf extras (joblib, orjson,
+# rustworkx, pyinstrument, …). Matches typical local work in docs/development.md.
+#
+#   pip install -r requirements-dev.txt
+#
+# Add torch ranker / embedding extras when needed:
+#   pip install -e ".[intelligence]"
+
+-e ".[depos,supabase,mcp,perf]"
+pytest>=8.0

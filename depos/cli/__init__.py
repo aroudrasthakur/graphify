@@ -27,7 +27,8 @@ V1 quick start (config: flags > env > run-profile preset):
   depos analyze diff --graph-json graph.json --run-profile local
   depos gate --violations <run-dir>/violations.json
 
-Run-profiles: local (stub reasoner, gray-zone off when env unset), full (env defaults), llm (gray-zone on when unset).
+Run-profiles (--run-profile): local (stub reasoner, gray-zone off when env unset), full (env defaults), llm (gray-zone on when unset).
+Perf presets (--profile-preset): pr-fast | nightly-deep | custom — graph metrics + seed budget; orthogonal to --run-profile.
 Pyinstrument: use --pyinstrument-html PATH (not --profile) for CPU profiling HTML.
 Optional viewer: run depos-api and apps/web per README.
 """
@@ -105,6 +106,17 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
             choices=("networkx", "rustworkx"),
             default=None,
             help="Expensive centrality backend (default: networkx or DEPOS_PERF_METRICS_BACKEND).",
+        )
+        parser.add_argument(
+            "--profile-preset",
+            choices=("pr-fast", "nightly-deep", "custom"),
+            default="custom",
+            dest="profile_preset",
+            metavar="PRESET",
+            help="Performance/depth preset for PerfConfig + candidate budget. "
+            "pr-fast: cheap graph metrics, cap seeds (unless --max-seeds). "
+            "nightly-deep: expensive metrics, prefer rustworkx when env/CLI unset. "
+            "custom: env and flags only. Does not replace --run-profile (local/full/llm).",
         )
 
     analyze = sub.add_parser("analyze", help="Run or inspect intelligence analyses.")
@@ -235,13 +247,12 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
     repo.add_argument("--path", required=True)
     repo.add_argument(
         "--run-profile",
-        "--profile-preset",
         choices=("local", "full", "llm"),
         default="full",
         dest="run_profile",
         metavar="PROFILE",
-        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
-        "Alias: --profile-preset.",
+        help="V1 analysis profile: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
+        "For performance presets (pr-fast/nightly-deep), use --profile-preset.",
     )
     repo.add_argument("--output")
     repo.add_argument("--mode", default="A,B,C")
@@ -272,13 +283,12 @@ def _build_parser(*, prog: str = "depos-intel") -> argparse.ArgumentParser:
     diff = a_sub.add_parser("diff", help="Diff-aware scan using a change manifest.")
     diff.add_argument(
         "--run-profile",
-        "--profile-preset",
         choices=("local", "full", "llm"),
         default="full",
         dest="run_profile",
         metavar="PROFILE",
-        help="V1 preset: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
-        "Alias: --profile-preset.",
+        help="V1 analysis profile: local=stub reasoner + gray-zone off when env unset; full=env only; llm=gray-zone defaults. "
+        "For performance presets (pr-fast/nightly-deep), use --profile-preset.",
     )
     diff.add_argument("--cpg-path")
     diff.add_argument("--graph-json")

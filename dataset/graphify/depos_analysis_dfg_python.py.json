@@ -1,217 +1,217 @@
 {
-  "analysis_timestamp": "2026-04-27T08:35:48+00:00",
+  "analysis_timestamp": "2026-05-07T22:07:13+00:00",
   "branch": "v4",
-  "commit_sha": "25bab04a53550fec7d625eca669c1646dcbe58df",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
   "dependency_resolution_status": "manifest_only",
   "edges": [
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement:29",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement:29",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment:28",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment:28",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list:27",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list:27",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string:26",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string:26",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:310:311:string_end:25",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:310:311:string_end:25",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:310:311:string_end",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:310:311:string_end",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:294:310:string_content:24",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:294:310:string_content:24",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:294:310:string_content",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:294:310:string_content",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:294:string_start:23",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:294:string_start:23",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:294:string_start",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:294:string_start",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string:22",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string:22",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:290:291:string_end:21",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:290:291:string_end:21",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:290:291:string_end",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:290:291:string_end",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:281:290:string_content:20",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:281:290:string_content:20",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:281:290:string_content",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:281:290:string_content",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:281:string_start:19",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:281:string_start:19",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:281:string_start",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:281:string_start",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:276:identifier:18",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:276:identifier:18",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:276:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:276:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement:17",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement:17",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name:16",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name:16",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:identifier:15",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:identifier:15",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name:14",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name:14",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:identifier:13",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:identifier:13",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name:12",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name:12",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:220:230:identifier:11",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:220:230:identifier:11",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:220:230:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:220:230:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:216:219:identifier:10",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:216:219:identifier:10",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:216:219:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:216:219:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:207:215:identifier:9",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:207:215:identifier:9",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:207:215:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:207:215:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:206:identifier:8",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:206:identifier:8",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:206:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:206:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement:7",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement:7",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name:6",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name:6",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:identifier:5",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:identifier:5",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:identifier",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:identifier",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement:4",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement:4",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string:3",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string:3",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:153:156:string_end:2",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:153:156:string_end:2",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:153:156:string_end",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:153:156:string_end",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:3:153:string_content:1",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:3:153:string_content:1",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:3:153:string_content",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:3:153:string_content",
       "type": "child"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:edge:ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string->ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:3:string_start:0",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:3:string_start:0",
       "role": "child",
-      "source_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string",
-      "target_id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:3:string_start",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:3:string_start",
       "type": "child"
     }
   ],
@@ -219,7 +219,7 @@
   "generation_version": "depos-dataset-export-0.1",
   "nodes": [
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:314:module",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:314:module",
       "kind": "module",
       "label": "\"\"\"Python def-use DFG (stdlib :mod:`ast`).\r\n\r\nRe-exports from :mod:`depos.analysis.dfg.python_dfg` for the plan path\r\n``depos/analysis/dfg/python.py``.\r\n\"\"\"\r\nfrom __future__ import annotations\r\n\r\nfrom depos.analysis.dfg.python_dfg import DfgResult, build_python_dfg\r\n\r\n__all__ = [\"DfgResult\", \"build_python_dfg\"]\r\n",
       "span": {
@@ -235,15 +235,15 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement"
       ],
       "text_digest": "7ee937911e7ce43d918861c742254bc5dcad55816b7b8ee04cd927d86a6e3c73"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:expression_statement",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:expression_statement",
       "kind": "expression_statement",
       "label": "__all__ = [\"DfgResult\", \"build_python_dfg\"]",
       "span": {
@@ -259,12 +259,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment"
       ],
       "text_digest": "af391eb7f8f3fc11826fc0b24bdc4cec9855d861a8918dacf176175ff153bb37"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:312:assignment",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:312:assignment",
       "kind": "assignment",
       "label": "__all__ = [\"DfgResult\", \"build_python_dfg\"]",
       "span": {
@@ -280,13 +280,13 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:276:identifier",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:276:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list"
       ],
       "text_digest": "af391eb7f8f3fc11826fc0b24bdc4cec9855d861a8918dacf176175ff153bb37"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:279:312:list",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:279:312:list",
       "kind": "list",
       "label": "[\"DfgResult\", \"build_python_dfg\"]",
       "span": {
@@ -302,13 +302,13 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string"
       ],
       "text_digest": "fedd213542a3cca205f94b59c66ce8285de663532a011fa85df05f965f3c7d71"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:311:string",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:311:string",
       "kind": "string",
       "label": "\"build_python_dfg\"",
       "span": {
@@ -324,14 +324,14 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:294:string_start",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:294:310:string_content",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:310:311:string_end"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:294:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:294:310:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:310:311:string_end"
       ],
       "text_digest": "345fae8d62d00fe635cf683af49cc373bcaeaff2b6b4216386284e5518ee1a2a"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:310:311:string_end",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:310:311:string_end",
       "kind": "string_end",
       "label": "\"",
       "span": {
@@ -350,7 +350,7 @@
       "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:294:310:string_content",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:294:310:string_content",
       "kind": "string_content",
       "label": "build_python_dfg",
       "span": {
@@ -369,7 +369,7 @@
       "text_digest": "5a06570dd98a25630d10ee141af0865e4bfa2a7c7725935bca66d0b021db9616"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:293:294:string_start",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:293:294:string_start",
       "kind": "string_start",
       "label": "\"",
       "span": {
@@ -388,7 +388,7 @@
       "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:291:string",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:291:string",
       "kind": "string",
       "label": "\"DfgResult\"",
       "span": {
@@ -404,14 +404,14 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:281:string_start",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:281:290:string_content",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:290:291:string_end"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:281:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:281:290:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:290:291:string_end"
       ],
       "text_digest": "3a49497b4b4597fc9712fc85ddfc26f97d91110ce2ddc13e5c5edec9dc1b19c2"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:290:291:string_end",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:290:291:string_end",
       "kind": "string_end",
       "label": "\"",
       "span": {
@@ -430,7 +430,7 @@
       "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:281:290:string_content",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:281:290:string_content",
       "kind": "string_content",
       "label": "DfgResult",
       "span": {
@@ -449,7 +449,7 @@
       "text_digest": "52ee139c3a3a7f35a4e2915831e99141a0f3c563e8f554608e0b8ce606b0e139"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:280:281:string_start",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:280:281:string_start",
       "kind": "string_start",
       "label": "\"",
       "span": {
@@ -468,7 +468,7 @@
       "text_digest": "8a331fdde7032f33a71e1b2e257d80166e348e00fcb17914f48bdb57a1c63007"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:269:276:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:269:276:identifier",
       "kind": "identifier",
       "label": "__all__",
       "span": {
@@ -487,7 +487,7 @@
       "text_digest": "051af376199dec216b4807623fae755a2c013911d8219aa607787b17e3ed9cd7"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:196:265:import_from_statement",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:196:265:import_from_statement",
       "kind": "import_from_statement",
       "label": "from depos.analysis.dfg.python_dfg import DfgResult, build_python_dfg",
       "span": {
@@ -503,14 +503,14 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name"
       ],
       "text_digest": "76d595709d8ad4d062a0621d4afdfd1fbe5b6ab99ff73d6f86503559bdb59cf3"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:dotted_name",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:dotted_name",
       "kind": "dotted_name",
       "label": "build_python_dfg",
       "span": {
@@ -526,12 +526,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:identifier"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:identifier"
       ],
       "text_digest": "5a06570dd98a25630d10ee141af0865e4bfa2a7c7725935bca66d0b021db9616"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:249:265:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:249:265:identifier",
       "kind": "identifier",
       "label": "build_python_dfg",
       "span": {
@@ -550,7 +550,7 @@
       "text_digest": "5a06570dd98a25630d10ee141af0865e4bfa2a7c7725935bca66d0b021db9616"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:dotted_name",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:dotted_name",
       "kind": "dotted_name",
       "label": "DfgResult",
       "span": {
@@ -566,12 +566,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:identifier"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:identifier"
       ],
       "text_digest": "52ee139c3a3a7f35a4e2915831e99141a0f3c563e8f554608e0b8ce606b0e139"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:238:247:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:238:247:identifier",
       "kind": "identifier",
       "label": "DfgResult",
       "span": {
@@ -590,7 +590,7 @@
       "text_digest": "52ee139c3a3a7f35a4e2915831e99141a0f3c563e8f554608e0b8ce606b0e139"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:230:dotted_name",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:230:dotted_name",
       "kind": "dotted_name",
       "label": "depos.analysis.dfg.python_dfg",
       "span": {
@@ -606,15 +606,15 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:206:identifier",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:207:215:identifier",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:216:219:identifier",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:220:230:identifier"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:206:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:207:215:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:216:219:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:220:230:identifier"
       ],
       "text_digest": "1976ba1eb702347a14647cecb63369b343a5d486d0d7b226ffa4665d0aafdf2c"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:220:230:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:220:230:identifier",
       "kind": "identifier",
       "label": "python_dfg",
       "span": {
@@ -633,7 +633,7 @@
       "text_digest": "55029698360c46ab3b572de49a2bbf3455a5e8f6d5fd3f25ebf23d05c8328633"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:216:219:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:216:219:identifier",
       "kind": "identifier",
       "label": "dfg",
       "span": {
@@ -652,7 +652,7 @@
       "text_digest": "16ba121a04d5ad3b885f09af5c6c08b68766ce43d990f8420dc97f6ff485cb37"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:207:215:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:207:215:identifier",
       "kind": "identifier",
       "label": "analysis",
       "span": {
@@ -671,7 +671,7 @@
       "text_digest": "f44e85c4b8ea2addc796f8beab6600e801d767ccd26c800dce6d88fdaa5eb4e6"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:201:206:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:201:206:identifier",
       "kind": "identifier",
       "label": "depos",
       "span": {
@@ -690,7 +690,7 @@
       "text_digest": "29c2f0af0bc85e38cf5fc770cfb9cbd5a0846d30d38e321eb6135bebc5985da6"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:158:192:future_import_statement",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:158:192:future_import_statement",
       "kind": "future_import_statement",
       "label": "from __future__ import annotations",
       "span": {
@@ -706,12 +706,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name"
       ],
       "text_digest": "a6284e6d3d43bdfbf0da732945adb2b4f31147c92bea47aee100d7f556c22d00"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:dotted_name",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:dotted_name",
       "kind": "dotted_name",
       "label": "annotations",
       "span": {
@@ -727,12 +727,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:identifier"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:identifier"
       ],
       "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:181:192:identifier",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:181:192:identifier",
       "kind": "identifier",
       "label": "annotations",
       "span": {
@@ -751,7 +751,7 @@
       "text_digest": "295df243c6a33994c30b6e16aea7ce6155a24b44514ec956d7a09ae0a4cb0411"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:expression_statement",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:expression_statement",
       "kind": "expression_statement",
       "label": "\"\"\"Python def-use DFG (stdlib :mod:`ast`).\r\n\r\nRe-exports from :mod:`depos.analysis.dfg.python_dfg` for the plan path\r\n``depos/analysis/dfg/python.py``.\r\n\"\"\"",
       "span": {
@@ -767,12 +767,12 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string"
       ],
       "text_digest": "808a6d0140954c506aecf9670805af66c1fe75ea7351d5f913b90350d50580d6"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:156:string",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:156:string",
       "kind": "string",
       "label": "\"\"\"Python def-use DFG (stdlib :mod:`ast`).\r\n\r\nRe-exports from :mod:`depos.analysis.dfg.python_dfg` for the plan path\r\n``depos/analysis/dfg/python.py``.\r\n\"\"\"",
       "span": {
@@ -788,14 +788,14 @@
         }
       },
       "children_ids": [
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:3:string_start",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:3:153:string_content",
-        "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:153:156:string_end"
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:3:string_start",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:3:153:string_content",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:153:156:string_end"
       ],
       "text_digest": "808a6d0140954c506aecf9670805af66c1fe75ea7351d5f913b90350d50580d6"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:153:156:string_end",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:153:156:string_end",
       "kind": "string_end",
       "label": "\"\"\"",
       "span": {
@@ -814,7 +814,7 @@
       "text_digest": "b6d267efe80a3dbcf2f2d67e21d8c15783a2f031427f827d43b6222fe9c4bf02"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:3:153:string_content",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:3:153:string_content",
       "kind": "string_content",
       "label": "Python def-use DFG (stdlib :mod:`ast`).\r\n\r\nRe-exports from :mod:`depos.analysis.dfg.python_dfg` for the plan path\r\n``depos/analysis/dfg/python.py``.\r\n",
       "span": {
@@ -833,7 +833,7 @@
       "text_digest": "f3cad82bcfb3a809020bd322f9863e74e76e88275cd0e422fd4d0467e7de971c"
     },
     {
-      "id": "ast:25bab04a53550fec7d625eca669c1646dcbe58df:depos/analysis/dfg/python.py:0:3:string_start",
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:depos/analysis/dfg/python.py:0:3:string_start",
       "kind": "string_start",
       "label": "\"\"\"",
       "span": {

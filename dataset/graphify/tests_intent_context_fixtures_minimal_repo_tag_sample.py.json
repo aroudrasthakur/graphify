@@ -1,0 +1,229 @@
+{
+  "analysis_timestamp": "2026-05-07T22:07:32+00:00",
+  "branch": "v4",
+  "commit_sha": "71d522617df57200443ad57a02792dbf4dc2a1e0",
+  "dependency_resolution_status": "manifest_only",
+  "edges": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:81:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition:6",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:81:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block:5",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:pass_statement:4",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:pass_statement",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:42:70:comment:3",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:42:70:comment",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:33:35:parameters:2",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:33:35:parameters",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:30:33:identifier:1",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:30:33:identifier",
+      "type": "child"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:edge:ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:81:module->ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:25:comment:0",
+      "role": "child",
+      "source_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:81:module",
+      "target_id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:25:comment",
+      "type": "child"
+    }
+  ],
+  "errors": [],
+  "generation_version": "depos-dataset-export-0.1",
+  "nodes": [
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:81:module",
+      "kind": "module",
+      "label": "# coverage tag for tests\r\ndef foo():\r\n    # [impl->req~sample-auth~1]\r\n    pass\r\n",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 5,
+          "column": 0,
+          "byte": 81
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:25:comment",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition"
+      ],
+      "text_digest": "72cda889f4e4d05df7de57366cf4715c80b9dea2c6cd13608a9c5bca1f31eb09"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:26:79:function_definition",
+      "kind": "function_definition",
+      "label": "def foo():\r\n    # [impl->req~sample-auth~1]\r\n    pass",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 0,
+          "byte": 26
+        },
+        "end": {
+          "line": 4,
+          "column": 8,
+          "byte": 79
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:30:33:identifier",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:33:35:parameters",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:42:70:comment",
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block"
+      ],
+      "text_digest": "0af06f0e027446f4cfea9bc10a68fd1d271ccfa58b9aaebdeec7d8b2fc24617f"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:block",
+      "kind": "block",
+      "label": "pass",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 4,
+          "byte": 75
+        },
+        "end": {
+          "line": 4,
+          "column": 8,
+          "byte": 79
+        }
+      },
+      "children_ids": [
+        "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:pass_statement"
+      ],
+      "text_digest": "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:75:79:pass_statement",
+      "kind": "pass_statement",
+      "label": "pass",
+      "span": {
+        "start": {
+          "line": 4,
+          "column": 4,
+          "byte": 75
+        },
+        "end": {
+          "line": 4,
+          "column": 8,
+          "byte": 79
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:42:70:comment",
+      "kind": "comment",
+      "label": "# [impl->req~sample-auth~1]\r",
+      "span": {
+        "start": {
+          "line": 3,
+          "column": 4,
+          "byte": 42
+        },
+        "end": {
+          "line": 3,
+          "column": 32,
+          "byte": 70
+        }
+      },
+      "children_ids": [],
+      "text_digest": "9ad2bce73ebd77cf73608c88d11b3306d78edf6e86ea1a74daf9f00b2d0d7332"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:33:35:parameters",
+      "kind": "parameters",
+      "label": "()",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 7,
+          "byte": 33
+        },
+        "end": {
+          "line": 2,
+          "column": 9,
+          "byte": 35
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2e38e77b22c314a449e91fafed92a43826ac6aa403ae6a8acb6cf58239fbaf5d"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:30:33:identifier",
+      "kind": "identifier",
+      "label": "foo",
+      "span": {
+        "start": {
+          "line": 2,
+          "column": 4,
+          "byte": 30
+        },
+        "end": {
+          "line": 2,
+          "column": 7,
+          "byte": 33
+        }
+      },
+      "children_ids": [],
+      "text_digest": "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae"
+    },
+    {
+      "id": "ast:71d522617df57200443ad57a02792dbf4dc2a1e0:tests/intent_context/fixtures/minimal_repo/tag_sample.py:0:25:comment",
+      "kind": "comment",
+      "label": "# coverage tag for tests\r",
+      "span": {
+        "start": {
+          "line": 1,
+          "column": 0,
+          "byte": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 25,
+          "byte": 25
+        }
+      },
+      "children_ids": [],
+      "text_digest": "d66907a85a7bace3dbf213c9cfef3894a3dbe92fa6a8d025fffd9ae6dcca68de"
+    }
+  ],
+  "parser_id": "tree_sitter_python",
+  "relative_path": "tests/intent_context/fixtures/minimal_repo/tag_sample.py",
+  "repository_name": "graphify",
+  "repository_url": "https://github.com/aroudrasthakur/graphify.git",
+  "source_language": "python",
+  "warnings": []
+}

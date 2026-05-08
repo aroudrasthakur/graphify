@@ -128,6 +128,55 @@ class TaintScopeWork:
     row_extras: list[dict[str, Any] | None] | None = None
 
 
+def taint_graph_fingerprint(graph: nx.DiGraph, scope_id: str) -> str:
+    """Stable digest of graph-local inputs that affect taint for *scope_id*."""
+
+    from depos.cache import stable_hash
+
+    return stable_hash(
+        {
+            "seams": seam_edge_ids_for_scope(graph, scope_id),
+            "callers": list(_incoming_callers(graph, scope_id)),
+        }
+    )
+
+
+def taint_work_cache_payload(work: TaintScopeWork) -> dict[str, Any]:
+    return {
+        "scope_id": work.scope_id,
+        "seam_edge_ids": list(work.seam_edge_ids),
+        "new_nodes": [{"id": nid, "attrs": nattr} for nid, nattr in work.new_nodes],
+        "new_edges": [{"u": u, "v": v, "attrs": ed} for u, v, ed in work.new_edges],
+        "typed": [te.model_dump(mode="json") for te in work.typed],
+        "row_extras": work.row_extras,
+    }
+
+
+def taint_work_from_cache_payload(raw: dict[str, Any]) -> TaintScopeWork | None:
+    if not isinstance(raw, dict) or "scope_id" not in raw:
+        return None
+    try:
+        typed = [TaintEdge.model_validate(x) for x in raw.get("typed") or []]
+        new_nodes = [
+            (str(x["id"]), dict(x["attrs"]))  # type: ignore[index]
+            for x in raw.get("new_nodes") or []
+        ]
+        new_edges = [
+            (str(x["u"]), str(x["v"]), dict(x["attrs"]))  # type: ignore[index]
+            for x in raw.get("new_edges") or []
+        ]
+    except (KeyError, TypeError, ValueError):
+        return None
+    return TaintScopeWork(
+        str(raw["scope_id"]),
+        list(raw.get("seam_edge_ids") or []),
+        new_nodes=new_nodes,
+        new_edges=new_edges,
+        typed=typed,
+        row_extras=raw.get("row_extras"),
+    )
+
+
 def apply_taint_scope_work(graph: nx.DiGraph, work: TaintScopeWork) -> list[dict[str, Any]]:
     """Apply deferred taint nodes/edges and ``taint_edges`` rows (main thread only)."""
     if work.scope_id in graph:
